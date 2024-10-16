@@ -95,3 +95,13 @@ INSERT INTO function (id,code,"name","type",llevel,parentid,isactive,isnotleaf,p
 	 (74,'80','Other Services',NULL,0,NULL,true,true,NULL,'2024-10-15 00:00:00',NULL,'2024-10-15 00:00:00',NULL,0),
 	 (79,'90','Revenue',NULL,0,NULL,true,true,NULL,'2024-10-15 00:00:00',NULL,'2024-10-15 00:00:00',NULL,0),
 	 (80,'9091','Revenue-Property Taxes',NULL,1,79,true,true,'90','2024-10-15 00:00:00',NULL,'2024-10-15 00:00:00',NULL,0);
+
+
+drop sequence seq_function;
+
+CREATE SEQUENCE seq_function
+    START WITH 89
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
