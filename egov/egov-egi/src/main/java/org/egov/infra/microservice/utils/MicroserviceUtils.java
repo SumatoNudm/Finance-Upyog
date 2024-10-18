@@ -1465,6 +1465,7 @@ public class MicroserviceUtils {
 
     public String getHeaderNameForTenant() {
         String ulbGrade = "";
+        String cityName = "";
         List<ModuleDetail> moduleDetailList = new ArrayList<>();
         String tenentId = getTenentId();
         try {
@@ -1479,12 +1480,18 @@ public class MicroserviceUtils {
             }
             if (ulbGrade != null && !ulbGrade.isEmpty())
                 ulbGrade = environment.getProperty(ulbGrade, ulbGrade);
+
+            cityName = mapper.convertValue(
+                    JsonPath.read(postForObject, "$.MdmsRes.tenant.tenants[0].city.name"),
+                    String.class);
+
         } catch (RestClientException e) {
             LOGGER.error(
                     "ERROR occurred while fetching header name of tenant in getHeaderNameForTenant : ",
                     e);
         }
-        return tenentId.split(Pattern.quote("."))[1] + " " + (ulbGrade != null ? ulbGrade : "");
+        // return tenentId.split(Pattern.quote("."))[1] + " " + (ulbGrade != null ? ulbGrade : "");
+        return cityName + " " + (ulbGrade != null ? ulbGrade : "");
     }
 
     private void prepareModuleDetails(List<ModuleDetail> moduleDetailsList, String moduleNme,
