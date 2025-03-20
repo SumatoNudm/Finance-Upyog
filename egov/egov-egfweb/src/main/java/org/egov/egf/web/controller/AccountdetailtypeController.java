@@ -59,6 +59,7 @@ import org.egov.commons.Accountdetailtype;
 import org.egov.commons.contracts.AccountDetailTypeSearchRequest;
 import org.egov.commons.service.AccountdetailtypeService;
 import org.egov.egf.web.adaptor.AccountdetailtypeJsonAdaptor;
+import org.egov.infra.microservice.utils.MicroserviceUtils;
 import org.egov.infra.security.utils.SecurityUtils;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,8 +96,11 @@ public class AccountdetailtypeController {
 	@Autowired
 	private MessageSource messageSource;
 
-	private void prepareNewForm(Model model) {
+	@Autowired
+	private MicroserviceUtils microserviceUtils;
 
+	private void prepareNewForm(Model model) {
+		model.addAttribute("tutorial", microserviceUtils.getTutorial("master.subLedgerCategory.create"));
 	}
 
 	@PostMapping(value = "/new")

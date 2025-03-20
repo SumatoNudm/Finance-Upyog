@@ -56,6 +56,7 @@ import org.egov.commons.Bank;
 import org.egov.commons.contracts.BankSearchRequest;
 import org.egov.egf.commons.bank.service.CreateBankService;
 import org.egov.egf.web.controller.bank.adaptor.BankJsonAdaptor;
+import org.egov.infra.microservice.utils.MicroserviceUtils;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -92,9 +93,13 @@ public class BankController {
 	@Autowired
 	private MessageSource messageSource;
 
+	@Autowired
+	private MicroserviceUtils microserviceUtils;
+
 	@PostMapping(value = "/new")
 	public String newForm(final Model model) {
 		model.addAttribute(BANK, new Bank());
+		model.addAttribute("tutorial", microserviceUtils.getTutorial("master.bank.create"));
 		return "bank-new";
 	}
 

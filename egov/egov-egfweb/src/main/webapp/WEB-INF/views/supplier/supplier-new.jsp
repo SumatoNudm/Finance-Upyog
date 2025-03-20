@@ -51,6 +51,7 @@
 <%@ include file="/includes/taglibs.jsp"%>
 <form:form role="form" action="create" modelAttribute="supplier" id="supplierform" cssClass="form-horizontal form-groups-bordered" enctype="multipart/form-data">
 <div class="main-content">
+<%@ include file="/includes/tutorial.jsp" %>
 	<div class="row">
 		<div class="col-md-12">
 			<div class="panel panel-primary" data-collapsed="0">

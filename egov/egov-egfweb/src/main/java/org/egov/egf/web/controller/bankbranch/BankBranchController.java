@@ -57,6 +57,7 @@ import org.egov.commons.contracts.BankBranchSearchRequest;
 import org.egov.egf.commons.bank.service.CreateBankService;
 import org.egov.egf.commons.bankbranch.service.CreateBankBranchService;
 import org.egov.egf.web.controller.bankbranch.adaptor.BankBranchJsonAdaptor;
+import org.egov.infra.microservice.utils.MicroserviceUtils;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -97,6 +98,9 @@ public class BankBranchController {
 	@Autowired
 	private MessageSource messageSource;
 
+	@Autowired
+	private MicroserviceUtils microserviceUtils;
+
 	private void setDropDownValues(final Model model) {
 		model.addAttribute("banks", createBankService.getByIsActiveTrueOrderByName());
 		model.addAttribute("bankbranches", createBankBranchService.getByIsActiveTrueOrderByBranchname());
@@ -106,6 +110,7 @@ public class BankBranchController {
 	public String newForm(final Model model) {
 		setDropDownValues(model);
 		model.addAttribute(BANKBRANCH, new Bankbranch());
+		model.addAttribute("tutorial", microserviceUtils.getTutorial("master.bankBranch.create"));
 		return "bankbranch-new";
 	}
 

@@ -49,6 +49,7 @@
 
 
 <div class="main-content">
+<%@ include file="/includes/tutorial.jsp" %>
 	<div class="row">
 		<div class="col-md-12">
 			<div class="panel panel-primary" data-collapsed="0">

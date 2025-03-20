@@ -125,6 +125,7 @@ public class PurchaseOrderController {
 		model.addAttribute("funds", fundService.findAllActiveAndIsnotleaf());
 		model.addAttribute("departments", microserviceUtils.getDepartments());
 		model.addAttribute("suppliers", supplierService.getAllActiveEntities(null));
+		model.addAttribute("tutorial", microserviceUtils.getTutorial("master.purchaseOrder.create"));
 	}
 
 	@PostMapping(value = "/newform")

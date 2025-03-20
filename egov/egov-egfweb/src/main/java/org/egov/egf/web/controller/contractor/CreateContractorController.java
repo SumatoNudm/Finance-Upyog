@@ -56,6 +56,7 @@ import org.egov.commons.dao.EgwStatusHibernateDAO;
 import org.egov.egf.commons.bank.service.CreateBankService;
 import org.egov.egf.masters.services.ContractorService;
 import org.egov.egf.web.adaptor.ContractorJsonAdaptor;
+import org.egov.infra.microservice.utils.MicroserviceUtils;
 import org.egov.model.masters.Contractor;
 import org.egov.model.masters.ContractorSearchRequest;
 import org.egov.utils.FinancialConstants;
@@ -107,6 +108,10 @@ public class CreateContractorController {
 	@Autowired
 	private MessageSource messageSource;
 
+	@Autowired
+	private MicroserviceUtils microserviceUtils;
+
+
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
 		binder.setDisallowedFields("id");
@@ -116,6 +121,7 @@ public class CreateContractorController {
 		model.addAttribute("banks", createBankService.getByIsActiveTrueOrderByName());
 		model.addAttribute("statuses",
 				egwStatusHibDAO.getStatusByModule(FinancialConstants.STATUS_MODULE_NAME_CONTRACTOR));
+		model.addAttribute("tutorial", microserviceUtils.getTutorial("master.contractor.create"));
 	}
 
 	@PostMapping(value = "/newform")

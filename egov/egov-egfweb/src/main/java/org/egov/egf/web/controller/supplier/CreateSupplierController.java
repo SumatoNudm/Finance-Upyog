@@ -56,6 +56,7 @@ import org.egov.commons.dao.EgwStatusHibernateDAO;
 import org.egov.egf.commons.bank.service.CreateBankService;
 import org.egov.egf.masters.services.SupplierService;
 import org.egov.egf.web.adaptor.SupplierJsonAdaptor;
+import org.egov.infra.microservice.utils.MicroserviceUtils;
 import org.egov.model.masters.Supplier;
 import org.egov.model.masters.SupplierSearchRequest;
 import org.egov.utils.FinancialConstants;
@@ -105,10 +106,15 @@ public class CreateSupplierController {
 	@Autowired
 	private MessageSource messageSource;
 
+	@Autowired
+	private MicroserviceUtils microserviceUtils;
+
+
 	private void prepareNewForm(final Model model) {
 		model.addAttribute("banks", createBankService.getByIsActiveTrueOrderByName());
 		model.addAttribute("statuses",
 				egwStatusHibDAO.getStatusByModule(FinancialConstants.STATUS_MODULE_NAME_SUPPLIER));
+		model.addAttribute("tutorial", microserviceUtils.getTutorial("master.supplier.create"));
 	}
 
 	@PostMapping(value = "/newform")

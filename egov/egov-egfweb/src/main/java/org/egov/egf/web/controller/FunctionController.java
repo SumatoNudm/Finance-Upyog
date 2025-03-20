@@ -56,6 +56,7 @@ import org.egov.commons.CFunction;
 import org.egov.commons.contracts.FunctionSearchRequest;
 import org.egov.commons.service.FunctionService;
 import org.egov.egf.web.adaptor.FunctionJsonAdaptor;
+import org.egov.infra.microservice.utils.MicroserviceUtils;
 import org.egov.infstr.utils.EgovMasterDataCaching;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,9 +92,13 @@ public class FunctionController {
 	@Autowired
 	private MessageSource messageSource;
 
+	@Autowired
+	private MicroserviceUtils microserviceUtils;
+
 	private void prepareNewForm(Model model) {
 		// model.addAttribute("functions", functionService.findAllIsNotLeafTrue());
 		model.addAttribute("functions", functionService.findAllIsNotLeafTrueOrderByCodeAsc());
+		model.addAttribute("tutorial", microserviceUtils.getTutorial("master.function.create"));
 	}
 
 	@PostMapping(value = "/new")

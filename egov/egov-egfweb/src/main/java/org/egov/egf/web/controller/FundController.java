@@ -57,6 +57,7 @@ import org.egov.commons.contracts.FundSearchRequest;
 import org.egov.commons.service.FundService;
 import org.egov.egf.web.adaptor.FundJsonAdaptor;
 import org.egov.infra.config.core.ApplicationThreadLocals;
+import org.egov.infra.microservice.utils.MicroserviceUtils;
 import org.egov.infra.security.utils.SecurityUtils;
 import org.egov.infra.utils.DateUtils;
 import org.egov.infstr.utils.EgovMasterDataCaching;
@@ -94,8 +95,12 @@ public class FundController {
 	@Autowired
 	private MessageSource messageSource;
 
+	@Autowired
+	private MicroserviceUtils microserviceUtils;
+
 	private void prepareNewForm(final Model model) {
 		model.addAttribute("funds", fundService.findByIsnotleaf());
+		model.addAttribute("tutorial", microserviceUtils.getTutorial("master.fund.create"));
 	}
 
 	@PostMapping(value = "/new")

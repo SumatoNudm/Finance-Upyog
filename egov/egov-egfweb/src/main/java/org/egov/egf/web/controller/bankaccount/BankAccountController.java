@@ -64,6 +64,7 @@ import org.egov.egf.commons.bankaccount.service.CreateBankAccountService;
 import org.egov.egf.commons.bankbranch.service.CreateBankBranchService;
 import org.egov.egf.utils.FinancialUtils;
 import org.egov.egf.web.controller.bankaccount.adaptor.BankAccountJsonAdaptor;
+import org.egov.infra.microservice.utils.MicroserviceUtils;
 import org.egov.model.masters.AccountCodePurpose;
 import org.egov.services.voucher.GeneralLedgerService;
 import org.hibernate.validator.constraints.SafeHtml;
@@ -125,7 +126,10 @@ public class BankAccountController {
 
     @Autowired
     private CreateBankService createBankService;
-    
+
+    @Autowired
+    private MicroserviceUtils microserviceUtils;
+
     private void setDropDownValues(final Model model) {
         model.addAttribute("banks", createBankService.getByIsActiveTrueOrderByName());
         model.addAttribute("bankbranches", createBankBranchService.getByIsActiveTrueOrderByBranchname());
@@ -139,6 +143,7 @@ public class BankAccountController {
     public String newForm(final Model model) {
         setDropDownValues(model);
         model.addAttribute(BANKACCOUNT, new Bankaccount());
+        model.addAttribute("tutorial", microserviceUtils.getTutorial("master.bankAccount.create"));
         return "bankaccount-new";
     }
 
