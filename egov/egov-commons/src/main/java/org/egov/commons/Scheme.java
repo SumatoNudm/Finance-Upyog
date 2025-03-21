@@ -47,6 +47,8 @@
  */
 package org.egov.commons;
 
+import org.egov.infra.microservice.models.Tutorial;
+
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;

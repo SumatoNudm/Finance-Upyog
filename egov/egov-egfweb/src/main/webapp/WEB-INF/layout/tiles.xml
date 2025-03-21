@@ -844,4 +844,10 @@
         <put-attribute name="page-title" value="lbl.unauthorized" cascade="true"/>
         <put-attribute name="body" value="/WEB-INF/views/common/unauthorized.jsp"/>
     </definition>
+
+    <definition name="coa" extends="base_layout">
+        <put-attribute name="page-title" value="lbl.unauthorized" cascade="true"/>
+        <put-attribute name="body" value="/WEB-INF/views/coa/eGov_COA.jsp" />
+    </definition>
+
 </tiles-definitions>

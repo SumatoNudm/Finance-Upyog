@@ -131,6 +131,8 @@
     </SCRIPT>
 </head>
 <body>
+<div class="main-content">
+    <%@ include file="/includes/tutorial.jsp" %>
 	<s:form name="schemeForm" action="scheme" theme="css_xhtml"
 		validate="true">
 		<div class="formmainbox">
@@ -252,5 +254,6 @@
 			</table>
 		</div>
 	</s:form>
+	</div>
 </body>
 </html>

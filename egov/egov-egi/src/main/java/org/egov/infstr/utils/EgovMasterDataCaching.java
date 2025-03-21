@@ -72,6 +72,7 @@ import org.egov.infra.exception.ApplicationRuntimeException;
 import org.egov.infra.exception.MicroServiceInvalidTokenException;
 import org.egov.infra.exception.MicroServiceNotAuthroizedException;
 import org.egov.infra.microservice.models.Department;
+import org.egov.infra.microservice.models.Tutorial;
 import org.egov.infra.microservice.utils.MicroserviceUtils;
 import org.hibernate.HibernateException;
 import org.hibernate.ObjectNotFoundException;
@@ -134,7 +135,9 @@ public class EgovMasterDataCaching {
             if (dataList == null || dataList.isEmpty()) {
             	if(sqlTagName.equalsIgnoreCase("egi-department")){
             		dataList = this.loadFromMicroService();
-            	}else{
+            	} if (sqlTagName.equalsIgnoreCase("egi-tutorials")) {
+                    dataList = this.loadTutorialsFromMicroService();
+                } else{
             	final String type = EGovConfig
                         .getProperty(applName + CONFIG_FILE_SUFFIX, "type", EMPTY, SQL_TAG_PREFIX + sqlTagName).trim();
                 if (type.equalsIgnoreCase("java")) {
@@ -463,6 +466,11 @@ public class EgovMasterDataCaching {
     	
     	List<Department> deptList = this.microserviceUtils.getDepartments();
     	return deptList;
+    }
+
+    private List loadTutorialsFromMicroService() {
+        List<Tutorial> tutorials = this.microserviceUtils.getTutorials();
+        return tutorials;
     }
     
     @PreDestroy

@@ -129,6 +129,7 @@ public class SubSchemeAction extends BaseFormAction {
 	@Action(value = "/masters/subScheme-newForm")
 	public String newForm() {
 		showMode = "new";
+		request.put("tutorial", microserviceUtils.getTutorial("master.subScheme.create"));
 		return NEW;
 	}
 

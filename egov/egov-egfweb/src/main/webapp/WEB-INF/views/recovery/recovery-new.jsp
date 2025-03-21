@@ -50,6 +50,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ include file="/includes/taglibs.jsp"%>
 <%@ taglib uri="/WEB-INF/tags/cdn.tld" prefix="cdn" %>
+<div class="main-content">
+<%@ include file="/includes/tutorial.jsp" %>
 <form:form role="form" action="create" modelAttribute="recovery"
 	id="recoveryform" cssClass="form-horizontal form-groups-bordered"
 	enctype="multipart/form-data">
@@ -64,6 +66,7 @@
 		</div>
 	</div>
 </form:form>
+</div>
 <script>
 	$('#buttonSubmit').click(function(e) {
 		if ($('form').valid()) {

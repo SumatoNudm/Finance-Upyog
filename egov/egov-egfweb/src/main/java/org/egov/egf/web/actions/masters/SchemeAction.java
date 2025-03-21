@@ -61,6 +61,7 @@ import org.apache.struts2.interceptor.validation.SkipValidation;
 import org.egov.commons.Fund;
 import org.egov.commons.Scheme;
 import org.egov.infra.config.core.ApplicationThreadLocals;
+import org.egov.infra.microservice.utils.MicroserviceUtils;
 import org.egov.infra.validation.exception.ValidationError;
 import org.egov.infra.validation.exception.ValidationException;
 import org.egov.infra.web.struts.actions.BaseFormAction;
@@ -100,6 +101,9 @@ public class SchemeAction extends BaseFormAction {
 	@Autowired
 	private transient EgovMasterDataCaching masterDataCache;
 
+	@Autowired
+	private MicroserviceUtils microserviceUtils;
+
 	@Override
 	public Object getModel() {
 		if (schemeId != null)
@@ -126,6 +130,7 @@ public class SchemeAction extends BaseFormAction {
 		scheme.reset();
 		if (LOGGER.isDebugEnabled())
 			LOGGER.debug("..Inside NewForm method..");
+		request.put("tutorial", microserviceUtils.getTutorial("master.scheme.create"));
 		mode = NEW;
 		return NEW;
 	}

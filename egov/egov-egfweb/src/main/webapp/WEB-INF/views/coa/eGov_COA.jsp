@@ -57,18 +57,24 @@
 <head>
 
  <!-- Required CSS -->
-<link rel="stylesheet" type="text/css" href="/services/EGF/resources/commonyui/build/treeview/assets/css/folders/tree.css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/commonyui/build/treeview/assets/css/folders/tree.css">
 <!--<link rel="stylesheet" type="text/css" href="../build/assets/skins/sam/treeview.css">-->
 <!-- Dependency source files --> 
-<script src = "/services/EGF/resources/commonyui/build/yahoo/yahoo-min.js" ></script>  
-<script src = "/services/EGF/resources/commonyui/build/event/event-min.js" ></script> 
+<script src = "${pageContext.request.contextPath}/resources/commonyui/build/yahoo/yahoo-min.js" ></script>
+<script src = "${pageContext.request.contextPath}/resources/commonyui/build/event/event-min.js" ></script>
 <!-- Source file -->
-<script src="/services/EGF/resources/commonyui/build/connection/connection-min.js"></script>
-<%-- <script type="text/javascript" src="/services/EGF/resources/javascript/jsCommonMethods.js?rnd=${app_release_no}"></script> --%>
+<script src="${pageContext.request.contextPath}/resources/commonyui/build/connection/connection-min.js"></script>
+<%-- <script type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/jsCommonMethods.js?rnd=${app_release_no}"></script> --%>
+
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/jsCommonMethods.js?rnd=${app_release_no}"></script>
 <!-- TreeView source file -->   
-<script src = "/services/EGF/resources/commonyui/build/treeview/treeview-min.js" ></script>
+<script src = "${pageContext.request.contextPath}/resources/commonyui/build/treeview/treeview-min.js" ></script>
 </head>
 <body onload="treeInit()" >
+
+<div class="main-content">
+
+<%@ include file="/includes/tutorial.jsp" %>
 
 <h2>
 	<s:text name="chartOfAccount"/>
@@ -307,6 +313,7 @@ function loadNodeData(node, fnLoadComplete){
 	YAHOO.util.Connect.asyncRequest('GET', moduleQuery, callback);	          
     }    
 </script>                
+</div>
 </div>
 </body>
 </html>

@@ -124,6 +124,7 @@
 
 </head>
 <body>
+    <%@ include file="/includes/tutorial.jsp" %>
 	<jsp:include page="../budget/budgetHeader.jsp" />
 	<div class="formmainbox">
 		<div class="subheadnew">

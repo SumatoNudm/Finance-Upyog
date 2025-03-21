@@ -50,6 +50,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ include file="/includes/taglibs.jsp"%>
 <form:form role="form" action="create" modelAttribute="bankaccount" id="bankaccountform" cssClass="form-horizontal form-groups-bordered" enctype="multipart/form-data">
+<div class="main-content">
+    <%@ include file="/includes/tutorial.jsp" %>
 	<spring:hasBindErrors name="bankaccount">
 		<div class="alert alert-danger"
 			style="margin-top: 20px; margin-bottom: 10px;">
@@ -65,6 +67,7 @@
 			</button>
 			<a href='javascript:void(0)' class='btn btn-default' onclick="javascript:window.parent.postMessage('close','*');"><spring:message code='lbl.close' text="Close"/></a>
 		</div>
+	</div>
 	</div>
 </form:form>
 <script>

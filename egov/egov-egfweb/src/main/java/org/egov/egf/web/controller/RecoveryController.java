@@ -58,6 +58,7 @@ import org.egov.commons.dao.ChartOfAccountsDAO;
 import org.egov.commons.service.ChartOfAccountsService;
 import org.egov.egf.web.adaptor.RecoveryJsonAdaptor;
 import org.egov.infra.config.core.ApplicationThreadLocals;
+import org.egov.infra.microservice.utils.MicroserviceUtils;
 import org.egov.model.recoveries.Recovery;
 import org.egov.model.recoveries.RecoverySearchRequest;
 import org.egov.model.service.RecoveryService;
@@ -109,6 +110,8 @@ public class RecoveryController {
     private EgPartyTypeService egPartyTypeService;
     @Autowired
     private ChartOfAccountsDAO chartOfAccountsDAO;
+    @Autowired
+    private MicroserviceUtils microserviceUtils;
 
     @SuppressWarnings("deprecation")
 	private void prepareNewForm(final Model model) {
@@ -122,6 +125,7 @@ public class RecoveryController {
     public String newForm(final Model model) {
         prepareNewForm(model);
         model.addAttribute(RECOVERY, new Recovery());
+        model.addAttribute("tutorial", microserviceUtils.getTutorial("master.deduction.create"));
         return RECOVERY_NEW;
     }
 
