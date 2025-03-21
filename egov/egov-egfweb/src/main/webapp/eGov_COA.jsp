@@ -178,6 +178,7 @@ function loadSelectDataForChartOfacounts(url,sourceobj,destobj)
       {                                                     
          
          buildTree(new YAHOO.widget.TreeView("treeDiv1"));
+         loadTutorial();
                               
       }
       function buildTree(tree){
@@ -305,7 +306,67 @@ function loadNodeData(node, fnLoadComplete){
 	//make our XHR call using Connection Manager's
 	//asyncRequest method:
 	YAHOO.util.Connect.asyncRequest('GET', moduleQuery, callback);	          
-    }    
+    }
+
+    function loadTutorial() {
+
+    const requestData = {
+            "RequestInfo": {
+                "apiId": "asset-services",
+                "ver": null,
+                "ts": null,
+                "action": null,
+                "did": null,
+                "key": null,
+                "msgId": "search with from and to values",
+                "authToken": "59854f79-7031-4157-9cb5-21c51cb61981"
+            },
+            "MdmsCriteria": {
+                "tenantId": "pg",
+                "moduleDetails": [
+                    {
+                        "moduleName": "tenant",
+                        "masterDetails": [
+                            {
+                                "name": "tenants",
+                                "filter": "$.*.code"
+                            }
+                        ]
+                    },
+                    {
+                        "moduleName": "TUTORIALS",
+                        "masterDetails": [
+                            {
+                                "name": "tutorials"
+                            }
+                        ]
+                    }
+                ]
+            }
+        };
+
+    fetch("/egov-mdms-service/v1/_search", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(requestData)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log("Response Data:", data);
+            // document.getElementById("tutorialContent").innerText = JSON.stringify(data, null, 2);
+        })
+        .catch(error => {
+            console.error("Error pushing tutorial data:", error);
+        });
+    }
+
 </script>                
 </div>
 </body>

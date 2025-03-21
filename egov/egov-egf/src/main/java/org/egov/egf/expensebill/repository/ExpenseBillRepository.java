@@ -49,6 +49,7 @@ package org.egov.egf.expensebill.repository;
 
 import org.egov.model.bills.EgBillregister;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -64,5 +65,11 @@ public interface ExpenseBillRepository extends JpaRepository<EgBillregister, Lon
     EgBillregister findByBillnumber(final String billNumber);
 
     List<EgBillregister> findByBillnumberContainingIgnoreCase(final String billNumber);
+
+    Long countByExpendituretype(String expendituretype);
+
+    @Query(value = "SELECT SUM(passedamount) from eg_billregister", nativeQuery = true)
+    Long totalAmountOfBills();
+
 
 }
