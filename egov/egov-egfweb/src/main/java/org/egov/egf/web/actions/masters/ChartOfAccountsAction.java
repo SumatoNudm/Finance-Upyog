@@ -666,6 +666,7 @@ public class ChartOfAccountsAction extends BaseFormAction {
     public String addNew(){
         populateCodeLength();
         model = new CChartOfAccounts();
+        request.put("tutorial", microserviceUtils.getTutorial("master.chartOfAccounts.create"));
         return "detailed";
     }
 
