@@ -24,7 +24,7 @@ public class DashboardReportAction extends BaseFormAction {
     @Autowired
     private DashboardReportService dashboardReportService;
 
-    private DashboardReport dashboardReport = new DashboardReport();
+    private final DashboardReport dashboardReport = new DashboardReport();
 
 
     @Override
@@ -37,25 +37,44 @@ public class DashboardReportAction extends BaseFormAction {
     @Action(value = "/report/dashboardReport-viewReport")
     public String viewReport() {
 
-        List<Contractor> contractorList = getAllContractors();
-        dashboardReport.setContractors(contractorList);
 
-        dashboardReport.setTotalSuppliers(dashboardReportService.getSuppliersCount());
+        // Total expense bills
+        dashboardReport.setTotalExpenseBills(dashboardReportService.getTotalBillsCreated("Expense"));
 
-        dashboardReport.setTotalExpenseBills(dashboardReportService.getTotalExpenseBillsCreated());
+        // Total contractors bills
+        dashboardReport.setTotalContractorBills(dashboardReportService.getTotalBillsCreated("Works"));
 
-        dashboardReport.setTotalBills(dashboardReportService.getTotalBills());
+        // Total supplier bills
+        dashboardReport.setTotalSupplierBills(dashboardReportService.getTotalBillsCreated("Purchase"));
 
-        dashboardReport.setTotalAmount(dashboardReportService.getTotalExpenseBillAmount());
+        // Total work orders
+        dashboardReport.setTotalWorkOrders(dashboardReportService.getTotalWorkOrdersCount());
 
-        dashboardReport.setMessage("Hello world !");
+        // Total purchase order
+        dashboardReport.setTotalPurchaseOrders(dashboardReportService.getTotalPurchaseOrderCount());
+
+        // Total journal voucher
+        dashboardReport.setTotalJournalVouchers(dashboardReportService.getTotalJournalVoucherCount());
+
+        // Total fund
+        dashboardReport.setTotalFunds(dashboardReportService.getTotalsFundsCount());
+
+        // Total bank accounts
+        dashboardReport.setTotalBankAccounts(dashboardReportService.getTotalBankAccountCount());
+
+        // Total Contractors
+        dashboardReport.setTotalContractors(dashboardReportService.getContractorsCount());
+
+        // Total supplier
+        dashboardReport.setTotalSuppliers(dashboardReportService.getTotalSupplierCount());
+
+        // Total payments
+        dashboardReport.setTotalBillsPayment(dashboardReportService.getTotalPaymentCount());
+
+
         return "viewReport";
     }
 
-    private List<Contractor> getAllContractors() {
-        List<Contractor> contractorList = dashboardReportService.getAllContractors();
-        return contractorList;
-    }
 
 
 }

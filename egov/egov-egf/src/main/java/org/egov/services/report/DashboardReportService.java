@@ -1,8 +1,13 @@
 package org.egov.services.report;
 
+import org.egov.commons.repository.FundRepository;
+import org.egov.egf.commons.bankaccount.repository.BankAccountRepository;
 import org.egov.egf.expensebill.repository.ExpenseBillRepository;
 import org.egov.egf.masters.repository.ContractorRepository;
+import org.egov.egf.masters.repository.PurchaseOrderRepository;
 import org.egov.egf.masters.repository.SupplierRepository;
+import org.egov.egf.masters.repository.WorkOrderRepository;
+import org.egov.egf.voucher.repository.JournalVoucherRepository;
 import org.egov.infstr.services.PersistenceService;
 import org.egov.model.masters.Contractor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,32 +33,77 @@ public class DashboardReportService {
     @Autowired
     private ExpenseBillRepository expenseBillRepository;
 
+    @Autowired
+    private WorkOrderRepository workOrderRepository;
 
-    public List<Contractor> getAllContractors() {
-        List<Contractor> allContractors = contractorRepository.findAll();
-        return allContractors;
+    @Autowired
+    private PurchaseOrderRepository purchaseOrderRepository;
+
+    @Autowired
+    private JournalVoucherRepository journalVoucherRepository;
+
+    @Autowired
+    private FundRepository fundRepository;
+
+    @Autowired
+    private BankAccountRepository bankAccountRepository;
+
+
+
+
+    public Long getContractorsCount() {
+        return contractorRepository.count();
     }
 
     public Long getSuppliersCount() {
        return supplierRepository.count();
     }
 
-    public Long getTotalExpenseBillsCreated() {
-        return expenseBillRepository.countByExpendituretype("Expense");
+
+    public Long getTotalBillsCreated(String type) {
+        Long count = 0L;
+       if (type == null || type.isEmpty()) {
+           count =  expenseBillRepository.count();
+        } else {
+            count = expenseBillRepository.countByExpendituretype(type);
+        }
+        return  count;
     }
 
-    public Long getTotalBills() {
-        return expenseBillRepository.count();
+    public Long getTotalWorkOrdersCount() {
+        return workOrderRepository.count();
     }
 
-    public Long getAllBillsAmount() {
-        return expenseBillRepository.totalAmountOfBills();
+
+    public Long getTotalPurchaseOrderCount() {
+        return purchaseOrderRepository.count();
     }
 
-    public Long getTotalExpenseBillAmount() {
-        return expenseBillRepository.totalAmountOfBills();
+    public Long getTotalJournalVoucherCount() {
+        return journalVoucherRepository.count();
     }
 
+    public Long getTotalsFundsCount() {
+        return fundRepository.count();
+    }
+
+
+    public Long getTotalBankAccountCount() {
+        return bankAccountRepository.count();
+    }
+
+    public Long getTotalContractorCount() {
+        return contractorRepository.count();
+    }
+
+    public Long getTotalSupplierCount() {
+        return supplierRepository.count();
+    }
+
+
+    public Long getTotalPaymentCount() {
+        return 0L;
+    }
 
 
 

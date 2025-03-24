@@ -1,24 +1,101 @@
-
 <%@ taglib prefix="s" uri="/WEB-INF/tags/struts-tags.tld"%>
 <div>
-    <h1>ULB Dashboard </h1>
+    <h3>Dashboard</h3>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading text-center">Total Expense Bills</div>
+                <div class="panel-body text-center">
+                    <h5><s:property value="totalExpenseBills" /></h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading text-center">Total Contractor Bills</div>
+                <div class="panel-body text-center">
+                    <h5><s:property value="totalContractorBills" /></h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading text-center">Total Supplier Bill</div>
+                <div class="panel-body text-center">
+                    <h5><s:property value="totalSupplierBills" /></h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading text-center">Total Work Orders</div>
+                <div class="panel-body text-center">
+                    <h5><s:property value="totalWorkOrders" /></h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading text-center">Total Purchase Orders</div>
+                <div class="panel-body text-center">
+                    <h5><s:property value="totalPurchaseOrders" /></h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading text-center">Total Journal Vouchers</div>
+                <div class="panel-body text-center">
+                    <h5><s:property value="totalJournalVouchers" /></h5>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading text-center">Total Funds</div>
+                <div class="panel-body text-center">
+                    <h5><s:property value="totalFunds" /></h5>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading text-center">Total Bank Accounts</div>
+                <div class="panel-body text-center">
+                    <h5><s:property value="totalBankAccounts" /></h5>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading text-center">Total Contractors</div>
+                <div class="panel-body text-center">
+                    <h5><s:property value="totalContractors" /></h5>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading text-center">Total Suppliers</div>
+                <div class="panel-body text-center">
+                    <h5><s:property value="totalSuppliers" /></h5>
+                </div>
+            </div>
+        </div>
 
 
-    <p>Total Contractors: <s:property value="contractors.size()" /></p>
+    </div>
 
-    <p>Total Suppliers: <s:property value="totalSuppliers" /></p>
-
-    <p>Total Expense Bills Created: <s:property value="totalExpenseBills" /></p>
-
-    <p>Total Bills Created: <s:property value="totalBills" /></p>
-
-    <p>Total Bills Amount: <s:property value="totalAmount" /></p>
-
-<!--    <s:iterator value="contractors" var="contractor">-->
-<!--        <p>Contractor Name: <s:property value="name" /><
-    },
-    {/p>-->
-<!--    </s:iterator>-->
+    <!--    <s:iterator value="contractors" var="contractor">-->
+    <!--        <p>Contractor Name: <s:property value="name" /><
+        },
+        {/p>-->
+    <!--    </s:iterator>-->
 
 
 </div>
