@@ -55,7 +55,7 @@
     .position_alert {
         position: fixed;
         z-index: 9999;
-        top: 50px;
+        top: 75px;
         right: 20px;
         background: #F2DEDE;
         padding: 10px 20px;
@@ -65,7 +65,7 @@
     .position_alert1 {
         position: fixed;
         z-index: 9999;
-        top: 50px;
+        top: 75px;
         right: 520px;
         background: #F2DEDE;
         padding: 10px 20px;
@@ -75,7 +75,7 @@
     .position_alert2 {
         position: fixed;
         z-index: 9999;
-        top: 50px;
+        top: 75px;
         right: 270px;
         background: #F2DEDE;
         padding: 10px 20px;
@@ -89,6 +89,7 @@
 		<c:out value="${errorMessage}" />
 	</div>
 </c:if>
+
 	
     <div class="position_alert">
         <spring:message code="lbl.netpayable.amount" text="Net Payable Amount"/>
@@ -123,7 +124,11 @@
         </div>
     </spring:hasBindErrors>
 
+
      <div class="tab-pane fade in active" id="supplierbillheader">
+
+         <%@ include file="/includes/tutorial.jsp" %>
+
          <jsp:include page="supplierbill-header.jsp"/>
            <div class="panel panel-primary" data-collapsed="0">
            <jsp:include page="supplier-accountcodetemplate.jsp"/>    

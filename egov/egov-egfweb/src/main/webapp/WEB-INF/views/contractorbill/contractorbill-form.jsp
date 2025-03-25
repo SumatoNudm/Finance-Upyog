@@ -55,7 +55,7 @@
     .position_alert {
         position: fixed;
         z-index: 9999;
-        top: 41px;
+        top: 75px;
         right: 20px;
         background: #F2DEDE;
         padding: 7px 20px;
@@ -65,7 +65,7 @@
     .position_alert1 {
         position: fixed;
         z-index: 9999;
-        top: 41px;
+        top: 75px;
         right: 520px;
         background: #F2DEDE;
         padding: 7px 20px;
@@ -75,7 +75,7 @@
     .position_alert2 {
         position: fixed;
         z-index: 9999;
-        top: 41px;
+        top: 75px;
         right: 270px;
         background: #F2DEDE;
         padding: 7px 20px;
@@ -83,7 +83,10 @@
     }
 </style>
     <form:form name="contractorBillForm" role="form" method="post" action="create" modelAttribute="egBillregister" id="egBillregister" class="form-horizontal form-groups-bordered" enctype="multipart/form-data">
-	
+
+
+
+
     <div class="position_alert">
         <spring:message code="lbl.netpayable.amount" text="Net Payable Amount"/>
         : &#8377 <span id="contractorNetPayableAmount"><c:out
@@ -105,6 +108,9 @@
     <form:hidden path="" name="netPayableId" id="netPayableId" value="${netPayableId}"/>
     <form:hidden path="" name="netPayableAmount" id="netPayableAmount" value="${netPayableAmount}"/>
 	<form:hidden path="passedamount" name="passedamount" id="passedamount" value="${egBillregister.passedamount}"/>
+
+
+
     <div class="panel-title text-center" style="color: green;">
         <c:out value="${message}"/>
         <br/>
@@ -115,6 +121,9 @@
             <br/>
         </div>
     </spring:hasBindErrors>
+
+
+        <%@ include file="/includes/tutorial.jsp" %>
 
      <div class="tab-pane fade in active" id="contractorbillheader">
          <jsp:include page="contractorbill-header.jsp"/>

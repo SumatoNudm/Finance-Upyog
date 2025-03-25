@@ -119,6 +119,9 @@
             <br/>
         </div>
     </spring:hasBindErrors>
+
+    <%@ include file="/includes/tutorial.jsp" %>
+
     <ul class="nav nav-tabs" id="settingstab">
         <li class="active"><a data-toggle="tab" href="#expensebillheader"
                               data-tabidx=0><spring:message code="lbl.header" text="Header"/></a></li>

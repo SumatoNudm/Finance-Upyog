@@ -612,6 +612,7 @@ public class ChartOfAccountsAction extends BaseFormAction {
     @Action(value = "/masters/chartOfAccounts-editDetailedCode")
     public String editDetailedCode(){
         allChartOfAccounts = chartOfAccountsHibernateDAO.getDetailedCodesList();
+        request.put("tutorial", microserviceUtils.getTutorial("master.chartOfAccounts.modify"));
         return "detailed-editCode";
     }
 

@@ -75,6 +75,9 @@
 </script>
 </head>
 <body class="yui-skin-sam">
+<div class="main-content">
+    <%@ include file="/includes/tutorial.jsp" %>
+
 	<jsp:include page="../budget/budgetHeader.jsp" />
 	<s:actionmessage theme="simple" />
 	<s:actionerror />
@@ -133,6 +136,7 @@
 		}(); 
 </script>
 
+</div>
 </body>
 
 </html>

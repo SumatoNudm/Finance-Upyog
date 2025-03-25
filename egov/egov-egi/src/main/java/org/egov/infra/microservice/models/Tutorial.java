@@ -20,11 +20,16 @@ public class Tutorial {
     @SafeHtml
     private String description;
 
-    public Tutorial(String id, String title, String video_url, String description) {
+    @Getter
+    @SafeHtml
+    private Boolean isActive;
+
+    public Tutorial(String id, String title, String video_url, String description, Boolean isActive) {
         this.id = id;
         this.title = title;
         this.video_url = video_url;
         this.description = description;
+        this.isActive = isActive;
     }
 
     public Tutorial() {
@@ -34,7 +39,7 @@ public class Tutorial {
 
     @Override
     public String toString() {
-        return "Tutorial [id=" + id + ", title="+title + ", video_url=" + video_url + ", description=" + description + "]";
+        return "Tutorial [id=" + id + ", title="+title + ", video_url=" + video_url + ", description=" + description + "isActive=" +  isActive + "]";
     }
 
 

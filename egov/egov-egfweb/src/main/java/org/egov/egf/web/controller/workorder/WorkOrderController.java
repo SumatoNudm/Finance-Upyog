@@ -125,7 +125,7 @@ public class WorkOrderController {
 		model.addAttribute("funds", fundService.findAllActiveAndIsnotleaf());
 		model.addAttribute("departments", microserviceUtils.getDepartments());
 		model.addAttribute("contractors", contractorService.getAllActiveEntities(null));
-		model.addAttribute("tutorial", microserviceUtils.getTutorial("master.workorder.create"));
+		model.addAttribute("tutorial", microserviceUtils.getTutorial("master.workOrder.create"));
 	}
 
 	@PostMapping(value = "/newform")

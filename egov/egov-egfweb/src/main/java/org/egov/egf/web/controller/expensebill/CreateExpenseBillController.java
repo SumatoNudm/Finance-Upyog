@@ -80,6 +80,7 @@ import org.egov.eis.web.contract.WorkflowContainer;
 import org.egov.infra.admin.master.service.AppConfigValueService;
 import org.egov.infra.config.core.ApplicationThreadLocals;
 import org.egov.infra.filestore.service.FileStoreService;
+import org.egov.infra.microservice.utils.MicroserviceUtils;
 import org.egov.infra.validation.exception.ValidationException;
 import org.egov.model.bills.DocumentUpload;
 import org.egov.model.bills.EgBillregister;
@@ -139,6 +140,9 @@ public class CreateExpenseBillController extends BaseBillController {
 	@Autowired
 	private CommonsUtil commonsUtil;
 
+	@Autowired
+	private MicroserviceUtils microserviceUtils;
+
 	public CreateExpenseBillController(final AppConfigValueService appConfigValuesService) {
 		super(appConfigValuesService);
 	}
@@ -170,6 +174,7 @@ public class CreateExpenseBillController extends BaseBillController {
 		if (isBillDateDefaultValue) {
 			egBillregister.setBilldate(new Date());
 		}
+		model.addAttribute("tutorial", microserviceUtils.getTutorial("transactions.billsAccounting.expenseBill"));
 		return EXPENSEBILL_FORM;
 	}
 
