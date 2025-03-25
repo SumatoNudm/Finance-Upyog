@@ -135,7 +135,7 @@ public class EgovMasterDataCaching {
             if (dataList == null || dataList.isEmpty()) {
             	if(sqlTagName.equalsIgnoreCase("egi-department")){
             		dataList = this.loadFromMicroService();
-            	} if (sqlTagName.equalsIgnoreCase("egi-tutorials")) {
+            	} else if (sqlTagName.equalsIgnoreCase("egi-tutorials")) {
                     dataList = this.loadTutorialsFromMicroService();
                 } else{
             	final String type = EGovConfig

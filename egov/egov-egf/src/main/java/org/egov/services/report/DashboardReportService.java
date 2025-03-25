@@ -1,5 +1,7 @@
 package org.egov.services.report;
 
+import org.apache.log4j.Logger;
+import org.egov.commons.dao.FinancialYearHibernateDAO;
 import org.egov.commons.repository.FundRepository;
 import org.egov.egf.commons.bankaccount.repository.BankAccountRepository;
 import org.egov.egf.expensebill.repository.ExpenseBillRepository;
@@ -8,12 +10,17 @@ import org.egov.egf.masters.repository.PurchaseOrderRepository;
 import org.egov.egf.masters.repository.SupplierRepository;
 import org.egov.egf.masters.repository.WorkOrderRepository;
 import org.egov.egf.voucher.repository.JournalVoucherRepository;
+import org.egov.infra.config.security.repository.ApplicationSecurityRepository;
 import org.egov.infstr.services.PersistenceService;
 import org.egov.model.masters.Contractor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 @Service
@@ -48,7 +55,11 @@ public class DashboardReportService {
     @Autowired
     private BankAccountRepository bankAccountRepository;
 
+    @Autowired
+    private FinancialYearHibernateDAO financialYearHibernateDAO;
 
+
+    private static final Logger LOGGER = Logger.getLogger(DashboardReportService.class);
 
 
     public Long getContractorsCount() {
@@ -66,6 +77,24 @@ public class DashboardReportService {
            count =  expenseBillRepository.count();
         } else {
             count = expenseBillRepository.countByExpendituretype(type);
+           String startDate = financialYearHibernateDAO.getCurrYearStartDate();
+           LOGGER.info("mridx! "+ startDate);
+           final String temp[] = startDate.split("-");
+           final String temp1[] = temp[2].split(" ");
+           final Date dt = new Date();
+           final Date dt1 = new Date();
+
+           final SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
+           final GregorianCalendar calendar = new GregorianCalendar();
+           calendar.setTime(dt1);
+           calendar.set(Calendar.YEAR, Integer.parseInt(temp[0]));
+           calendar.set(Calendar.MONTH, Integer.parseInt(temp[1]) - 1);
+           calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(temp1[0]));
+           startDate = formatter.format(calendar.getTime());
+
+           calendar.setTime(dt);
+           calendar.set(Calendar.YEAR, Integer.parseInt(temp[0]));
+//           count = expenseBillRepository.countByExpenditureTypeAndBillDateBetween(type, )
         }
         return  count;
     }
@@ -102,8 +131,11 @@ public class DashboardReportService {
 
 
     public Long getTotalPaymentCount() {
-        return 0L;
+        return journalVoucherRepository.getPaymentsCount();
     }
+
+
+
 
 
 

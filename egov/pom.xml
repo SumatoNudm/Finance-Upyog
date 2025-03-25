@@ -150,10 +150,10 @@
         <build.number>${timestamp}</build.number>
         <app.version>${project.version}</app.version>
         <versioneye.key/>
-        <db.driver>org.postgresql.Driver</db.driver>
-        <db.url>jdbc:postgresql://localhost:5432/finance_db_v5</db.url>
-        <db.user>postgres</db.user>
-        <db.password>postgres</db.password>
+        <db.driver/>
+        <db.url/>
+        <db.user/>
+        <db.password/>
         <disable.drop.db>true</disable.drop.db>
         <!-- Application server provided dependency versions -->
         <hibernate-version>5.1.10.Final</hibernate-version>

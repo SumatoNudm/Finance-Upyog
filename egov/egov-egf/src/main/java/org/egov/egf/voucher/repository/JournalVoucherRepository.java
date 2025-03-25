@@ -49,6 +49,7 @@ package org.egov.egf.voucher.repository;
 
 import org.egov.commons.CVoucherHeader;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -64,5 +65,10 @@ public interface JournalVoucherRepository extends JpaRepository<CVoucherHeader, 
     CVoucherHeader findByVoucherNumber(final String voucherNumber);
 
     List<CVoucherHeader> findByVoucherNumberContainingIgnoreCase(final String voucherNumber);
+
+
+    @Query(value = "select count (*) from voucherheader inner join paymentheader on voucherheader.id = paymentheader.voucherheaderid;", nativeQuery = true)
+    Long getPaymentsCount();
+
 
 }

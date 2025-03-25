@@ -50,8 +50,10 @@ package org.egov.egf.expensebill.repository;
 import org.egov.model.bills.EgBillregister;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -68,8 +70,13 @@ public interface ExpenseBillRepository extends JpaRepository<EgBillregister, Lon
 
     Long countByExpendituretype(String expendituretype);
 
+    Long countByExpendituretypeAndBilldateBetween(String expendituretype, Date startDate, Date endDate);
+
     @Query(value = "SELECT SUM(passedamount) from eg_billregister", nativeQuery = true)
     Long totalAmountOfBills();
+
+//    @Query("SELECT SUM(b.passedAmount) FROM EgBillRegister b WHERE b.billDate BETWEEN :startDate AND :endDate")
+//    Long getTotalPassedAmountBetweenDates(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
 
 
 }

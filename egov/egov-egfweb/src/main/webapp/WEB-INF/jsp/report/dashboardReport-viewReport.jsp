@@ -88,6 +88,15 @@
             </div>
         </div>
 
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading text-center">Total Bills Payment</div>
+                <div class="panel-body text-center">
+                    <h5><s:property value="totalBillsPayment" /></h5>
+                </div>
+            </div>
+        </div>
+
 
     </div>
 
