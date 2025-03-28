@@ -97,6 +97,8 @@ public class InboxRenderServiceDelegate<T extends StateAware> {
     private static final String INBOX_RENDER_SERVICE_SUFFIX = "%sInboxRenderService";
     private static final Map<String, WorkflowTypes> WORKFLOW_TYPE_CACHE = new ConcurrentHashMap<>();
 
+    Logger LOGGER = LoggerFactory.getLogger(InboxRenderServiceDelegate.class);
+
     @Autowired
     private ApplicationContext applicationContext;
 
@@ -250,7 +252,6 @@ public class InboxRenderServiceDelegate<T extends StateAware> {
     	employs.get(0).getAssignments().forEach(assignment->{
     		positions.add(assignment.getPosition());
     	});
-    	
     	return positions;
 //    	return this.ownerGroupService.getOwnerGroupsByUserId(getUserId())
 //                .parallelStream()

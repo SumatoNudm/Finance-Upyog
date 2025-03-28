@@ -65,6 +65,8 @@ import org.egov.commons.contracts.CFinanancialYearSearchRequest;
 import org.egov.commons.service.CFinancialYearService;
 import org.egov.egf.web.adaptor.CFinancialYearJsonAdaptor;
 import org.hibernate.validator.constraints.SafeHtml;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.MediaType;
@@ -96,6 +98,8 @@ public class CFinancialYearController {
 	private static final String CFINANCIALYEAR_VIEW = "cfinancialyear-view";
 	private static final String CFINANCIALYEAR_SEARCH = "cfinancialyear-search";
 	private static final String CFINANCIALYEAR_CLOSE = "cfinancialyear-close";
+
+	private final Logger LOGGER = LoggerFactory.getLogger(CFinancialYearController.class);
 
 	@Autowired
 	private CFinancialYearService cFinancialYearService;

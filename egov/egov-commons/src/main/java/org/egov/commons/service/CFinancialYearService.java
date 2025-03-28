@@ -60,6 +60,8 @@ import org.egov.commons.contracts.CFinanancialYearSearchRequest;
 import org.egov.commons.repository.CFinancialYearRepository;
 import org.egov.infra.utils.DateUtils;
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -69,6 +71,8 @@ import org.springframework.validation.BindingResult;
 @Service
 @Transactional(readOnly = true)
 public class CFinancialYearService {
+
+	private final Logger LOGGER = LoggerFactory.getLogger(CFinancialYearService.class);
 
 	private final CFinancialYearRepository cFinancialYearRepository;
 
@@ -156,13 +160,25 @@ public class CFinancialYearService {
 	public void validateMandatoryFields(CFinancialYear financialYear, final BindingResult errors)
 			throws ParseException {
 		final Date nextStartingDate = getNextFinancialYearStartingDate();
+
+		LOGGER.info("mridx!");
+		LOGGER.info("Financial year[ startingDate="+financialYear.getStartingDate() + ", endingDate="+ financialYear.getEndingDate() + "]");
+
+        LOGGER.info("next fy start {}", nextStartingDate);
+
 		if (financialYear.getStartingDate().after(financialYear.getEndingDate())) {
 			errors.reject("msg.startdate.enddate.greater",
 					new String[] { DateUtils.getDefaultFormattedDate(financialYear.getStartingDate()) }, null);
 		}
-		if (financialYear.getStartingDate().equals(nextStartingDate)) {
+//		if (financialYear.getStartingDate().equals(nextStartingDate)) {
+//			errors.reject("msg.enter.valid.startdate",
+//					new String[] { DateUtils.getDefaultFormattedDate(financialYear.getStartingDate()) }, null);
+//		}
+		if (financialYear.getStartingDate().before(nextStartingDate)) {
 			errors.reject("msg.enter.valid.startdate",
-					new String[] { DateUtils.getDefaultFormattedDate(financialYear.getStartingDate()) }, null);
+					new String[] {
+							DateUtils.getDefaultFormattedDate(financialYear.getStartingDate())},
+					null);
 		}
 		for (CFiscalPeriod fiscalperiod : financialYear.getcFiscalPeriod()) {
 			if (fiscalperiod.getName() == null || StringUtils.isEmpty(fiscalperiod.getName()))
@@ -178,9 +194,15 @@ public class CFinancialYearService {
 				if (fiscalperiod.getStartingDate().after(fiscalperiod.getEndingDate()))
 					errors.reject("msg.startdate.enddate.greater",
 							new String[] { DateUtils.getDefaultFormattedDate(fiscalperiod.getStartingDate()) }, null);
-				if (fiscalperiod.getStartingDate().equals(nextStartingDate)) {
+//				if (fiscalperiod.getStartingDate().equals(nextStartingDate)) {
+//					errors.reject("msg.enter.valid.startdate",
+//							new String[] { DateUtils.getDefaultFormattedDate(fiscalperiod.getStartingDate()) }, null);
+//				}
+				if (fiscalperiod.getStartingDate().before(nextStartingDate)) {
 					errors.reject("msg.enter.valid.startdate",
-							new String[] { DateUtils.getDefaultFormattedDate(fiscalperiod.getStartingDate()) }, null);
+							new String[] {DateUtils
+									.getDefaultFormattedDate(fiscalperiod.getStartingDate())},
+							null);
 				}
 			}
 		}

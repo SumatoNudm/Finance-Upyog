@@ -76,25 +76,53 @@ public class DashboardReportService {
        if (type == null || type.isEmpty()) {
            count =  expenseBillRepository.count();
         } else {
-            count = expenseBillRepository.countByExpendituretype(type);
-           String startDate = financialYearHibernateDAO.getCurrYearStartDate();
-           LOGGER.info("mridx! "+ startDate);
-           final String temp[] = startDate.split("-");
-           final String temp1[] = temp[2].split(" ");
-           final Date dt = new Date();
-           final Date dt1 = new Date();
+           try {
 
-           final SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
-           final GregorianCalendar calendar = new GregorianCalendar();
-           calendar.setTime(dt1);
-           calendar.set(Calendar.YEAR, Integer.parseInt(temp[0]));
-           calendar.set(Calendar.MONTH, Integer.parseInt(temp[1]) - 1);
-           calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(temp1[0]));
-           startDate = formatter.format(calendar.getTime());
+//               count = expenseBillRepository.countByExpendituretype(type);
 
-           calendar.setTime(dt);
-           calendar.set(Calendar.YEAR, Integer.parseInt(temp[0]));
-//           count = expenseBillRepository.countByExpenditureTypeAndBillDateBetween(type, )
+               final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+               Date startDate =  formatter.parse(financialYearHibernateDAO.getCurrYearStartDate());
+               Date endDate = formatter.parse(financialYearHibernateDAO.getCurrFinancialYearEndDate());
+
+//               Date startDate = formatter.parse("2024-04-01 00:00:00");
+//               Date endDate = formatter.parse("2025-03-26 23:59:59");
+
+
+               count = expenseBillRepository.countByExpendituretypeAndBilldateBetween(type, startDate, endDate);
+
+           } catch (Exception e) {
+               e.printStackTrace();
+               count = 0L;
+           }
+
+
+
+
+
+
+//           LOGGER.info("mridx! "+ startDate + ", " + endingDate);
+//           final String temp[] = startDate.split("-");
+//           final String temp1[] = temp[2].split(" ");
+//           final Date dt = new Date();
+//           final Date dt1 = new Date();
+//
+//           final SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
+//           final GregorianCalendar calendar = new GregorianCalendar();
+//           calendar.setTime(dt1);
+//           calendar.set(Calendar.YEAR, Integer.parseInt(temp[0]));
+//           calendar.set(Calendar.MONTH, Integer.parseInt(temp[1]) - 1);
+//           calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(temp1[0]));
+////           startDate = formatter.format(calendar.getTime());
+//
+//           calendar.setTime(dt);
+//           calendar.set(Calendar.YEAR, Integer.parseInt(temp[0]));
+//           calendar.add(Calendar.YEAR, 1);
+//           calendar.set(Calendar.MONTH, 2);
+//           calendar.set(Calendar.DAY_OF_MONTH, 31);
+//           final String endDate = formatter.format(calendar.getTime());
+//           LOGGER.info("mridx! : start date=" + startDate + ", end date=" + endDate);
+
         }
         return  count;
     }
