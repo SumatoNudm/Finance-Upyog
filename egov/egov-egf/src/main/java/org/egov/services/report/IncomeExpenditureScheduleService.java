@@ -102,6 +102,7 @@ public class IncomeExpenditureScheduleService extends ScheduleService {
         final Date toDate = incomeExpenditureService.getToDate(statement);
         final List<Fund> fundList = statement.getFunds();
         Map<String, Object> params = new HashMap<>();
+
         populateCurrentYearAmountForAllSchedules(statement, fundList,
                 amountPerFundQueryForAllSchedules(incomeExpenditureService.getFilterQuery(statement, params), toDate, fromDate, IE, params));
         params = new HashMap<>();
@@ -428,6 +429,9 @@ public class IncomeExpenditureScheduleService extends ScheduleService {
                     : "";
             statement.add(new StatementEntry(scheduleNumber, scheduleName, "", null, null, true));
             for (final Object[] row : currentYearAmounts) {
+
+                LOGGER.info("Amount: " + row[0]+ ", Fund ID:" + row[1]+", Minor Code: "+row[2]+", Account Name: "+ row[3]);
+
                 final String glCode = row[2].toString();
                 if (entry.getValue().contains(glCode))
                     if (!statement.containsBalanceSheetEntry(glCode)) {

@@ -62,6 +62,7 @@
 var callback = {
 		success: function(o){
 			document.getElementById('result').innerHTML=o.responseText;
+			console.log(o.responseText);
 			undoLoadingMask();
 			},
 			failure: function(o) {

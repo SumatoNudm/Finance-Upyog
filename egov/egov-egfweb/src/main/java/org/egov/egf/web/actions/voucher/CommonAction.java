@@ -3744,11 +3744,14 @@ public class CommonAction extends BaseFormAction {
     @Action(value = "/voucher/common-ajaxYearCode")
     public String ajaxYearCode() {
         try {
+            LOGGER.info("mridx!");
+            LOGGER.info("Bank Account="+bankaccount +", Department Id ="+departmentId);
             if (bankaccount != null && departmentId != null) {
                 yearCodeList = persistenceService
                         .findAllBy(new StringBuilder("select DISTINCT fs from AccountCheques ac, CFinancialYear fs, ChequeDeptMapping cd where ac.serialNo = fs.id")
                                 .append(" and bankAccountId = ? and ac.id = cd.accountCheque and cd.allotedTo =? order by fs.id desc ").toString(),
                                 bankaccount.longValue(), departmentId.toString());
+                // todo log here
             }
         } catch (final HibernateException e) {
             LOGGER.error("Exception occured while getting year code " + e.getMessage(),

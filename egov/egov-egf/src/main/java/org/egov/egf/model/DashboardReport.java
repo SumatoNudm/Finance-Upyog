@@ -35,6 +35,8 @@ public class DashboardReport {
 
     private Long totalBillsPayment;
 
+    private String dataS;
+
 
     public DashboardReport() {
 

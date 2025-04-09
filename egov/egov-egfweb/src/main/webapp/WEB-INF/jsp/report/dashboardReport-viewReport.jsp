@@ -1,8 +1,16 @@
 <%@ taglib prefix="s" uri="/WEB-INF/tags/struts-tags.tld"%>
-<div>
+<div xmlns:s="http://www.w3.org/1999/XSL/Transform">
     <h3>Dashboard</h3>
 
     <div class="row">
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading text-center">DataS</div>
+                <div class="panel-body text-center">
+                    <h5><s:property value="dataS" /></h5>
+                </div>
+            </div>
+        </div>
         <div class="col-md-4">
             <div class="panel panel-default">
                 <div class="panel-heading text-center">Total Expense Bills</div>

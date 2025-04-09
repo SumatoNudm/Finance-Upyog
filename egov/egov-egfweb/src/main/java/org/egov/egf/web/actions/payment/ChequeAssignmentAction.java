@@ -803,6 +803,7 @@ public class ChequeAssignmentAction extends BaseVoucherAction {
         if (LOGGER.isDebugEnabled())
             LOGGER.debug("Starting search...");
         chequeSlNoMap = loadChequeSerialNo(bankaccount);
+        LOGGER.info(chequeSlNoList);
         chequeAssignmentList = paymentService.getPaymentVoucherNotInInstrument(parameters, voucherHeader);
         if (!paymentMode.equals(FinancialConstants.MODEOFPAYMENT_CHEQUE)) {
             chequeDt = new Date();

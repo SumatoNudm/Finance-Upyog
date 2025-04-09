@@ -126,6 +126,8 @@ public class IncomeExpenditureService extends ReportService {
         Date  toDate = getToDate(ie);
         Map<String, Object> params = new HashMap<>();
         final String filterQuery = getFilterQuery(ie, params);
+        LOGGER.info("incomeExpenditureService!");
+        LOGGER.info(filterQuery);
         populateCurrentYearAmountPerFund(ie, filterQuery, toDate, fromDate, IE, params);
         // populateSchedule(ie,IE);
         ie = addBudgetDetails(ie);
@@ -183,9 +185,19 @@ public class IncomeExpenditureService extends ReportService {
         final Statement income = new Statement();
         final List<StatementResultObject> allGlCodes = getAllGlCodesFor(scheduleReportType);  // has all the IE schedule codes
 
+        for (StatementResultObject statementResultObject : allGlCodes) {
+            LOGGER.info("incomeExpenditureService! All GL Code");
+            LOGGER.info("Amount = "+statementResultObject.getAmount() + ", Fund Id = " + statementResultObject.getFundId() + ", Fund Code = " + statementResultObject.getFundCode() + ", GL Code = " + statementResultObject.getGlCode() + ", Type = " + statementResultObject.getType() + ", Schedule Number = " + statementResultObject.getScheduleNumber() + ", Schedule Name = "+ statementResultObject.getScheduleName() + ", Major Code = " + statementResultObject.getMajorCode() + ", Budget Amount = " + statementResultObject.getBudgetAmount());
+        }
+
         // get all the net amount total fundwise for each major code
 
         final List<StatementResultObject> results = getTransactionAmount(filterQuery, toDate, fromDate, "'I','E'", IE, params);
+
+        for (StatementResultObject statementResultObject : results) {
+            LOGGER.info("incomeExpenditureService! current year amounts");
+            LOGGER.info("Amount = "+statementResultObject.getAmount() + ", Fund Id = " + statementResultObject.getFundId() + ", Fund Code = " + statementResultObject.getFundCode() + ", GL Code = " + statementResultObject.getGlCode() + ", Type = " + statementResultObject.getType() + ", Schedule Number = " + statementResultObject.getScheduleNumber() + ", Schedule Name = "+ statementResultObject.getScheduleName() + ", Major Code = " + statementResultObject.getMajorCode() + ", Budget Amount = " + statementResultObject.getBudgetAmount());
+        }
 
         final List<StatementResultObject> PreYearResults = getTransactionAmount(filterQuery, getPreviousYearFor(toDate),
                 getPreviousYearFor(fromDate), "'I','E'", scheduleReportType, params);
@@ -195,6 +207,10 @@ public class IncomeExpenditureService extends ReportService {
             if (queryObject.getGlCode() == null)
                 queryObject.setGlCode("");
             final List<StatementResultObject> rows = getRowWithGlCode(results, queryObject.getGlCode());
+            LOGGER.info("inside the 3rd loop!");
+            for (StatementResultObject sro : rows) {
+                LOGGER.info("Amount = "+sro.getAmount() + ", Fund Id = " + sro.getFundId() + ", Fund Code = " + sro.getFundCode() + ", GL Code = " + sro.getGlCode() + ", Type = " + sro.getType() + ", Schedule Number = " + sro.getScheduleNumber() + ", Schedule Name = "+ sro.getScheduleName() + ", Major Code = " + sro.getMajorCode() + ", Budget Amount = " + sro.getBudgetAmount());
+            }
             if (rows.isEmpty() && queryObject.getGlCode() != null) {
                 if (contains(PreYearResults, queryObject.getGlCode())) {
                     final List<StatementResultObject> preRow = getRowWithGlCode(PreYearResults, queryObject.getGlCode());

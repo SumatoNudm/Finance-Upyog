@@ -73,6 +73,8 @@ import org.egov.services.report.IncomeExpenditureService;
 import org.egov.utils.Constants;
 import org.egov.utils.ReportHelper;
 import org.hibernate.FlushMode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -102,6 +104,9 @@ public class IncomeExpenditureReportAction extends BaseFormAction {
     /**
      *
      */
+
+    private Logger  LOGGER = LoggerFactory.getLogger(IncomeExpenditureReportAction.class);
+
     private static final long serialVersionUID = 91711010096900620L;
     private static final String INCOME_EXPENSE_PDF = "PDF";
     private static final String INCOME_EXPENSE_XLS = "XLS";
@@ -331,6 +336,10 @@ public class IncomeExpenditureReportAction extends BaseFormAction {
         setRelatedEntitesOn();
 
         statementheading.append("Income And Expenditure Statement").append(heading);
+
+        LOGGER.info("incomeExpenditureReportAction!");
+        LOGGER.info(statementheading.toString());
+
         if (incomeExpenditureStatement.getFund() != null && incomeExpenditureStatement.getFund().getId() != null
                 && incomeExpenditureStatement.getFund().getId() != 0) {
             final List<Fund> fundlist = new ArrayList<Fund>();

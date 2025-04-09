@@ -48,7 +48,10 @@
 
 package org.egov.egf.web.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -59,18 +62,18 @@ import org.egov.egf.web.adaptor.AccountEntityJsonAdaptor;
 import org.egov.infra.microservice.utils.MicroserviceUtils;
 import org.egov.masters.model.AccountEntity;
 import org.hibernate.validator.constraints.SafeHtml;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.Gson;
@@ -86,6 +89,9 @@ public class AccountEntityController {
 	private static final String ACCOUNTENTITY_EDIT = "accountentity-edit";
 	private static final String ACCOUNTENTITY_VIEW = "accountentity-view";
 	private static final String ACCOUNTENTITY_SEARCH = "accountentity-search";
+
+	private final Logger LOGGER = LoggerFactory.getLogger(AccountEntityController.class);
+
 	@Autowired
 	private AccountEntityService accountEntityService;
 	@Autowired
@@ -95,6 +101,7 @@ public class AccountEntityController {
 
 	@Autowired
 	private MicroserviceUtils microserviceUtils;
+
 
 	private void prepareNewForm(Model model) {
 		model.addAttribute("accountdetailtypes",
@@ -181,4 +188,24 @@ public class AccountEntityController {
 		final Gson gson = gsonBuilder.registerTypeAdapter(AccountEntity.class, new AccountEntityJsonAdaptor()).create();
 		return gson.toJson(object);
 	}
+
+
+//	@PostMapping("/upload")
+//	public String uploadExcel(@RequestParam("file") MultipartFile file,
+//							  final RedirectAttributes redirectAttrs) {
+//		try {
+//			List<AccountEntity> accounts = accountExcelReader.parse(file);
+//			for (AccountEntity account : accounts) {
+//				accountEntityService.create(account);
+//			}
+//			redirectAttrs.addFlashAttribute("message", "Excel uploaded and accounts created successfully!");
+//		} catch (Exception e) {
+//			redirectAttrs.addFlashAttribute("error", "Failed to process Excel: " + e.getMessage());
+//		}
+//		return "redirect:/accountentity/list";
+//	}
+
+
+
+
 }
