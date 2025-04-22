@@ -190,20 +190,25 @@ public class AccountEntityController {
 	}
 
 
-//	@PostMapping("/upload")
-//	public String uploadExcel(@RequestParam("file") MultipartFile file,
-//							  final RedirectAttributes redirectAttrs) {
-//		try {
-//			List<AccountEntity> accounts = accountExcelReader.parse(file);
-//			for (AccountEntity account : accounts) {
-//				accountEntityService.create(account);
-//			}
-//			redirectAttrs.addFlashAttribute("message", "Excel uploaded and accounts created successfully!");
-//		} catch (Exception e) {
-//			redirectAttrs.addFlashAttribute("error", "Failed to process Excel: " + e.getMessage());
-//		}
-//		return "redirect:/accountentity/list";
-//	}
+	@PostMapping(value = "/uploadAccountEntity")
+	public String uploadAccountEntity(final Model model) {
+		model.addAttribute("accountdetailtypes",
+				accountdetailtypeService.findAll());
+		model.addAttribute(ACCOUNT_ENTITY, new AccountEntity());
+		return "accountentity-uploadAccountEntity";
+	}
+
+	@PostMapping(value = "/createFromUpload")
+	public String createFromUpload(final Model model) {
+
+//		LOGGER.info("entities" + accountEntitiesJson);
+//		LOGGER.info("detail type" + accountEntityType);
+
+		model.addAttribute("accountdetailtypes",
+				accountdetailtypeService.findAll());
+		model.addAttribute(ACCOUNT_ENTITY, new AccountEntity());
+		return "accountentity-uploadAccountEntity";
+	}
 
 
 

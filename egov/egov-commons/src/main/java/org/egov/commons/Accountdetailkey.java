@@ -97,4 +97,16 @@ public class Accountdetailkey implements java.io.Serializable {
     public void setAccountdetailtype(Accountdetailtype accountdetailtype) {
         this.accountdetailtype = accountdetailtype;
     }
+
+
+    @Override
+    public String toString() {
+        return "Accountdetailkey{" +
+                "id=" + id +
+                ", groupid=" + groupid +
+                ", detailname='" + detailname + '\'' +
+                ", detailkey=" + detailkey +
+                ", accountdetailtype=" + accountdetailtype +
+                '}';
+    }
 }

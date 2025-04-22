@@ -1470,12 +1470,13 @@ public class CommonAction extends BaseFormAction {
         else {
             final Accountdetailtype detailType = (Accountdetailtype) persistenceService.find(
                     "from Accountdetailtype where id=? order by name", accountDetailType);
-            final String table = detailType.getFullQualifiedName();
-            accountDetailTypeName = detailType.getName();
+            final String table = detailType.getFullQualifiedName(); // org.egov.eis.entity.Employee
+            accountDetailTypeName = detailType.getName(); // EMPLOYEE
             try {
                 final Class<?> service = Class.forName(table);
                 String simpleName = service.getSimpleName();
                 simpleName = simpleName.substring(0, 1).toLowerCase() + simpleName.substring(1) + "Service";
+                // employeeService
 
                 final WebApplicationContext wac = WebApplicationContextUtils.getWebApplicationContext(ServletActionContext
                         .getServletContext());
@@ -1483,6 +1484,9 @@ public class CommonAction extends BaseFormAction {
 
                 entityService = (EntityTypeService) wac.getBean(simpleName);
                 entitiesList = (List<EntityType>) entityService.getAllActiveEntities(accountDetailType);
+                for (EntityType abc : entitiesList) {
+                    LOGGER.info(abc.toString());
+                }
             } catch (final EntityNotFoundException e) {
                 if (LOGGER.isDebugEnabled())
                     LOGGER.debug("Service Not Available Exception : " + e.getMessage());
