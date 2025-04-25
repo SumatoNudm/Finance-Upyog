@@ -50,8 +50,10 @@ package org.egov.egf.voucher.repository;
 import org.egov.commons.CVoucherHeader;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -67,8 +69,11 @@ public interface JournalVoucherRepository extends JpaRepository<CVoucherHeader, 
     List<CVoucherHeader> findByVoucherNumberContainingIgnoreCase(final String voucherNumber);
 
 
-    @Query(value = "select count (*) from voucherheader inner join paymentheader on voucherheader.id = paymentheader.voucherheaderid;", nativeQuery = true)
-    Long getPaymentsCount();
+    @Query(value = "SELECT COUNT(*) FROM voucherheader vh INNER JOIN paymentheader ph ON vh.id = ph.voucherheaderid WHERE vh.voucherdate BETWEEN :startDate AND :endDate", nativeQuery = true)
+    Long getPaymentsCount(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
+
+
+    Long countByVoucherDateBetween(Date startDate, Date endDate);
 
 
 }

@@ -3,46 +3,90 @@
     <h3>Dashboard</h3>
 
 
-    <form id="dashboardReportForm"  action="/services/EGF/report/dashboardReport-viewReport.action" method="get" >
-        <table align="center" width="100%" cellpadding="0" cellspacing="0">
+    <form id="dashboardReportForm"  action="/services/EGF/report/dashboardReport-viewFilteredReport.action" method="get" >
 
-            <tr>
-                <td style="width: 5%"></td>
-                <td class="greybox"><s:text name="Start Date" /><span
-                        class="mandatory1" id="disableFromDateCheck">*</span></td>
-                <s:date name="startDate" format="dd/MM/yyyy" var="tempStartDate" />
-                <td class="greybox">
-                    <s:textfield id="startDate" name="startDate"
-                                 value="%{tempStartDate}"  data-date-end-date="0d"
-                                 onkeyup="DateFormat(this,this.value,event,false,'3')"
-                                 placeholder="DD/MM/YYYY" cssClass="form-control datepicker"
-                                 data-inputmask="'mask': 'd/m/y'" autocomplete="off"/>
-                </td>
 
-                <s:date name="endDate" format="dd/MM/yyyy" var="tempEndDate" />
-                <td class="greybox"><s:text name="End Date" /><span
-                        class="mandatory1" id="disableToDateCheck">*</span></td>
-                <td class="greybox">
-                    <s:textfield id="endDate" name="endDate"
-                                 value="%{tempEndDate}"  data-date-end-date="0d"
-                                 onkeyup="DateFormat(this,this.value,event,false,'3')"
-                                 placeholder="DD/MM/YYYY" cssClass="form-control datepicker"
-                                 data-inputmask="'mask': 'd/m/y'" autocomplete="off"/>
-
-                </td>
-            </tr>
-
-        </table>
-
-        <div align="center" class="buttonbottom">
-            <s:submit key="lbl.search" onclick="return validateAndSubmit()"
-                      cssClass="buttonsubmit" />
-            <input type="button" value='<s:text name="lbl.close"/>'
-                   onclick="javascript:window.parent.postMessage('close','*');" class="button" />
+        <div class="error-block" style="color: red; align: left">
+            <s:actionerror />
         </div>
 
-    </form>
 
+        <div class="" style="margin-top: 20px;">
+            <div class="row">
+                <!-- Start Date -->
+                <div class="col-md-6">
+                    <label for="startDate"><s:text name="Start Date" /> <span class="mandatory1">*</span></label>
+                    <s:date name="startDate" format="dd/MM/yyyy" var="tempStartDate" />
+                    <s:textfield
+                            id="startDate"
+                            name="startDate"
+                            value="%{tempStartDate}"
+                            data-date-end-date="0d"
+                            onkeyup="DateFormat(this,this.value,event,false,'3')"
+                            placeholder="DD/MM/YYYY"
+                            cssClass="form-control datepicker"
+                            data-inputmask="'mask': 'd/m/y'"
+                            autocomplete="off"
+                    />
+                    <s:fielderror fieldName="startDate" />
+                </div>
+
+                <!-- End Date -->
+                <div class="col-md-6">
+                    <label for="endDate"><s:text name="End Date" /> <span class="mandatory1">*</span></label>
+                    <s:date name="endDate" format="dd/MM/yyyy" var="tempEndDate" />
+                    <s:textfield
+                            id="endDate"
+                            name="endDate"
+                            value="%{tempEndDate}"
+                            data-date-end-date="0d"
+                            onkeyup="DateFormat(this,this.value,event,false,'3')"
+                            placeholder="DD/MM/YYYY"
+                            cssClass="form-control datepicker"
+                            data-inputmask="'mask': 'd/m/y'"
+                            autocomplete="off"
+                    />
+                    <s:fielderror fieldName="endDate" />
+                </div>
+            </div>
+        </div>
+
+
+        <div style="display:table; width:200px; table-layout:fixed; margin: 0 auto; padding-top: 20px;">
+            <div style="display:table-cell; width:50%; border-radius:0; padding-right:10px;">
+                <s:submit key="lbl.search"
+                          onclick="return validateAndSubmit()"
+                          cssClass="btn btn-primary"
+                          style="width: 100%;"
+                />
+            </div>
+
+            <div style="display:table-cell; width:50%; border-radius:0; padding-left:10px;" >
+                <input type="button"
+                       value='<s:text name="lbl.close"/>'
+                       onclick="javascript:window.parent.postMessage('close','*');"
+                       class="btn btn-default"
+                style="width: 100%;"
+                />
+            </div>
+
+        </div>
+
+
+        <div style="display:table; width:200px; table-layout:fixed; margin: 0 auto; padding-top: 20px;">
+
+            <div style="display:table-cell; width:50%; border-radius:0; margin:0;" >
+                <input type="button"
+                       value="View Current Financial Year"
+                       onclick="viewCurrentFy()"
+                       class="btn btn-primary"
+                />
+            </div>
+
+        </div>
+
+
+    </form>
 
     <div id="report" >
 
@@ -56,3 +100,44 @@
 
 
 </div>
+
+<script>
+
+    function validateAndSubmit() {
+
+
+    var startDateInput = document.getElementById("startDate");
+    var endDateInput = document.getElementById("endDate");
+
+    const startDate = new Date(startDateInput.value + 'T00:00:00');
+    const endDate = new Date(endDateInput.value + 'T00:00:00');
+
+    // Check if fields are empty
+    if (!startDateInput.value || !endDateInput.value) {
+        alert("Please select both Start Date and End Date.");
+        return false;
+    }
+
+    // Check if Start Date is after End Date
+    if (startDate > endDate) {
+        alert("Start Date cannot be after End Date.");
+        return false;
+    }
+
+
+
+    return true;
+
+}
+
+
+    function viewCurrentFy() {
+
+    document.getElementById('dashboardReportForm').action = "/services/EGF/report/dashboardReport-viewReport.action"
+
+    document.getElementById('dashboardReportForm').submit();
+
+    }
+
+
+</script>

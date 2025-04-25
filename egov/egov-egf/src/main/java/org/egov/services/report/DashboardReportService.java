@@ -9,19 +9,16 @@ import org.egov.egf.masters.repository.ContractorRepository;
 import org.egov.egf.masters.repository.PurchaseOrderRepository;
 import org.egov.egf.masters.repository.SupplierRepository;
 import org.egov.egf.masters.repository.WorkOrderRepository;
+import org.egov.egf.model.DashboardReport;
 import org.egov.egf.voucher.repository.JournalVoucherRepository;
-import org.egov.infra.config.security.repository.ApplicationSecurityRepository;
 import org.egov.infstr.services.PersistenceService;
-import org.egov.model.masters.Contractor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
 
 @Service
 public class DashboardReportService {
@@ -126,8 +123,8 @@ public class DashboardReportService {
         return purchaseOrderRepository.count();
     }
 
-    public Long getTotalJournalVoucherCount() {
-        return journalVoucherRepository.count();
+    public Long getTotalJournalVoucherCount(Date startDate, Date endDate) {
+        return journalVoucherRepository.countByVoucherDateBetween(startDate, endDate);
     }
 
     public Long getTotalsFundsCount() {
@@ -148,11 +145,52 @@ public class DashboardReportService {
     }
 
 
-    public Long getTotalPaymentCount() {
-        return journalVoucherRepository.getPaymentsCount();
+    public Long getTotalPaymentCount(Date startDate, Date endDate) {
+        return journalVoucherRepository.getPaymentsCount(startDate, endDate);
     }
 
 
+
+    @Transactional(readOnly = true)
+    public void buildDashboardReport(DashboardReport dashboardReport, Date startDate, Date endDate) {
+
+        try {
+
+        if (startDate == null || endDate == null) {
+
+            LOGGER.info("dates are null!");
+
+            final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+            startDate =  formatter.parse(financialYearHibernateDAO.getCurrYearStartDate());
+            endDate = formatter.parse(financialYearHibernateDAO.getCurrFinancialYearEndDate());
+
+        }
+
+        SimpleDateFormat formatterToShow = new SimpleDateFormat("dd/MM/yyyy");
+
+        dashboardReport.setStartDate(formatterToShow.format(startDate));
+        dashboardReport.setEndDate(formatterToShow.format(endDate));
+
+
+
+        dashboardReport.setTotalExpenseBills(getTotalBillsCreated("Expense", startDate, endDate));
+        dashboardReport.setTotalContractorBills(getTotalBillsCreated("Works", startDate, endDate));
+        dashboardReport.setTotalSupplierBills(getTotalBillsCreated("Purchase", startDate, endDate));
+        dashboardReport.setTotalWorkOrders(getTotalWorkOrdersCount());
+        dashboardReport.setTotalPurchaseOrders(getTotalPurchaseOrderCount());
+        dashboardReport.setTotalJournalVouchers(getTotalJournalVoucherCount(startDate, endDate));
+        dashboardReport.setTotalFunds(getTotalsFundsCount());
+        dashboardReport.setTotalBankAccounts(getTotalBankAccountCount());
+        dashboardReport.setTotalContractors(getContractorsCount());
+        dashboardReport.setTotalSuppliers(getTotalSupplierCount());
+        dashboardReport.setTotalBillsPayment(getTotalPaymentCount(startDate, endDate));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
 
 

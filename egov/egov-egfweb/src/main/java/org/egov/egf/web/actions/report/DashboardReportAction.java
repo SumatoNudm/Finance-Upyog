@@ -9,16 +9,22 @@ import org.apache.struts2.convention.annotation.Results;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import org.apache.struts2.json.annotations.JSON;
 import org.codehaus.jackson.JsonGenerator;
+import org.egov.commons.CFinancialYear;
+import org.egov.commons.dao.FinancialYearDAO;
 import org.egov.egf.model.DashboardReport;
 import org.egov.infra.web.struts.actions.BaseFormAction;
+import org.egov.infra.web.struts.annotation.ValidationErrorPage;
 import org.egov.model.masters.Contractor;
 import org.egov.services.report.DashboardReportService;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -31,10 +37,15 @@ import java.util.List;
 public class DashboardReportAction extends BaseFormAction {
 
 
+    private Logger LOGGER = LoggerFactory.getLogger(DashboardReport.class);
+
     @Autowired
     private DashboardReportService dashboardReportService;
 
     private final DashboardReport dashboardReport = new DashboardReport();
+
+    @Autowired
+    private FinancialYearDAO financialYearDAO;
 
 
     @Override
@@ -47,50 +58,7 @@ public class DashboardReportAction extends BaseFormAction {
     @Action(value = "/report/dashboardReport-viewReport")
     public String viewReport() {
 
-        HttpServletRequest request = ServletActionContext.getRequest();
-
-      String startDate =  request.getParameter("startDate");
-       String endDate = request.getParameter("endDate");
-
-
-
-       dashboardReport.setDataS(startDate + " : "+ endDate);
-
-
-        // Total expense bills
-        dashboardReport.setTotalExpenseBills(dashboardReportService.getTotalBillsCreated("Expense"));
-
-        // Total contractors bills
-        dashboardReport.setTotalContractorBills(dashboardReportService.getTotalBillsCreated("Works"));
-
-        // Total supplier bills
-        dashboardReport.setTotalSupplierBills(dashboardReportService.getTotalBillsCreated("Purchase"));
-
-        // Total work orders
-        dashboardReport.setTotalWorkOrders(dashboardReportService.getTotalWorkOrdersCount());
-
-        // Total purchase order
-        dashboardReport.setTotalPurchaseOrders(dashboardReportService.getTotalPurchaseOrderCount());
-
-        // Total journal voucher
-        dashboardReport.setTotalJournalVouchers(dashboardReportService.getTotalJournalVoucherCount());
-
-        // Total fund
-        dashboardReport.setTotalFunds(dashboardReportService.getTotalsFundsCount());
-
-        // Total bank accounts
-        dashboardReport.setTotalBankAccounts(dashboardReportService.getTotalBankAccountCount());
-
-        // Total Contractors
-        dashboardReport.setTotalContractors(dashboardReportService.getContractorsCount());
-
-        // Total supplier
-        dashboardReport.setTotalSuppliers(dashboardReportService.getTotalSupplierCount());
-
-        // Total payments
-        dashboardReport.setTotalBillsPayment(dashboardReportService.getTotalPaymentCount());
-
-
+        dashboardReportService.buildDashboardReport(dashboardReport, null, null);
 
         return "viewReport";
     }
@@ -103,12 +71,16 @@ public class DashboardReportAction extends BaseFormAction {
     }
 
 
-    @SkipValidation
+
+    @ValidationErrorPage(value = "viewForm")
     @Action(value = "/report/dashboardReport-viewFilteredReport")
     public String viewFilteredReport() {
 
-        HttpServletRequest request = ServletActionContext.getRequest();
+//        if (hasErrors()) {
+//            return "viewReport"; // return to form with errors
+//        }
 
+        HttpServletRequest request = ServletActionContext.getRequest();
 
         try {
 
@@ -120,44 +92,7 @@ public class DashboardReportAction extends BaseFormAction {
             Date startDate =  simpleDateFormat.parse(sDate);
             Date endDate =  simpleDateFormat.parse(eDate);
 
-
-            // Total expense bills
-//        dashboardReport.setTotalExpenseBills(dashboardReportService.getTotalBillsCreated("Expense"));
-
-            dashboardReport.setTotalExpenseBills(dashboardReportService.getTotalBillsCreated("Expense", startDate, endDate));
-
-            // Total contractors bills
-            dashboardReport.setTotalContractorBills(dashboardReportService.getTotalBillsCreated("Works", startDate, endDate));
-
-            // Total supplier bills
-            dashboardReport.setTotalSupplierBills(dashboardReportService.getTotalBillsCreated("Purchase", startDate, endDate));
-
-            // Total work orders
-            dashboardReport.setTotalWorkOrders(dashboardReportService.getTotalWorkOrdersCount());
-
-            // Total purchase order
-            dashboardReport.setTotalPurchaseOrders(dashboardReportService.getTotalPurchaseOrderCount());
-
-            // Total journal voucher
-            dashboardReport.setTotalJournalVouchers(dashboardReportService.getTotalJournalVoucherCount());
-
-            // Total fund
-            dashboardReport.setTotalFunds(dashboardReportService.getTotalsFundsCount());
-
-            // Total bank accounts
-            dashboardReport.setTotalBankAccounts(dashboardReportService.getTotalBankAccountCount());
-
-            // Total Contractors
-            dashboardReport.setTotalContractors(dashboardReportService.getContractorsCount());
-
-            // Total supplier
-            dashboardReport.setTotalSuppliers(dashboardReportService.getTotalSupplierCount());
-
-            // Total payments
-            dashboardReport.setTotalBillsPayment(dashboardReportService.getTotalPaymentCount());
-
-
-
+            dashboardReportService.buildDashboardReport(dashboardReport, startDate, endDate);
 
 
         } catch (Exception e) {
@@ -165,15 +100,54 @@ public class DashboardReportAction extends BaseFormAction {
         }
 
 
-
-
-
         return "viewReport";
     }
 
 
+    @Override
+    public void validate() {
+        HttpServletRequest request = ServletActionContext.getRequest();
+
+        LOGGER.info("inside validation");
+
+            String startDate = request.getParameter("startDate");
+            String endDate = request.getParameter("endDate");
+
+            if (startDate == null || startDate.isEmpty()) {
+                addFieldError("startDate", "Start Date is required.");
+            }
+
+            if (endDate == null || endDate.isEmpty()) {
+                addFieldError("endDate", "End Date is required.");
+            }
+
+
+            if (startDate != null && endDate != null && !startDate.isEmpty() && !endDate.isEmpty()) {
+                try {
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                    Date sDate = sdf.parse(startDate);
+                    Date eDate = sdf.parse(endDate);
+
+                    if (sDate.after(eDate)) {
+                        addActionError("Start Date cannot be after End Date.");
+                    }
+
+//                   Boolean inSameFy =  financialYearDAO.isSameFinancialYear(sDate, eDate);
+
+                    if (!financialYearDAO.isSameFinancialYear(sDate, eDate)) {
+                        addActionError("The start and end date must be in a financial year.");
+                    }
+
+
+                } catch (ParseException e) {
+                    addActionError("Invalid date format.");
+                }
+            }
 
 
 
+
+        // Add similar blocks for other forms using different "formName"
+    }
 
 }

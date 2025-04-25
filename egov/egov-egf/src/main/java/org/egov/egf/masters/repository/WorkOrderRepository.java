@@ -47,6 +47,7 @@
  */
 package org.egov.egf.masters.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.egov.model.masters.WorkOrder;
@@ -70,5 +71,7 @@ public interface WorkOrderRepository extends JpaRepository<WorkOrder, Long> {
     public List<WorkOrder> findByContractor_Id(Long id);
 
     public WorkOrder findByOrderNumber(String orderNumber);
+
+    public Long countByOrderDateBetween(Date startDate, Date endDate);
 
 }

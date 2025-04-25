@@ -52,6 +52,7 @@ import org.egov.commons.Fund;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -72,5 +73,7 @@ public interface FundRepository extends JpaRepository<Fund, Long> {
     List<Fund> findByIsnotleaf(Boolean isnotleaf);
 
     List<Fund> findByIsactiveAndIsnotleaf(final Boolean active, final Boolean isNotLeaf);
+
+    Long countByCreatedDateBetween(Date startDate, Date endDate);
 
 }

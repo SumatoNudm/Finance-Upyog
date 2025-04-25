@@ -34,7 +34,7 @@ mv ${DEPLOY_FOLDER}/egov-ear*.ear ${WILDFLY_HOME}/Archive/egov-ear.ear.${dated}
 # Run Maven clean package
 echo "Running Maven clean package..."
 # (mvn clean package)
-(mvn clean package -s settings.xml -Ddb.user=postgres -Ddb.password=postgres -Ddb.driver=org.postgresql.Driver -Ddb.url=jdbc:postgresql://localhost:5432/finance_db_v8 -DskipTests)
+(mvn clean package -s settings.xml -Ddb.user=postgres -Ddb.password=postgres -Ddb.driver=org.postgresql.Driver -Ddb.url=jdbc:postgresql://localhost:5432/finance_db_v10 -DskipTests)
 if [ $? -ne 0 ]
 then
     echo "Maven build failed. Exiting."
@@ -56,3 +56,6 @@ else
     echo "Unable to copy the EAR, please check the permission or disk space error."
     exit 2
 fi
+
+
+# mvn clean package -pl '!egov-database' -DskipTests -Dmaven.test.failure.ignore=false -Dmaven.javadoc.skip=true -f ./pom.xml

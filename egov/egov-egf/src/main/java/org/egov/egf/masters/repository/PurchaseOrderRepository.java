@@ -47,6 +47,7 @@
  */
 package org.egov.egf.masters.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.egov.model.masters.PurchaseOrder;
@@ -70,5 +71,7 @@ public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrder, Lo
     public List<PurchaseOrder> findBySupplier_Id(Long id);
 
     public PurchaseOrder findByOrderNumber(String orderNumber);
+
+    public Long countByOrderDateBetween(Date startDate, Date endDate);
 
 }
