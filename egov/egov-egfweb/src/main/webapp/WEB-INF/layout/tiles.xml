@@ -857,4 +857,9 @@
         <put-attribute name="body" value="/WEB-INF/views/coa/eGov_COA.jsp" />
     </definition>
 
+    <definition name="view_faqs" extends="base_layout">
+        <put-attribute name="page-title" value="title.faqs.viewfaqs" cascade="true"/>
+        <put-attribute name="body" value="/WEB-INF/views/faq/view_faqs.jsp" />
+    </definition>
+
 </tiles-definitions>
