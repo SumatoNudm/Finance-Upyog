@@ -26,11 +26,4 @@
     }
 
 
-    window.onload = function() {
-      setTimeout(function() {
-        window.open('https://service.assamurban.in/help', '_blank');
-      }, 200);
-    };
-
-
 </script>
