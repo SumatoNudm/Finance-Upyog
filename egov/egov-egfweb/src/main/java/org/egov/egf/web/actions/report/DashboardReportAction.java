@@ -58,6 +58,19 @@ public class DashboardReportAction extends BaseFormAction {
     @Action(value = "/report/dashboardReport-viewReport")
     public String viewReport() {
 
+        try {
+
+            Date currentDate = new Date();
+
+            CFinancialYear cFinancialYear = financialYearDAO.getFinancialYearByDate(currentDate);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            addActionError("The financial year is not created or not active.");
+            return "viewForm";
+        }
+
+
         dashboardReportService.buildDashboardReport(dashboardReport, null, null);
 
         return "viewReport";
@@ -76,10 +89,6 @@ public class DashboardReportAction extends BaseFormAction {
     @Action(value = "/report/dashboardReport-viewFilteredReport")
     public String viewFilteredReport() {
 
-//        if (hasErrors()) {
-//            return "viewReport"; // return to form with errors
-//        }
-
         HttpServletRequest request = ServletActionContext.getRequest();
 
         try {
@@ -96,7 +105,7 @@ public class DashboardReportAction extends BaseFormAction {
 
 
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
 
 
@@ -134,13 +143,27 @@ public class DashboardReportAction extends BaseFormAction {
 
 //                   Boolean inSameFy =  financialYearDAO.isSameFinancialYear(sDate, eDate);
 
-                    if (!financialYearDAO.isSameFinancialYear(sDate, eDate)) {
-                        addActionError("The start and end date must be in a financial year.");
+                    try {
+                        CFinancialYear cFinancialYear = financialYearDAO.getFinancialYearByDate(sDate);
+                    } catch (Exception e) {
+                        throw new Exception("The financial year is not created or not active.");
                     }
 
 
-                } catch (ParseException e) {
-                    addActionError("Invalid date format.");
+                    try {
+                        if (!financialYearDAO.isSameFinancialYear(sDate, eDate)) {
+                            addActionError("The start and end date must be in a financial year.");
+                        }
+                    } catch (Exception e) {
+                        throw new Exception("The financial year is not created or inactive.");
+                    }
+
+
+
+
+                } catch (Exception e) {
+//                    e.printStackTrace();
+                    addActionError(e.getMessage());
                 }
             }
 

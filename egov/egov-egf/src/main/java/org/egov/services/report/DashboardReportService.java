@@ -165,6 +165,15 @@ public class DashboardReportService {
             startDate =  formatter.parse(financialYearHibernateDAO.getCurrYearStartDate());
             endDate = formatter.parse(financialYearHibernateDAO.getCurrFinancialYearEndDate());
 
+            try {
+                startDate =  formatter.parse(financialYearHibernateDAO.getCurrYearStartDate());
+                endDate = formatter.parse(financialYearHibernateDAO.getCurrFinancialYearEndDate());
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
+
+
         }
 
         SimpleDateFormat formatterToShow = new SimpleDateFormat("dd/MM/yyyy");

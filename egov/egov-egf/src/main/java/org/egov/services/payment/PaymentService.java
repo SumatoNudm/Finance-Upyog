@@ -1191,9 +1191,12 @@ public class PaymentService extends PersistenceService<Paymentheader, Long> {
         List<Object[]> list = null;
 
         // check the payee deails for payable code
-        if (mode.equalsIgnoreCase("Create"))
+        if (mode.equalsIgnoreCase("Create")) {
             list = persistenceService.findAllByNamedQuery("getPayeeDetailsForPayableCode", bean.getBillId(),
                     cBillGlcodeIdList);
+            LOGGER.info("PaymentService!");
+            LOGGER.info(list.size());
+        }
         else
             list = persistenceService.findAllByNamedQuery("getPayeeDetailsForPayableCodeForVoucher", bean.getBillId(),
                     contingentBillGlcodeList);
@@ -1212,7 +1215,9 @@ public class PaymentService extends PersistenceService<Paymentheader, Long> {
                 throw new ValidationException(errors);
             } else
                 for (final Object[] obj : list) {
+                    LOGGER.info("first=" + obj[0].toString() + " | second= " + obj[1].toString());
                     entity = getEntity(Integer.valueOf(obj[0].toString()), Long.valueOf(obj[1].toString()));
+                    LOGGER.info(entity.toString());
                     validateEntity(entity);
                 }
         } else
@@ -1505,15 +1510,20 @@ public class PaymentService extends PersistenceService<Paymentheader, Long> {
         try {
             final Accountdetailtype accountdetailtype = (Accountdetailtype) persistenceService
                     .find(" from Accountdetailtype where id=?", detailTypeId);
+            LOGGER.info("Account Detail Type = "+accountdetailtype);
             final Class<?> service = Class.forName(accountdetailtype.getFullQualifiedName());
+            LOGGER.info("Service = "+ service);
             final String detailTypeName = service.getSimpleName();
+            LOGGER.info("Detail Type Name = " + detailTypeName);
             String dataType = "";
             final java.lang.reflect.Method method = service.getMethod("getId");
+            LOGGER.info("Method = "+ method);
             dataType = method.getReturnType().getSimpleName();
+            LOGGER.info("Data Type = " + dataType);
             if (dataType.equals("Long"))
-				entity = (EntityType) persistenceService.find(
-						String.format("from %s where id=? order by name", detailTypeName),
-						Long.valueOf(detailKeyId + ""));
+                entity = (EntityType) persistenceService.find(
+                        String.format("from %s where id=? order by name", detailTypeName),
+                        Long.valueOf(detailKeyId + ""));
             else
 				entity = (EntityType) persistenceService.find(
 						String.format("from %s where id=? order by name", detailTypeName),
