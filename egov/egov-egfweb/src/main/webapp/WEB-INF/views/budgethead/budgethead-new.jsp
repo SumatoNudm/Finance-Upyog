@@ -51,7 +51,7 @@
 <form:form role="form" action="create" modelAttribute="budgetHead" id="budgetGroupform"
   cssClass="form-horizontal form-groups-bordered" enctype="multipart/form-data">
   <%@ include file="budgethead-form.jsp"%>
-  <jsp:include page="budgethead-coa.jsp" />
+  <%@ include file="budgethead-coa.jsp"%>
   </div>
   </div>
   </div>
@@ -76,8 +76,8 @@
 </script>
 <script type="text/javascript" src="<cdn:url value='/resources/app/js/budgetGroupHelper.js?rnd=${app_release_no}'/>">
 </script>
-<!-- <script
-  src="<cdn:url value='/resources/app/js/budgethead/budgetcoa.js?rnd=${app_release_no}' context='/services/EGF'/>">
-</script> -->
 <script
-        src="<cdn:url value='/resources/app/js/expensebill/expensebill.js?rnd=${app_release_no}' context='/services/EGF'/>"></script>
+  src="<cdn:url value='/resources/app/js/budgethead/budgetcoa.js?rnd=${app_release_no}' context='/services/EGF'/>">
+</script>
+<!-- <script
+        src="<cdn:url value='/resources/app/js/expensebill/expensebill.js?rnd=${app_release_no}' context='/services/EGF'/>"></script> -->
