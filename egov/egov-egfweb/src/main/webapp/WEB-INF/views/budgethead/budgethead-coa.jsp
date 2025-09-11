@@ -26,11 +26,11 @@
 					<input type="text" id="tempDebitDetails[0].debitGlcode" name="tempDebitDetails[0].debitGlcode" class="form-control table-input debitDetailGlcode debitGlcode"  data-errormsg="Account Code is mandatory!" data-idx="0" data-optional="0"   placeholder="Type first 3 letters of Account code">
 					<form:hidden path="" name="tempDebitDetails[0].glcode" id="tempDebitDetails[0].glcode" class="form-control table-input hidden-input debitaccountcode"/> 
 					<form:hidden path="" name="tempDebitDetails[0].glcodeid" id="tempDebitDetails[0].glcodeid" class="form-control table-input hidden-input debitdetailid"/> 
-					<form:hidden path="" name="tempDebitDetails[0].isSubLedger" id="tempDebitDetails[0].isSubLedger" class="form-control table-input hidden-input debitIsSubLedger"/>
+					<!-- <form:hidden path="" name="tempDebitDetails[0].isSubLedger" id="tempDebitDetails[0].isSubLedger" class="form-control table-input hidden-input debitIsSubLedger"/>
 					<form:hidden path="" name="tempDebitDetails[0].detailTypeId" id="tempDebitDetails[0].detailTypeId" class="form-control table-input hidden-input debitDetailTypeId"/>
 					<form:hidden path="" name="tempDebitDetails[0].detailKeyId" id="tempDebitDetails[0].detailKeyId" class="form-control table-input hidden-input debitDetailKeyId"/>
 					<form:hidden path="" name="tempDebitDetails[0].detailTypeName" id="tempDebitDetails[0].detailTypeName" class="form-control table-input hidden-input debitDetailTypeName"/>
-					<form:hidden path="" name="tempDebitDetails[0].detailKeyName" id="tempDebitDetails[0].detailKeyName" class="form-control table-input hidden-input debitDetailKeyName"/>
+					<form:hidden path="" name="tempDebitDetails[0].detailKeyName" id="tempDebitDetails[0].detailKeyName" class="form-control table-input hidden-input debitDetailKeyName"/> -->
 				</td>
 				<td>
 					<input type="text" id="tempDebitDetails[0].debitAccountHead" name="tempDebitDetails[0].debitAccountHead" class="form-control debitdetailname" disabled>  

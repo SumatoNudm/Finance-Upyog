@@ -79,5 +79,7 @@
 <script
   src="<cdn:url value='/resources/app/js/budgethead/budgetcoa.js?rnd=${app_release_no}' context='/services/EGF'/>">
 </script>
+<script
+        src="<cdn:url value='/resources/app/js/i18n/jquery.i18n.properties.js?rnd=${app_release_no}' context='/services/EGF'/>"></script>
 <!-- <script
         src="<cdn:url value='/resources/app/js/expensebill/expensebill.js?rnd=${app_release_no}' context='/services/EGF'/>"></script> -->
