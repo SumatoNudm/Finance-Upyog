@@ -1,21 +1,32 @@
 
 $(document).ready(function () {
-    $.i18n.properties({ 
-		name: 'message', 
-		path: '/services/EGF/resources/app/messages/', 
-		mode: 'both',
-		async: true,
-	    cache: true,
-		language: getLocale("locale"),
-		callback: function() {
-			console.log('File loaded successfully');
-		}
-	});
+    $.i18n.properties({
+        name: 'message',
+        path: '/services/EGF/resources/app/messages/',
+        mode: 'both',
+        async: true,
+        cache: true,
+        language: getLocale("locale"),
+        callback: function () {
+            console.log('File loaded successfully');
+        }
+    });
 
-    // coaGlcode_initialize();
     debitGlcode_initialize();
 
 });
+
+function getCookie(name) {
+    let cookies = document.cookie;
+    if (cookies.search(name) != -1) {
+        var keyValue = cookies.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+        return keyValue ? keyValue[2] : null;
+    }
+}
+
+function getLocale(paramName) {
+    return getCookie(paramName) ? getCookie(paramName) : navigator.language;
+}
 
 function debitGlcode_initialize() {
     var custom = new Bloodhound({
@@ -85,17 +96,11 @@ function debitGlcode_initialize() {
             $(this).parents("tr:first").find('.debitdetailname').val(data.name);
             $(this).parents("tr:first").find('.debitaccountcode').val(data.glcode);
             $(this).parents("tr:first").find('.debitdetailid').val(data.id);
-            // $(this).parents("tr:first").find('.debitIsSubLedger').val(data.issubledger);
-            // $(this).parents("tr:first").find('.debitDetailTypeId').val($('#subLedgerType').val());
-            // $(this).parents("tr:first").find('.debitDetailKeyId').val($('#detailkeyId').val());
-            // $(this).parents("tr:first").find('.debitDetailTypeName').val(detailTypeName);
-            // $(this).parents("tr:first").find('.debitDetailKeyName').val(detailKeyName);
         }
     });
 }
 
 function addDebitDetailsRow() {
-
     $('.debitGlcode').typeahead('destroy');
     $('.debitGlcode').unbind();
     var rowcount = $("#tbldebitdetails tbody tr").length;
@@ -127,34 +132,11 @@ function deleteDebitDetailsRow(obj) {
 
     resetDebitCodes();
 }
-function shortKeyFunForAddButton (zEvent) {
-	var currId = zEvent.target.id;
-	if(currId.startsWith('tempDebitDetails') && zEvent.keyCode == 32){
-		zEvent.preventDefault ();
-    	addDebitDetailsRow();
+function shortKeyFunForAddButton(zEvent) {
+    var currId = zEvent.target.id;
+    if (currId.startsWith('tempDebitDetails') && zEvent.keyCode == 32) {
+        zEvent.preventDefault();
+        addDebitDetailsRow();
     }
-//	$('[data-toggle="tooltip"]').tooltip("hide");
-    zEvent.stopPropagation ();
+    zEvent.stopPropagation();
 }
-
-// function populateAccountCodeTemplateDetails(selectedTemp){
-// 	clearAllDetails();
-// 	var accTempDet = accountCodeTemplateMap[selectedTemp];
-// 	$.each(accTempDet.debitCodeDetails, function(index, value) {
-// 		$('.debitGlcode').typeahead('destroy');
-// 		$('.debitGlcode').unbind();
-// 		$('#tbldebitdetails tbody tr:eq('+index+')').find('.debitDetailGlcode').val(value.glcode+' ~ '+value.name);
-// 		$('#tbldebitdetails tbody tr:eq('+index+')').find('.debitdetailname').val(value.name);
-// 		$('#tbldebitdetails tbody tr:eq('+index+')').find('.debitaccountcode').val(value.glcode);
-// 		$('#tbldebitdetails tbody tr:eq('+index+')').find('.debitdetailid').val(value.id);
-// 		$('#tbldebitdetails tbody tr:eq('+index+')').find('.debitAmount').val("0");
-// 		$('#tbldebitdetails tbody tr:eq('+index+')').find('.debitDetailTypeName').val(detailTypeName);
-// 		$('#tbldebitdetails tbody tr:eq('+index+')').find('.debitDetailKeyName').val(detailKeyName);
-// 		$('#tbldebitdetails tbody tr:eq('+index+')').find('.debitIsSubLedger').val(value.isSubledger ? true : false);
-// 		$('#tbldebitdetails tbody tr:eq('+index+')').find('.debitDetailTypeId').val($('#subLedgerType').val());
-// 		$('#tbldebitdetails tbody tr:eq('+index+')').find('.debitDetailKeyId').val($('#detailkeyId').val());
-// 		debitGlcode_initialize();
-// 		if(++index < accTempDet.debitCodeDetails.length)
-// 			addDebitDetailsRow();
-// 	});
-// }
