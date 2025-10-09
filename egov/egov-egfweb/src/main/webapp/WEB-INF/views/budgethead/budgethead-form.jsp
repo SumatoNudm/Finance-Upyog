@@ -60,19 +60,23 @@
 				<div class="panel-body">
 					<div class="form-group">
 						<label class="col-sm-3 control-label text-right">
-							<spring:message code="lbl.accounttype" text="Account Type" /><span
-								class="mandatory"></span></label>
+							<spring:message code="lbl.accounttype" text="Account Type" />
+							<span class="mandatory"></span>
+						</label>
 						<div class="col-sm-4 add-margin">
 							<form:select path="accountType" id="accountType" cssClass="form-control disablefield"
-								cssErrorClass="form-control error" disabled="disabled">
+								cssErrorClass="form-control error" disabled="disabled" required="required">
+
 								<form:option value="">
 									<spring:message code="lbl.select" text="Select" />
 								</form:option>
 								<form:options items="${budgetAccountTypes}" />
 							</form:select>
+
 							<form:errors path="accountType" cssClass="error-msg" />
 						</div>
 					</div>
+
 					<div class="form-group">
 						<label class="col-sm-3 control-label text-right">
 							<spring:message code="lbl.code" text="Code" /> <span class="mandatory"></span> </label>
@@ -102,7 +106,7 @@
 							</span>
 
 							<span id="noradiobuttonspan" style="float:left;">
-								<input type="radio" id="noradiobutton" name="program" value="no" /> No
+								<input type="radio" id="noradiobutton" name="program" value="no" checked="checked" /> No
 							</span>
 						</div>
 					</div>
