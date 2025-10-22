@@ -13,11 +13,13 @@ CREATE TABLE egf_budgethead
   accountType character varying(100) NOT NULL,
   accountTypeCode character varying(10),
   program character varying(10),
+  category character varying(100),
   isactive boolean,
   createdby bigint NOT NULL,
   lastmodifiedby bigint,
   createddate timestamp without time zone NOT NULL,
   lastmodifieddate timestamp without time zone,
+  version bigint DEFAULT 0,
   CONSTRAINT pk_budgethead PRIMARY KEY (id)
 );
 

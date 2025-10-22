@@ -1,1 +1,0 @@
-ALTER TABLE egf_budgethead ADD COLUMN version bigint DEFAULT 0;
