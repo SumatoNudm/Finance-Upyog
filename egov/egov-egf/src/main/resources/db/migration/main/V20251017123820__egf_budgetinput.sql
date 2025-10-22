@@ -1,13 +1,13 @@
-CREATE SEQUENCE seq_egf_budgetinput
+CREATE SEQUENCE seq_egf_budgetitem
     START WITH 1
     INCREMENT BY 1
     MINVALUE 1
     NO MAXVALUE
     CACHE 1;
 
-CREATE TABLE egf_budgetinput
+CREATE TABLE egf_budgetitem
 (
-  id BIGINT NOT NULL DEFAULT nextval('seq_egf_budgetinput'),
+  id BIGINT NOT NULL DEFAULT nextval('seq_egf_budgetitem'),
   functionid BIGINT,
   budgetheadid BIGINT,
   financialyearid BIGINT,
@@ -18,9 +18,15 @@ CREATE TABLE egf_budgetinput
   currentactual NUMERIC(13,2),
   currentrevisedestimate NUMERIC(13,2),
   nextestimate NUMERIC(13,2),
-  createddate TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(),
 
-  CONSTRAINT pk_budgetinput PRIMARY KEY (id),
+   -- audit fields from AbstractAuditable
+    createdby BIGINT,
+    createddate TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(),
+    lastmodifiedby BIGINT,
+    lastmodifieddate TIMESTAMP WITHOUT TIME ZONE,
+--  createddate TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(),
+
+  CONSTRAINT pk_budgetitem PRIMARY KEY (id),
 
   CONSTRAINT fk_budgethead FOREIGN KEY (budgetheadid)
         REFERENCES egf_budgethead(id) ON DELETE CASCADE,
@@ -35,4 +41,4 @@ CREATE TABLE egf_budgetinput
         REFERENCES financialyear(id) ON DELETE CASCADE
 );
 
-ALTER SEQUENCE seq_egf_budgetinput OWNED BY egf_budgetinput.id;
+ALTER SEQUENCE seq_egf_budgetitem OWNED BY egf_budgetitem.id;
