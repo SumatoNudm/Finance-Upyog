@@ -13,4 +13,7 @@ public interface BudgetHeadRepository extends JpaRepository<BudgetHead, Long> {
     // List<BudgetHead> findByAccountTypeIs(String accountType);
 
     // List<BudgetHead> findByIsActiveTrue();
+
+
+
 }
