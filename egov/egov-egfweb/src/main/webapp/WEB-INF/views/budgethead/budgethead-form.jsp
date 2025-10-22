@@ -47,7 +47,7 @@
   ~
   --%>
 
-<input type="hidden" value="${mode }" id="mode" />
+<input type="hidden" value="${mode }" id="mode" xmlns:spring="http://www.w3.org/1999/XSL/Transform"/>
 <div class="main-content">
 	<div class="row">
 		<div class="col-md-12">
@@ -75,6 +75,10 @@
 
 							<form:errors path="accountType" cssClass="error-msg" />
 						</div>
+					</div>
+
+					<div>
+						<p>${rr}</p>
 					</div>
 
 					<div class="form-group">

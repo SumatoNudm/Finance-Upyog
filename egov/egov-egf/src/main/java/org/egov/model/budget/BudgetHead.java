@@ -44,7 +44,7 @@ public class BudgetHead extends AbstractAuditable {
     @NotNull(message = "Please select accounttype")
     private BudgetAccountType accountType;
 
-    private Boolean Isactive;
+    private Boolean isactive;
 
     @SafeHtml
     @Length(max = 5)
@@ -90,11 +90,11 @@ public class BudgetHead extends AbstractAuditable {
     }
 
     public Boolean getIsActive() {
-        return Isactive;
+        return isactive;
     }
 
-    public void setIsActive(final Boolean Isactive) {
-        this.Isactive = Isactive;
+    public void setIsActive(final Boolean isactive) {
+        this.isactive = isactive;
     }
 
     public String getAccountTypeCode() {

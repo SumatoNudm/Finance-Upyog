@@ -21,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class BudgetHeadController {
 	private static final String BUDGETHEAD_NEW = "budgethead-new";
 	private static final String BUDGET_HEAD = "budgetHead";
+	private static final String BUDGET_HEAD_VIEW = "budgethead-view";
 	
 	@Autowired
 	private BudgetHeadService budgetHeadService;
@@ -35,23 +36,25 @@ public class BudgetHeadController {
 	public String newForm(final Model model) {
 		prepareNewForm(model);
 		model.addAttribute(BUDGET_HEAD, new BudgetHead());
+//		budgetHeadService.getBudgetHeadList(model);
 		return BUDGETHEAD_NEW;
 	}
 
 	@PostMapping(value = "/create")
 	public String create(@Valid @ModelAttribute final BudgetHead budgetHead, final BindingResult errors,
 			final RedirectAttributes redirectAttrs, final Model model) {
-		
+
 		budgetHeadService.create(budgetHead);
 		redirectAttrs.addFlashAttribute("message",
 				messageSource.getMessage("msg.budgetGroup.success", null, Locale.ENGLISH));
 		return "redirect:/budgethead/new";
 	}
 
-	@GetMapping(value = "/view")
+	@PostMapping(value = "/view")
 	public String view(final Model model) {
 		budgetHeadService.getBudgetHeadList(model);
-		return "redirect:/budgethead-view";
+
+		return BUDGET_HEAD_VIEW;
 	}
 
 }
