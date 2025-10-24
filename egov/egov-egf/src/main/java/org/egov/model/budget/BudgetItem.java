@@ -1,0 +1,79 @@
+package org.egov.model.budget;
+
+
+import lombok.Getter;
+import lombok.Setter;
+import org.egov.infra.persistence.entity.AbstractAuditable;
+import org.egov.infra.persistence.validator.annotation.Unique;
+import org.hibernate.envers.Audited;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
+
+@Entity
+@Table(name = BudgetItem.TABLE_NAME)
+@Unique(id = "id", tableName = BudgetItem.TABLE_NAME, enableDfltMsg = true)
+@SequenceGenerator(name = BudgetItem.SEQ_BUDGET_ITEM, sequenceName = BudgetItem.SEQ_BUDGET_ITEM, allocationSize = 1)
+@Audited
+@Setter
+@Getter
+public class BudgetItem extends AbstractAuditable {
+    public static final String TABLE_NAME = "egf_budgetitem";
+    public static final String SEQ_BUDGET_ITEM = "seq_egf_budgetitem";
+
+
+    @Id
+    @GeneratedValue(generator = SEQ_BUDGET_ITEM, strategy = GenerationType.SEQUENCE)
+    private Long id;
+
+
+    @Column(name = "functionid")
+    private Long functionId;
+
+    @Column(name = "budgetheadid")
+    private Long budgetHeadId;
+
+    @Column(name = "financialyearid")
+    private Long financialYearId;
+
+    @Column(name = "currentfinancialyearid")
+    private Long currentFinancialYearId;
+
+    @Column(name = "budgetcode")
+    private String budgetCode;
+
+    @NotNull
+    @Column(name = "budgetgroup")
+    private String budgetGroup;
+
+    @NotNull
+    @Column(name = "currentestimate", precision = 13, scale = 2)
+    private BigDecimal currentEstimate;
+
+    @NotNull
+    @Column(name = "currentactual",  precision = 13, scale = 2)
+    private BigDecimal currentActual;
+
+    @NotNull
+    @Column(name = "currentrevisedestimate",  precision = 13, scale = 2)
+    private BigDecimal currentRevisedEstimate;
+
+    @NotNull
+    @Column(name = "nextestimate",  precision = 13, scale = 2)
+    private BigDecimal nextEstimate;
+
+
+
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    @Override
+    protected void setId(Long id) {
+        this.id = id;
+    }
+
+
+}
