@@ -1,12 +1,9 @@
 package org.egov.commons.budget;
 
 
-import jdk.nashorn.internal.objects.annotations.Getter;
-import jdk.nashorn.internal.objects.annotations.Setter;
 import org.egov.infra.persistence.entity.AbstractAuditable;
 import org.egov.infra.persistence.validator.annotation.Unique;
 import org.hibernate.envers.Audited;
-import org.hibernate.validator.constraints.SafeHtml;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -26,14 +23,11 @@ public class BudgetItem extends AbstractAuditable {
     @GeneratedValue(generator = SEQ_BUDGET_ITEM, strategy = GenerationType.SEQUENCE)
     private Long id;
 
-
     @Column(name = "functionid")
     private Long functionId;
 
-
     @Column(name = "budgetheadid")
     private Long budgetHeadId;
-
 
     @Column(name = "financialyearid")
     private Long financialYearId;
@@ -41,30 +35,24 @@ public class BudgetItem extends AbstractAuditable {
     @Column(name = "currentfinancialyearid")
     private Long currentFinancialYearId;
 
-
     @Column(name = "budgetcode")
     private String budgetCode;
-
 
     @NotNull
     @Column(name = "budgetgroup")
     private String budgetGroup;
 
-
     @NotNull
     @Column(name = "currentestimate", precision = 13, scale = 2)
     private BigDecimal currentEstimate;
-
 
     @NotNull
     @Column(name = "currentactual",  precision = 13, scale = 2)
     private BigDecimal currentActual;
 
-
     @NotNull
     @Column(name = "currentrevisedestimate",  precision = 13, scale = 2)
     private BigDecimal currentRevisedEstimate;
-
 
     @NotNull
     @Column(name = "nextestimate",  precision = 13, scale = 2)
