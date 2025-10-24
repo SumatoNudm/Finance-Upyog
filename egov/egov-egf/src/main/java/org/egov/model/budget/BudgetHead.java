@@ -44,8 +44,6 @@ public class BudgetHead extends AbstractAuditable {
     @NotNull(message = "Please select accounttype")
     private BudgetAccountType accountType;
 
-    private Boolean isactive;
-
     @SafeHtml
     @Length(max = 5)
     private String accountTypeCode;
@@ -53,6 +51,14 @@ public class BudgetHead extends AbstractAuditable {
     @SafeHtml
     @Length(max = 5)
     private String program;
+
+    @SafeHtml
+    @NotNull
+    private String category;
+
+    private Boolean isactive;
+
+
 
     // --- Getters and Setters ---
     @Override
@@ -89,14 +95,6 @@ public class BudgetHead extends AbstractAuditable {
         this.accountType = accountType;
     }
 
-    public Boolean getIsActive() {
-        return isactive;
-    }
-
-    public void setIsActive(final Boolean isactive) {
-        this.isactive = isactive;
-    }
-
     public String getAccountTypeCode() {
         return accountTypeCode;
     }
@@ -111,5 +109,21 @@ public class BudgetHead extends AbstractAuditable {
 
     public void setProgram(final String program) {
         this.program = program;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public Boolean getIsactive() {
+        return isactive;
+    }
+
+    public void setIsactive(Boolean isactive) {
+        this.isactive = isactive;
     }
 }
