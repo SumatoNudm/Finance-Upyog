@@ -3,6 +3,8 @@ package org.egov.model.budget;
 
 import lombok.Getter;
 import lombok.Setter;
+
+import org.egov.commons.CFunction;
 import org.egov.infra.persistence.entity.AbstractAuditable;
 import org.egov.infra.persistence.validator.annotation.Unique;
 import org.hibernate.envers.Audited;
@@ -28,17 +30,21 @@ public class BudgetItem extends AbstractAuditable {
     private Long id;
 
 
-    @Column(name = "functionid")
-    private Long functionId;
+    @ManyToOne
+    @JoinColumn(name = "functionid")
+    private CFunction function;
+
+    // @Column(name = "functionid")
+    // private Long function;
 
     @Column(name = "budgetheadid")
     private Long budgetHeadId;
 
     @Column(name = "financialyearid")
-    private Long financialYearId;
+    private Long financialYear;
 
     @Column(name = "currentfinancialyearid")
-    private Long currentFinancialYearId;
+    private Long currentFinancialYear;
 
     @Column(name = "budgetcode")
     private String budgetCode;
@@ -64,7 +70,6 @@ public class BudgetItem extends AbstractAuditable {
     private BigDecimal nextEstimate;
 
 
-
     @Override
     public Long getId() {
         return id;
@@ -73,6 +78,14 @@ public class BudgetItem extends AbstractAuditable {
     @Override
     protected void setId(Long id) {
         this.id = id;
+    }
+
+    public CFunction getFunction() {
+        return function;
+    }
+
+    public void setFunction(final CFunction function) {
+        this.function = function;
     }
 
 
