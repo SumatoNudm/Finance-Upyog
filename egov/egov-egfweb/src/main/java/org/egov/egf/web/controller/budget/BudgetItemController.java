@@ -3,7 +3,6 @@ package org.egov.egf.web.controller.budget;
 
 import org.egov.commons.CFunction;
 import org.egov.commons.service.FunctionService;
-import org.egov.model.budget.BudgetHead;
 import org.egov.model.budget.BudgetItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,7 +26,8 @@ public class BudgetItemController {
 
     @RequestMapping(value = "/new", method = { RequestMethod.GET, RequestMethod.POST })
 	public String newForm(final Model model) {
-		model.addAttribute(BUDGET_ITEM, new BudgetItem());
+	//	model.addAttribute(BUDGET_ITEM, new BudgetItem());
+    model.addAttribute("function", new CFunction());
 		return BUDGET_ITEM_NEW;
 	}
 
