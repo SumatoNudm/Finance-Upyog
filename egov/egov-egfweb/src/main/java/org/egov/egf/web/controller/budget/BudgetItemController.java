@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 
@@ -36,14 +38,28 @@ public class BudgetItemController {
 	}
 
 
-	@RequestMapping(value = "/form", method = {RequestMethod.POST})
-	public String budgetForm(@ModelAttribute("id") Long id, final Model model) {
+	// @RequestMapping(value = "/form", method = {RequestMethod.POST})
+	// public String budgetForm(@ModelAttribute("functionId") Long functionId, final Model model) {
+	// 	CFunction function = functionService.findOne(functionId);
+	// 	model.addAttribute("function", function);
+	// 	return BUDGET_FORM;
+	// }
 
-		CFunction function = functionService.findOne(id);
-//		LOGGER.info("Inside of budget form method");
-//		LOGGER.info("Function Id" + function.getId() + ", Name: "+ function.getName()+", code: "+ function.getCode() + ", type: " + function.getType());
-		model.addAttribute("function", function);
-		return BUDGET_FORM;
-	}
+    @PostMapping("/form")
+    public String showBudgetForm(@RequestParam("functionId") Long functionId, Model model) {
+        CFunction function = functionService.findOne(functionId);
+
+        if (function == null) {
+            model.addAttribute("error", "Invalid function selected!");
+            model.addAttribute("function", new CFunction());
+            return BUDGET_ITEM_NEW;
+        }
+
+        BudgetItem budgetItem = new BudgetItem();
+        budgetItem.setFunction(function);
+
+        model.addAttribute("budgetItem", budgetItem);
+        return BUDGET_FORM;
+    }
 
 }

@@ -17,6 +17,16 @@
 									<spring:message code="lbl.budget.input" text="Budget Input" />
 								</div>
 							</div>
+
+							<div class="col-sm-3 add-margin">
+								<label for="function">Function</label>
+
+								<form:input path="function.name" id="function" class="form-control" readonly="true"
+									value="${budgetItem.function.code} - ${budgetItem.function.name}" />
+
+								<form:hidden path="function.id" id="functionId" />
+							</div>
+
 							<div class="panel-body">
 								<div class="form-group">
 									<label class="col-sm-3 control-label text-right">
@@ -131,9 +141,9 @@
 	</div>
 </form:form>
 <script>
-  $('#buttonSubmit').click(function (e) {
-    if ($('form').valid()) {} else {
-      e.preventDefault();
-    }
-  });
+	$('#buttonSubmit').click(function (e) {
+		if ($('form').valid()) {} else {
+			e.preventDefault();
+		}
+	});
 </script>
