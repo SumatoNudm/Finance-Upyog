@@ -7,7 +7,6 @@ import lombok.Setter;
 import org.egov.commons.CFunction;
 import org.egov.infra.persistence.entity.AbstractAuditable;
 import org.egov.infra.persistence.validator.annotation.Unique;
-import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -17,7 +16,6 @@ import java.math.BigDecimal;
 @Table(name = BudgetItem.TABLE_NAME)
 @Unique(id = "id", tableName = BudgetItem.TABLE_NAME, enableDfltMsg = true)
 @SequenceGenerator(name = BudgetItem.SEQ_BUDGET_ITEM, sequenceName = BudgetItem.SEQ_BUDGET_ITEM, allocationSize = 1)
-@Audited
 @Setter
 @Getter
 public class BudgetItem extends AbstractAuditable {

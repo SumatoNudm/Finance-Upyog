@@ -15,18 +15,13 @@
 								<spring:message code="lbl.function" text="Function" /> <span class="mandatory"></span>
 							</label>
 							<div class="col-sm-3 add-margin">
-								<c:if test="${budgetItem.function != null}">
 									<form:input path="" name="function" id="function" class="form-control"
 										placeholder="Type first 3 letters of Function name" required="required"
-										value="${budgetItem.function.code} - ${budgetItem.function.name}" />
-								</c:if>
-								<c:if test="${budgetItem.function == null}">
-									<form:input path="" name="function" id="function" class="form-control"
-										placeholder="Type first 3 letters of Function name" required="required" />
-								</c:if>
-								<form:hidden path="budgetItem.function" name="budgetItem.function"
-									id="budgetItem.function" class="form-control table-input hidden-input cfunction" />
-								<form:errors path="budgetItem.function" cssClass="add-margin error-msg" />
+										value="${function.code} - ${function.name}" />
+
+								<form:hidden path="function" name="function"
+									id="function" class="form-control table-input hidden-input cfunction" />
+								<form:errors path="function" cssClass="add-margin error-msg" />
 							</div>
 						</div>
 
