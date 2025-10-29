@@ -28,14 +28,19 @@ $(document).ready(function () {
         displayKey: 'codeName',
         source: functionName.ttAdapter()
     }).on('typeahead:selected', function (event, data) {
-        $(".cfunction").val(data.id);
+        $(".functionId").val(data.id);
     });
 
 });
-$('#function').blur(function () {
-    if ($('.cfunction').val() == "") {
-        bootbox.alert("Please select function from dropdown values", function () {
-            $('#function').val("");
-        });
-    }
+//$('#function').blur(function () {
+//    if ($('.cfunction').val() == "") {
+//        bootbox.alert("Please select function from dropdown values", function () {
+//            $('#function').val("");
+//        });
+//    }
+//});
+
+// Clear ID if user manually edits
+$('#functionName').on('input', function () {
+    $('#functionId').val("");
 });

@@ -18,12 +18,14 @@
           <spring:message code="lbl.function" text="Function" /> <span class="mandatory"></span>
         </label>
         <div class="col-sm-3 add-margin">
-            <form:input path="" name="function" id="function" class="form-control"
+            <form:input path="name" name="function" id="function" class="form-control"
               placeholder="Type first 3 letters of Function name" required="required" />
 
-          <form:hidden path="id" name="functionId" id="function"
-            class="form-control table-input hidden-input cfunction" />
+
+          <form:hidden path="id" name="id" id="functionid" class="form-control table-input hidden-input cfunction"/>
           <form:errors path="id" cssClass="add-margin error-msg" />
+
+
         </div>
       </div>
 

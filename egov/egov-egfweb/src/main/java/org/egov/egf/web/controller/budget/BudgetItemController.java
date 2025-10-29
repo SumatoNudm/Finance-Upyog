@@ -1,8 +1,10 @@
 package org.egov.egf.web.controller.budget;
 
 
+import org.apache.log4j.Logger;
 import org.egov.commons.CFunction;
 import org.egov.commons.service.FunctionService;
+import org.egov.egf.contract.model.Function;
 import org.egov.model.budget.BudgetItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +22,8 @@ public class BudgetItemController {
     private static final String BUDGET_ITEM = "budgetItem";
     private static final String BUDGET_FORM = "budgetitem-form";
 
+	private static final Logger LOGGER = Logger.getLogger(BudgetItemController.class);
+
 	@Autowired
 	private FunctionService functionService;
 
@@ -33,8 +37,11 @@ public class BudgetItemController {
 
 
 	@RequestMapping(value = "/form", method = {RequestMethod.POST})
-	public String budgetForm(@ModelAttribute("functionId") Long functionId, final Model model) {
-		CFunction function = functionService.findOne(functionId);
+	public String budgetForm(@ModelAttribute("id") Long id, final Model model) {
+
+		CFunction function = functionService.findOne(id);
+//		LOGGER.info("Inside of budget form method");
+//		LOGGER.info("Function Id" + function.getId() + ", Name: "+ function.getName()+", code: "+ function.getCode() + ", type: " + function.getType());
 		model.addAttribute("function", function);
 		return BUDGET_FORM;
 	}
