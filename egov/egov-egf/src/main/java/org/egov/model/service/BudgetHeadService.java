@@ -89,4 +89,9 @@ public class BudgetHeadService {
     }
 
 
+    public List<BudgetHead> findBudgetHeadByNameOrCode(final String query) {
+        return budgetHeadRepository.findByCodeContainingIgnoreCaseOrNameContainingIgnoreCase(query, query);
+    }
+
+
 }

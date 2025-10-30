@@ -1,6 +1,7 @@
 package org.egov.egf.web.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 import javax.validation.Valid;
@@ -8,8 +9,10 @@ import javax.validation.Valid;
 import org.egov.model.budget.BudgetHead;
 import org.egov.model.service.BudgetHeadService;
 import org.egov.utils.BudgetAccountType;
+import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -56,5 +59,14 @@ public class BudgetHeadController {
 
 		return BUDGET_HEAD_VIEW;
 	}
+
+
+	@GetMapping(value = "/ajaxBudgetHead", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<BudgetHead> findBudgetHead(@RequestParam @SafeHtml final String query) {
+		final List<BudgetHead> budgetHeads = budgetHeadService.findBudgetHeadByNameOrCode(query);
+		return budgetHeads;
+	}
+
 
 }

@@ -15,5 +15,7 @@ public interface BudgetHeadRepository extends JpaRepository<BudgetHead, Long> {
     // List<BudgetHead> findByIsActiveTrue();
 
 
+    List<BudgetHead> findByCodeContainingIgnoreCaseOrNameContainingIgnoreCase(String code, String name);
+
 
 }
