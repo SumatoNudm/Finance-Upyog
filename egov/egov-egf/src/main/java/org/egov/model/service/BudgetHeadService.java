@@ -83,5 +83,10 @@ public class BudgetHeadService {
 
     }
 
+    public List<BudgetHead> getActiveBudgetHeads() {
+        List<BudgetHead> budgetHeads = budgetHeadRepository.findAll();
+        return budgetHeads;
+    }
+
 
 }

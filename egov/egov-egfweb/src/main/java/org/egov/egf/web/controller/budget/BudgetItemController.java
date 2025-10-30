@@ -4,7 +4,11 @@ import org.apache.log4j.Logger;
 import org.egov.commons.CFunction;
 import org.egov.commons.service.FunctionService;
 import org.egov.egf.contract.model.Function;
+import org.egov.model.budget.BudgetHead;
 import org.egov.model.budget.BudgetItem;
+import org.egov.model.budget.Item;
+import org.egov.model.budget.ItemForm;
+import org.egov.model.service.BudgetHeadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/budget")
@@ -27,6 +32,9 @@ public class BudgetItemController {
 
 	@Autowired
 	private FunctionService functionService;
+
+	@Autowired
+	private BudgetHeadService budgetHeadService;
 
 	@RequestMapping(value = "/new", method = { RequestMethod.GET, RequestMethod.POST })
 	public String newForm(final Model model) {
@@ -54,6 +62,15 @@ public class BudgetItemController {
 		function.getName()+", code: "+ function.getCode() + ", type: " +
 		function.getType());
 		model.addAttribute("function", function);
+
+
+		ItemForm itemForm = new ItemForm();
+
+		// Add one empty row by default
+		itemForm.getItems().add(new Item());
+
+		model.addAttribute("itemForm", itemForm);
+
 		return BUDGET_FORM;
 	}
 
