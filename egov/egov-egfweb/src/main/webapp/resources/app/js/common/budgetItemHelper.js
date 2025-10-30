@@ -28,7 +28,7 @@ $(document).ready(function () {
         displayKey: 'codeName',
         source: functionName.ttAdapter()
     }).on('typeahead:selected', function (event, data) {
-        $(".functionId").val(data.id);
+        $("#functionId").val(data.id);
     });
 
 });

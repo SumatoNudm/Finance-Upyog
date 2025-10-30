@@ -1,8 +1,6 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <form:form role="form" action="create" modelAttribute="function" id="budgetItemFunction"
 	cssClass="form-horizontal form-groups-bordered" enctype="multipart/form-data">
-	<input type="hidden" value="${mode }" id="mode" xmlns:spring="http://www.w3.org/1999/XSL/Transform" />
-
 	<div class="form-group">
 		<div class="text-center">
 			<button type='submit' class='btn btn-primary' id="buttonSubmit">
