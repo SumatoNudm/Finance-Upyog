@@ -22,7 +22,7 @@
               <form:input path="name" name="function" id="function" class="form-control"
                 placeholder="Type first 3 letters of Function name" required="required" />
 
-              <form:hidden path="id" name="id" id="functionid"
+              <form:hidden path="id" name="id" id="functionId"
                 class="form-control table-input hidden-input cfunction" />
               <form:errors path="id" cssClass="add-margin error-msg" />
             </div>
@@ -60,4 +60,4 @@
 <script src="<cdn:url value='/resources/app/js/common/helper.js?rnd=${app_release_no}' context='/services/EGF'/>">
 </script>
 
-<script src="<cdn:url value='/resources/app/js/common/budgetItemHelper.js' context='/services/EGF'/>"></script>
+<script src="<cdn:url value='/resources/app/js/budget/budgetItemHelper.js' context='/services/EGF'/>"></script>
