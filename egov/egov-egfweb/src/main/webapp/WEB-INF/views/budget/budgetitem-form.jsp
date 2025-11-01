@@ -29,16 +29,20 @@
 				<div class="panel panel-primary" data-collapsed="0">
 					<div class="panel-heading">
 						<div class="panel-title">
-							<spring:message code="lbl.budget.input" text="Budget Input" />
+							<!-- <spring:message code="lbl.budget.input" text="Budget Input" /> -->
+							 Function:
+							${function.name} (<span class="text-muted">${function.code}</span>)
+							<input type="hidden" id="functionCode" name="functionCode" value="${function.code}" />
 						</div>
 					</div>
 
 					<div class="panel-body">
 						<!-- Function Info -->
-						<div class="col-sm-9 add-margin mb-6">
+						<!-- <div class="col-sm-9 add-margin pb-6">
 							<strong>Function:</strong>
 							${function.name} (<span class="text-muted">${function.code}</span>)
-						</div>
+							<input type="hidden" id="functionCode" name="functionCode" value="${function.code}" />
+						</div> -->
 
 						<!-- Opening Table -->
 						<table class="table table-bordered" id="dynamicTable">
@@ -74,9 +78,13 @@
 											data-errormsg="Budget Code is mandatory!" data-idx="0" data-optional="0"
 											placeholder="Type first 3 letters of Budget code">
 									</td>
+									
 									<form:hidden path="" name="tempBudgetDetails[0].budgetheadcode"
 										id="tempBudgetDetails[0].budgetheadcode"
 										class="form-control table-input hidden-input budgetheadcode" />
+									<form:hidden path="" name="tempBudgetDetails[0].budgetCode"
+										id="tempBudgetDetails[0].budgetCode"
+										class="form-control table-input hidden-input budgetCode" />
 									<td style="width: 15%;"><input type="text" name="items[1].value1"
 											class="form-control"></td>
 									<td style="width: 15%;"><input type="text" name="items[1].value2"
