@@ -1,4 +1,6 @@
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@ include file="/includes/taglibs.jsp"%>
+<%@ taglib uri="/WEB-INF/tags/cdn.tld" prefix="cdn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%
     java.util.Calendar cal = java.util.Calendar.getInstance();
@@ -53,45 +55,59 @@
 							<tbody>
 								<tr>
 									<td style="width: 30%;">Opening Balance as on 01.04.<%= startYear %></td>
-									<td style="width: 15%;"><input type="text" name="items[0].value1" class="form-control"></td>
-									<td style="width: 15%;"><input type="text" name="items[0].value2" class="form-control"></td>
-									<td style="width: 15%;"><input type="text" name="items[0].value3" class="form-control"></td>
-									<td style="width: 15%;"><input type="text" name="items[0].value4" class="form-control"></td>
+									<td style="width: 15%;"><input type="text" name="items[0].value1"
+											class="form-control"></td>
+									<td style="width: 15%;"><input type="text" name="items[0].value2"
+											class="form-control"></td>
+									<td style="width: 15%;"><input type="text" name="items[0].value3"
+											class="form-control"></td>
+									<td style="width: 15%;"><input type="text" name="items[0].value4"
+											class="form-control"></td>
 									<td style="width: 10%;"></td>
 								</tr>
 
-								<tr>
+								<tr id="budgetdetailsrow">
 									<td style="width: 30%;">
-										<select name="items[1].category" class="form-control">
-											<option value="">-- Select --</option>
-											<option value="TYPE1">Type 1</option>
-											<option value="TYPE2">Type 2</option>
-											<option value="TYPE3">Type 3</option>
-										</select>
+										<input type="text" id="tempBudgetDetails[0].budgetcode"
+											name="tempBudgetDetails[0].budgetcode"
+											class="form-control table-input budgetHeadcode budgetcode"
+											data-errormsg="Budget Code is mandatory!" data-idx="0" data-optional="0"
+											placeholder="Type first 3 letters of Budget code">
 									</td>
-									<td style="width: 15%;"><input type="text" name="items[1].value1" class="form-control"></td>
-									<td style="width: 15%;"><input type="text" name="items[1].value2" class="form-control"></td>
-									<td style="width: 15%;"><input type="text" name="items[1].value3" class="form-control"></td>
-									<td style="width: 15%;"><input type="text" name="items[1].value4" class="form-control"></td>
-									
-									<td class="text-center"  style="width: 10%;">
-										<span style="cursor:pointer;" class="addRow" tabindex="0" data-toggle="tooltip"
-											title="Press SPACE to Add!" aria-hidden="true">
-											<i class="fa fa-plus text-success"></i>
-										</span>
-										<span class="add-padding removeRow" style="cursor:pointer;"
-											data-toggle="tooltip" title="Delete!" aria-hidden="true">
-											<i class="fa fa-trash text-danger"></i>
-										</span>
+									<form:hidden path="" name="tempBudgetDetails[0].budgetheadcode"
+										id="tempBudgetDetails[0].budgetheadcode"
+										class="form-control table-input hidden-input budgetheadcode" />
+									<td style="width: 15%;"><input type="text" name="items[1].value1"
+											class="form-control"></td>
+									<td style="width: 15%;"><input type="text" name="items[1].value2"
+											class="form-control"></td>
+									<td style="width: 15%;"><input type="text" name="items[1].value3"
+											class="form-control"></td>
+									<td style="width: 15%;"><input type="text" name="items[1].value4"
+											class="form-control"></td>
+
+									<td class="text-center" style="width: 10%;">
+										<span style="cursor:pointer;" onclick="addBudgetDetailsRow();" tabindex="0"
+											id="tempBudgetDetails[0].addButton" data-toggle="tooltip" title=""
+											data-original-title="press SPACE to Add!" aria-hidden="true"><i
+												class="fa fa-plus"></i></span>
+										<span class="add-padding debit-delete-row"
+											onclick="deleteBudgetDetailsRow(this);"><i class="fa fa-trash"
+												aria-hidden="true" data-toggle="tooltip" title=""
+												data-original-title="Delete!"></i></span>
 									</td>
 								</tr>
 
-								<tr>
+								<tr id="closingBalancerow">
 									<td style="width: 30%;">Closing Balance as on 31.03.<%= endYear %></td>
-									<td style="width: 15%;"><input type="text" name="items[2].value1" class="form-control"></td>
-									<td style="width: 15%;"><input type="text" name="items[2].value2" class="form-control"></td>
-									<td style="width: 15%;"><input type="text" name="items[2].value3" class="form-control"></td>
-									<td style="width: 15%;"><input type="text" name="items[2].value4" class="form-control"></td>
+									<td style="width: 15%;"><input type="text" name="items[2].value1"
+											class="form-control"></td>
+									<td style="width: 15%;"><input type="text" name="items[2].value2"
+											class="form-control"></td>
+									<td style="width: 15%;"><input type="text" name="items[2].value3"
+											class="form-control"></td>
+									<td style="width: 15%;"><input type="text" name="items[2].value4"
+											class="form-control"></td>
 									<td style="width: 10%;"></td>
 								</tr>
 							</tbody>
@@ -118,65 +134,89 @@
 	</div> <!-- /main-content -->
 </form:form>
 
+
+
 <!-- JS -->
-<script>
-	$(document).ready(function () {
-		var rowIndex = 2; // continue from existing rows
-
-		// Add new row
-		$(document).on("click", ".addRow", function () {
-			let newRow = `<tr>
-                <td>
-                    <select name="items[${rowIndex}].category" class="form-control">
-                        <option value="">-- Select --</option>
-                        <option value="TYPE1">Type 1</option>
-                        <option value="TYPE2">Type 2</option>
-                        <option value="TYPE3">Type 3</option>
-                    </select>
-                </td>
-                <td><input type="text" name="items[${rowIndex}].value1" class="form-control"></td>
-                <td><input type="text" name="items[${rowIndex}].value2" class="form-control"></td>
-                <td><input type="text" name="items[${rowIndex}].value3" class="form-control"></td>
-                <td><input type="text" name="items[${rowIndex}].value4" class="form-control"></td>
-                <td class="text-center">
-                    <span style="cursor:pointer;" class="addRow" tabindex="0"
-                        data-toggle="tooltip" title="Add new row" aria-hidden="true">
-                        <i class="fa fa-plus text-success"></i>
-                    </span>
-                    <span class="add-padding removeRow" style="cursor:pointer;"
-                        data-toggle="tooltip" title="Delete row" aria-hidden="true">
-                        <i class="fa fa-trash text-danger"></i>
-                    </span>
-                </td>
-            </tr>`;
-
-			// ✅ Insert new row before the closing balance row
-			$("#dynamicTable tbody tr:last").before(newRow);
-
-			rowIndex++;
-		});
-
-		// Remove row
-		$(document).on("click", ".removeRow", function () {
-			// Count total editable rows (exclude first and last fixed rows)
-			let totalDynamicRows = $("#dynamicTable tbody tr").length - 2;
-
-			if (totalDynamicRows > 1) {
-				$(this).closest("tr").remove();
-			} else {
-				alert("At least one row must be present.");
-			}
-		});
-
-		// Bootstrap tooltip activation
-		$('[data-toggle="tooltip"]').tooltip();
-
-		// Validate before submit
-		$("#buttonSubmit").click(function (e) {
-			if (!$('#budgetItemFunction').valid()) {
-				e.preventDefault();
-			}
-		});
-	});
+ <script
+  src="<cdn:url value='/resources/app/js/i18n/jquery.i18n.properties.js?rnd=${app_release_no}' context='/services/EGF'/>">
 </script>
+<script src="<cdn:url value='/resources/app/js/budget/budgetItemFormHelper.js' context='/services/EGF'/>"></script>
+<script src="<cdn:url value='/resources/app/js/common/helper.js?rnd=${app_release_no}' context='/services/EGF'/>">
+</script>
+<!-- <script>
+$(document).ready(function () {
+    var rowIndex = 2; // continue from existing rows
+    var budgetHeadOptions = '<option value="">-- Select --</option>'; // placeholder
 
+    // ✅ Load budget heads from server via AJAX (once)
+    $.ajax({
+        url: "/services/EGF/budgethead/ajaxBudgetHead",
+        type: "GET",
+        data: { query: "" }, // send empty query to get all, or change logic if needed
+        success: function(data) {
+            data.forEach(function(head) {
+                budgetHeadOptions += `<option value="${head.id}">${head.name} - ${head.code}</option>`;
+            });
+
+            // Populate existing selects once data is ready
+            $("#dynamicTable tbody select").each(function() {
+                $(this).html(budgetHeadOptions);
+            });
+        },
+        error: function() {
+            alert("Failed to load budget heads.");
+        }
+    });
+
+    // ✅ Add new row
+    $(document).on("click", ".addRow", function () {
+        let newRow = `<tr>
+            <td>
+                <select name="items[${rowIndex}].category" class="form-control">
+                    ${budgetHeadOptions}
+                </select>
+            </td>
+            <td><input type="text" name="items[${rowIndex}].value1" class="form-control"></td>
+            <td><input type="text" name="items[${rowIndex}].value2" class="form-control"></td>
+            <td><input type="text" name="items[${rowIndex}].value3" class="form-control"></td>
+            <td><input type="text" name="items[${rowIndex}].value4" class="form-control"></td>
+            <td class="text-center">
+                <span style="cursor:pointer;" class="addRow" tabindex="0"
+                    data-toggle="tooltip" title="Add new row" aria-hidden="true">
+                    <i class="fa fa-plus text-success"></i>
+                </span>
+                <span class="add-padding removeRow" style="cursor:pointer;"
+                    data-toggle="tooltip" title="Delete row" aria-hidden="true">
+                    <i class="fa fa-trash text-danger"></i>
+                </span>
+            </td>
+        </tr>`;
+
+        // Insert new row before closing balance row
+        $("#dynamicTable tbody tr:last").before(newRow);
+
+        rowIndex++;
+    });
+
+    // ✅ Remove row (ensure at least one dynamic row remains)
+    $(document).on("click", ".removeRow", function () {
+        let totalDynamicRows = $("#dynamicTable tbody tr").length - 2;
+
+        if (totalDynamicRows > 1) {
+            $(this).closest("tr").remove();
+        } else {
+            alert("At least one row must be present.");
+        }
+    });
+
+    // ✅ Activate tooltips
+    $('[data-toggle="tooltip"]').tooltip();
+
+    // ✅ Validate before submit
+    $("#buttonSubmit").click(function (e) {
+        if (!$('#budgetItemFunction').valid()) {
+            e.preventDefault();
+        }
+    });
+});
+</script> -->
