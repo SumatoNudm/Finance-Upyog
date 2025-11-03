@@ -45,6 +45,32 @@
 						</div> -->
 
 						<!-- Opening Table -->
+						<table class="table table-bordered" id="openingBalanceTable">
+							<thead>
+								<tr>
+									<th></th>
+									<th>BE <strong><%= currentFY %></strong></th>
+									<th>Actuals <strong><%= currentFY %></strong> (9 months)</th>
+									<th>RE <strong><%= currentFY %></strong></th>
+									<th>BE <strong><%= nextFY %></strong></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<input type="hidden" id="budgetGroup" name="budgetGroup" value="Opening_Balance" />
+									<td style="width: 40%;">Opening Balance as on 01.04.<%= startYear %></td>
+									<td style="width: 15%;"><input type="text" name="items[0].value1"
+											class="form-control"></td>
+									<td style="width: 15%;"><input type="text" name="items[0].value2"
+											class="form-control"></td>
+									<td style="width: 15%;"><input type="text" name="items[0].value3"
+											class="form-control"></td>
+									<td style="width: 15%;"><input type="text" name="items[0].value4"
+											class="form-control"></td>
+								</tr>
+							</tbody>
+						</table>
+
 						<table class="table table-bordered" id="dynamicTable">
 							<thead>
 								<tr>
@@ -57,25 +83,12 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td style="width: 30%;">Opening Balance as on 01.04.<%= startYear %></td>
-									<td style="width: 15%;"><input type="text" name="items[0].value1"
-											class="form-control"></td>
-									<td style="width: 15%;"><input type="text" name="items[0].value2"
-											class="form-control"></td>
-									<td style="width: 15%;"><input type="text" name="items[0].value3"
-											class="form-control"></td>
-									<td style="width: 15%;"><input type="text" name="items[0].value4"
-											class="form-control"></td>
-									<td style="width: 10%;"></td>
-								</tr>
-
 								<tr id="budgetdetailsrow">
 									<td style="width: 30%;">
 										<input type="text" id="tempBudgetDetails[0].budgetcode"
 											name="tempBudgetDetails[0].budgetcode"
 											class="form-control table-input budgetHeadcode budgetcode"
-											data-errormsg="Budget Code is mandatory!" data-idx="0" data-optional="0"
+											data-errormsg="Budget Head Code is mandatory!" data-idx="0" data-optional="0"
 											placeholder="Type first 3 letters of Budget code">
 									</td>
 									
@@ -85,6 +98,11 @@
 									<form:hidden path="" name="tempBudgetDetails[0].budgetCode"
 										id="tempBudgetDetails[0].budgetCode"
 										class="form-control table-input hidden-input budgetCode" />
+									<form:hidden path="" name="tempBudgetDetails[0].budgetGroup"
+										id="tempBudgetDetails[0].budgetGroup"
+										class="form-control table-input hidden-input budgetGroup" />
+
+										
 									<td style="width: 15%;"><input type="text" name="items[1].value1"
 											class="form-control"></td>
 									<td style="width: 15%;"><input type="text" name="items[1].value2"
@@ -105,9 +123,23 @@
 												data-original-title="Delete!"></i></span>
 									</td>
 								</tr>
+							</tbody>
+						</table>
 
+						<table class="table table-bordered" id="closingBalanceTable">
+							<thead>
+								<tr>
+									<th></th>
+									<th>BE <strong><%= currentFY %></strong></th>
+									<th>Actuals <strong><%= currentFY %></strong> (9 months)</th>
+									<th>RE <strong><%= currentFY %></strong></th>
+									<th>BE <strong><%= nextFY %></strong></th>
+								</tr>
+							</thead>
+							<tbody>
 								<tr id="closingBalancerow">
-									<td style="width: 30%;">Closing Balance as on 31.03.<%= endYear %></td>
+									<input type="hidden" id="budgetGroup" name="budgetGroup" value="Closing_Balance" />
+									<td style="width: 40%;">Closing Balance as on 31.03.<%= endYear %></td>
 									<td style="width: 15%;"><input type="text" name="items[2].value1"
 											class="form-control"></td>
 									<td style="width: 15%;"><input type="text" name="items[2].value2"
@@ -116,7 +148,6 @@
 											class="form-control"></td>
 									<td style="width: 15%;"><input type="text" name="items[2].value4"
 											class="form-control"></td>
-									<td style="width: 10%;"></td>
 								</tr>
 							</tbody>
 						</table>
