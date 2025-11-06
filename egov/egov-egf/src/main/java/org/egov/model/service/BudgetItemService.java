@@ -1,5 +1,7 @@
 package org.egov.model.service;
 
+import java.util.List;
+
 import org.egov.egf.form.BudgetForm;
 import org.egov.model.budget.BudgetItem;
 import org.egov.model.repository.BudgetItemRepository;
@@ -29,20 +31,20 @@ public class BudgetItemService {
         }
 
         // Save Revenue/Capital Budget Items
-        // if (form.getItems() != null && !form.getItems().isEmpty()) {
-        //     List<BudgetItem> items = form.getItems();
-        //     for (BudgetItem item : items) {
-        //         // item.getBudgetGroup() could be "Revenue_Budget" or "Capital_Budget"
-        //         budgetItemRepository.save(item);
-        //     }
-        // }
+        if (form.getItems() != null && !form.getItems().isEmpty()) {
+            List<BudgetItem> items = form.getItems();
+            for (BudgetItem item : items) {
+                item.getBudgetGroup();
+                budgetItemRepository.save(item);
+            }
+        }
 
         // Save Closing Balance
-        // if (form.getClosing() != null) {
-        //     BudgetItem closing = form.getClosing();
-        //     closing.setBudgetGroup("Closing_Balance");
-        //     budgetItemRepository.save(closing);
-        // }
+        if (form.getClosing() != null) {
+            BudgetItem closing = form.getClosing();
+            closing.setBudgetGroup("Closing_Balance");
+            budgetItemRepository.save(closing);
+        }
     }
     
 }

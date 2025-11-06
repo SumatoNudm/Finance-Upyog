@@ -59,6 +59,8 @@
 								<tr>
 									<input type="hidden" id="opening.budgetgroup" name="opening.budgetgroup"
 										value="Opening_Balance" />
+									<input type="hidden" id="opening.functionid" name="opening.functionid"
+										value="${function.id}" />
 									<td style="width: 40%;">Opening Balance as on 01.04.<%= startYear %></td>
 									<td style="width: 15%;"><input type="text" name="opening.currentEstimate"
 											data-pattern="decimalvalue" maxlength="12" class="form-control"></td>
@@ -72,7 +74,7 @@
 							</tbody>
 						</table>
 
-						<!-- <table class="table table-bordered" id="dynamicTable">
+						<table class="table table-bordered" id="dynamicTable">
 							<thead>
 								<tr>
 									<th>Budget Head</th>
@@ -104,13 +106,13 @@
 										class="form-control table-input hidden-input budgetGroup" />
 
 
-									<td style="width: 15%;"><input type="text" name="items[1].value1"
+									<td style="width: 15%;"><input type="text" name="items[0].currentEstimate"
 											class="form-control"></td>
-									<td style="width: 15%;"><input type="text" name="items[1].value2"
+									<td style="width: 15%;"><input type="text" name="items[0].currentActual"
 											class="form-control"></td>
-									<td style="width: 15%;"><input type="text" name="items[1].value3"
+									<td style="width: 15%;"><input type="text" name="items[0].currentRevisedEstimate"
 											class="form-control"></td>
-									<td style="width: 15%;"><input type="text" name="items[1].value4"
+									<td style="width: 15%;"><input type="text" name="items[0].nextEstimate"
 											class="form-control"></td>
 
 									<td class="text-center" style="width: 10%;">
@@ -125,9 +127,9 @@
 									</td>
 								</tr>
 							</tbody>
-						</table> -->
+						</table>
 
-						<!-- <table class="table table-bordered" id="closingBalanceTable">
+						<table class="table table-bordered" id="closingBalanceTable">
 							<thead>
 								<tr>
 									<th></th>
@@ -141,17 +143,17 @@
 								<tr id="closingBalancerow">
 									<input type="hidden" id="budgetGroup" name="budgetGroup" value="Closing_Balance" />
 									<td style="width: 40%;">Closing Balance as on 31.03.<%= endYear %></td>
-									<td style="width: 15%;"><input type="text" name="items[2].value1"
+									<td style="width: 15%;"><input type="text" name="closing.currentEstimate"
 											class="form-control"></td>
-									<td style="width: 15%;"><input type="text" name="items[2].value2"
+									<td style="width: 15%;"><input type="text" name="closing.currentActual"
 											class="form-control"></td>
-									<td style="width: 15%;"><input type="text" name="items[2].value3"
+									<td style="width: 15%;"><input type="text" name="closing.currentRevisedEstimate"
 											class="form-control"></td>
-									<td style="width: 15%;"><input type="text" name="items[2].value4"
+									<td style="width: 15%;"><input type="text" name="closing.nextEstimate"
 											class="form-control"></td>
 								</tr>
 							</tbody>
-						</table> -->
+						</table>
 
 						<!-- Submit Button -->
 						<div class="text-center mt-4">
