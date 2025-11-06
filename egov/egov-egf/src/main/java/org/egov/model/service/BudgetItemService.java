@@ -63,11 +63,12 @@ public class BudgetItemService {
 
 
             // Save Closing Balance
-//            if (form.getClosing() != null) {
-//                BudgetItem closing = form.getClosing();
-//                closing.setBudgetGroup("Closing_Balance");
-//                budgetItemRepository.save(closing);
-//            }
+            if (form.getClosing() != null) {
+                BudgetItem closing = form.getClosing();
+                closing.setBudgetGroup("Closing_Balance");
+                closing.setFunction(function);
+                budgetItemRepository.save(closing);
+            }
 
 
         } catch (Exception e) {

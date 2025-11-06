@@ -54,7 +54,7 @@ function budgethead_initialize() {
 
     custom.initialize();
 
-    $('.budgetcode').typeahead(
+    var bc = $('.budgetcode').typeahead(
         {
             hint: true,
             highlight: true,
@@ -81,18 +81,42 @@ function budgethead_initialize() {
         var functionCode = document.getElementById("functionCode")?.value;
         var budgetHeadId = data.id;
 
+        var flag = false;
+
 
         $('#dynamicTable  > tbody > tr:visible[id="budgetdetailsrow"]').each(function (index) {
-            var budgetheadcode = document.getElementById('items[' + index + '].budgetheadcode');
-            var budgetcode = document.getElementById('items[' + index + '].budgetCode');
-            var budgetgroup = document.getElementById('items[' + index + '].budgetGroup');
-            var budgetheadid = document.getElementById('items[' + index + '].budgetHeadId');
 
-            budgetheadcode.value = originalBudgetHeadcode;
-            budgetcode.value = functionCode + '-' + originalBudgetHeadcode;
-            budgetgroup.value = getBudgetGroup(data.accountTypeCode);
-            budgetheadid.value = budgetHeadId;
+            var budgetheadcode = document.getElementById('items[' + index + '].budgetheadcode').value;
+            var budgetcode = document.getElementById('items[' + index + '].genBudgetCode').value;
+            var budgetgroup = document.getElementById('items[' + index + '].budgetGroup').value;
+            var budgetheadid = document.getElementById('items[' + index + '].budgetHeadId').value;
+
+            if (budgetheadcode != "" && originalBudgetHeadcode == budgetheadcode) {
+                flag = true
+            }
+
+//            budgetheadcode.value = originalBudgetHeadcode;
+//            budgetcode.value = functionCode + '-' + originalBudgetHeadcode;
+//            budgetgroup.value = getBudgetGroup(data.accountTypeCode);
+//            budgetheadid.value = budgetHeadId;
         });
+
+        if (flag) {
+            bootbox.alert($.i18n.prop('msg.budget.code.already.added'), function() {
+                var index= bc.length - 1;
+                if(document.getElementById('items['+index+'].budgetcode'))
+                    document.getElementById('items['+index+'].budgetcode').value = "";
+                }
+            );
+         } else {
+//            $(this).parents("tr:first").find('.debitdetailname').val(data.name);
+            $(this).parents("tr:first").find('.budgetheadcode').val(data.code);
+//            $(this).parents("tr:first").find('.budgetcode').val(functionCode + '-' + data.code);
+            $(this).parents("tr:first").find('.genBudgetCode').val(functionCode + '-' + data.code);
+            $(this).parents("tr:first").find('.budgetGroup').val(getBudgetGroup(data.accountTypeCode));
+            $(this).parents("tr:first").find('.budgetHeadId').val(data.id);
+        }
+
     });
 }
 

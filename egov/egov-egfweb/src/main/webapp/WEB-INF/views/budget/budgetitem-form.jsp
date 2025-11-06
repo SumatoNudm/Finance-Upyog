@@ -100,8 +100,8 @@
 										id="items[0].budgetheadcode"
 										class="form-control table-input hidden-input budgetheadcode" />
 									<form:hidden path="" name="items[0].budgetCode"
-										id="items[0].budgetCode"
-										class="form-control table-input hidden-input budgetCode" />
+										id="items[0].genBudgetCode"
+										class="form-control table-input hidden-input genBudgetCode" />
 									<form:hidden path="" name="items[0].budgetGroup"
 										id="items[0].budgetGroup"
 										class="form-control table-input hidden-input budgetGroup" />

@@ -41,10 +41,10 @@ public class BudgetItem extends AbstractAuditable {
     private Long budgetHeadId;
 
     @Column(name = "financialyearid")
-    private Long financialYear;
+    private Long financialYear; // budget being created for fy
 
     @Column(name = "currentfinancialyearid")
-    private Long currentFinancialYear;
+    private Long currentFinancialYear; // budget creating on fy
 
     @Column(name = "budgetcode")
     private String budgetCode;
