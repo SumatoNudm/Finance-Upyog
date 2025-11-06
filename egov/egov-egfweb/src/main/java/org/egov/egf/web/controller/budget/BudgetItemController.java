@@ -42,7 +42,6 @@ public class BudgetItemController {
 	@RequestMapping(value = "/new", method = { RequestMethod.GET, RequestMethod.POST })
 	public String newForm(final Model model) {
 		// model.addAttribute(BUDGET_ITEM, new BudgetItem());
-		model.addAttribute("budgetForm", new BudgetForm());
 		model.addAttribute("function", new CFunction());
 		return BUDGET_ITEM_NEW;
 	}
@@ -66,6 +65,7 @@ public class BudgetItemController {
 				function.getName() + ", code: " + function.getCode() + ", type: " +
 				function.getType());
 		model.addAttribute("function", function);
+		model.addAttribute("budgetForm", new BudgetForm());
 
 		ItemForm itemForm = new ItemForm();
 
@@ -81,7 +81,7 @@ public class BudgetItemController {
 	@PostMapping("/create")
 	public String save(@ModelAttribute BudgetForm budgetForm, RedirectAttributes redirectAttrs) {
 
-		LOGGER.info(budgetForm);
+		LOGGER.info("opening bal entry" + budgetForm);
 		budgetItemService.saveAll(budgetForm); // inside service: save opening, items, closing
 		redirectAttrs.addFlashAttribute("message", "Budget items saved successfully!");
 		return "redirect:/budget/new";
