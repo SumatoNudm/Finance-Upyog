@@ -20,7 +20,7 @@
     String nextFY = (startYear + 1) + "-" + String.valueOf(endYear + 1).substring(2);
 %>
 
-<form:form role="form" action="create" modelAttribute="function" id="budgetItemFunction"
+<form:form role="form" action="create" modelAttribute="budgetForm" id="budgetItemFunction"
 	cssClass="form-horizontal form-groups-bordered" enctype="multipart/form-data">
 
 	<div class="main-content">
@@ -30,7 +30,7 @@
 					<div class="panel-heading">
 						<div class="panel-title">
 							<!-- <spring:message code="lbl.budget.input" text="Budget Input" /> -->
-							 Function:
+							Function:
 							${function.name} (<span class="text-muted">${function.code}</span>)
 							<input type="hidden" id="functionCode" name="functionCode" value="${function.code}" />
 						</div>
@@ -57,16 +57,19 @@
 							</thead>
 							<tbody>
 								<tr>
-									<input type="hidden" id="budgetGroup" name="budgetGroup" value="Opening_Balance" />
+									<input type="hidden" id="opening.budgetgroup" name="opening.budgetgroup"
+										value="Opening_Balance" />
+									<input type="hidden" id="opening.functionid" name="opening.functionid"
+										value="${function.id}" />
 									<td style="width: 40%;">Opening Balance as on 01.04.<%= startYear %></td>
-									<td style="width: 15%;"><input type="text" name="items[0].value1"
-											class="form-control"></td>
-									<td style="width: 15%;"><input type="text" name="items[0].value2"
-											class="form-control"></td>
-									<td style="width: 15%;"><input type="text" name="items[0].value3"
-											class="form-control"></td>
-									<td style="width: 15%;"><input type="text" name="items[0].value4"
-											class="form-control"></td>
+									<td style="width: 15%;"><input type="text" name="opening.currentEstimate"
+											data-pattern="decimalvalue" maxlength="12" class="form-control"></td>
+									<td style="width: 15%;"><input type="text" name="opening.currentActual"
+											data-pattern="decimalvalue" maxlength="12" class="form-control"></td>
+									<td style="width: 15%;"><input type="text" name="opening.currentRevisedEstimate"
+											data-pattern="decimalvalue" maxlength="12" class="form-control"></td>
+									<td style="width: 15%;"><input type="text" name="opening.nextEstimate"
+											data-pattern="decimalvalue" maxlength="12" class="form-control"></td>
 								</tr>
 							</tbody>
 						</table>
@@ -88,10 +91,10 @@
 										<input type="text" id="tempBudgetDetails[0].budgetcode"
 											name="tempBudgetDetails[0].budgetcode"
 											class="form-control table-input budgetHeadcode budgetcode"
-											data-errormsg="Budget Head Code is mandatory!" data-idx="0" data-optional="0"
-											placeholder="Type first 3 letters of Budget code">
+											data-errormsg="Budget Head Code is mandatory!" data-idx="0"
+											data-optional="0" placeholder="Type first 3 letters of Budget code">
 									</td>
-									
+
 									<form:hidden path="" name="tempBudgetDetails[0].budgetheadcode"
 										id="tempBudgetDetails[0].budgetheadcode"
 										class="form-control table-input hidden-input budgetheadcode" />
@@ -102,14 +105,14 @@
 										id="tempBudgetDetails[0].budgetGroup"
 										class="form-control table-input hidden-input budgetGroup" />
 
-										
-									<td style="width: 15%;"><input type="text" name="items[1].value1"
+
+									<td style="width: 15%;"><input type="text" name="items[0].currentEstimate"
 											class="form-control"></td>
-									<td style="width: 15%;"><input type="text" name="items[1].value2"
+									<td style="width: 15%;"><input type="text" name="items[0].currentActual"
 											class="form-control"></td>
-									<td style="width: 15%;"><input type="text" name="items[1].value3"
+									<td style="width: 15%;"><input type="text" name="items[0].currentRevisedEstimate"
 											class="form-control"></td>
-									<td style="width: 15%;"><input type="text" name="items[1].value4"
+									<td style="width: 15%;"><input type="text" name="items[0].nextEstimate"
 											class="form-control"></td>
 
 									<td class="text-center" style="width: 10%;">
@@ -140,13 +143,13 @@
 								<tr id="closingBalancerow">
 									<input type="hidden" id="budgetGroup" name="budgetGroup" value="Closing_Balance" />
 									<td style="width: 40%;">Closing Balance as on 31.03.<%= endYear %></td>
-									<td style="width: 15%;"><input type="text" name="items[2].value1"
+									<td style="width: 15%;"><input type="text" name="closing.currentEstimate"
 											class="form-control"></td>
-									<td style="width: 15%;"><input type="text" name="items[2].value2"
+									<td style="width: 15%;"><input type="text" name="closing.currentActual"
 											class="form-control"></td>
-									<td style="width: 15%;"><input type="text" name="items[2].value3"
+									<td style="width: 15%;"><input type="text" name="closing.currentRevisedEstimate"
 											class="form-control"></td>
-									<td style="width: 15%;"><input type="text" name="items[2].value4"
+									<td style="width: 15%;"><input type="text" name="closing.nextEstimate"
 											class="form-control"></td>
 								</tr>
 							</tbody>
@@ -176,8 +179,8 @@
 
 
 <!-- JS -->
- <script
-  src="<cdn:url value='/resources/app/js/i18n/jquery.i18n.properties.js?rnd=${app_release_no}' context='/services/EGF'/>">
+<script
+	src="<cdn:url value='/resources/app/js/i18n/jquery.i18n.properties.js?rnd=${app_release_no}' context='/services/EGF'/>">
 </script>
 <script src="<cdn:url value='/resources/app/js/budget/budgetItemFormHelper.js' context='/services/EGF'/>"></script>
 <script src="<cdn:url value='/resources/app/js/common/helper.js?rnd=${app_release_no}' context='/services/EGF'/>">
