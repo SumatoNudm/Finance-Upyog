@@ -79,16 +79,19 @@ function budgethead_initialize() {
 
         var originalBudgetHeadcode = data.code;
         var functionCode = document.getElementById("functionCode")?.value;
+        var budgetHeadId = data.id;
 
 
         $('#dynamicTable  > tbody > tr:visible[id="budgetdetailsrow"]').each(function (index) {
-            var budgetheadcode = document.getElementById('tempBudgetDetails[' + index + '].budgetheadcode');
-            var budgetcode = document.getElementById('tempBudgetDetails[' + index + '].budgetCode');
-            var budgetgroup = document.getElementById('tempBudgetDetails[' + index + '].budgetGroup');
+            var budgetheadcode = document.getElementById('items[' + index + '].budgetheadcode');
+            var budgetcode = document.getElementById('items[' + index + '].budgetCode');
+            var budgetgroup = document.getElementById('items[' + index + '].budgetGroup');
+            var budgetheadid = document.getElementById('items[' + index + '].budgetHeadId');
 
             budgetheadcode.value = originalBudgetHeadcode;
             budgetcode.value = functionCode + '-' + originalBudgetHeadcode;
             budgetgroup.value = getBudgetGroup(data.accountTypeCode);
+            budgetheadid.value = budgetHeadId;
         });
     });
 }
@@ -103,7 +106,7 @@ function addBudgetDetailsRow() {
             $('#dynamicTable tbody tr:eq(' + rowcount + ')').find('.budgetHeadcode').val('');
             // $('#dynamicTable tbody tr:eq(' + rowcount + ')').find('.debitdetailname').val('');
             budgethead_initialize();
-            addCustomEvent(rowcount, 'tempBudgetDetails[index].addButton', 'keydown', shortKeyFunForAddButton);
+            addCustomEvent(rowcount, 'items[index].addButton', 'keydown', shortKeyFunForAddButton);
         }
     } else {
         bootbox.alert($.i18n.prop('msg.limit.reached'));
@@ -155,7 +158,7 @@ function addBudgetDetailsRow() {
 //         budgethead_initialize();
 
 //         // Add custom keyboard event to the new row
-//         addCustomEvent(rowcount, 'tempBudgetDetails[index].addButton', 'keydown', shortKeyFunForAddButton);
+//         addCustomEvent(rowcount, 'items[index].addButton', 'keydown', shortKeyFunForAddButton);
 //     }
 // }
 
@@ -174,7 +177,7 @@ function deleteBudgetDetailsRow(obj) {
 
 function shortKeyFunForAddButton(zEvent) {
     var currId = zEvent.target.id;
-    if (currId.startsWith('tempBudgetDetails') && zEvent.keyCode == 32) {
+    if (currId.startsWith('items') && zEvent.keyCode == 32) {
         zEvent.preventDefault();
         addBudgetDetailsRow();
     }
