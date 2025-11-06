@@ -88,23 +88,26 @@
 							<tbody>
 								<tr id="budgetdetailsrow">
 									<td style="width: 30%;">
-										<input type="text" id="tempBudgetDetails[0].budgetcode"
-											name="tempBudgetDetails[0].budgetcode"
+										<input type="text" id="items[0].budgetcode"
+											name="items[0].budgetcode"
 											class="form-control table-input budgetHeadcode budgetcode"
 											data-errormsg="Budget Head Code is mandatory!" data-idx="0"
 											data-optional="0" placeholder="Type first 3 letters of Budget code">
 									</td>
 
-									<form:hidden path="" name="tempBudgetDetails[0].budgetheadcode"
-										id="tempBudgetDetails[0].budgetheadcode"
+									<form:hidden path="" name="items[0].budgetheadcode"
+										id="items[0].budgetheadcode"
 										class="form-control table-input hidden-input budgetheadcode" />
-									<form:hidden path="" name="tempBudgetDetails[0].budgetCode"
-										id="tempBudgetDetails[0].budgetCode"
+									<form:hidden path="" name="items[0].budgetCode"
+										id="items[0].budgetCode"
 										class="form-control table-input hidden-input budgetCode" />
-									<form:hidden path="" name="tempBudgetDetails[0].budgetGroup"
-										id="tempBudgetDetails[0].budgetGroup"
+									<form:hidden path="" name="items[0].budgetGroup"
+										id="items[0].budgetGroup"
 										class="form-control table-input hidden-input budgetGroup" />
 
+									<form:hidden path="" name="items[0].budgetHeadId"
+										id="items[0].budgetHeadId"
+										class="form-control table-input hidden-input budgetHeadId" />
 
 									<td style="width: 15%;"><input type="text" name="items[0].currentEstimate"
 											class="form-control"></td>
@@ -117,7 +120,7 @@
 
 									<td class="text-center" style="width: 10%;">
 										<span style="cursor:pointer;" onclick="addBudgetDetailsRow();" tabindex="0"
-											id="tempBudgetDetails[0].addButton" data-toggle="tooltip" title=""
+											id="items[0].addButton" data-toggle="tooltip" title=""
 											data-original-title="press SPACE to Add!" aria-hidden="true"><i
 												class="fa fa-plus"></i></span>
 										<span class="add-padding debit-delete-row"
