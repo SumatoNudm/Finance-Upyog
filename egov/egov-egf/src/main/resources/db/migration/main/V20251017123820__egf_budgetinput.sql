@@ -18,6 +18,7 @@ CREATE TABLE egf_budgetitem
   currentactual NUMERIC(13,2),
   currentrevisedestimate NUMERIC(13,2),
   nextestimate NUMERIC(13,2),
+  version bigint DEFAULT 0,
 
    -- audit fields from AbstractAuditable
     createdby BIGINT,

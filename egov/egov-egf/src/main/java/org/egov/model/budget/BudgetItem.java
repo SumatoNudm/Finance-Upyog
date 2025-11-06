@@ -28,6 +28,8 @@ public class BudgetItem extends AbstractAuditable {
     private Long id;
 
 
+    @Setter
+    @Getter
     @ManyToOne
     @JoinColumn(name = "functionid")
     private CFunction function;
@@ -78,13 +80,23 @@ public class BudgetItem extends AbstractAuditable {
         this.id = id;
     }
 
-    public CFunction getFunction() {
-        return function;
+
+    public String toString() {
+        String stringValue = "Function Id: " + function.getId() +
+                ", Function Code: " + function.getCode() +
+                ", Budget Head Id: " + budgetHeadId +
+                ", Financial year: " + financialYear +
+                ", Current Financial year: " + currentFinancialYear +
+                ", Budget Code: " + budgetCode +
+                ", Budget Group: " + budgetGroup +
+                ", Current estimate: " + currentEstimate +
+                ", Current Actual: " + currentActual +
+                ", Current Revised: " + currentRevisedEstimate +
+                ", Next Estimate: " + nextEstimate;
+
+        return stringValue;
     }
 
-    public void setFunction(final CFunction function) {
-        this.function = function;
-    }
 
 
 }

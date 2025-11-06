@@ -33,6 +33,7 @@
 							Function:
 							${function.name} (<span class="text-muted">${function.code}</span>)
 							<input type="hidden" id="functionCode" name="functionCode" value="${function.code}" />
+							<input type="hidden" id="functionid" name="functionid" value="${function.id}" />
 						</div>
 					</div>
 

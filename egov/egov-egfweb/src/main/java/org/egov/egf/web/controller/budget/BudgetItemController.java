@@ -81,8 +81,9 @@ public class BudgetItemController {
 	@PostMapping("/create")
 	public String save(@ModelAttribute BudgetForm budgetForm, RedirectAttributes redirectAttrs) {
 
-		LOGGER.info("opening bal entry" + budgetForm);
-		budgetItemService.saveAll(budgetForm); // inside service: save opening, items, closing
+		LOGGER.info("opening bal entry \n\n");
+		LOGGER.info(budgetForm.toString());
+		budgetItemService.saveBudgetInputForm(budgetForm); // inside service: save opening, items, closing
 		redirectAttrs.addFlashAttribute("message", "Budget items saved successfully!");
 		return "redirect:/budget/new";
 	}

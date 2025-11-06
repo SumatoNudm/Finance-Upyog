@@ -52,4 +52,21 @@ public class BudgetForm {
     public void setClosing(BudgetItem closing) {
         this.closing = closing;
     }
+
+
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Function Id: ").append(functionid);
+//        stringBuilder.append("\n Opening Balance: ").append(opening.toString());
+//        stringBuilder.append("\n Closing Balance: ").append(closing.toString());
+        stringBuilder.append("\n\n");
+
+//        items.forEach(budgetItem -> {
+//            stringBuilder.append("\n ").append(budgetItem.toString());
+//        });
+
+        return stringBuilder.toString();
+
+    }
+
 }
