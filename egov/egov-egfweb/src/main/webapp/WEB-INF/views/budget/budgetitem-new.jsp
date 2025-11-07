@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ include file="/includes/taglibs.jsp"%>
 <%@ taglib uri="/WEB-INF/tags/cdn.tld" prefix="cdn" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <form:form role="form" action="form" modelAttribute="function" id="budgetItemFunction"
   cssClass="form-horizontal form-groups-bordered" enctype="multipart/form-data">
 
@@ -27,6 +28,22 @@
               <form:errors path="id" cssClass="add-margin error-msg" />
             </div>
           </div>
+        </div>
+        <div>
+          Current Fy:
+          <fmt:formatDate value="${currentFy.startingDate}" pattern="dd-MMM-yyyy" />
+          &nbsp;to&nbsp;
+          <fmt:formatDate value="${currentFy.endingDate}" pattern="dd-MMM-yyyy" />
+          <br/>
+
+          Next Fy:
+          <fmt:formatDate value="${nextFy.startingDate}" pattern="dd-MMM-yyyy" />
+          &nbsp;to&nbsp;
+          <fmt:formatDate value="${nextFy.endingDate}" pattern="dd-MMM-yyyy" />
+        </div>
+        <div>
+          Current Fy:
+          ${errors}
         </div>
       </div>
     </div>
