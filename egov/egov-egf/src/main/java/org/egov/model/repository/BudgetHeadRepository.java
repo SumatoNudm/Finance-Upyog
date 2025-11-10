@@ -20,11 +20,15 @@ public interface BudgetHeadRepository extends JpaRepository<BudgetHead, Long> {
     List<BudgetHead> findByCodeContainingIgnoreCaseOrNameContainingIgnoreCase(String code, String name);
 
 
-    @Query(value = "SELECT * FROM " + BudgetHead.TABLE_NAME  + " bh " +
-            "WHERE FIND_IN_SET(:functionId, bh.function_ids) > 0 " +
+    @Query(value = "SELECT bh.* FROM egf_budgethead bh " +
+            "JOIN function_budget_head fbh ON bh.id = fbh.budget_head_id " +
+            "WHERE fbh.function_id = :functionId " +
             "AND (LOWER(bh.code) LIKE LOWER(CONCAT('%', :query, '%')) " +
-            "     OR LOWER(bh.name) LIKE LOWER(CONCAT('%', :query, '%')))",
+            "OR LOWER(bh.name) LIKE LOWER(CONCAT('%', :query, '%')))",
             nativeQuery = true)
-    List<BudgetHead> searchByFunctionAndQuery(@Param("functionId") Long functionId, @Param("query") String query);
+    List<BudgetHead> searchBudgetHeadsByFunctionNative(
+            @Param("functionId") Long functionId,
+            @Param("query") String query);
+
 
 }
