@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.egov.model.budget.BudgetHead;
 import org.egov.model.service.BudgetHeadService;
+import org.egov.model.service.FunctionBudgetHeadService;
 import org.egov.utils.BudgetAccountType;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,9 @@ public class BudgetHeadController {
 	private BudgetHeadService budgetHeadService;
 	@Autowired
 	private MessageSource messageSource;
+
+	@Autowired
+	private FunctionBudgetHeadService functionBudgetHeadService;
 
 	private void prepareNewForm(final Model model) {
 		model.addAttribute("budgetAccountTypes", Arrays.asList(BudgetAccountType.values()));
@@ -71,7 +75,7 @@ public class BudgetHeadController {
 	@GetMapping(value = "/ajaxBudgetHead/{functionId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<BudgetHead> findFunctionBudgetHeads(@PathVariable("functionId") Long functionId, @RequestParam @SafeHtml final String query) {
-		final List<BudgetHead> budgetHeads = budgetHeadService.findBudgetHeadByFunctionAndNameOrCode(functionId, query);
+		final List<BudgetHead> budgetHeads = budgetHeadService.searchBudgetHeadsByFunctionNative(functionId, query);
 		return budgetHeads;
 	}
 
