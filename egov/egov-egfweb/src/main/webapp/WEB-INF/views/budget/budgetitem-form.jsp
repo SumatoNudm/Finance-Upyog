@@ -2,23 +2,6 @@
 <%@ include file="/includes/taglibs.jsp"%>
 <%@ taglib uri="/WEB-INF/tags/cdn.tld" prefix="cdn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%
-    java.util.Calendar cal = java.util.Calendar.getInstance();
-    int year = cal.get(java.util.Calendar.YEAR);
-    int month = cal.get(java.util.Calendar.MONTH) + 1; // January = 0
-
-    int startYear, endYear;
-    if (month < 4) { // before April => FY started last year
-        startYear = year - 1;
-        endYear = year;
-    } else { // April or later => FY starts this year
-        startYear = year;
-        endYear = year + 1;
-    }
-
-    String currentFY = startYear + "-" + String.valueOf(endYear).substring(2);
-    String nextFY = (startYear + 1) + "-" + String.valueOf(endYear + 1).substring(2);
-%>
 
 <form:form role="form" action="create" modelAttribute="budgetForm" id="budgetItemFunction"
 	cssClass="form-horizontal form-groups-bordered" enctype="multipart/form-data">
@@ -50,10 +33,10 @@
 							<thead>
 								<tr>
 									<th></th>
-									<th>BE <strong><%= currentFY %></strong></th>
-									<th>Actuals <strong><%= currentFY %></strong> (9 months)</th>
-									<th>RE <strong><%= currentFY %></strong></th>
-									<th>BE <strong><%= nextFY %></strong></th>
+									<th>BE <strong>${currentFy.finYearRange}</strong></th>
+									<th>Actuals <strong>${currentFy.finYearRange}</strong> (9 months)</th>
+									<th>RE <strong>${currentFy.finYearRange}</strong></th>
+									<th>BE <strong>${nextFy.finYearRange}</strong></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -62,7 +45,7 @@
 										value="Opening_Balance" />
 									<input type="hidden" id="opening.functionid" name="opening.functionid"
 										value="${function.id}" />
-									<td style="width: 40%;">Opening Balance as on 01.04.<%= startYear %></td>
+									<td style="width: 40%;">Opening Balance as on <fmt:formatDate value="${currentFy.startingDate}" pattern = "dd/MM/yyyy" /></td>
 									<td style="width: 15%;"><input type="text" name="opening.currentEstimate"
 											data-pattern="decimalvalue" maxlength="12" class="form-control"></td>
 									<td style="width: 15%;"><input type="text" name="opening.currentActual"
@@ -79,10 +62,10 @@
 							<thead>
 								<tr>
 									<th>Budget Head</th>
-									<th>BE <strong><%= currentFY %></strong></th>
-									<th>Actuals <strong><%= currentFY %></strong> (9 months)</th>
-									<th>RE <strong><%= currentFY %></strong></th>
-									<th>BE <strong><%= nextFY %></strong></th>
+									<th>BE <strong>${currentFy.finYearRange}</strong></th>
+									<th>Actuals <strong>${currentFy.finYearRange}</strong> (9 months)</th>
+									<th>RE <strong>${currentFy.finYearRange}</strong></th>
+									<th>BE <strong>${nextFy.finYearRange}</strong></th>
 									<th></th>
 								</tr>
 							</thead>
@@ -137,16 +120,16 @@
 							<thead>
 								<tr>
 									<th></th>
-									<th>BE <strong><%= currentFY %></strong></th>
-									<th>Actuals <strong><%= currentFY %></strong> (9 months)</th>
-									<th>RE <strong><%= currentFY %></strong></th>
-									<th>BE <strong><%= nextFY %></strong></th>
+									<th>BE <strong>${currentFy.finYearRange}</strong></th>
+									<th>Actuals <strong>${currentFy.finYearRange}</strong> (9 months)</th>
+									<th>RE <strong>${currentFy.finYearRange}</strong></th>
+									<th>BE <strong>${nextFy.finYearRange}</strong></th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr id="closingBalancerow">
 									<input type="hidden" id="budgetGroup" name="budgetGroup" value="Closing_Balance" />
-									<td style="width: 40%;">Closing Balance as on 31.03.<%= endYear %></td>
+									<td style="width: 40%;">Closing Balance as on <fmt:formatDate value="${currentFy.endingDate}" pattern = "dd/MM/yyyy" /></td>
 									<td style="width: 15%;"><input type="text" name="closing.currentEstimate"
 											class="form-control"></td>
 									<td style="width: 15%;"><input type="text" name="closing.currentActual"

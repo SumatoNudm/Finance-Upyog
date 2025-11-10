@@ -53,8 +53,8 @@ public class BudgetItemController {
 	@RequestMapping(value = "/new", method = { RequestMethod.GET, RequestMethod.POST })
 	public String newForm(final Model model) {
 		// model.addAttribute(BUDGET_ITEM, new BudgetItem());
-        prepareIfBudgetCanInput(model);
-        model.addAttribute("function", new CFunction());
+		prepareIfBudgetCanInput(model);
+		model.addAttribute("function", new CFunction());
 		return BUDGET_ITEM_NEW;
 	}
 
@@ -62,26 +62,34 @@ public class BudgetItemController {
 		addFinancialYears(model);
 	}
 
-
 	private void addFinancialYears(Model model) {
-		CFinancialYear financialYear =  financialYearService.getCurrentFinancialYear();
+		CFinancialYear financialYear = financialYearService.getCurrentFinancialYear();
 		ArrayList<String> errors = new ArrayList<>();
+		// if (financialYear == null) {
+		// // no current financial year found!
+		// errors.add("Financial year not found !");
+		// model.addAttribute("errors", errors);
+		// return;
+		// }
+
 		if (financialYear == null) {
-			// no current financial year found!
-			errors.add("Financial year not found !");
-			model.addAttribute("errors", errors);
+			model.addAttribute("errors", "Financial year not found !");
 			return;
 		}
-
 
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(financialYear.getEndingDate());
 		calendar.add(Calendar.DATE, 1);
 		CFinancialYear nextFinancialYear = financialYearService.getFinancialYearByDate(calendar.getTime());
+		// if (nextFinancialYear == null) {
+		// 	// return validation error stating no financial year
+		// 	errors.add("Financial year not found for budget entry !");
+		// 	model.addAttribute("errors", errors);
+		// 	return;
+		// }
+
 		if (nextFinancialYear == null) {
-			// return validation error stating no financial year
-			errors.add("Financial year not found for budget entry !");
-			model.addAttribute("errors", errors);
+			model.addAttribute("errors", "Financial year not found !");
 			return;
 		}
 
@@ -96,9 +104,6 @@ public class BudgetItemController {
 	// model.addAttribute("function", function);
 	// return BUDGET_FORM;
 	// }
-
-
-
 
 	@RequestMapping(value = "/form", method = { RequestMethod.POST })
 	public String budgetForm(@ModelAttribute("id") Long id, final Model model) {
