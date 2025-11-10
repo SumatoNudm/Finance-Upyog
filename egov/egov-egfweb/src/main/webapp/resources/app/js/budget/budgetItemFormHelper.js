@@ -27,11 +27,12 @@ function getLocale(paramName) {
 }
 
 function budgethead_initialize() {
+    var functionid = document.getElementById("functionid")?.value;
     var custom = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('code', 'name'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         remote: {
-            url: '/services/EGF/budgethead/ajaxBudgetHead?query=%QUERY',
+            url: `/services/EGF/budgethead/ajaxBudgetHead/${functionid}?query=%QUERY`,
             wildcard: '%QUERY',
             dataType: "json",
             transform: function (response) {
