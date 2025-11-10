@@ -94,4 +94,11 @@ public class BudgetHeadService {
     }
 
 
+    public List<BudgetHead> findBudgetHeadByFunctionAndNameOrCode(final Long functionId, final String query) {
+        return budgetHeadRepository.searchByFunctionAndQuery(functionId, query);
+    }
+
+
+
+
 }

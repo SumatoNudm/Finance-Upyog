@@ -12,6 +12,7 @@ import org.egov.model.budget.BudgetHead;
 import org.egov.model.budget.BudgetItem;
 import org.egov.model.budget.Item;
 import org.egov.model.budget.ItemForm;
+import org.egov.model.service.BudgetHeadService;
 import org.egov.model.service.BudgetItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,10 +25,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/budget")
@@ -35,6 +34,7 @@ public class BudgetItemController {
 	private static final String BUDGET_ITEM_NEW = "budgetitem-new";
 	private static final String BUDGET_ITEM = "budgetItem";
 	private static final String BUDGET_FORM = "budgetitem-form";
+
 
 	private static final Logger LOGGER = Logger.getLogger(BudgetItemController.class);
 
@@ -46,6 +46,9 @@ public class BudgetItemController {
 
 	@Autowired
 	private CFinancialYearService financialYearService;
+
+	@Autowired
+	private BudgetHeadService budgetHeadService;
 
 
 
@@ -135,5 +138,25 @@ public class BudgetItemController {
 		redirectAttrs.addFlashAttribute("message", "Budget items saved successfully!");
 		return "redirect:/budget/new";
 	}
+
+
+	@RequestMapping(value = "/newv2", method = { RequestMethod.GET, RequestMethod.POST })
+	public String newFormv2(final Model model) {
+		// model.addAttribute(BUDGET_ITEM, new BudgetItem());
+//		prepareIfBudgetCanInput(model);
+		model.addAttribute("function", new CFunction());
+
+
+		List<BudgetHead> heads = budgetHeadService.getActiveBudgetHeads();
+
+		Map<String, List<BudgetHead>> grouped = heads.stream()
+				.collect(Collectors.groupingBy(BudgetHead::getCategory, LinkedHashMap::new, Collectors.toList()));
+
+		model.addAttribute("groupedHeads", grouped);
+
+		return "functionwisebudget-form";
+	}
+
+
 
 }

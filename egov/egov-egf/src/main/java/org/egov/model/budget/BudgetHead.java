@@ -26,6 +26,8 @@ public class BudgetHead extends AbstractAuditable {
     public static final String SEQ_BUDGETHEAD = "SEQ_EGF_BUDGETHEAD";
     private static final long serialVersionUID = 202502091745000L;
 
+    public static final String TABLE_NAME = "EGF_BUDGETHEAD";
+
     @Id
     @GeneratedValue(generator = SEQ_BUDGETHEAD, strategy = GenerationType.SEQUENCE)
     private Long id;

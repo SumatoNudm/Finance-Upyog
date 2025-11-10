@@ -68,5 +68,14 @@ public class BudgetHeadController {
 		return budgetHeads;
 	}
 
+	@GetMapping(value = "/ajaxBudgetHead/{functionId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<BudgetHead> findFunctionBudgetHeads(@PathVariable("functionId") Long functionId, @RequestParam @SafeHtml final String query) {
+		final List<BudgetHead> budgetHeads = budgetHeadService.findBudgetHeadByFunctionAndNameOrCode(functionId, query);
+		return budgetHeads;
+	}
+
+
+
 
 }
