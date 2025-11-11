@@ -487,6 +487,13 @@
                        value="/WEB-INF/views/budgethead/budgethead-view.jsp"/>
     </definition>
 
+    <definition name="budgethead-function-view" extends="base_layout">
+        <put-attribute name="page-title" value="title.budgethead.new"
+                       cascade="true"/>
+        <put-attribute name="body"
+                       value="/WEB-INF/views/budgethead/budgethead-function-view.jsp"/>
+    </definition>
+
     <definition name="budgetitem-new" extends="base_layout">
         <put-attribute name="page-title" value="title.budgetitem.new"
                        cascade="true"/>

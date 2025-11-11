@@ -7,6 +7,7 @@ import java.util.Locale;
 import javax.validation.Valid;
 
 import org.egov.model.budget.BudgetHead;
+import org.egov.model.budget.FunctionBudgetHead;
 import org.egov.model.service.BudgetHeadService;
 import org.egov.model.service.FunctionBudgetHeadService;
 import org.egov.utils.BudgetAccountType;
@@ -26,6 +27,7 @@ public class BudgetHeadController {
 	private static final String BUDGETHEAD_NEW = "budgethead-new";
 	private static final String BUDGET_HEAD = "budgetHead";
 	private static final String BUDGET_HEAD_VIEW = "budgethead-view";
+	private static final String BUDGETHEAD_FUNCTION_VIEW = "budgethead-function-view";
 	
 	@Autowired
 	private BudgetHeadService budgetHeadService;
@@ -79,7 +81,11 @@ public class BudgetHeadController {
 		return budgetHeads;
 	}
 
-
-
+	@PostMapping(value = "/function-wise-view")
+	public String functionwiseview(final Model model) {
+		final List<FunctionBudgetHead> functionBudgetHead = functionBudgetHeadService.findAll();
+		model.addAttribute("functionBudgetHead", functionBudgetHead);
+		return BUDGETHEAD_FUNCTION_VIEW;
+	}
 
 }

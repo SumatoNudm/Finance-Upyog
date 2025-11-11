@@ -1,6 +1,7 @@
 package org.egov.model.repository;
 
 import org.egov.model.budget.FunctionBudgetHead;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,5 +11,7 @@ import java.util.List;
 public interface FunctionBudgetHeadRepository extends JpaRepository<FunctionBudgetHead, Long> {
 
     List<FunctionBudgetHead> findByFunctionId(Long functionId);
+
+    List<FunctionBudgetHead> findByIdGreaterThan(Long id, Sort sort);
 
 }
