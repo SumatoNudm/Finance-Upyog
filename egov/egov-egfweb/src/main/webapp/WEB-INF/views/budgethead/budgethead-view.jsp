@@ -12,11 +12,11 @@
         th { background-color: #f2f2f2; }
 
         /* ✅ Fixed column widths */
-        th:nth-child(1), td:nth-child(1) { width: 40%; }  /* Name */
+        th:nth-child(1), td:nth-child(1) { width: 30%; }  /* Name */
         th:nth-child(2), td:nth-child(2) { width: 24%; }  /* Category */
         th:nth-child(3), td:nth-child(3) { width: 18%; }  /* Code */
-        th:nth-child(4), td:nth-child(4) { width: 18%; }  /* program applicable */
-
+        th:nth-child(4), td:nth-child(4) { width: 15%; }  /* state code */
+        th:nth-child(5), td:nth-child(5) { width: 13%; }  /* program applicable */
     </style>
 </head>
 <body>
@@ -29,6 +29,7 @@
         <th>Name</th>
         <th>Category</th>
         <th>Code</th>
+        <th>State Code</th>
         <th>Program / Scheme applicable</th>
     </tr>
     <c:forEach var="head" items="${rr}">
@@ -36,6 +37,7 @@
             <td>${head.name}</td>
             <td>${head.category}</td>
             <td>${head.code}</td>
+            <td>${head.stateCode}</td>
             <td>${head.program}</td>
         </tr>
     </c:forEach>
@@ -47,6 +49,7 @@
         <th>Name</th>
         <th>Category</th>
         <th>Code</th>
+        <th>State Code</th>
         <th>Program / Scheme applicable</th>
     </tr>
     <c:forEach var="head" items="${re}">
@@ -54,6 +57,7 @@
             <td>${head.name}</td>
             <td>${head.category}</td>
             <td>${head.code}</td>
+            <td>${head.stateCode}</td>
             <td>${head.program}</td>
         </tr>
     </c:forEach>
@@ -65,6 +69,7 @@
         <th>Name</th>
         <th>Category</th>
         <th>Code</th>
+        <th>State Code</th>
         <th>Program / Scheme applicable</th>
     </tr>
     <c:forEach var="head" items="${cr}">
@@ -72,6 +77,7 @@
             <td>${head.name}</td>
             <td>${head.category}</td>
             <td>${head.code}</td>
+            <td>${head.stateCode}</td>
             <td>${head.program}</td>
         </tr>
     </c:forEach>
@@ -83,6 +89,7 @@
         <th>Name</th>
         <th>Category</th>
         <th>Code</th>
+        <th>State Code</th>
         <th>Program / Scheme applicable</th>
     </tr>
     <c:forEach var="head" items="${ce}">
@@ -90,6 +97,7 @@
             <td>${head.name}</td>
             <td>${head.category}</td>
             <td>${head.code}</td>
+            <td>${head.stateCode}</td>
             <td>${head.program}</td>
         </tr>
     </c:forEach>

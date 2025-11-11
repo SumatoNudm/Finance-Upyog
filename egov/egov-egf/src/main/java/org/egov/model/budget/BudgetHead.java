@@ -1,5 +1,6 @@
 package org.egov.model.budget;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -60,7 +61,9 @@ public class BudgetHead extends AbstractAuditable {
 
     private Boolean isactive;
 
-
+    @SafeHtml
+    @Column(name = "state_code")
+    private String stateCode;
 
     // --- Getters and Setters ---
     @Override
@@ -127,5 +130,13 @@ public class BudgetHead extends AbstractAuditable {
 
     public void setIsactive(Boolean isactive) {
         this.isactive = isactive;
+    }
+
+    public String getStateCode() {
+        return stateCode;
+    }
+
+    public void setStateCode(final String stateCode) {
+        this.stateCode = stateCode;
     }
 }
