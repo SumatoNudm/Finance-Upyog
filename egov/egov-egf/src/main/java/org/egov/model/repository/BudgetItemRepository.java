@@ -16,6 +16,8 @@ import java.util.List;
 public interface BudgetItemRepository extends JpaRepository<BudgetItem, Long> {
 
 
+    List<BudgetItem> findByBudgetRegisterId(Long registerId);
+
 
 //    List<BudgetItem> findByBudgetGroupAndCurrentFinancialYearIdAndFunction(
 //            String budgetGroup,

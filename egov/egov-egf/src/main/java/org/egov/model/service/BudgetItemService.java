@@ -7,20 +7,30 @@ import java.util.stream.Collectors;
 import org.apache.log4j.Logger;
 import org.egov.commons.CFinancialYear;
 import org.egov.commons.CFunction;
+import org.egov.commons.EgwStatus;
+import org.egov.commons.dao.EgwStatusHibernateDAO;
 import org.egov.commons.repository.FunctionRepository;
 import org.egov.commons.service.CFinancialYearService;
 import org.egov.egf.form.BudgetForm;
 import org.egov.infra.validation.exception.ValidationException;
 import org.egov.model.budget.BudgetHead;
 import org.egov.model.budget.BudgetItem;
+import org.egov.model.budget.BudgetRegister;
 import org.egov.model.repository.BudgetItemRepository;
+import org.egov.utils.FinancialConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
+import static org.egov.utils.FinancialConstants.BUDGET_MODULE;
+
 @Service
 public class BudgetItemService {
+
+    private final static Logger LOGGER = LoggerFactory.getLogger(BudgetItemService.class);
 
     private final BudgetItemRepository budgetItemRepository;
 
@@ -33,6 +43,16 @@ public class BudgetItemService {
 
     @Autowired
     private BudgetHeadService budgetHeadService;
+
+    @Autowired
+    private BudgetRegisterWorkflowService budgetRegisterWorkflowService;
+
+
+    @Autowired
+    private CFinancialYearService financialYearService;
+
+    @Autowired
+    private EgwStatusHibernateDAO egwStatusDAO;
 
     @Autowired
     public BudgetItemService(final BudgetItemRepository budgetItemRepository, final FunctionRepository functionRepository) {
@@ -101,6 +121,25 @@ public class BudgetItemService {
                 closing.setCurrentFinancialYear(nextFinancialYear);
                 budgetItemRepository.save(closing);
             }
+
+
+            final BudgetRegister budgetRegister = new BudgetRegister();
+            budgetRegister.setBudgetRegisterNumber("bud-2026-27-001");
+            budgetRegister.setFinancialYear(financialYearService.getCurrentFinancialYear());
+            budgetRegister.setBudgetType("RE");
+//            budgetRegister.setStatus(egwStatusDAO.getStatusByModuleAndCode(FinancialConstants.BUDGET_MODULE, FinancialConstants.BUDGET_CREATED_STATUS));
+
+
+           BudgetRegister saved =  budgetRegisterWorkflowService.create(
+                    budgetRegister,101L, "Initial submission for review", null, "START", "FMO"
+            );
+
+
+           LOGGER.info("Budget Register");
+            LOGGER.info("ID:{}", saved.getId());
+            LOGGER.info("Number:{}", saved.getBudgetRegisterNumber());
+            LOGGER.info("Workflow State:{}", saved.getCurrentState().getValue());
+
 
 
         } catch (Exception e) {
