@@ -120,6 +120,7 @@ public class InboxRenderServiceDelegate<T extends StateAware> {
 
     @ReadOnly
     public List<Inbox> getCurrentUserInboxItems() {
+        LOGGER.info("inside current user inbox");
         return buildInbox(getAssignedWorkflowItems())
                 .parallelStream()
                 .filter(item -> !item.isDraft())
@@ -149,6 +150,7 @@ public class InboxRenderServiceDelegate<T extends StateAware> {
 
     @ReadOnly
     public List<T> getAssignedWorkflowItems() {
+        LOGGER.info("inside assigned workflow items");
         return getAssignedWorkflowItems(false);
     }
 
@@ -163,14 +165,21 @@ public class InboxRenderServiceDelegate<T extends StateAware> {
     }
 
     private List<T> getAssignedWorkflowItems(boolean draft) {
+        LOGGER.info("inside gawfi:");
         List<T> workflowItems = new ArrayList<>();
         List<Long> owners = currentUserPositionIds();
 //        List<Long> owners = new ArrayList<>();
 //        owners.add(4L);
 //        owners.add(1L);
+        LOGGER.info("owners:");
+        owners.forEach(own -> LOGGER.info(own.toString()));
         if (!owners.isEmpty()) {
             List<String> types = stateService.getAssignedWorkflowTypeNames(owners);
+            LOGGER.info("types:");
+            types.forEach(t -> LOGGER.info(t));
             for (String type : types) {
+                LOGGER.info("inside gawfi Loop:");
+                LOGGER.info(type);
                 Optional<InboxRenderService<T>> inboxRenderService = this.getInboxRenderService(type);
                 if (inboxRenderService.isPresent()) {
                     InboxRenderService<T> renderService = inboxRenderService.get();
@@ -184,8 +193,12 @@ public class InboxRenderServiceDelegate<T extends StateAware> {
 
     private List<Inbox> buildInbox(List<T> items) {
         List<Inbox> inboxItems = new ArrayList<>();
+
         for (StateAware stateAware : items) {
             WorkflowTypes workflowType = getWorkflowType(stateAware.getStateType());
+            LOGGER.info("inside buildInbox:");
+            LOGGER.info(workflowType.getDisplayName());
+            LOGGER.info(workflowType.getLink());
             if(WORKS_BILL.equals(stateAware.getCurrentState().getNatureOfTask())){
                 workflowType.setLink(workflowType.getLink().replace("/expensebill/", "/contractorbill/"));
                 workflowType.setLink(workflowType.getLink().replace("/supplierbill/", "/contractorbill/"));
@@ -211,6 +224,9 @@ public class InboxRenderServiceDelegate<T extends StateAware> {
     private Optional<InboxRenderService<T>> getInboxRenderService(String type) {
         InboxRenderService<T> inboxRenderService = null;
         try {
+            LOGGER.info("wftype:");
+            LOGGER.info(getWorkflowType(type).getType());
+            LOGGER.info(String.format(INBOX_RENDER_SERVICE_SUFFIX, type));
             if (getWorkflowType(type) != null)
                 inboxRenderService = applicationContext.getBean(String.format(INBOX_RENDER_SERVICE_SUFFIX, type), InboxRenderService.class);
         } catch (BeansException e) {

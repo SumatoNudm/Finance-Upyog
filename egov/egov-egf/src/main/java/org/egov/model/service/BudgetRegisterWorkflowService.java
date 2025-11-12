@@ -1,0 +1,345 @@
+package org.egov.model.service;
+
+import org.egov.commons.EgwStatus;
+import org.egov.commons.dao.EgwStatusHibernateDAO;
+import org.egov.eis.entity.Assignment;
+import org.egov.infra.admin.master.entity.User;
+import org.egov.infra.microservice.models.Department;
+import org.egov.infra.microservice.models.Designation;
+import org.egov.infra.microservice.models.EmployeeInfo;
+import org.egov.infra.microservice.utils.MicroserviceUtils;
+import org.egov.infra.security.utils.SecurityUtils;
+import org.egov.infra.validation.exception.ValidationError;
+import org.egov.infra.validation.exception.ValidationException;
+import org.egov.infra.workflow.matrix.entity.WorkFlowMatrix;
+import org.egov.infra.workflow.service.SimpleWorkflowService;
+import org.egov.model.budget.BudgetRegister;
+import org.egov.model.repository.BudgetRegisterWorkflowRepository;
+import org.egov.pims.commons.Position;
+import org.egov.pims.commons.service.PositionService;
+import org.egov.utils.FinancialConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.*;
+
+@Service
+public class BudgetRegisterWorkflowService {
+
+    private static final Logger LOG = LoggerFactory.getLogger(BudgetRegisterWorkflowService.class);
+
+    @Autowired
+    private SecurityUtils securityUtils;
+
+
+    @Autowired
+    private BudgetRegisterWorkflowRepository budgetRegisterWorkflowRepository;
+
+
+    @Autowired
+    @Qualifier("workflowService")
+    private SimpleWorkflowService<BudgetRegister> egBudgetRegisterWorkflowService;
+
+    @Autowired
+    private MicroserviceUtils microServiceUtil;
+
+    @Autowired
+    private EgwStatusHibernateDAO egwStatusDAO;
+
+
+    private Assignment getCurrentUserAssignment(final Long userId) {
+//        Long userId = ApplicationThreadLocals.getUserId();
+        List<EmployeeInfo> emplist = microServiceUtil.getEmployee(userId,null, null, null);
+        Assignment assignment =new Assignment();
+        if(null!=emplist && emplist.size()>0 && emplist.get(0).getAssignments().size()>0){
+            Position position = new Position();
+            position.setId(emplist.get(0).getAssignments().get(0).getPosition());
+            assignment.setPosition(position);
+
+            org.egov.pims.commons.Designation designation = new org.egov.pims.commons.Designation();
+            Designation _desg = this.getDesignationDetails(emplist.get(0).getAssignments().get(0).getDesignation());
+            designation.setCode(_desg.getCode());
+            designation.setName(_desg.getName());
+            assignment.setDesignation(designation);
+
+            org.egov.infra.admin.master.entity.Department department = new org.egov.infra.admin.master.entity.Department();
+            Department _dept = this.getDepartmentDetails(emplist.get(0).getAssignments().get(0).getDepartment());
+            department.setCode(_dept.getCode());
+            department.setName(_dept.getName());
+
+            return assignment;
+        }
+        return null;
+    }
+
+
+    private Department getDepartmentDetails(String deptCode){
+
+        Department dept = microServiceUtil.getDepartmentByCode(deptCode);
+        return dept;
+
+    }
+
+
+    private Designation getDesignationDetails(String desgnCode){
+        List<Designation> desgnList = microServiceUtil.getDesignation(desgnCode);
+        return !desgnList.isEmpty() ? desgnList.get(0) : null;
+    }
+
+
+    /**
+     * Create or progress a workflow transition for BudgetRegister.
+     *
+     * @param budgetRegister     budget entity (StateAware)
+     * @param approvalPosition   position id of the approver (nullable)
+     * @param approvalComment    comments to attach
+     * @param additionalRule     additional rule used for wf lookup (nullable)
+     * @param workFlowAction     action like "START"/"FORWARD"/"APPROVE"/"REJECT"/"CANCEL"
+     * @param approvalDesignation approver designation name (nullable)
+     */
+    public void createBudgetRegisterWorkflowTransition(final BudgetRegister budgetRegister,
+                                                       final Long approvalPosition,
+                                                       final String approvalComment,
+                                                       final String additionalRule,
+                                                       final String workFlowAction,
+                                                       final String approvalDesignation) {
+        if (LOG.isDebugEnabled())
+            LOG.debug("Create BudgetRegister Workflow Transition Started ...");
+
+        final User user = securityUtils.getCurrentUser();
+        final Date currentDate = new Date();
+        Assignment wfInitiator = null;
+        final Set<String> finalDesignationNames = new HashSet<>();
+        String stateValue = "";
+
+        // resolve wf initiator (assignment of creator) if record exists
+        if (budgetRegister != null && budgetRegister.getId() != null) {
+            wfInitiator = getCurrentUserAssignment(budgetRegister.getCreatedBy());
+        }
+
+        // REJECT branch - immediate reject
+        if ("REJECT".equalsIgnoreCase(workFlowAction)) {
+            stateValue = "REJECTED";
+            Position owner = (wfInitiator != null) ? wfInitiator.getPosition() : null;
+            budgetRegister.transition().progressWithStateCopy()
+                    .withSenderName(user.getUsername() + "::" + user.getName())
+                    .withComments(approvalComment)
+                    .withStateValue(stateValue)
+                    .withDateInfo(currentDate)
+                    .withOwner(owner)
+                    .withNextAction("")
+                    .withNatureOfTask("Budget Input Approval");
+            if (LOG.isDebugEnabled())
+                LOG.debug("BudgetRegister rejected by {} ; id={}", user.getUsername(), budgetRegister.getId());
+            return;
+        }
+
+        // Build owner Position stub if approvalPosition provided
+        Position ownerPos = null;
+        if (approvalPosition != null && approvalPosition > 0) {
+            ownerPos = new Position();
+            ownerPos.setId(approvalPosition);
+        }
+
+        // Collect final approval designations (if any) by querying WF matrix for FINAL_APPROVAL_PENDING
+        WorkFlowMatrix wfmatrix = egBudgetRegisterWorkflowService.getWfMatrix(
+                budgetRegister.getStateType(), null, null, additionalRule, "FINAL_APPROVAL_PENDING", null);
+
+        if (wfmatrix != null && wfmatrix.getCurrentDesignation() != null) {
+            Arrays.stream(wfmatrix.getCurrentDesignation().split(","))
+                    .map(String::trim)
+                    .filter(s -> !s.isEmpty())
+                    .map(String::toUpperCase)
+                    .forEach(finalDesignationNames::add);
+        }
+
+        // If workflow not started yet, call start()
+        if (budgetRegister.getState() == null) {
+            if (approvalDesignation != null &&
+                    finalDesignationNames.contains(approvalDesignation.trim().toUpperCase())) {
+                stateValue = "FINAL_APPROVAL_PENDING";
+            }
+
+            // fetch matrix for start (currState = null or empty)
+            wfmatrix = egBudgetRegisterWorkflowService.getWfMatrix(budgetRegister.getStateType(), null, null, additionalRule, "", null);
+            if (wfmatrix == null) {
+                LOG.error("Workflow matrix missing for stateType={} (start).", budgetRegister.getStateType());
+                throw new IllegalStateException("Workflow configuration missing for stateType=" + budgetRegister.getStateType());
+            }
+
+            if (stateValue.isEmpty()) stateValue = wfmatrix.getNextState();
+
+            budgetRegister.transition().start()
+                    .withSenderName(user.getUsername() + "::" + user.getName())
+                    .withComments(approvalComment)
+                    .withStateValue(stateValue)
+                    .withDateInfo(currentDate)
+                    .withOwner(ownerPos)
+                    .withNextAction(wfmatrix.getNextAction())
+                    .withNatureOfTask("Budget Input Approval")
+                    .withCreatedBy(user.getId())
+                    .withtLastModifiedBy(user.getId());
+
+            if (LOG.isDebugEnabled())
+                LOG.debug("BudgetRegister workflow started (state={}) for id={}", stateValue, budgetRegister.getId());
+
+            return;
+        }
+
+        // If workflow already started: handle CANCEL, APPROVE, PROGRESS (FORWARD) default
+        if ("CANCEL".equalsIgnoreCase(workFlowAction)) {
+            stateValue = "CANCELLED";
+            budgetRegister.transition().end()
+                    .withSenderName(user.getUsername() + "::" + user.getName())
+                    .withComments(approvalComment)
+                    .withStateValue(stateValue)
+                    .withDateInfo(currentDate)
+                    .withNextAction("")
+                    .withNatureOfTask("Budget Input Approval");
+
+            if (LOG.isDebugEnabled())
+                LOG.debug("BudgetRegister cancelled id={}", budgetRegister.getId());
+            return;
+        }
+
+        if ("APPROVE".equalsIgnoreCase(workFlowAction)) {
+            // fetch matrix for current state
+            String currStateVal = (budgetRegister.getCurrentState() != null) ? budgetRegister.getCurrentState().getValue() : null;
+            wfmatrix = egBudgetRegisterWorkflowService.getWfMatrix(budgetRegister.getStateType(), null, null, additionalRule, currStateVal, null);
+            if (wfmatrix == null) {
+                LOG.error("Workflow matrix missing for stateType={} currentState={}", budgetRegister.getStateType(), currStateVal);
+                throw new IllegalStateException("Workflow configuration missing for APPROVE for state " + currStateVal);
+            }
+            if (stateValue.isEmpty()) stateValue = wfmatrix.getNextState();
+
+            budgetRegister.transition().end()
+                    .withSenderName(user.getUsername() + "::" + user.getName())
+                    .withComments(approvalComment)
+                    .withStateValue(stateValue)
+                    .withDateInfo(currentDate)
+                    .withNextAction(wfmatrix.getNextAction())
+                    .withNatureOfTask("Budget Input Approval");
+
+            if (LOG.isDebugEnabled())
+                LOG.debug("BudgetRegister approved id={}, nextState={}", budgetRegister.getId(), stateValue);
+            return;
+        }
+
+        // Default branch: PROGRESS / FORWARD
+        if (approvalDesignation != null &&
+                finalDesignationNames.contains(approvalDesignation.trim().toUpperCase())) {
+            stateValue = "FINAL_APPROVAL_PENDING";
+        }
+
+        String currStateVal = (budgetRegister.getCurrentState() != null) ? budgetRegister.getCurrentState().getValue() : null;
+        wfmatrix = egBudgetRegisterWorkflowService.getWfMatrix(budgetRegister.getStateType(), null, null, additionalRule, currStateVal, null);
+        if (wfmatrix == null) {
+            LOG.error("Workflow matrix missing for stateType={} currentState={}", budgetRegister.getStateType(), currStateVal);
+            throw new IllegalStateException("Workflow configuration missing for PROGRESS for state " + currStateVal);
+        }
+
+        if (stateValue.isEmpty()) stateValue = wfmatrix.getNextState();
+
+        budgetRegister.transition().progressWithStateCopy()
+                .withSenderName(user.getUsername() + "::" + user.getName())
+                .withComments(approvalComment)
+                .withStateValue(stateValue)
+                .withDateInfo(currentDate)
+                .withOwner(ownerPos)
+                .withNextAction(wfmatrix.getNextAction())
+                .withNatureOfTask("Budget Input Approval");
+
+        if (LOG.isDebugEnabled())
+            LOG.debug("BudgetRegister progressed id={}, nextState={}, ownerPos={}", budgetRegister.getId(), stateValue,
+                    (ownerPos != null ? ownerPos.getId() : null));
+    }
+
+
+
+
+    /**
+     * Creates or progresses a BudgetRegister along with workflow transition.
+     */
+    @Transactional
+    public BudgetRegister create(final BudgetRegister budgetRegister,
+                                 final Long approvalPosition,
+                                 final String approvalComment,
+                                 final String additionalRule,
+                                 final String workFlowAction,
+                                 final String approvalDesignation) {
+
+        LOG.info("Creating/transitioning BudgetRegister workflowAction={} by user={}",
+                workFlowAction, securityUtils.getCurrentUser().getUsername());
+
+        final User user = securityUtils.getCurrentUser();
+        final Date currentDate = new Date();
+
+        // --- 1️⃣ Set base status for new entries ---
+        EgwStatus status;
+        if (budgetRegister.getId() == null) {
+            // first time creation
+            status = egwStatusDAO.getStatusByModuleAndCode(FinancialConstants.BUDGET_MODULE, FinancialConstants.BUDGET_CREATED_STATUS);
+            if (status == null)
+                throw new ValidationException(new ValidationError("status", "Status 'NEW' not configured in egw_status for module 'Budget'"));
+            budgetRegister.setStatus(status);
+            budgetRegister.setCreatedDate(currentDate);
+            budgetRegister.setCreatedBy(user.getId());
+        }
+
+        // --- 2️⃣ Persist first (required before workflow start) ---
+        budgetRegisterWorkflowRepository.save(budgetRegister);
+        budgetRegisterWorkflowRepository.flush(); // ensure ID generated
+
+        // --- 3️⃣ Apply workflow transition ---
+        try {
+            createBudgetRegisterWorkflowTransition(
+                    budgetRegister,
+                    approvalPosition,
+                    approvalComment,
+                    additionalRule,
+                    workFlowAction,
+                    approvalDesignation
+            );
+        } catch (Exception e) {
+            LOG.error("Error while transitioning budget register workflow", e);
+//            throw new ValidationException( "Workflow transition failed: " + e.getMessage());
+        }
+
+        // --- 4️⃣ Update egw_status based on workflow action ---
+        EgwStatus newStatus = null;
+        switch (workFlowAction.toUpperCase()) {
+            case "APPROVE":
+                newStatus = egwStatusDAO.getStatusByModuleAndCode("Budget", "APPROVED");
+                break;
+            case "REJECT":
+                newStatus = egwStatusDAO.getStatusByModuleAndCode("Budget", "REJECTED");
+                break;
+            case "CANCEL":
+                newStatus = egwStatusDAO.getStatusByModuleAndCode("Budget", "CANCELLED");
+                break;
+            case "START":
+            case "FORWARD":
+            default:
+                newStatus = egwStatusDAO.getStatusByModuleAndCode("Budget", "CREATED");
+                break;
+        }
+        budgetRegister.setStatus(newStatus);
+
+        // --- 5️⃣ Persist final state after workflow transition ---
+        budgetRegister.setLastModifiedBy(user.getId());
+        budgetRegister.setLastModifiedDate(currentDate);
+        BudgetRegister saved = budgetRegisterWorkflowRepository.save(budgetRegister);
+
+        LOG.info("BudgetRegister [id={}, number={}] saved with status={} and workflow state={}",
+                saved.getId(), saved.getBudgetRegisterNumber(),
+                newStatus != null ? newStatus.getCode() : "N/A",
+                saved.getState() != null ? saved.getState().getValue() : "no-state");
+
+        return saved;
+    }
+
+}
