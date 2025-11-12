@@ -4,6 +4,7 @@ package org.egov.model.budget;
 import lombok.Getter;
 import lombok.Setter;
 
+import org.egov.commons.CFinancialYear;
 import org.egov.commons.CFunction;
 import org.egov.infra.persistence.entity.AbstractAuditable;
 import org.egov.infra.persistence.validator.annotation.Unique;

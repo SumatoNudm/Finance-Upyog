@@ -17,6 +17,8 @@
 							${function.name} (<span class="text-muted">${function.code}</span>)
 							<input type="hidden" id="functionCode" name="functionCode" value="${function.code}" />
 							<input type="hidden" id="functionid" name="functionid" value="${function.id}" />
+							<input type="hidden" id="currentFinancialYear" name="currentFinancialYear" value="${currentFy.id}" />
+							<input type="hidden" id="financialYear" name="financialYear" value="${nextFy.id}" />
 						</div>
 					</div>
 

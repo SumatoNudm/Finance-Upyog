@@ -14,6 +14,10 @@ public class BudgetForm {
 
     private BudgetItem closing;          // Closing Balance row
 
+    private Long financialYear;
+
+    private Long currentFinancialYear;
+
     public BudgetForm() {
         // Ensure the list is never null
         this.items = new ArrayList<>();
@@ -51,6 +55,22 @@ public class BudgetForm {
 
     public void setClosing(BudgetItem closing) {
         this.closing = closing;
+    }
+
+    public Long getFinancialYear() {
+        return financialYear;
+    }
+
+    public void setFinancialYear(Long financialYear) {
+        this.financialYear = financialYear;
+    }
+
+    public Long getCurrentFinancialYear() {
+        return currentFinancialYear;
+    }
+
+    public void setCurrentFinancialYear(Long currentFinancialYear) {
+        this.currentFinancialYear = currentFinancialYear;
     }
 
 

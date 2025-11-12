@@ -40,23 +40,7 @@
               </div>
             </div>
           </div>
-          <!-- <div>
-          Current Fy:
-          <fmt:formatDate value="${currentFy.startingDate}" pattern="dd-MMM-yyyy" />
-          &nbsp;to&nbsp;
-          <fmt:formatDate value="${currentFy.endingDate}" pattern="dd-MMM-yyyy" />
-          <br />
-
-          Next Fy:
-          <fmt:formatDate value="${nextFy.startingDate}" pattern="dd-MMM-yyyy" />
-          &nbsp;to&nbsp;
-          <fmt:formatDate value="${nextFy.endingDate}" pattern="dd-MMM-yyyy" />
-        </div>
-        <div>
-          Current Fy:
-          ${errors}
-        </div> -->
-
+          
           <!-- <div class="form-group">
             <div class="text-center"> <button type='submit' class='btn btn-primary' id="buttonNext">
                 <spring:message code='lbl.next' text="Next" /> </button> <a href='javascript:void(0)'
