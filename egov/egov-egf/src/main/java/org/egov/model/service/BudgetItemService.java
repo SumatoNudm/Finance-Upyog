@@ -1,6 +1,8 @@
 package org.egov.model.service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.egov.commons.CFinancialYear;
@@ -14,6 +16,7 @@ import org.egov.model.repository.BudgetItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 
 @Service
 public class BudgetItemService {
@@ -64,8 +67,8 @@ public class BudgetItemService {
                 BudgetItem opening = form.getOpening();
                 opening.setBudgetGroup("Opening_Balance");
                 opening.setFunction(function);
-                opening.setFinancialYear(financialYear.getId());
-                opening.setCurrentFinancialYear(nextFinancialYear.getId());
+                opening.setFinancialYear(financialYear);
+                opening.setCurrentFinancialYear(nextFinancialYear);
                 budgetItemRepository.save(opening);
             }
 
@@ -74,8 +77,8 @@ public class BudgetItemService {
                 List<BudgetItem> items = form.getItems();
                 for (BudgetItem item : items) {
                     item.setFunction(function);
-                    item.setFinancialYear(financialYear.getId());
-                    item.setCurrentFinancialYear(nextFinancialYear.getId());
+                    item.setFinancialYear(financialYear);
+                    item.setCurrentFinancialYear(nextFinancialYear);
                     budgetItemRepository.save(item);
                 }
             }
@@ -85,8 +88,8 @@ public class BudgetItemService {
                 BudgetItem closing = form.getClosing();
                 closing.setBudgetGroup("Closing_Balance");
                 closing.setFunction(function);
-                closing.setFinancialYear(financialYear.getId());
-                closing.setCurrentFinancialYear(nextFinancialYear.getId());
+                closing.setFinancialYear(financialYear);
+                closing.setCurrentFinancialYear(nextFinancialYear);
                 budgetItemRepository.save(closing);
             }
 
@@ -97,5 +100,30 @@ public class BudgetItemService {
 
 
     }
-    
+
+
+    public void getFunctionWiseBudgetItems(final Long functionId, final Model model) {
+
+    }
+
+//    public List<BudgetItem> findByTypeAndFunctionIdAndFinancialYearId(String type, CFunction function, Long fyId) {
+//       return budgetItemRepository.findByBudgetGroupAndCurrentFinancialYearIdAndFunction(type, fyId, function);
+//
+//    }
+
+    public Map<String, List<BudgetItem>> getBudgetItemsByTypesFunctionFy(
+            List<String> types, CFunction function, CFinancialYear financialYear) {
+
+        List<BudgetItem> items = budgetItemRepository
+                .findByBudgetGroupInAndFunctionAndCurrentFinancialYear(types, function, financialYear);
+
+
+        LOGGER.info("inside service!");
+        LOGGER.info(items.size());
+        items.forEach(i -> LOGGER.info(i.getBudgetCode()));
+
+        return items.stream()
+                .collect(Collectors.groupingBy(BudgetItem::getBudgetGroup));
+    }
+
 }

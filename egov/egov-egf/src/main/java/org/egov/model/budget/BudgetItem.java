@@ -38,14 +38,17 @@ public class BudgetItem extends AbstractAuditable {
     // @Column(name = "functionid")
     // private Long function;
 
-    @Column(name = "budgetheadid")
-    private Long budgetHeadId;
+    @ManyToOne
+    @JoinColumn(name = "budgetheadid")
+    private BudgetHead budgetHead;
 
-    @Column(name = "financialyearid")
-    private Long financialYear; // budget being created for fy
+    @ManyToOne
+    @JoinColumn(name = "financialyearid")
+    private CFinancialYear financialYear; // budget being created for fy
 
-    @Column(name = "currentfinancialyearid")
-    private Long currentFinancialYear; // budget creating on fy
+    @ManyToOne
+    @JoinColumn(name = "currentfinancialyearid")
+    private CFinancialYear currentFinancialYear; // budget creating on fy
 
     @Column(name = "budgetcode")
     private String budgetCode;
@@ -85,7 +88,7 @@ public class BudgetItem extends AbstractAuditable {
     public String toString() {
         String stringValue = "Function Id: " + function.getId() +
                 ", Function Code: " + function.getCode() +
-                ", Budget Head Id: " + budgetHeadId +
+                ", Budget Head Id: " + budgetHead.getId() +
                 ", Financial year: " + financialYear +
                 ", Current Financial year: " + currentFinancialYear +
                 ", Budget Code: " + budgetCode +

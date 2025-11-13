@@ -13,10 +13,7 @@ import org.egov.model.service.FunctionBudgetHeadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.*;
@@ -160,8 +157,54 @@ public class BudgetItemController {
 		return "functionwisebudget-form";
 	}
 
-	@PostMapping(value = "/view")
-	public String view(final Model model) {
+	@PostMapping(value = "/view/{functionId}")
+	public String view(final Model model, @PathVariable Long functionId) throws Exception {
+
+		final CFunction function = functionService.findOne(functionId);
+
+		if (function == null) {
+			throw new Exception("Selected function is invalid!");
+		}
+
+		final CFinancialYear currentFy = financialYearService.getCurrentFinancialYear();
+
+		if (currentFy == null) {
+			throw new Exception("Financial year is invalid !");
+		}
+
+
+//		final List<BudgetItem> openingBalance = budgetItemService.findByTypeAndFunctionIdAndFinancialYearId("Opening_Balance", function.getId(), currentFy.getId());
+//		final List<BudgetItem> closingBalance = budgetItemService.findByTypeAndFunctionIdAndFinancialYearId("Closing_Balance", function.getId(), currentFy.getId());
+//		final List<BudgetItem> revenueBudget = budgetItemService.findByTypeAndFunctionIdAndFinancialYearId("Revenue_Budget", function.getId(), currentFy.getId());
+//		final List<BudgetItem> capitalBudget = budgetItemService.findByTypeAndFunctionIdAndFinancialYearId("Capital_Budget", function.getId(), currentFy.getId());
+//
+//		model.addAttribute("Opening_Balance", openingBalance);
+//		model.addAttribute("Closing_Balance", closingBalance);
+//		model.addAttribute("Revenue_Budget", revenueBudget);
+//		model.addAttribute("Capital_Budget", capitalBudget);
+
+
+		LOGGER.info("hello from here");
+
+		List<String> types = Arrays.asList("Opening_Balance", "Closing_Balance", "Revenue_Budget", "Capital_Budget");
+		Map<String,List<BudgetItem>> grouped = budgetItemService.getBudgetItemsByTypesFunctionFy(types, function, currentFy);
+
+//		model.addAttribute("Opening_Balance", grouped.getOrDefault("Opening_Balance", Collections.emptyList()));
+//		model.addAttribute("Closing_Balance", grouped.getOrDefault("Closing_Balance", Collections.emptyList()));
+//		model.addAttribute("Revenue_Budget", grouped.getOrDefault("Revenue_Budget", Collections.emptyList()));
+//		model.addAttribute("Capital_Budget", grouped.getOrDefault("Capital_Budget", Collections.emptyList()));
+
+		model.addAttribute("budgetGroups", grouped);
+
+
+		grouped.entrySet().forEach(entry -> {
+					LOGGER.info(entry);
+					grouped.get(entry).forEach(item -> LOGGER.info(item.toString()));
+				}
+				);
+
+
+
 		return BUDGET_ITEM_VIEW;
 	}
 

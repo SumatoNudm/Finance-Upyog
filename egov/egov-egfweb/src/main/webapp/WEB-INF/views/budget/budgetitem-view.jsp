@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Budget Input Table</title>
+
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@ include file="/includes/taglibs.jsp"%>
+<%@ taglib uri="/WEB-INF/tags/cdn.tld" prefix="cdn"%>
 
     <style>
         /* Stronger selector and !important to override Bootstrap defaults */
@@ -38,12 +36,38 @@
             font-weight: bold;
         }
     </style>
-</head>
 
-<body class="p-3">
 
     <div class="table-responsive">
-        <table class="table table-bordered table-striped align-middle">
+
+        hello
+
+        ${budgetGroup}
+
+        <c:forEach var="entry" items="${budgetGroups}">
+            <h3>${entry.key}</h3>
+
+            <table border="1">
+                <tr>
+                    <th>Function Code</th>
+                    <th>Budget Group</th>
+                    <th>Budget Code</th>
+                    <th>Next Estimate</th>
+                </tr>
+
+                <c:forEach var="item" items="${entry.value}">
+                    <tr>
+                        <td>${item.function.code}</td>
+                        <td>${item.budgetGroup}</td>
+                        <td>${item.budgetCode}</td>
+                        <td>${item.nextEstimate}</td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </c:forEach>
+
+
+        <!--<table class="table table-bordered table-striped align-middle">
             <thead class="table-header">
                 <tr>
                     <th>Budget Head</th>
@@ -202,8 +226,5 @@
                     <td></td>
                 </tr>
             </tbody>
-        </table>
+        </table>-->
     </div>
-</body>
-
-</html>
