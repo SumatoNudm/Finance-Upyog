@@ -10,6 +10,7 @@ import org.egov.model.budget.*;
 import org.egov.model.service.BudgetHeadService;
 import org.egov.model.service.BudgetItemService;
 import org.egov.model.service.FunctionBudgetHeadService;
+import org.egov.utils.BudgetAccountType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -189,12 +190,63 @@ public class BudgetItemController {
 		List<String> types = Arrays.asList("Opening_Balance", "Closing_Balance", "Revenue_Budget", "Capital_Budget");
 		Map<String,List<BudgetItem>> grouped = budgetItemService.getBudgetItemsByTypesFunctionFy(types, function, currentFy);
 
-		model.addAttribute("Opening_Balance", grouped.getOrDefault("Opening_Balance", Collections.emptyList()));
-		model.addAttribute("Closing_Balance", grouped.getOrDefault("Closing_Balance", Collections.emptyList()));
-		model.addAttribute("Revenue_Budget", grouped.getOrDefault("Revenue_Budget", Collections.emptyList()));
-		model.addAttribute("Capital_Budget", grouped.getOrDefault("Capital_Budget", Collections.emptyList()));
+//		model.addAttribute("Opening_Balance", grouped.getOrDefault("Opening_Balance", Collections.emptyList()));
+//		model.addAttribute("Closing_Balance", grouped.getOrDefault("Closing_Balance", Collections.emptyList()));
+//		model.addAttribute("Revenue_Budget", grouped.getOrDefault("Revenue_Budget", Collections.emptyList()));
+//		model.addAttribute("Capital_Budget", grouped.getOrDefault("Capital_Budget", Collections.emptyList()));
+//
+//		model.addAttribute("budgetGroups", grouped);
 
-		model.addAttribute("budgetGroups", grouped);
+
+		Map<String, Map<BudgetAccountType, Map<String, List<BudgetItem>>>> nestedGroup = new LinkedHashMap<>();
+
+		for (Map.Entry<String, List<BudgetItem>> entry : grouped.entrySet()) {
+
+			String type = entry.getKey();                 // "Opening_Balance"
+			List<BudgetItem> items = entry.getValue();    // list of BudgetItem for that type
+
+			if (shouldSkip(type, items)) {
+				continue;
+			}
+
+
+			// group by accountType then by category
+//			Map<BudgetAccountType, Map<String, List<BudgetItem>>> byAccountAndCategory =
+//					items.stream()
+//							.collect(Collectors.groupingBy(
+//									item -> item.getBudgetHead().getAccountType(),   // 1st group: accountType
+//									Collectors.groupingBy(
+//											item -> item.getBudgetHead().getCategory()   // 2nd group: category
+//									)
+//							));
+//
+//			nestedGroup.put(type, byAccountAndCategory);
+
+
+			Map<BudgetAccountType, Map<String, List<BudgetItem>>> byAccountAndCategory =
+					items.stream()
+							.filter(i -> i != null
+									&& i.getBudgetHead() != null
+									&& i.getBudgetHead().getAccountType() != null
+									&& i.getBudgetHead().getCategory() != null)
+							.collect(Collectors.groupingBy(
+									i -> i.getBudgetHead().getAccountType(),
+									LinkedHashMap::new,
+									Collectors.groupingBy(
+											i -> i.getBudgetHead().getCategory(),
+											LinkedHashMap::new,
+											Collectors.toList()
+									)
+							));
+
+
+			nestedGroup.put(type, byAccountAndCategory);
+
+
+		}
+
+		model.addAttribute("nestedGroup", nestedGroup);
+
 
 
 //		grouped.entrySet().forEach(entry -> {
@@ -206,6 +258,14 @@ public class BudgetItemController {
 
 
 		return BUDGET_ITEM_VIEW;
+	}
+
+	private boolean shouldSkip(String type, List<BudgetItem> items) {
+		return type == null
+				|| items == null
+				|| items.isEmpty()
+				|| "Opening_Balance".equals(type)
+				|| "Closing_Balance".equals(type);
 	}
 
 }
