@@ -6,6 +6,8 @@ import org.egov.commons.CFunction;
 import org.egov.commons.service.CFinancialYearService;
 import org.egov.commons.service.FunctionService;
 import org.egov.egf.form.BudgetForm;
+import org.egov.eis.web.contract.WorkflowContainer;
+import org.egov.eis.web.controller.workflow.GenericWorkFlowController;
 import org.egov.model.budget.*;
 import org.egov.model.service.BudgetHeadService;
 import org.egov.model.service.BudgetItemService;
@@ -14,21 +16,22 @@ import org.egov.model.service.FunctionBudgetHeadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/budget")
-public class BudgetItemController {
+public class BudgetItemController extends GenericWorkFlowController {
 	private static final String BUDGET_ITEM_NEW = "budgetitem-new";
 	private static final String BUDGET_ITEM = "budgetItem";
 	private static final String BUDGET_FORM = "budgetitem-form";
+
+
+	private static final String STATE_TYPE = "stateType";
 
 
 	private static final Logger LOGGER = Logger.getLogger(BudgetItemController.class);
@@ -106,7 +109,7 @@ public class BudgetItemController {
 	// }
 
 	@RequestMapping(value = "/form", method = { RequestMethod.POST })
-	public String budgetForm(@ModelAttribute("id") Long id, final Model model) {
+	public String budgetForm(@RequestParam("id") Long id, final Model model) {
 
 		LOGGER.info("hello");
 
@@ -126,13 +129,18 @@ public class BudgetItemController {
 		model.addAttribute("itemForm", itemForm);
 		model.addAttribute("budgetForm", new BudgetForm());
 
+		BudgetRegister budgetRegister = new BudgetRegister();
+
+		model.addAttribute(STATE_TYPE, "BudgetRegister");
+		prepareWorkflow(model, budgetRegister, new WorkflowContainer());
+
 		addFinancialYears(model);
 
 		return BUDGET_FORM;
 	}
 
 	@PostMapping("/create")
-	public String save(@ModelAttribute BudgetForm budgetForm, RedirectAttributes redirectAttrs) {
+	public String save(@ModelAttribute BudgetForm budgetForm, RedirectAttributes redirectAttrs, final HttpServletRequest request) {
 
 		LOGGER.info("opening bal entry \n\n");
 		LOGGER.info(budgetForm.toString());
