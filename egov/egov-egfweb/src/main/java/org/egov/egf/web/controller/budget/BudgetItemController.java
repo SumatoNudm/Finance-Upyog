@@ -28,6 +28,7 @@ public class BudgetItemController {
 	private static final String BUDGET_ITEM_NEW = "budgetitem-new";
 	private static final String BUDGET_ITEM = "budgetItem";
 	private static final String BUDGET_FORM = "budgetitem-form";
+	private static final String BUDGET_ITEM_VIEW = "budgetitem-view";
 
 
 	private static final Logger LOGGER = Logger.getLogger(BudgetItemController.class);
@@ -159,6 +160,9 @@ public class BudgetItemController {
 		return "functionwisebudget-form";
 	}
 
-
+	@PostMapping(value = "/view")
+	public String view(final Model model) {
+		return BUDGET_ITEM_VIEW;
+	}
 
 }
