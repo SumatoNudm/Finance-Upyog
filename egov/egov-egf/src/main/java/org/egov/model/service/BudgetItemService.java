@@ -118,9 +118,9 @@ public class BudgetItemService {
                 .findByBudgetGroupInAndFunctionAndCurrentFinancialYear(types, function, financialYear);
 
 
-        LOGGER.info("inside service!");
-        LOGGER.info(items.size());
-        items.forEach(i -> LOGGER.info(i.getBudgetCode()));
+//        LOGGER.info("inside service!");
+//        LOGGER.info(items.size());
+//        items.forEach(i -> LOGGER.info(i.getBudgetCode()));
 
         return items.stream()
                 .collect(Collectors.groupingBy(BudgetItem::getBudgetGroup));

@@ -189,19 +189,19 @@ public class BudgetItemController {
 		List<String> types = Arrays.asList("Opening_Balance", "Closing_Balance", "Revenue_Budget", "Capital_Budget");
 		Map<String,List<BudgetItem>> grouped = budgetItemService.getBudgetItemsByTypesFunctionFy(types, function, currentFy);
 
-//		model.addAttribute("Opening_Balance", grouped.getOrDefault("Opening_Balance", Collections.emptyList()));
-//		model.addAttribute("Closing_Balance", grouped.getOrDefault("Closing_Balance", Collections.emptyList()));
-//		model.addAttribute("Revenue_Budget", grouped.getOrDefault("Revenue_Budget", Collections.emptyList()));
-//		model.addAttribute("Capital_Budget", grouped.getOrDefault("Capital_Budget", Collections.emptyList()));
+		model.addAttribute("Opening_Balance", grouped.getOrDefault("Opening_Balance", Collections.emptyList()));
+		model.addAttribute("Closing_Balance", grouped.getOrDefault("Closing_Balance", Collections.emptyList()));
+		model.addAttribute("Revenue_Budget", grouped.getOrDefault("Revenue_Budget", Collections.emptyList()));
+		model.addAttribute("Capital_Budget", grouped.getOrDefault("Capital_Budget", Collections.emptyList()));
 
 		model.addAttribute("budgetGroups", grouped);
 
 
-		grouped.entrySet().forEach(entry -> {
-					LOGGER.info(entry);
-					grouped.get(entry).forEach(item -> LOGGER.info(item.toString()));
-				}
-				);
+//		grouped.entrySet().forEach(entry -> {
+//					LOGGER.info(entry);
+//					grouped.get(entry).forEach(item -> LOGGER.info(item.toString()));
+//				}
+//				);
 
 
 
