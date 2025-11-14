@@ -140,7 +140,7 @@ public class BudgetItemController {
 		LOGGER.info(budgetForm.toString());
 		budgetItemService.saveBudgetInputForm(budgetForm); // inside service: save opening, items, closing
 		redirectAttrs.addFlashAttribute("message", "Budget items saved successfully!");
-		return "redirect:/budget/new";
+		return "redirect:/budget/view/"+budgetForm.getFunctionid();
 	}
 
 
