@@ -137,10 +137,10 @@ public class BudgetItemController {
 	public String save(@ModelAttribute BudgetForm budgetForm, RedirectAttributes redirectAttrs) {
 
 		LOGGER.info("opening bal entry \n\n");
-		LOGGER.info(budgetForm.toString());
+		LOGGER.info(budgetForm.getFunctionid());
 		budgetItemService.saveBudgetInputForm(budgetForm); // inside service: save opening, items, closing
 		redirectAttrs.addFlashAttribute("message", "Budget items saved successfully!");
-		return "redirect:/budget/view/"+budgetForm.getFunctionid();
+		return "forward:/budget/view/"+budgetForm.getFunctionid();
 	}
 
 
