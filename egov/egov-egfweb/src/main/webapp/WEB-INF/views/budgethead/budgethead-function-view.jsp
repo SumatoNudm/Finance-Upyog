@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Budget Heads with Function Code</title>
+    <title>Function wise Budget Head</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -64,7 +64,7 @@
 
 <body>
 
-    <h1>Budget Heads with Function Code</h1>
+    <h1>Function wise Budget Head</h1>
 
     <table>
         <thead>

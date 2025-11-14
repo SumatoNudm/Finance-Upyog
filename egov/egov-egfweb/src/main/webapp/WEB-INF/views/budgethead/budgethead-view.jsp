@@ -26,8 +26,8 @@
 <h2>Revenue Receipts (RR)</h2>
 <table>
     <tr>
-        <th>Name</th>
-        <th>Category</th>
+        <th>Budget Item</th>
+        <th>Budget Head</th>
         <th>Code</th>
         <th>State Code</th>
         <th>Program / Scheme applicable</th>
@@ -46,8 +46,8 @@
 <h2>Revenue Expenditure (RE)</h2>
 <table>
     <tr>
-        <th>Name</th>
-        <th>Category</th>
+        <th>Budget Item</th>
+        <th>Budget Head</th>
         <th>Code</th>
         <th>State Code</th>
         <th>Program / Scheme applicable</th>
@@ -66,8 +66,8 @@
 <h2>Capital Receipts (CR)</h2>
 <table>
     <tr>
-        <th>Name</th>
-        <th>Category</th>
+        <th>Budget Item</th>
+        <th>Budget Head</th>
         <th>Code</th>
         <th>State Code</th>
         <th>Program / Scheme applicable</th>
@@ -86,8 +86,8 @@
 <h2>Capital Expenditure (CE)</h2>
 <table>
     <tr>
-        <th>Name</th>
-        <th>Category</th>
+        <th>Budget Item</th>
+        <th>Budget Head</th>
         <th>Code</th>
         <th>State Code</th>
         <th>Program / Scheme applicable</th>

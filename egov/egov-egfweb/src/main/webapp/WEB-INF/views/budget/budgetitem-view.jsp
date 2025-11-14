@@ -356,7 +356,7 @@
                                 </c:when>
                                 <c:otherwise><span class="muted">—</span></c:otherwise>
                             </c:choose>-->
-                            Closing Balance
+                            Closing Balance as on <fmt:formatDate value="${currentFy.endingDate}" pattern = "dd/MM/yyyy" />
                         </td>
 
                         <td>${item.budgetCode}</td>
