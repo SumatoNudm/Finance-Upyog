@@ -1,301 +1,7079 @@
--- INSERT INTO "function_budget_head" ("id", "function_id", "budget_head_id") VALUES
--- (1, 564, 1),
--- (2, 566, 5),
--- (3, 568, 6),
--- (4, 569, 7),
--- (5, 571, 8),
--- (6, 571, 9),
--- (7, 570, 10),
--- (8, 564, 11),
--- (9, 571, 11),
--- (10, 543, 12),
--- (11, 543, 13),
--- (12, 543, 14),
--- (13, 540, 15),
--- (14, 545, 16),
--- (15, 514, 17),
--- (16, 511, 18),
--- (17, 514, 19),
--- (18, 511, 20),
--- (19, 546, 21),
--- (20, 535, 22),
--- (21, 501, 23),
--- (22, 503, 23),
--- (23, 511, 23),
--- (24, 514, 23),
--- (25, 534, 23),
--- (26, 535, 23),
--- (27, 564, 23),
--- (28, 562, 24),
--- (29, 511, 25),
--- (30, 513, 25),
--- (31, 514, 25),
--- (32, 515, 25),
--- (33, 527, 25),
--- (34, 531, 25),
--- (35, 534, 25),
--- (36, 535, 25),
--- (37, 562, 25),
--- (38, 566, 25),
--- (39, 501, 26),
--- (40, 503, 26),
--- (41, 504, 26),
--- (42, 506, 26),
--- (43, 507, 26),
--- (44, 509, 26),
--- (45, 515, 26),
--- (46, 516, 26),
--- (47, 518, 26),
--- (48, 519, 26),
--- (49, 520, 26),
--- (50, 521, 26),
--- (51, 523, 26),
--- (52, 527, 26),
--- (53, 530, 26),
--- (54, 531, 26),
--- (55, 534, 26),
--- (56, 535, 26),
--- (57, 536, 26),
--- (58, 537, 26),
--- (59, 540, 26),
--- (60, 541, 26),
--- (61, 543, 26),
--- (62, 544, 26),
--- (63, 545, 26),
--- (64, 546, 26),
--- (65, 547, 26),
--- (66, 548, 26),
--- (67, 551, 26),
--- (68, 556, 26),
--- (69, 562, 26),
--- (70, 564, 26),
--- (71, 566, 26),
--- (72, 501, 27),
--- (73, 503, 27),
--- (74, 504, 27),
--- (75, 506, 27),
--- (76, 507, 27),
--- (77, 509, 27),
--- (78, 515, 27),
--- (79, 516, 27),
--- (80, 518, 27),
--- (81, 519, 27),
--- (82, 520, 27),
--- (83, 521, 27),
--- (84, 523, 27),
--- (85, 527, 27),
--- (86, 530, 27),
--- (87, 531, 27),
--- (88, 534, 27),
--- (89, 535, 27),
--- (90, 536, 27),
--- (91, 537, 27),
--- (92, 540, 27),
--- (93, 541, 27),
--- (94, 543, 27),
--- (95, 544, 27),
--- (96, 545, 27),
--- (97, 546, 27),
--- (98, 547, 27),
--- (99, 548, 27),
--- (100, 551, 27),
--- (101, 556, 27),
--- (102, 562, 27),
--- (103, 564, 27),
--- (104, 567, 27),
--- (105, 501, 28),
--- (106, 503, 28),
--- (107, 504, 28),
--- (108, 506, 28),
--- (109, 507, 28),
--- (110, 509, 28),
--- (111, 515, 28),
--- (112, 516, 28),
--- (113, 518, 28),
--- (114, 519, 28),
--- (115, 520, 28),
--- (116, 521, 28),
--- (117, 523, 28),
--- (118, 527, 28),
--- (119, 530, 28),
--- (120, 531, 28),
--- (121, 534, 28),
--- (122, 535, 28),
--- (123, 536, 28),
--- (124, 537, 28),
--- (125, 540, 28),
--- (126, 541, 28),
--- (127, 543, 28),
--- (128, 544, 28),
--- (129, 545, 28),
--- (130, 546, 28),
--- (131, 547, 28),
--- (132, 548, 28),
--- (133, 551, 28),
--- (134, 556, 28),
--- (135, 562, 28),
--- (136, 564, 28),
--- (137, 568, 28),
--- (138, 501, 29),
--- (139, 503, 29),
--- (140, 504, 29),
--- (141, 506, 29),
--- (142, 507, 29),
--- (143, 509, 29),
--- (144, 515, 29),
--- (145, 516, 29),
--- (146, 518, 29),
--- (147, 519, 29),
--- (148, 520, 29),
--- (149, 521, 29),
--- (150, 523, 29),
--- (151, 527, 29),
--- (152, 530, 29),
--- (153, 531, 29),
--- (154, 534, 29),
--- (155, 535, 29),
--- (156, 536, 29),
--- (157, 537, 29),
--- (158, 540, 29),
--- (159, 541, 29),
--- (160, 543, 29),
--- (161, 544, 29),
--- (162, 545, 29),
--- (163, 546, 29),
--- (164, 547, 29),
--- (165, 548, 29),
--- (166, 551, 29),
--- (167, 556, 29),
--- (168, 562, 29),
--- (169, 564, 29),
--- (170, 569, 29),
--- (171, 501, 30),
--- (172, 503, 30),
--- (173, 504, 30),
--- (174, 506, 30),
--- (175, 507, 30),
--- (176, 509, 30),
--- (177, 515, 30),
--- (178, 516, 30),
--- (179, 518, 30),
--- (180, 519, 30),
--- (181, 520, 30),
--- (182, 521, 30),
--- (183, 523, 30),
--- (184, 527, 30),
--- (185, 530, 30),
--- (186, 531, 30),
--- (187, 534, 30),
--- (188, 535, 30),
--- (189, 536, 30),
--- (190, 537, 30),
--- (191, 540, 30),
--- (192, 541, 30),
--- (193, 543, 30),
--- (194, 544, 30),
--- (195, 545, 30),
--- (196, 546, 30),
--- (197, 547, 30),
--- (198, 548, 30),
--- (199, 551, 30),
--- (200, 556, 30),
--- (201, 562, 30),
--- (202, 564, 30),
--- (203, 570, 30),
--- (204, 501, 31),
--- (205, 503, 31),
--- (206, 504, 31),
--- (207, 506, 31),
--- (208, 507, 31),
--- (209, 509, 31),
--- (210, 515, 31),
--- (211, 516, 31),
--- (212, 518, 31),
--- (213, 519, 31),
--- (214, 520, 31),
--- (215, 521, 31),
--- (216, 523, 31),
--- (217, 527, 31),
--- (218, 530, 31),
--- (219, 531, 31),
--- (220, 534, 31),
--- (221, 535, 31),
--- (222, 536, 31),
--- (223, 537, 31),
--- (224, 540, 31),
--- (225, 541, 31),
--- (226, 543, 31),
--- (227, 544, 31),
--- (228, 545, 31),
--- (229, 546, 31),
--- (230, 547, 31),
--- (231, 548, 31),
--- (232, 551, 31),
--- (233, 556, 31),
--- (234, 562, 31),
--- (235, 564, 31),
--- (236, 571, 31),
--- (237, 503, 32),
--- (238, 547, 33),
--- (239, 503, 34),
--- (240, 503, 35),
--- (241, 515, 35),
--- (242, 516, 35),
--- (243, 518, 35),
--- (244, 519, 35),
--- (245, 520, 35),
--- (246, 523, 35),
--- (247, 527, 35),
--- (248, 530, 35),
--- (249, 531, 35),
--- (250, 536, 35),
--- (251, 537, 35),
--- (252, 540, 35),
--- (253, 541, 35),
--- (254, 543, 35),
--- (255, 544, 35),
--- (256, 545, 35),
--- (257, 546, 35),
--- (258, 547, 35),
--- (259, 548, 35),
--- (260, 551, 35),
--- (261, 544, 36),
--- (262, 503, 37),
--- (263, 531, 38),
--- (264, 536, 39),
--- (265, 501, 40),
--- (266, 501, 41),
--- (267, 514, 42),
--- (268, 536, 43),
--- (269, 536, 44),
--- (270, 540, 45),
--- (271, 543, 46),
--- (272, 545, 47),
--- (273, 513, 48),
--- (274, 562, 48),
--- (275, 537, 49),
--- (276, 564, 50),
--- (277, 564, 51),
--- (278, 564, 52),
--- (279, 566, 53),
--- (280, 564, 54),
--- (281, 531, 55),
--- (282, 531, 56),
--- (283, 544, 57),
--- (284, 521, 58),
--- (285, 564, 59),
--- (286, 501, 60),
--- (287, 541, 61),
--- (288, 501, 62),
--- (289, 503, 63),
--- (290, 503, 64),
--- (291, 503, 65),
--- (292, 503, 66),
--- (293, 503, 67),
--- (294, 501, 68),
--- (295, 503, 68),
--- (296, 504, 68),
--- (297, 506, 68),
--- (298, 507, 68),
--- (299, 509, 68),
--- (300, 515, 68);
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '91'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-001')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '93'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-005')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '95'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-006')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '96'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-007')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '98'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-008')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '98'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '97'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '91'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-011')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '98'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-011')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '58'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-012')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '58'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-013')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '58'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-014')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '55'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-015')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '62'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-016')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '15'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-017')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '12'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-018')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '15'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-019')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '12'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-020')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '63'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-021')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '45'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-022')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-023')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-023')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '12'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-023')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '15'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-023')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '44'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-023')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '45'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-023')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '91'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-023')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '83'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-024')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '12'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-025')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '14'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-025')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '15'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-025')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '21'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-025')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '36'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-025')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-025')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '44'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-025')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '45'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-025')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '83'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-025')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '93'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-025')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '04'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '06'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '07'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '09'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '21'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '22'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '24'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '25'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '26'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '27'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '32'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '36'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '39'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '44'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '45'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '52'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '55'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '56'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '58'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '61'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '62'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '63'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '64'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '65'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '71'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '76'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '83'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '91'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '93'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-027')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-027')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '04'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-027')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '06'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-027')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '07'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-027')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '09'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-027')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '21'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-027')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '22'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-027')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '24'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-027')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '25'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-027')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '26'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-027')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '27'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-027')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '32'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-027')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '36'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-027')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '39'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-027')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-027')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '44'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-027')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '45'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-027')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-027')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '52'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-027')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '55'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-027')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '56'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-027')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '58'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-027')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '61'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-027')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '62'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-027')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '63'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-027')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '64'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-027')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '65'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-027')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '71'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-027')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '76'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-027')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '83'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-027')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '91'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-027')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '94'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-027')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-028')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-028')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '04'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-028')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '06'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-028')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '07'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-028')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '09'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-028')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '21'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-028')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '22'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-028')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '24'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-028')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '25'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-028')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '26'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-028')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '27'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-028')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '32'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-028')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '36'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-028')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '39'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-028')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-028')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '44'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-028')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '45'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-028')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-028')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '52'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-028')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '55'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-028')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '56'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-028')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '58'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-028')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '61'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-028')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '62'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-028')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '63'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-028')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '64'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-028')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '65'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-028')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '71'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-028')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '76'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-028')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '83'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-028')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '91'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-028')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '95'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-028')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '04'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '06'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '07'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '09'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '21'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '22'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '24'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '25'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '26'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '27'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '32'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '36'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '39'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '44'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '45'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '52'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '55'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '56'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '58'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '61'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '62'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '63'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '64'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '65'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '71'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '76'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '83'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '91'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '96'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '04'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '06'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '07'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '09'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '21'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '22'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '24'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '25'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '26'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '27'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '32'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '36'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '39'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '44'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '45'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '52'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '55'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '56'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '58'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '61'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '62'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '63'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '64'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '65'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '71'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '76'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '83'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '91'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '97'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '04'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '06'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '07'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '09'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '21'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '22'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '24'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '25'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '26'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '27'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '32'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '36'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '39'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '44'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '45'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '52'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '55'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '56'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '58'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '61'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '62'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '63'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '64'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '65'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '71'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '76'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '83'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '91'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '98'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-032')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '64'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-033')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-034')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '21'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '22'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '24'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '25'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '26'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '32'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '36'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '39'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '52'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '55'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '56'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '58'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '61'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '62'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '63'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '64'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '65'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '71'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '61'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-036')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-037')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-038')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-039')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-040')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-041')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '15'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-042')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-043')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-044')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '55'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-045')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '58'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-046')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '62'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-047')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '83'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-048')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '14'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-048')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '52'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-049')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '91'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-050')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '91'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-051')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '91'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-052')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '93'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-053')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '91'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-054')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-055')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-056')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '61'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-057')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '27'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-058')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '91'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-059')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-060')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '56'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-061')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RR-062')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-001')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-002')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-003')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-004')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-005')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-006')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-006')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '04'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-006')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '06'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-006')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '07'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-006')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '09'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-006')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '21'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-006')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '22'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-006')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '24'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-006')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '25'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-006')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '26'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-006')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '27'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-006')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '32'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-006')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '36'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-006')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '39'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-006')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-006')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '44'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-006')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '45'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-006')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-006')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '52'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-006')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '55'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-006')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '56'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-006')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '58'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-006')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '61'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-006')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '62'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-006')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '63'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-006')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '64'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-006')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '65'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-006')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '71'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-006')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '76'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-006')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '83'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-006')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '91'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-006')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '93'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-006')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-007')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-007')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '04'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-007')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '06'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-007')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '07'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-007')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '09'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-007')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '21'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-007')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '22'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-007')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '24'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-007')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '25'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-007')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '26'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-007')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '27'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-007')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '32'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-007')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '36'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-007')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '39'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-007')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-007')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '44'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-007')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '45'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-007')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-007')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '52'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-007')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '55'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-007')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '56'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-007')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '58'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-007')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '61'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-007')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '62'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-007')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '63'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-007')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '64'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-007')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '65'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-007')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '71'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-007')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '76'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-007')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '83'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-007')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '91'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-007')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '94'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-007')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-008')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-008')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '04'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-008')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '06'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-008')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '07'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-008')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '09'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-008')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '21'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-008')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '22'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-008')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '24'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-008')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '25'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-008')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '26'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-008')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '27'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-008')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '32'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-008')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '36'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-008')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '39'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-008')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-008')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '44'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-008')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '45'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-008')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-008')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '52'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-008')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '55'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-008')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '56'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-008')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '58'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-008')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '61'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-008')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '62'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-008')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '63'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-008')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '64'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-008')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '65'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-008')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '71'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-008')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '76'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-008')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '83'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-008')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '91'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-008')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '95'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-008')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '04'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '06'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '07'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '09'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '21'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '22'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '24'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '25'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '26'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '27'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '32'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '36'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '39'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '44'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '45'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '52'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '55'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '56'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '58'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '61'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '62'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '63'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '64'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '65'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '71'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '76'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '83'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '91'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '96'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '04'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '06'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '07'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '09'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '21'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '22'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '24'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '25'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '26'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '27'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '32'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '36'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '39'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '44'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '45'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '52'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '55'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '56'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '58'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '61'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '62'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '63'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '64'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '65'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '71'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '76'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '83'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '91'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '97'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-011')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-011')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '04'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-011')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '06'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-011')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '07'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-011')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '09'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-011')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '21'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-011')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '22'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-011')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '24'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-011')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '25'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-011')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '26'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-011')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '27'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-011')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '32'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-011')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '36'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-011')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '39'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-011')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-011')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '44'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-011')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '45'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-011')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-011')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '52'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-011')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '55'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-011')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '56'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-011')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '58'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-011')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '61'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-011')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '62'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-011')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '63'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-011')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '64'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-011')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '65'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-011')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '71'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-011')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '76'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-011')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '83'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-011')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '91'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-011')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '98'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-011')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-012')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-012')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '58'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-012')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '58'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-013')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-014')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '55'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-014')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-015')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '25'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-016')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-016')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-017')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-018')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-018')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '52'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-018')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-019')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-020')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '45'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-020')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '56'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-020')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '63'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-020')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '64'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-020')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '65'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-020')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '21'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-021')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '22'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-022')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-023')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '24'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-023')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-023')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-023')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '52'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-023')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '83'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-024')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-025')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-025')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '52'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-025')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '04'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '06'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '07'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '09'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '21'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '22'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '24'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '25'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '26'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '27'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '32'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '36'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '39'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '44'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '45'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '52'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '55'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '56'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '58'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '61'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '62'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '63'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '64'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '65'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '71'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '76'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '83'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '91'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '93'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-027')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-028')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '21'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '22'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '24'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '25'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '26'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '32'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '36'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '39'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '52'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '55'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '56'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '58'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '61'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '62'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '63'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '64'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '65'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '71'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '04'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '06'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '07'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '09'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '21'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '22'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '24'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '25'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '26'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '27'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '32'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '36'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '39'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '44'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '45'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '52'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '55'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '56'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '58'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '61'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '62'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '63'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '64'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '65'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '71'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '76'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '83'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '91'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '93'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '04'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '06'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '07'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '09'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '21'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '22'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '24'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '25'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '26'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '27'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '32'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '36'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '39'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '44'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '45'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '52'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '55'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '56'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '58'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '61'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '62'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '63'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '64'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '65'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '71'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '76'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '83'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '91'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '94'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-032')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-032')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '04'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-032')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '06'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-032')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '07'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-032')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '09'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-032')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '21'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-032')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '22'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-032')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '24'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-032')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '25'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-032')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '26'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-032')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '27'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-032')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '32'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-032')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '36'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-032')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '39'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-032')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-032')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '44'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-032')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '45'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-032')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-032')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '52'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-032')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '55'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-032')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '56'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-032')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '58'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-032')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '61'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-032')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '62'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-032')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '63'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-032')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '64'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-032')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '65'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-032')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '71'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-032')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '76'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-032')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '83'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-032')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '91'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-032')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '95'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-032')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-033')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-033')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '04'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-033')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '06'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-033')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '07'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-033')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '09'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-033')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '21'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-033')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '22'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-033')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '24'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-033')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '25'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-033')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '26'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-033')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '27'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-033')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '32'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-033')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '36'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-033')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '39'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-033')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-033')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '44'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-033')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '45'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-033')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-033')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '52'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-033')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '55'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-033')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '56'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-033')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '58'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-033')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '61'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-033')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '62'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-033')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '63'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-033')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '64'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-033')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '65'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-033')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '71'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-033')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '76'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-033')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '83'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-033')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '91'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-033')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '96'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-033')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-034')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-034')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '04'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-034')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '06'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-034')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '07'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-034')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '09'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-034')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '21'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-034')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '22'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-034')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '24'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-034')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '25'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-034')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '26'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-034')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '27'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-034')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '32'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-034')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '36'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-034')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '39'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-034')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-034')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '44'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-034')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '45'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-034')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-034')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '52'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-034')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '55'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-034')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '56'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-034')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '58'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-034')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '61'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-034')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '62'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-034')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '63'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-034')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '64'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-034')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '65'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-034')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '71'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-034')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '76'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-034')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '83'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-034')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '91'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-034')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '97'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-034')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '04'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '06'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '07'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '09'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '21'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '22'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '24'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '25'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '26'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '27'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '32'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '36'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '39'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '44'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '45'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '52'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '55'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '56'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '58'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '61'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '62'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '63'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '64'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '65'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '71'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '76'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '83'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '91'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '98'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '24'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-036')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '76'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-037')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-038')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-038')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '04'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-038')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '06'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-038')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '07'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-038')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '09'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-038')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '21'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-038')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '22'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-038')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '24'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-038')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '25'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-038')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '26'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-038')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '27'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-038')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '32'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-038')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '36'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-038')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '39'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-038')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-038')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '44'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-038')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '45'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-038')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-038')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '52'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-038')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '55'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-038')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '56'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-038')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '58'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-038')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '61'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-038')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '62'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-038')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '63'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-038')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '64'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-038')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '65'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-038')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '71'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-038')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '76'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-038')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '83'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-038')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '91'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-038')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '93'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-038')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-039')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-039')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '04'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-039')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '06'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-039')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '07'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-039')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '09'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-039')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '21'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-039')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '22'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-039')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '24'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-039')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '25'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-039')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '26'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-039')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '27'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-039')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '32'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-039')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '36'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-039')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '39'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-039')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-039')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '44'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-039')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '45'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-039')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-039')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '52'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-039')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '55'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-039')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '56'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-039')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '58'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-039')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '61'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-039')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '62'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-039')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '63'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-039')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '64'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-039')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '65'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-039')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '71'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-039')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '76'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-039')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '83'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-039')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '91'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-039')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '94'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-039')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-040')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-040')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '04'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-040')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '06'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-040')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '07'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-040')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '09'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-040')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '21'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-040')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '22'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-040')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '24'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-040')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '25'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-040')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '26'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-040')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '27'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-040')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '32'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-040')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '36'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-040')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '39'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-040')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-040')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '44'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-040')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '45'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-040')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-040')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '52'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-040')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '55'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-040')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '56'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-040')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '58'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-040')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '61'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-040')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '62'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-040')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '63'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-040')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '64'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-040')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '65'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-040')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '71'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-040')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '76'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-040')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '83'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-040')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '91'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-040')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '95'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-040')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '04'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-041')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '09'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-041')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '22'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-041')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-041')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-041')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '52'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-041')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '24'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-042')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-043')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-044')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-044')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '52'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-044')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-045')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-046')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '61'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-046')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '62'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-046')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-047')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-047')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '52'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-048')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '63'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-049')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-050')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '71'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-050')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '76'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-050')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-051')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '26'),
+    (SELECT id FROM egf_budgethead WHERE code = 'RE-052')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-001')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-001')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '04'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-001')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '06'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-001')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '07'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-001')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '09'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-001')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '21'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-001')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '22'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-001')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '24'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-001')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '25'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-001')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '26'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-001')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '27'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-001')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '32'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-001')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '36'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-001')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '39'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-001')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-001')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '44'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-001')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '45'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-001')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-001')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '52'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-001')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '55'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-001')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '56'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-001')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '58'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-001')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '61'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-001')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '62'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-001')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '63'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-001')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '64'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-001')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '65'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-001')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '71'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-001')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '76'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-001')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '83'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-001')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '91'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-001')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '93'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-001')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-002')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-002')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '04'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-002')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '06'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-002')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '07'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-002')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '09'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-002')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '21'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-002')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '22'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-002')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '24'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-002')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '25'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-002')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '26'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-002')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '27'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-002')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '32'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-002')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '36'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-002')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '39'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-002')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-002')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '44'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-002')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '45'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-002')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-002')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '52'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-002')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '55'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-002')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '56'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-002')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '58'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-002')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '61'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-002')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '62'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-002')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '63'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-002')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '64'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-002')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '65'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-002')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '71'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-002')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '76'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-002')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '83'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-002')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '91'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-002')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '94'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-002')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-003')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-003')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '04'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-003')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '06'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-003')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '07'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-003')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '09'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-003')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '21'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-003')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '22'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-003')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '24'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-003')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '25'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-003')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '26'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-003')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '27'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-003')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '32'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-003')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '36'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-003')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '39'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-003')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-003')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '44'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-003')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '45'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-003')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-003')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '52'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-003')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '55'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-003')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '56'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-003')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '58'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-003')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '61'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-003')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '62'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-003')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '63'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-003')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '64'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-003')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '65'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-003')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '71'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-003')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '76'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-003')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '83'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-003')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '91'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-003')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '95'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-003')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-004')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-004')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '04'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-004')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '06'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-004')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '07'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-004')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '09'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-004')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '21'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-004')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '22'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-004')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '24'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-004')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '25'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-004')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '26'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-004')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '27'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-004')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '32'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-004')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '36'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-004')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '39'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-004')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-004')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '44'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-004')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '45'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-004')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-004')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '52'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-004')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '55'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-004')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '56'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-004')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '58'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-004')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '61'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-004')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '62'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-004')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '63'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-004')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '64'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-004')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '65'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-004')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '71'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-004')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '76'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-004')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '83'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-004')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '91'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-004')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '96'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-004')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-005')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-006')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-007')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-008')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '04'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '06'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '07'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '09'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '21'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '22'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '24'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '25'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '26'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '27'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '32'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '36'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '39'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '44'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '45'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '52'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '55'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '56'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '58'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '61'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '62'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '63'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '64'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '65'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '71'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '76'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '83'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '91'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '93'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '04'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '06'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '07'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '09'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '21'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '22'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '24'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '25'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '26'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '27'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '32'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '36'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '39'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '44'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '45'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '52'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '55'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '56'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '58'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '61'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '62'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '63'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '64'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '65'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '71'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '76'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '83'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '91'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '93'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CR-011')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-001')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-002')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '61'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-002')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '62'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-002')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '83'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-002')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '61'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-003')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '61'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-004')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '62'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-004')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-005')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-005')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '55'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-006')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '58'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-006')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '27'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-007')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-007')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '55'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-007')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '56'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-007')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '21'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-008')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '22'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-009')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '25'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-010')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '21'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-011')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '25'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-012')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '25'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-013')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '25'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-014')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-015')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '63'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-015')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '65'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-015')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '24'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-016')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '24'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-017')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '24'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-018')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-019')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-019')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '52'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-019')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-020')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '52'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-020')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-021')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-022')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '32'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-022')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-022')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-022')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '52'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-022')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-023')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '32'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-023')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-023')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-023')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '52'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-023')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-024')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '39'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-025')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-026')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-027')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-028')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '24'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '52'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-029')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-030')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '01'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '44'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '52'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-031')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '03'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-032')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '36'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-033')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-033')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '83'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-033')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '21'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-034')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '21'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-035')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '25'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-036')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '25'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-037')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '41'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-038')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '51'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-039')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '58'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-040')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '58'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-041')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '76'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-042')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '24'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-043')
+);
+
+INSERT INTO function_budget_head (function_id, budget_head_id)
+VALUES (
+    (SELECT id FROM function WHERE code = '56'),
+    (SELECT id FROM egf_budgethead WHERE code = 'CE-044')
+);

@@ -1,6 +1,6 @@
 -- Add column only if it doesn't already exist
 ALTER TABLE IF EXISTS scheme
-ADD COLUMN IF NOT EXISTS state_code BIGINT;
+ADD COLUMN IF NOT EXISTS state_code CHAR(4);
 
 -- Safely expand the 'name' column length to 255 characters
 ALTER TABLE IF EXISTS scheme
