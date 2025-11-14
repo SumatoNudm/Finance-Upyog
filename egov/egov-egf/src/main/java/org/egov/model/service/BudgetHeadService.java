@@ -99,6 +99,10 @@ public class BudgetHeadService {
         return budgetHeadRepository.searchBudgetHeadsByFunctionNative(functionId, query);
     }
 
+    public BudgetHead findById(final  Long budgetHeadId) {
+        return budgetHeadRepository.findOne(budgetHeadId);
+    }
+
 
 
 }

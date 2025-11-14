@@ -6,7 +6,7 @@
 
     <style>
         /* Stronger selector and !important to override Bootstrap defaults */
-        thead.table-header th {
+        <!--thead.table-header th {
             background-color: #003366 !important;
             color: #fff !important;
             text-align: center;
@@ -34,56 +34,461 @@
         .total-row {
             background-color: #eeeeee;
             font-weight: bold;
+        }-->
+
+       body { font-family: Arial, Helvetica, sans-serif; margin: 12px; }
+
+        table.budget-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
         }
+        table.budget-table th, table.budget-table td {
+            border: 1px solid #333;
+            padding: 6px 8px;
+        }
+
+        /* header */
+        table.budget-table thead tr {
+            background: #12324a;
+            color: #fff;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .section-row { background: #cfe9f0; font-weight: bold; }
+        .part-row    { background: #f7e6d9; font-weight: bold; }
+        .acct-row    { background: #e8f5ff; font-weight: bold; }
+        .cat-row     { background: #f4f4f4; font-weight: bold; }
+
+        .total-row {
+            background: #e9e2ee;
+            font-weight: bold;
+            border-top: 2px solid #000;
+        }
+
+        .num     { text-align: right; }
+        .indent1 { padding-left: 12px; }
+        .indent2 { padding-left: 28px; }
+        .muted   { color: #777; }
+
     </style>
 
 
     <div class="table-responsive">
 
 
+        <table class="budget-table" id="budgetTable" >
+            <thead>
+            <tr>
+                <th style="text-align:left;">Budget Head</th>
+                <th>Budget Code</th>
+                <th>Budget Estimate ${currentFy.finYearRange}</th>
+                <th>Actuals ${currentFy.finYearRange}<br/>(9 months)</th>
+                <th>Revised Estimate ${currentFy.finYearRange}</th>
+                <th>Budget Estimate ${nextFy.finYearRange}</th>
+            </tr>
+            </thead>
 
+            <tbody>
 
-        <c:forEach var="typeEntry" items="${nestedGroup}">
+            <!-- ========================== -->
+            <!-- OPENING BALANCE -->
+            <!-- ========================== -->
+            <c:if test="${not empty opening_balance}">
+                <!--<tr class="section-row"><td colspan="6">Opening Balance</td></tr>-->
 
-            <!-- TYPE -->
-            <h1>Type: ${typeEntry.key}</h1>
+                <c:forEach var="item" items="${opening_balance}">
+                    <tr>
+                        <td>
+                            <!--<c:choose>
+                                <c:when test="${item.budgetHead != null}">
+                                    ${item.budgetHead.name}
+                                </c:when>
+                                <c:otherwise><span class="muted">—</span></c:otherwise>
+                            </c:choose>-->
+                            Opening Balance as on <fmt:formatDate value="${currentFy.startingDate}" pattern = "dd/MM/yyyy" />
+                        </td>
 
-            <!-- accountType map -->
-            <c:set var="accountMap" value="${typeEntry.value}" />
+                        <td>${item.budgetCode}</td>
+                        <td class="num"><fmt:formatNumber value="${item.currentEstimate}" maxFractionDigits="2"/></td>
+                        <td class="num"><fmt:formatNumber value="${item.currentActual}" maxFractionDigits="2"/></td>
+                        <td class="num"><fmt:formatNumber value="${item.currentRevisedEstimate}" maxFractionDigits="2"/></td>
+                        <td class="num"><fmt:formatNumber value="${item.nextEstimate}" maxFractionDigits="2"/></td>
+                    </tr>
+                </c:forEach>
+            </c:if>
 
-            <c:forEach var="acctEntry" items="${accountMap}">
+            <!-- ========================== -->
+            <!-- CLOSING BALANCE -->
+            <!-- ========================== -->
+            <!--<c:if test="${not empty closing_balance}">
+                &lt;!&ndash;<tr class="section-row"><td colspan="6">Closing Balance</td></tr>&ndash;&gt;
 
-                <!-- ACCOUNT TYPE -->
-                <h2>Account Type: ${acctEntry.key}</h2>
+                <c:forEach var="item" items="${closing_balance}">
+                    <tr>
+                        <td>
+                            &lt;!&ndash;<c:choose>
+                                <c:when test="${item.budgetHead != null}">
+                                    ${item.budgetHead.name}
+                                </c:when>
+                                <c:otherwise><span class="muted">—</span></c:otherwise>
+                            </c:choose>&ndash;&gt;
+                            Closing Balance
+                        </td>
 
-                <!-- category map -->
-                <c:set var="categoryMap" value="${acctEntry.value}" />
+                        <td>${item.budgetCode}</td>
+                        <td class="num"><fmt:formatNumber value="${item.currentEstimate}" maxFractionDigits="2"/></td>
+                        <td class="num"><fmt:formatNumber value="${item.currentActual}" maxFractionDigits="2"/></td>
+                        <td class="num"><fmt:formatNumber value="${item.currentRevisedEstimate}" maxFractionDigits="2"/></td>
+                        <td class="num"><fmt:formatNumber value="${item.nextEstimate}" maxFractionDigits="2"/></td>
+                    </tr>
+                </c:forEach>
+            </c:if>-->
 
-                <c:forEach var="catEntry" items="${categoryMap}">
+            <!-- ========================== -->
+            <!-- PART A - REVENUE BUDGET -->
+            <!-- ========================== -->
+            <tr class="part-row"><td colspan="6">Part A - REVENUE BUDGET</td></tr>
 
-                    <!-- CATEGORY -->
-                    <h3>Category: ${catEntry.key}</h3>
+            <c:forEach var="acctEntry" items="${grouped_rb.entrySet()}">
 
-                    <!-- TABLE OF ITEMS -->
-                    <table border="1" cellpadding="5" cellspacing="0" width="80%">
-                        <thead>
+                <tr class="acct-row"><td colspan="6">${acctEntry.key}</td></tr>
+
+                <c:forEach var="catEntry" items="${acctEntry.value.entrySet()}">
+
+                    <tr class="cat-row">
+                        <td colspan="6" class="indent1">${catEntry.key}</td>
+                    </tr>
+
+                    <%-- RESET TOTALS FOR THIS CATEGORY --%>
+                    <%
+                    java.math.BigDecimal totE = java.math.BigDecimal.ZERO;
+                    java.math.BigDecimal totA = java.math.BigDecimal.ZERO;
+                    java.math.BigDecimal totR = java.math.BigDecimal.ZERO;
+                    java.math.BigDecimal totN = java.math.BigDecimal.ZERO;
+                    %>
+
+                    <c:forEach var="item" items="${catEntry.value}">
                         <tr>
-                            <th>Budget Code</th>
-                            <th>Budget Head</th>
-                            <th>Current Estimate</th>
-                            <th>Current Actual</th>
-                            <th>Revised Estimate</th>
-                            <th>Next Estimate</th>
-                        </tr>
-                        </thead>
+                            <td class="indent2">
+                                <c:choose>
+                                    <c:when test="${item.budgetHead != null}">${item.budgetHead.name}</c:when>
+                                    <c:otherwise><span class="muted">—</span></c:otherwise>
+                                </c:choose>
+                            </td>
 
-                        <tbody>
-                        <c:forEach var="item" items="${catEntry.value}">
-                            <tr>
-                                <td>${item.budgetCode}</td>
-                                <td>${item.budgetHead.name}</td>
-                                <td>${item.currentEstimate}</td>
-                                <td>${item.currentActual}</td>
+                            <td>${item.budgetCode}</td>
+
+                            <td class="num">
+                                <fmt:formatNumber value="${item.currentEstimate}" maxFractionDigits="2"/>
+                            </td>
+
+                            <td class="num">
+                                <fmt:formatNumber value="${item.currentActual}" maxFractionDigits="2"/>
+                            </td>
+
+                            <td class="num">
+                                <fmt:formatNumber value="${item.currentRevisedEstimate}" maxFractionDigits="2"/>
+                            </td>
+
+                            <td class="num">
+                                <fmt:formatNumber value="${item.nextEstimate}" maxFractionDigits="2"/>
+                            </td>
+                        </tr>
+
+                        <%-- ACCUMULATE TOTALS --%>
+                        <%
+                        java.math.BigDecimal e = (java.math.BigDecimal) pageContext.findAttribute("item.currentEstimate");
+                        java.math.BigDecimal a = (java.math.BigDecimal) pageContext.findAttribute("item.currentActual");
+                        java.math.BigDecimal r = (java.math.BigDecimal) pageContext.findAttribute("item.currentRevisedEstimate");
+                        java.math.BigDecimal n = (java.math.BigDecimal) pageContext.findAttribute("item.nextEstimate");
+
+                        if (e != null) totE = totE.add(e);
+                        if (a != null) totA = totA.add(a);
+                        if (r != null) totR = totR.add(r);
+                        if (n != null) totN = totN.add(n);
+                        %>
+                    </c:forEach>
+
+                    <!-- TOTAL ROW FOR THIS CATEGORY -->
+                    <!--<tr class="total-row">
+                        <td class="indent2">Total</td>
+                        <td></td>
+                        <td class="num"><%= totE %></td>
+                        <td class="num"><%= totA %></td>
+                        <td class="num"><%= totR %></td>
+                        <td class="num"><%= totN %></td>
+                    </tr>-->
+
+                    <!-- CATEGORY TOTAL ROW (Injected here inside loop) -->
+                    <tr class="total-row">
+                        <td class="indent2">Total</td>
+                        <td></td>
+
+                        <td class="num">
+                            <fmt:formatNumber value="${rbTotals[catEntry.key].estimate}" maxFractionDigits="2"/>
+                        </td>
+
+                        <td class="num">
+                            <fmt:formatNumber value="${rbTotals[catEntry.key].actual}" maxFractionDigits="2"/>
+                        </td>
+
+                        <td class="num">
+                            <fmt:formatNumber value="${rbTotals[catEntry.key].revised}" maxFractionDigits="2"/>
+                        </td>
+
+                        <td class="num">
+                            <fmt:formatNumber value="${rbTotals[catEntry.key].next}" maxFractionDigits="2"/>
+                        </td>
+                    </tr>
+
+                </c:forEach>
+            </c:forEach>
+
+
+            <!-- ========================== -->
+            <!-- PART B - CAPITAL BUDGET -->
+            <!-- ========================== -->
+            <tr class="part-row"><td colspan="6">Part B - CAPITAL BUDGET</td></tr>
+
+            <c:forEach var="acctEntry" items="${grouped_cb.entrySet()}">
+
+                <tr class="acct-row"><td colspan="6">${acctEntry.key}</td></tr>
+
+                <c:forEach var="catEntry" items="${acctEntry.value.entrySet()}">
+
+                    <tr class="cat-row">
+                        <td colspan="6" class="indent1">${catEntry.key}</td>
+                    </tr>
+
+                    <%
+                    java.math.BigDecimal totCE = java.math.BigDecimal.ZERO;
+                    java.math.BigDecimal totCA = java.math.BigDecimal.ZERO;
+                    java.math.BigDecimal totCR = java.math.BigDecimal.ZERO;
+                    java.math.BigDecimal totCN = java.math.BigDecimal.ZERO;
+                    %>
+
+                    <c:forEach var="item" items="${catEntry.value}">
+                        <tr>
+                            <td class="indent2">
+                                <c:choose>
+                                    <c:when test="${item.budgetHead != null}">${item.budgetHead.name}</c:when>
+                                    <c:otherwise><span class="muted">—</span></c:otherwise>
+                                </c:choose>
+                            </td>
+
+                            <td>${item.budgetCode}</td>
+
+                            <td class="num"><fmt:formatNumber value="${item.currentEstimate}" maxFractionDigits="2"/></td>
+                            <td class="num"><fmt:formatNumber value="${item.currentActual}" maxFractionDigits="2"/></td>
+                            <td class="num"><fmt:formatNumber value="${item.currentRevisedEstimate}" maxFractionDigits="2"/></td>
+                            <td class="num"><fmt:formatNumber value="${item.nextEstimate}" maxFractionDigits="2"/></td>
+                        </tr>
+
+                        <%
+                        java.math.BigDecimal e2 = (java.math.BigDecimal) pageContext.findAttribute("item.currentEstimate");
+                        java.math.BigDecimal a2 = (java.math.BigDecimal) pageContext.findAttribute("item.currentActual");
+                        java.math.BigDecimal r2 = (java.math.BigDecimal) pageContext.findAttribute("item.currentRevisedEstimate");
+                        java.math.BigDecimal n2 = (java.math.BigDecimal) pageContext.findAttribute("item.nextEstimate");
+
+                        if (e2 != null) totCE = totCE.add(e2);
+                        if (a2 != null) totCA = totCA.add(a2);
+                        if (r2 != null) totCR = totCR.add(r2);
+                        if (n2 != null) totCN = totCN.add(n2);
+                        %>
+                    </c:forEach>
+
+                    <!--<tr class="total-row">
+                        <td class="indent2">Total</td>
+                        <td></td>
+                        <td class="num"><%= totCE %></td>
+                        <td class="num"><%= totCA %></td>
+                        <td class="num"><%= totCR %></td>
+                        <td class="num"><%= totCN %></td>
+                    </tr>-->
+
+                    <!-- total capital budgets -->
+                    <tr class="total-row">
+                        <td class="indent2">Total</td>
+                        <td></td>
+
+                        <td class="num">
+                            <fmt:formatNumber value="${cbTotals[catEntry.key].estimate}" maxFractionDigits="2"/>
+                        </td>
+
+                        <td class="num">
+                            <fmt:formatNumber value="${cbTotals[catEntry.key].actual}" maxFractionDigits="2"/>
+                        </td>
+
+                        <td class="num">
+                            <fmt:formatNumber value="${cbTotals[catEntry.key].revised}" maxFractionDigits="2"/>
+                        </td>
+
+                        <td class="num">
+                            <fmt:formatNumber value="${cbTotals[catEntry.key].next}" maxFractionDigits="2"/>
+                        </td>
+                    </tr>
+
+                </c:forEach>
+            </c:forEach>
+
+
+
+            <!-- ========================== -->
+            <!-- CLOSING BALANCE -->
+            <!-- ========================== -->
+            <c:if test="${not empty closing_balance}">
+                <!--<tr class="section-row"><td colspan="6">Closing Balance</td></tr>-->
+
+                <c:forEach var="item" items="${closing_balance}">
+                    <tr>
+                        <td>
+                            <!--<c:choose>
+                                <c:when test="${item.budgetHead != null}">
+                                    ${item.budgetHead.name}
+                                </c:when>
+                                <c:otherwise><span class="muted">—</span></c:otherwise>
+                            </c:choose>-->
+                            Closing Balance
+                        </td>
+
+                        <td>${item.budgetCode}</td>
+                        <td class="num"><fmt:formatNumber value="${item.currentEstimate}" maxFractionDigits="2"/></td>
+                        <td class="num"><fmt:formatNumber value="${item.currentActual}" maxFractionDigits="2"/></td>
+                        <td class="num"><fmt:formatNumber value="${item.currentRevisedEstimate}" maxFractionDigits="2"/></td>
+                        <td class="num"><fmt:formatNumber value="${item.nextEstimate}" maxFractionDigits="2"/></td>
+                    </tr>
+                </c:forEach>
+            </c:if>
+
+            </tbody>
+        </table>
+
+
+        <!--<div style="margin-top: 16px;">
+            <button onclick="window.print()"
+                    style="padding:6px 12px; background:#2c3e50; color:white; border:0; border-radius:4px;">
+                Print
+            </button>
+
+            <a href="/services/EGF/budget/pdf"
+               style="padding:6px 12px; background:#d35400; color:white; border-radius:4px; margin-left:5px; text-decoration:none;">
+                Download PDF
+            </a>
+
+            <a href="/services/EGF/budget/excel"
+               style="padding:6px 12px; background:#27ae60; color:white; border-radius:4px; margin-left:5px; text-decoration:none;">
+                Download Excel
+            </a>
+        </div>-->
+
+
+
+        <!--<c:if test="${not empty nestedGroup}">
+            &lt;!&ndash; iterate over type -> (accountType -> (category -> list)) &ndash;&gt;
+            <c:forEach var="typeEntry" items="${nestedGroup.entrySet()}">
+
+                <c:set var="typeKey" value="${typeEntry.key}" />
+                <c:if test="${not empty typeKey}">
+                    <h2 style="margin-top:24px;">Type: ${typeKey}</h2>
+
+                    <c:set var="accountMap" value="${typeEntry.value}" />
+                    <c:if test="${not empty accountMap}">
+
+                        <c:forEach var="acctEntry" items="${accountMap.entrySet()}">
+                            <c:set var="acctType" value="${acctEntry.key}" />
+                            <h3 style="margin-left:8px;">Account Type: ${acctType}</h3>
+
+                            <c:set var="categoryMap" value="${acctEntry.value}" />
+                            <c:if test="${not empty categoryMap}">
+
+                                <c:forEach var="catEntry" items="${categoryMap.entrySet()}">
+                                    <c:set var="category" value="${catEntry.key}" />
+                                    <h4 style="margin-left:16px;">Category: ${category}</h4>
+
+                                    <c:set var="items" value="${catEntry.value}" />
+                                    <c:if test="${not empty items}">
+                                        <table border="1" cellpadding="6" cellspacing="0" style="margin-left:20px; width:95%; border-collapse:collapse;">
+                                            <thead>
+                                            <tr>
+                                                <th>Budget Code</th>
+                                                <th>Budget Head</th>
+                                                <th>Current Estimate</th>
+                                                <th>Current Actual</th>
+                                                <th>Revised Estimate</th>
+                                                <th>Next Estimate</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <c:forEach var="item" items="${items}">
+                                                <c:if test="${not empty item}">
+                                                    <tr>
+                                                        <td>${item.budgetCode}</td>
+                                                        <td>
+                                                            <c:choose>
+                                                                <c:when test="${not empty item.budgetHead}">
+                                                                    ${item.budgetHead.name}
+                                                                </c:when>
+                                                                <c:otherwise>—</c:otherwise>
+                                                            </c:choose>
+                                                        </td>
+                                                        <td>
+                                                            <c:choose>
+                                                                <c:when test="${not empty item.currentEstimate}">
+                                                                    <fmt:formatNumber value="${item.currentEstimate}" type="number" />
+                                                                </c:when>
+                                                                <c:otherwise>0</c:otherwise>
+                                                            </c:choose>
+                                                        </td>
+                                                        <td>
+                                                            <c:choose>
+                                                                <c:when test="${not empty item.currentActual}">
+                                                                    <fmt:formatNumber value="${item.currentActual}" type="number" />
+                                                                </c:when>
+                                                                <c:otherwise>0</c:otherwise>
+                                                            </c:choose>
+                                                        </td>
+                                                        <td>
+                                                            <c:choose>
+                                                                <c:when test="${not empty item.currentRevisedEstimate}">
+                                                                    <fmt:formatNumber value="${item.currentRevisedEstimate}" type="number" />
+                                                                </c:when>
+                                                                <c:otherwise>0</c:otherwise>
+                                                            </c:choose>
+                                                        </td>
+                                                        <td>
+                                                            <c:choose>
+                                                                <c:when test="${not empty item.nextEstimate}">
+                                                                    <fmt:formatNumber value="${item.nextEstimate}" type="number" />
+                                                                </c:when>
+                                                                <c:otherwise>0</c:otherwise>
+                                                            </c:choose>
+                                                        </td>
+                                                    </tr>
+                                                </c:if>
+                                            </c:forEach>
+                                            </tbody>
+                                        </table>
+                                        <br/>
+                                    </c:if>
+                                </c:forEach>
+
+                            </c:if>
+                        </c:forEach>
+
+                    </c:if>
+                </c:if>
+
+            </c:forEach>
+        </c:if>
+
+        <c:if test="${empty nestedGroup}">
+            <p>No data available.</p>
+        </c:if>-->
+
+
+
 
 
 
@@ -249,3 +654,4 @@
                                     </tbody>
                                 </table>-->
     </div>
+

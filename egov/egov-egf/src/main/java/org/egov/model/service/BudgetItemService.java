@@ -11,6 +11,7 @@ import org.egov.commons.repository.FunctionRepository;
 import org.egov.commons.service.CFinancialYearService;
 import org.egov.egf.form.BudgetForm;
 import org.egov.infra.validation.exception.ValidationException;
+import org.egov.model.budget.BudgetHead;
 import org.egov.model.budget.BudgetItem;
 import org.egov.model.repository.BudgetItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ public class BudgetItemService {
 
     @Autowired
 	private CFinancialYearService financialYearService;
+
+    @Autowired
+    private BudgetHeadService budgetHeadService;
 
     @Autowired
     public BudgetItemService(final BudgetItemRepository budgetItemRepository, final FunctionRepository functionRepository) {
@@ -79,6 +83,11 @@ public class BudgetItemService {
                     item.setFunction(function);
                     item.setFinancialYear(financialYear);
                     item.setCurrentFinancialYear(nextFinancialYear);
+                    BudgetHead bh= budgetHeadService.findById(item.getBudgetHead().getId());
+                    if (bh == null) {
+                        throw new Exception("Invalid budget head on " + item.getBudgetGroup());
+                    }
+                    item.setBudgetHead(bh);
                     budgetItemRepository.save(item);
                 }
             }
@@ -124,6 +133,11 @@ public class BudgetItemService {
 
         return items.stream()
                 .collect(Collectors.groupingBy(BudgetItem::getBudgetGroup));
+    }
+
+    public List<BudgetItem> getBudgetItemsByFunctionAndCurrentFinancialYear(CFunction function, CFinancialYear currentFinancialYear) {
+        List<BudgetItem> budgetItems = budgetItemRepository.findByFunctionAndCurrentFinancialYear(function, financialYearService);
+        return budgetItems;
     }
 
 }

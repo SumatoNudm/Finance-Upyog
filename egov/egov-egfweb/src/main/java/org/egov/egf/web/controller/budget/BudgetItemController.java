@@ -17,6 +17,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -173,22 +176,28 @@ public class BudgetItemController {
 			throw new Exception("Financial year is invalid !");
 		}
 
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(currentFy.getEndingDate());
+		calendar.add(Calendar.DATE, 1);
+		CFinancialYear nextFy = financialYearService.getFinancialYearByDate(calendar.getTime());
 
-//		final List<BudgetItem> openingBalance = budgetItemService.findByTypeAndFunctionIdAndFinancialYearId("Opening_Balance", function.getId(), currentFy.getId());
-//		final List<BudgetItem> closingBalance = budgetItemService.findByTypeAndFunctionIdAndFinancialYearId("Closing_Balance", function.getId(), currentFy.getId());
-//		final List<BudgetItem> revenueBudget = budgetItemService.findByTypeAndFunctionIdAndFinancialYearId("Revenue_Budget", function.getId(), currentFy.getId());
-//		final List<BudgetItem> capitalBudget = budgetItemService.findByTypeAndFunctionIdAndFinancialYearId("Capital_Budget", function.getId(), currentFy.getId());
-//
-//		model.addAttribute("Opening_Balance", openingBalance);
-//		model.addAttribute("Closing_Balance", closingBalance);
-//		model.addAttribute("Revenue_Budget", revenueBudget);
-//		model.addAttribute("Capital_Budget", capitalBudget);
+		if (nextFy == null) {
+			throw new Exception("Invalid financial year ! for " + calendar.getTime());
+		}
 
 
-		LOGGER.info("hello from here");
+		model.addAttribute("currentFy", currentFy);
+		model.addAttribute("nextFy", nextFy);
+
+
+
+
+
+
 
 		List<String> types = Arrays.asList("Opening_Balance", "Closing_Balance", "Revenue_Budget", "Capital_Budget");
 		Map<String,List<BudgetItem>> grouped = budgetItemService.getBudgetItemsByTypesFunctionFy(types, function, currentFy);
+
 
 //		model.addAttribute("Opening_Balance", grouped.getOrDefault("Opening_Balance", Collections.emptyList()));
 //		model.addAttribute("Closing_Balance", grouped.getOrDefault("Closing_Balance", Collections.emptyList()));
@@ -198,19 +207,18 @@ public class BudgetItemController {
 //		model.addAttribute("budgetGroups", grouped);
 
 
-		Map<String, Map<BudgetAccountType, Map<String, List<BudgetItem>>>> nestedGroup = new LinkedHashMap<>();
-
-		for (Map.Entry<String, List<BudgetItem>> entry : grouped.entrySet()) {
-
-			String type = entry.getKey();                 // "Opening_Balance"
-			List<BudgetItem> items = entry.getValue();    // list of BudgetItem for that type
-
-			if (shouldSkip(type, items)) {
-				continue;
-			}
-
-
-			// group by accountType then by category
+//		Map<String, Map<BudgetAccountType, Map<String, List<BudgetItem>>>> nestedGroup = new LinkedHashMap<>();
+//
+//		for (Map.Entry<String, List<BudgetItem>> entry : grouped.entrySet()) {
+//
+//			String type = entry.getKey();                 // "Opening_Balance"
+//			List<BudgetItem> items = entry.getValue();    // list of BudgetItem for that type
+//
+//			if (shouldSkip(type, items)) {
+//				continue;
+//			}
+//
+//			// group by accountType then by category
 //			Map<BudgetAccountType, Map<String, List<BudgetItem>>> byAccountAndCategory =
 //					items.stream()
 //							.collect(Collectors.groupingBy(
@@ -221,40 +229,62 @@ public class BudgetItemController {
 //							));
 //
 //			nestedGroup.put(type, byAccountAndCategory);
+//
+//		}
+
+//		model.addAttribute("nestedGroup", nestedGroup);
 
 
-			Map<BudgetAccountType, Map<String, List<BudgetItem>>> byAccountAndCategory =
-					items.stream()
-							.filter(i -> i != null
-									&& i.getBudgetHead() != null
-									&& i.getBudgetHead().getAccountType() != null
-									&& i.getBudgetHead().getCategory() != null)
-							.collect(Collectors.groupingBy(
-									i -> i.getBudgetHead().getAccountType(),
-									LinkedHashMap::new,
-									Collectors.groupingBy(
-											i -> i.getBudgetHead().getCategory(),
-											LinkedHashMap::new,
-											Collectors.toList()
-									)
-							));
+		final List<BudgetItem> oBal = grouped.getOrDefault("Opening_Balance", Collections.emptyList());
+		final List<BudgetItem> cBal = grouped.getOrDefault("Closing_Balance", Collections.emptyList());
+		final List<BudgetItem> rb = grouped.getOrDefault("Revenue_Budget", Collections.emptyList());
+		final List<BudgetItem> cb = grouped.getOrDefault("Capital_Budget", Collections.emptyList());
+
+		model.addAttribute("opening_balance", oBal);
+		model.addAttribute("closing_balance", cBal);
+
+		//grouping for revenue budget
+		Map<BudgetAccountType, Map<String, List<BudgetItem>>> groupedRB = rb.stream().collect(Collectors.groupingBy(
+				item -> item.getBudgetHead().getAccountType(),
+				Collectors.groupingBy(
+						itm -> itm.getBudgetHead().getCategory()
+				)
+		));
+
+		model.addAttribute("grouped_rb", groupedRB);
 
 
-			nestedGroup.put(type, byAccountAndCategory);
+		// grouping for capital budget
+		Map<BudgetAccountType, Map<String, List<BudgetItem>>> groupedCB = cb.stream().collect(Collectors.groupingBy(
+				item -> item.getBudgetHead().getAccountType(),
+				Collectors.groupingBy(
+						itm -> itm.getBudgetHead().getCategory()
+				)
+		));
+
+		model.addAttribute("grouped_cb", groupedCB);
 
 
+		Map<String, BudgetTotals> rbTotals = new LinkedHashMap<>();
+
+		for (Map.Entry<BudgetAccountType, Map<String, List<BudgetItem>>> acct : groupedRB.entrySet()) {
+			for (Map.Entry<String, List<BudgetItem>> cat : acct.getValue().entrySet()) {
+				rbTotals.put(cat.getKey(), computeTotals(cat.getValue()));
+			}
 		}
 
-		model.addAttribute("nestedGroup", nestedGroup);
+		model.addAttribute("rbTotals", rbTotals);
 
 
+		Map<String, BudgetTotals> cbTotals = new LinkedHashMap<>();
 
-//		grouped.entrySet().forEach(entry -> {
-//					LOGGER.info(entry);
-//					grouped.get(entry).forEach(item -> LOGGER.info(item.toString()));
-//				}
-//				);
+		for (Map.Entry<BudgetAccountType, Map<String, List<BudgetItem>>> acct : groupedCB.entrySet()) {
+			for (Map.Entry<String, List<BudgetItem>> cat : acct.getValue().entrySet()) {
+				cbTotals.put(cat.getKey(), computeTotals(cat.getValue()));
+			}
+		}
 
+		model.addAttribute("cbTotals", cbTotals);
 
 
 		return BUDGET_ITEM_VIEW;
@@ -267,5 +297,34 @@ public class BudgetItemController {
 				|| "Opening_Balance".equals(type)
 				|| "Closing_Balance".equals(type);
 	}
+
+
+	private BudgetTotals computeTotals(List<BudgetItem> items) {
+
+		BigDecimal est = items.stream()
+				.map(BudgetItem::getCurrentEstimate)
+				.filter(Objects::nonNull)
+				.reduce(BigDecimal.ZERO, BigDecimal::add);
+
+		BigDecimal act = items.stream()
+				.map(BudgetItem::getCurrentActual)
+				.filter(Objects::nonNull)
+				.reduce(BigDecimal.ZERO, BigDecimal::add);
+
+		BigDecimal rev = items.stream()
+				.map(BudgetItem::getCurrentRevisedEstimate)
+				.filter(Objects::nonNull)
+				.reduce(BigDecimal.ZERO, BigDecimal::add);
+
+		BigDecimal nxt = items.stream()
+				.map(BudgetItem::getNextEstimate)
+				.filter(Objects::nonNull)
+				.reduce(BigDecimal.ZERO, BigDecimal::add);
+
+		return new BudgetTotals(est, act, rev, nxt);
+	}
+
+
+
 
 }

@@ -91,9 +91,13 @@
 										id="items[0].budgetGroup"
 										class="form-control table-input hidden-input budgetGroup" />
 
-									<form:hidden path="" name="items[0].budgetHeadId"
-										id="items[0].budgetHeadId"
+									<form:hidden path="items[0].budgetHead.id" name="items[0].budgetHead.id"
+										id="items[0].budgetHead.id"
 										class="form-control table-input hidden-input budgetHeadId" />
+
+									<form:hidden path="" name="items[0].budgetHeadId"
+												 id="items[0].budgetHeadId"
+												 class="form-control table-input hidden-input budgetHeadId" />
 
 									<td style="width: 15%;"><input type="text" name="items[0].currentEstimate"
 											class="form-control"></td>
