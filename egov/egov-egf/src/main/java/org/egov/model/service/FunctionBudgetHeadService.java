@@ -25,7 +25,7 @@ public class FunctionBudgetHeadService {
     }
 
     public List<FunctionBudgetHead> findAll() {
-        return functionBudgetHeadRepository.findByIdGreaterThan(500L, new Sort(
+        return functionBudgetHeadRepository.findAll(new Sort(
                 Sort.Direction.ASC, "function.code"));
     }
 }

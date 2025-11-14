@@ -170,6 +170,8 @@ public class BudgetItemController {
 			throw new Exception("Selected function is invalid!");
 		}
 
+		model.addAttribute("function", function);
+
 		final CFinancialYear currentFy = financialYearService.getCurrentFinancialYear();
 
 		if (currentFy == null) {
