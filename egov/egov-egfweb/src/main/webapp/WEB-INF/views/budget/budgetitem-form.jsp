@@ -17,7 +17,8 @@
 							${function.name} (<span class="text-muted">${function.code}</span>)
 							<input type="hidden" id="functionCode" name="functionCode" value="${function.code}" />
 							<input type="hidden" id="functionid" name="functionid" value="${function.id}" />
-							<input type="hidden" id="currentFinancialYear" name="currentFinancialYear" value="${currentFy.id}" />
+							<input type="hidden" id="currentFinancialYear" name="currentFinancialYear"
+								value="${currentFy.id}" />
 							<input type="hidden" id="financialYear" name="financialYear" value="${nextFy.id}" />
 						</div>
 					</div>
@@ -47,7 +48,9 @@
 										value="Opening_Balance" />
 									<input type="hidden" id="opening.functionid" name="opening.functionid"
 										value="${function.id}" />
-									<td style="width: 40%;">Opening Balance as on <fmt:formatDate value="${currentFy.startingDate}" pattern = "dd/MM/yyyy" /></td>
+									<td style="width: 40%;">Opening Balance as on
+										<fmt:formatDate value="${currentFy.startingDate}" pattern="dd/MM/yyyy" />
+									</td>
 									<td style="width: 15%;"><input type="text" name="opening.currentEstimate"
 											data-pattern="decimalvalue" maxlength="12" class="form-control"></td>
 									<td style="width: 15%;"><input type="text" name="opening.currentActual"
@@ -60,6 +63,7 @@
 							</tbody>
 						</table>
 
+						${schemeApplicable}
 						<table class="table table-bordered" id="dynamicTable">
 							<thead>
 								<tr>
@@ -68,36 +72,36 @@
 									<th>Actuals <strong>${currentFy.finYearRange}</strong> (9 months)</th>
 									<th>RE <strong>${currentFy.finYearRange}</strong></th>
 									<th>BE <strong>${nextFy.finYearRange}</strong></th>
-									<th></th>
+									<th>Actions</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr id="budgetdetailsrow">
 									<td style="width: 30%;">
-										<input type="text" id="items[0].budgetcode"
-											name="items[0].budgetcode"
-											class="form-control table-input budgetHeadcode budgetcode"
-											data-errormsg="Budget Head Code is mandatory!" data-idx="0"
-											data-optional="0" placeholder="Type first 3 letters of Budget code">
+										<div style="margin-bottom: 8px;">
+											<input type="text" id="items[0].budgetcode" name="items[0].budgetcode"
+												class="form-control table-input budgetHeadcode budgetcode"
+												placeholder="Type first 3 letters of Budget code">
+										</div>
+
+										<input type="text" name="items[0].schemeid"
+											class="scheme-input table-input form-control" style="display:none;"
+											placeholder="Type Scheme code">
 									</td>
 
-									<form:hidden path="" name="items[0].budgetheadcode"
-										id="items[0].budgetheadcode"
+									<form:hidden path="" name="items[0].budgetheadcode" id="items[0].budgetheadcode"
 										class="form-control table-input hidden-input budgetheadcode" />
-									<form:hidden path="" name="items[0].budgetCode"
-										id="items[0].genBudgetCode"
+									<form:hidden path="" name="items[0].budgetCode" id="items[0].genBudgetCode"
 										class="form-control table-input hidden-input genBudgetCode" />
-									<form:hidden path="" name="items[0].budgetGroup"
-										id="items[0].budgetGroup"
+									<form:hidden path="" name="items[0].budgetGroup" id="items[0].budgetGroup"
 										class="form-control table-input hidden-input budgetGroup" />
 
 									<form:hidden path="items[0].budgetHead.id" name="items[0].budgetHead.id"
 										id="items[0].budgetHead.id"
 										class="form-control table-input hidden-input budgetHeadId" />
 
-									<form:hidden path="" name="items[0].budgetHeadId"
-												 id="items[0].budgetHeadId"
-												 class="form-control table-input hidden-input budgetHeadId" />
+									<form:hidden path="" name="items[0].budgetHeadId" id="items[0].budgetHeadId"
+										class="form-control table-input hidden-input budgetHeadId" />
 
 									<td style="width: 15%;"><input type="text" name="items[0].currentEstimate"
 											class="form-control"></td>
@@ -135,7 +139,9 @@
 							<tbody>
 								<tr id="closingBalancerow">
 									<input type="hidden" id="budgetGroup" name="budgetGroup" value="Closing_Balance" />
-									<td style="width: 40%;">Closing Balance as on <fmt:formatDate value="${currentFy.endingDate}" pattern = "dd/MM/yyyy" /></td>
+									<td style="width: 40%;">Closing Balance as on
+										<fmt:formatDate value="${currentFy.endingDate}" pattern="dd/MM/yyyy" />
+									</td>
 									<td style="width: 15%;"><input type="text" name="closing.currentEstimate"
 											class="form-control"></td>
 									<td style="width: 15%;"><input type="text" name="closing.currentActual"

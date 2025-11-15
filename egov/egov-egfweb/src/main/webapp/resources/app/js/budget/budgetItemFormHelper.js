@@ -96,26 +96,37 @@ function budgethead_initialize() {
                 flag = true
             }
 
-//            budgetheadcode.value = originalBudgetHeadcode;
-//            budgetcode.value = functionCode + '-' + originalBudgetHeadcode;
-//            budgetgroup.value = getBudgetGroup(data.accountTypeCode);
-//            budgetheadid.value = budgetHeadId;
+            //            budgetheadcode.value = originalBudgetHeadcode;
+            //            budgetcode.value = functionCode + '-' + originalBudgetHeadcode;
+            //            budgetgroup.value = getBudgetGroup(data.accountTypeCode);
+            //            budgetheadid.value = budgetHeadId;
         });
 
         if (flag) {
-            bootbox.alert($.i18n.prop('msg.budget.code.already.added'), function() {
-                var index= bc.length - 1;
-                if(document.getElementById('items['+index+'].budgetcode'))
-                    document.getElementById('items['+index+'].budgetcode').value = "";
-                }
+            bootbox.alert($.i18n.prop('msg.budget.code.already.added'), function () {
+                var index = bc.length - 1;
+                if (document.getElementById('items[' + index + '].budgetcode'))
+                    document.getElementById('items[' + index + '].budgetcode').value = "";
+            }
             );
-         } else {
-//            $(this).parents("tr:first").find('.debitdetailname').val(data.name);
+        } else {
+            //            $(this).parents("tr:first").find('.debitdetailname').val(data.name);
             $(this).parents("tr:first").find('.budgetheadcode').val(data.code);
-//            $(this).parents("tr:first").find('.budgetcode').val(functionCode + '-' + data.code);
+            //            $(this).parents("tr:first").find('.budgetcode').val(functionCode + '-' + data.code);
             $(this).parents("tr:first").find('.genBudgetCode').val(functionCode + '-' + data.code);
             $(this).parents("tr:first").find('.budgetGroup').val(getBudgetGroup(data.accountTypeCode));
             $(this).parents("tr:first").find('.budgetHeadId').val(data.id);
+
+            var row = $(this).parents("tr:first");
+            var program = data.program;
+
+            // Show/hide only inside this row
+            if (program === "Yes") {
+                row.find('.scheme-input').show();
+            } else {
+                row.find('.scheme-input').hide();
+            }
+
         }
 
     });
@@ -129,7 +140,7 @@ function addBudgetDetailsRow() {
         if (document.getElementById('budgetdetailsrow') != null) {
             addRow('dynamicTable', 'budgetdetailsrow');
             $('#dynamicTable tbody tr:eq(' + rowcount + ')').find('.budgetHeadcode').val('');
-            // $('#dynamicTable tbody tr:eq(' + rowcount + ')').find('.debitdetailname').val('');
+            $('#dynamicTable tbody tr:eq(' + rowcount + ')').find('.scheme-input').hide();
             budgethead_initialize();
             addCustomEvent(rowcount, 'items[index].addButton', 'keydown', shortKeyFunForAddButton);
         }

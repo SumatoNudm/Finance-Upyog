@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import org.egov.commons.CFinancialYear;
 import org.egov.commons.CFunction;
+import org.egov.commons.Scheme;
 import org.egov.infra.persistence.entity.AbstractAuditable;
 import org.egov.infra.persistence.validator.annotation.Unique;
 
@@ -72,6 +73,11 @@ public class BudgetItem extends AbstractAuditable {
     @NotNull
     @Column(name = "nextestimate",  precision = 13, scale = 2)
     private BigDecimal nextEstimate;
+
+
+    @ManyToOne
+    @JoinColumn(name = "schemeid")
+    private Scheme scheme;
 
 
     @Override
