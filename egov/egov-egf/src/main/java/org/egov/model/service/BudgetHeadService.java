@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.apache.struts2.util.SortIteratorFilter;
+import org.egov.commons.CFinancialYear;
 import org.egov.model.budget.BudgetHead;
 import org.egov.model.repository.BudgetHeadRepository;
 import org.egov.utils.BudgetAccountType;
@@ -30,6 +31,7 @@ public class BudgetHeadService {
 
     @PersistenceContext
     private EntityManager entityManager;
+
 
     @Autowired
     public BudgetHeadService(final BudgetHeadRepository budgetHeadRepository) {
@@ -104,5 +106,7 @@ public class BudgetHeadService {
     }
 
 
+    public void getBudgetByFunctionAndFy(Long id, CFinancialYear currentFy) {
 
+    }
 }

@@ -52,6 +52,7 @@ public class BudgetItemController {
 
 
 
+
 	@RequestMapping(value = "/new", method = { RequestMethod.GET, RequestMethod.POST })
 	public String newForm(final Model model) {
 		// model.addAttribute(BUDGET_ITEM, new BudgetItem());
@@ -64,7 +65,7 @@ public class BudgetItemController {
 		addFinancialYears(model);
 	}
 
-	private void addFinancialYears(Model model) {
+	private Map<String, CFinancialYear> addFinancialYears(Model model) {
 		CFinancialYear financialYear = financialYearService.getCurrentFinancialYear();
 		ArrayList<String> errors = new ArrayList<>();
 		// if (financialYear == null) {
@@ -76,7 +77,7 @@ public class BudgetItemController {
 
 		if (financialYear == null) {
 			model.addAttribute("errors", "Financial year not found !");
-			return;
+			return null;
 		}
 
 		Calendar calendar = Calendar.getInstance();
@@ -92,11 +93,17 @@ public class BudgetItemController {
 
 		if (nextFinancialYear == null) {
 			model.addAttribute("errors", "Financial year not found !");
-			return;
+			return null;
 		}
 
 		model.addAttribute("currentFy", financialYear);
 		model.addAttribute("nextFy", nextFinancialYear);
+
+		Map<String, CFinancialYear> financialYearMap = new HashMap<>();
+		financialYearMap.put("currentFy", financialYear);
+		financialYearMap.put("nextFy", nextFinancialYear);
+
+		return financialYearMap;
 	}
 
 	// @RequestMapping(value = "/form", method = {RequestMethod.POST})
@@ -108,29 +115,37 @@ public class BudgetItemController {
 	// }
 
 	@RequestMapping(value = "/form", method = { RequestMethod.POST })
-	public String budgetForm(@ModelAttribute("id") Long id, final Model model) {
+	public String budgetForm(@ModelAttribute("id") Long id, final Model model, RedirectAttributes redirectAttributes) {
 
 		LOGGER.info("hello");
 
+		Map<String, CFinancialYear> financialYears =  addFinancialYears(model);
+
+        if (financialYears == null || financialYears.size() < 2) {
+			return "budget/new";
+		}
+
 		CFunction function = functionService.findOne(id);
-		LOGGER.info("Inside of budget form method");
-		LOGGER.info("Function Id" + function.getId() + ", Name: " +
-				function.getName() + ", code: " + function.getCode() + ", type: " +
-				function.getType());
+
+		Boolean budgetAlreadyEntered =  checkIfBudgetAlreadyEntered(function, financialYears);
+
+		if (Boolean.TRUE.equals(budgetAlreadyEntered)) {
+			redirectAttributes.addFlashAttribute("error", "Budget already entered for the selected function.");
+			return "redirect:/budget/new";
+		}
+
 		model.addAttribute("function", function);
+
 		model.addAttribute("budgetForm", new BudgetForm());
 
-		ItemForm itemForm = new ItemForm();
-
-		// Add one empty row by default
-		itemForm.getItems().add(new Item());
-
-		model.addAttribute("itemForm", itemForm);
-		model.addAttribute("budgetForm", new BudgetForm());
-
-		addFinancialYears(model);
 
 		return BUDGET_FORM;
+	}
+
+	private Boolean checkIfBudgetAlreadyEntered(CFunction function, Map<String, CFinancialYear> financialYears) {
+		final CFinancialYear currentFy = financialYears.get("currentFy");
+		Boolean budgetExists =  budgetItemService.checkIfBudgetExistsForFunctionAndFinancialYear(function, currentFy);
+		return budgetExists;
 	}
 
 	@PostMapping("/create")

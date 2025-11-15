@@ -31,4 +31,6 @@ public interface BudgetHeadRepository extends JpaRepository<BudgetHead, Long> {
             @Param("query") String query);
 
 
+
+
 }

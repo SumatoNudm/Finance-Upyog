@@ -136,8 +136,13 @@ public class BudgetItemService {
     }
 
     public List<BudgetItem> getBudgetItemsByFunctionAndCurrentFinancialYear(CFunction function, CFinancialYear currentFinancialYear) {
-        List<BudgetItem> budgetItems = budgetItemRepository.findByFunctionAndCurrentFinancialYear(function, financialYearService);
+        List<BudgetItem> budgetItems = budgetItemRepository.findByFunctionAndCurrentFinancialYear(function, currentFinancialYear);
         return budgetItems;
     }
+
+    public Boolean checkIfBudgetExistsForFunctionAndFinancialYear(CFunction function, CFinancialYear currentFinancialYear) {
+        return budgetItemRepository.existsBudgetForCurrentFY(function.getId(), currentFinancialYear.getId());
+    }
+
 
 }

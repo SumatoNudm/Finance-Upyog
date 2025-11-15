@@ -3,10 +3,27 @@
 <%@ taglib uri="/WEB-INF/tags/cdn.tld" prefix="cdn" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+
+
+
+
+
 <form:form role="form" action="form" modelAttribute="function" id="budgetItemFunction"
   cssClass="form-horizontal form-groups-bordered" enctype="multipart/form-data">
 
+
+
   <div class="main-content">
+
+    <c:if test="${not empty error}">
+      <div class="alert alert-danger alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        ${error}
+      </div>
+    </c:if>
+
     <div class="row">
       <div class="col-md-12">
         <div class="panel panel-primary" data-collapsed="0">
