@@ -1,5 +1,6 @@
 package org.egov.model.service;
 
+import org.egov.commons.CFunction;
 import org.egov.model.budget.BudgetHead;
 import org.egov.model.budget.FunctionBudgetHead;
 import org.egov.model.repository.FunctionBudgetHeadRepository;
@@ -28,4 +29,9 @@ public class FunctionBudgetHeadService {
         return functionBudgetHeadRepository.findAll(new Sort(
                 Sort.Direction.ASC, "function.code"));
     }
+
+    public List<CFunction> getFunctionsByNameOrCode(String query) {
+        return functionBudgetHeadRepository.findDistinctFunctionsHavingBudgetHead(query);
+    }
+
 }

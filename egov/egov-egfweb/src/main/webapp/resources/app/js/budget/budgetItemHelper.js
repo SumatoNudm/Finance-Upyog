@@ -5,7 +5,7 @@ $(document).ready(function () {
         },
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         remote: {
-            url: '/services/EGF/common/ajaxfunctionnames?name=%QUERY',
+            url: '/services/EGF/function/getByNameOrCode?query=%QUERY', // '/services/EGF/common/ajaxfunctionnames?name=%QUERY',
             filter: function (data) {
                 return $.map(data, function (ct) {
                     return {
@@ -25,7 +25,7 @@ $(document).ready(function () {
         highlight: true,
         minLength: 3
     }, {
-        displayKey: 'codeName',
+        displayKey: 'name',
         source: functionName.ttAdapter()
     }).on('typeahead:selected', function (event, data) {
         $("#functionId").val(data.id);

@@ -48,7 +48,9 @@
 
 package org.egov.egf.web.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -58,6 +60,7 @@ import org.egov.commons.service.FunctionService;
 import org.egov.egf.web.adaptor.FunctionJsonAdaptor;
 import org.egov.infra.microservice.utils.MicroserviceUtils;
 import org.egov.infstr.utils.EgovMasterDataCaching;
+import org.egov.model.service.FunctionBudgetHeadService;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -65,12 +68,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.Gson;
@@ -94,6 +92,10 @@ public class FunctionController {
 
 	@Autowired
 	private MicroserviceUtils microserviceUtils;
+
+
+	@Autowired
+	private FunctionBudgetHeadService functionBudgetHeadService;
 
 	private void prepareNewForm(Model model) {
 		// model.addAttribute("functions", functionService.findAllIsNotLeafTrue());
@@ -195,4 +197,24 @@ public class FunctionController {
 				new FunctionJsonAdaptor()).create();
 		return gson.toJson(object);
 	}
+
+
+	@GetMapping(value = "/getByNameOrCode", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<String> findFunctionNames(@RequestParam @SafeHtml final String query) {
+//		final List<String> functionNames = new ArrayList<>();
+//		final List<CFunction> functions = functionService.findByNameLikeOrCodeLike(name);
+
+		final List<CFunction> functions = functionBudgetHeadService.getFunctionsByNameOrCode(query);
+
+		List<String> functionNames =  functions.stream().map(function -> function.getCode() + " - " + function.getName() + " ~ " + function.getId()).collect(Collectors.toList());
+
+		/*for (final CFunction function : functions)
+			if (!function.getIsNotLeaf().booleanValue())
+				functionNames.add(function.getCode() + " - " + function.getName() + " ~ " + function.getId());*/
+
+		return functionNames;
+	}
+
+
 }
