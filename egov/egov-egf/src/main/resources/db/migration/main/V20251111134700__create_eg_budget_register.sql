@@ -1,4 +1,4 @@
-CREATE TABLE eg_budgetregister (
+CREATE TABLE IF NOT EXISTS eg_budgetregister (
     id bigint NOT NULL,
     budgetregisternumber character varying(50) NOT NULL,
     createddate timestamp without time zone NOT NULL,
@@ -15,7 +15,7 @@ CREATE TABLE eg_budgetregister (
 );
 
 
-CREATE SEQUENCE seq_eg_budgetregister
+CREATE SEQUENCE IF NOT EXISTS seq_eg_budgetregister
     START WITH 1
     INCREMENT BY 1
     MINVALUE 0

@@ -4,30 +4,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.apache.log4j.Logger;
 import org.egov.commons.CFinancialYear;
 import org.egov.commons.CFunction;
-import org.egov.commons.EgwStatus;
 import org.egov.commons.dao.EgwStatusHibernateDAO;
 import org.egov.commons.repository.FunctionRepository;
 import org.egov.commons.service.CFinancialYearService;
 import org.egov.egf.form.BudgetForm;
-import org.egov.infra.validation.exception.ValidationException;
 import org.egov.model.budget.BudgetHead;
 import org.egov.model.budget.BudgetItem;
 import org.egov.model.budget.BudgetRegister;
 import org.egov.model.repository.BudgetItemRepository;
-import org.egov.utils.FinancialConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-
-import static org.egov.utils.FinancialConstants.BUDGET_MODULE;
-
-import static org.egov.utils.FinancialConstants.BUDGET_MODULE;
 
 @Service
 public class BudgetItemService {
@@ -38,7 +30,6 @@ public class BudgetItemService {
 
     private final FunctionRepository functionRepository;
 
-    private final static Logger LOGGER = Logger.getLogger(BudgetItemService.class);
 
     @Autowired
 	private CFinancialYearService financialYearService;
@@ -49,22 +40,9 @@ public class BudgetItemService {
     @Autowired
     private BudgetRegisterWorkflowService budgetRegisterWorkflowService;
 
-
-    @Autowired
-    private CFinancialYearService financialYearService;
-
     @Autowired
     private EgwStatusHibernateDAO egwStatusDAO;
 
-    @Autowired
-    private BudgetRegisterWorkflowService budgetRegisterWorkflowService;
-
-
-    @Autowired
-    private CFinancialYearService financialYearService;
-
-    @Autowired
-    private EgwStatusHibernateDAO egwStatusDAO;
 
     @Autowired
     public BudgetItemService(final BudgetItemRepository budgetItemRepository, final FunctionRepository functionRepository) {

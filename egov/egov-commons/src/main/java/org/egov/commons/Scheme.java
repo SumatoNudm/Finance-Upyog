@@ -90,7 +90,7 @@ public class Scheme implements java.io.Serializable {
 
 	private Date lastModifiedDate;
 
-	private String state_code;
+	private String stateCode;
 
 	public Scheme() {
 	}
@@ -174,7 +174,7 @@ public class Scheme implements java.io.Serializable {
 
 	public Scheme(final Integer id, final Fund fund, final String code, final String name, final Date validfrom,
 			final Date validto, final boolean isactive, final String description, final BigDecimal sectorid,
-			final BigDecimal aaes, final BigDecimal fieldid, final Set<SubScheme> subSchemes, final String state_code) {
+			final BigDecimal aaes, final BigDecimal fieldid, final Set<SubScheme> subSchemes, final String stateCode) {
 		this.id = id;
 		this.fund = fund;
 		this.code = code;
@@ -187,7 +187,7 @@ public class Scheme implements java.io.Serializable {
 		this.aaes = aaes;
 		this.fieldid = fieldid;
 		this.subSchemes = subSchemes;
-		this.state_code = state_code;
+		this.stateCode = stateCode;
 	}
 
 	public void reset() {
@@ -199,7 +199,7 @@ public class Scheme implements java.io.Serializable {
 		fund = null;
 		validfrom = null;
 		validto = null;
-		state_code = null;
+		stateCode = null;
 
 	}
 
@@ -260,12 +260,12 @@ public class Scheme implements java.io.Serializable {
 	}
 
 
-	public String getState_code() {
-		return state_code;
+	public String getStateCode() {
+		return stateCode;
 	}
 
-	public void setState_code(String state_code) {
-		this.state_code = state_code;
+	public void setStateCode(String stateCode) {
+		this.stateCode = stateCode;
 	}
 
 	@Override
