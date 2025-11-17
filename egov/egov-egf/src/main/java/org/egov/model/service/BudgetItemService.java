@@ -27,6 +27,8 @@ import org.springframework.ui.Model;
 
 import static org.egov.utils.FinancialConstants.BUDGET_MODULE;
 
+import static org.egov.utils.FinancialConstants.BUDGET_MODULE;
+
 @Service
 public class BudgetItemService {
 
@@ -43,6 +45,16 @@ public class BudgetItemService {
 
     @Autowired
     private BudgetHeadService budgetHeadService;
+
+    @Autowired
+    private BudgetRegisterWorkflowService budgetRegisterWorkflowService;
+
+
+    @Autowired
+    private CFinancialYearService financialYearService;
+
+    @Autowired
+    private EgwStatusHibernateDAO egwStatusDAO;
 
     @Autowired
     private BudgetRegisterWorkflowService budgetRegisterWorkflowService;

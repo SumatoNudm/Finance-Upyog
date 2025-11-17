@@ -22,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.util.*;
@@ -55,7 +56,6 @@ public class BudgetItemController extends GenericWorkFlowController {
 
 	@Autowired
 	private FunctionBudgetHeadService functionBudgetHeadService;
-
 
 
 
@@ -167,7 +167,9 @@ public class BudgetItemController extends GenericWorkFlowController {
 		LOGGER.info(budgetForm.getFunctionid());
 		budgetItemService.saveBudgetInputForm(budgetForm); // inside service: save opening, items, closing
 		redirectAttrs.addFlashAttribute("message", "Budget items saved successfully!");
-		return "forward:/budget/view/"+budgetForm.getFunctionid();
+
+
+		return "redirect:/budget/new";
 	}
 
 
