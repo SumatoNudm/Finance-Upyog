@@ -3,7 +3,6 @@ package org.egov.model.repository;
 
 import org.egov.commons.CFinancialYear;
 import org.egov.commons.CFunction;
-import org.egov.commons.service.CFinancialYearService;
 import org.egov.model.budget.BudgetItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,6 +14,8 @@ import java.util.List;
 @Repository
 public interface BudgetItemRepository extends JpaRepository<BudgetItem, Long> {
 
+
+    List<BudgetItem> findByBudgetRegisterId(Long registerId);
 
 
 //    List<BudgetItem> findByBudgetGroupAndCurrentFinancialYearIdAndFunction(

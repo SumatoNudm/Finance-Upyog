@@ -1,0 +1,82 @@
+package org.egov.model.budget;
+
+import lombok.Getter;
+import lombok.Setter;
+import org.egov.commons.CFinancialYear;
+import org.egov.commons.EgwStatus;
+import org.egov.infra.admin.master.entity.User;
+import org.egov.infra.workflow.entity.StateAware;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.SafeHtml;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+/**
+ * Represents a budget submission that groups multiple BudgetItems
+ * and participates in workflow approval (like EgBillregister).
+ */
+@Entity
+@Table(name = "EG_BUDGETREGISTER")
+@SequenceGenerator(
+        name = BudgetRegister.SEQ_EG_BUDGETREGISTER,
+        sequenceName = BudgetRegister.SEQ_EG_BUDGETREGISTER,
+        allocationSize = 1
+)
+@Getter
+@Setter
+public class BudgetRegister extends StateAware implements java.io.Serializable {
+
+    public static final String SEQ_EG_BUDGETREGISTER = "SEQ_EG_BUDGETREGISTER";
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(generator = SEQ_EG_BUDGETREGISTER, strategy = GenerationType.SEQUENCE)
+    private Long id;
+
+    @SafeHtml
+    @Length(max = 50)
+    @Column(unique = true, updatable = false)
+    private String budgetRegisterNumber;
+
+    @NotNull
+    private Date createdDate = new Date();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "financial_year_id")
+    private CFinancialYear financialYear;  // e.g. 2025-26
+
+    @SafeHtml
+    @Length(max = 50)
+    private String budgetType;     // REVENUE / CAPITAL
+
+
+    @ManyToOne
+    @JoinColumn(name = "statusid")
+    private EgwStatus status;
+
+//    @Column(name = "state_type", length = 100)
+//    private String stateType = "BUDGET_APPROVAL";
+
+
+    /** Relationship to existing BudgetItem entries */
+    @OneToMany(mappedBy = "budgetRegister", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<BudgetItem> budgetItems = new LinkedHashSet<>();
+
+    // --- Transient UI fields ---
+    @Transient
+    private String approvalComment;
+    @Transient
+    private String approvalDesignation;
+    @Transient
+    private String workFlowAction;
+
+    @Override
+    public String getStateDetails() {
+        return getState().getComments().isEmpty() ? budgetRegisterNumber : budgetRegisterNumber + "-" + getState().getComments();
+    }
+}

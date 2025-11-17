@@ -74,6 +74,10 @@ public class BudgetItem extends AbstractAuditable {
     @Column(name = "nextestimate",  precision = 13, scale = 2)
     private BigDecimal nextEstimate;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "budget_register_id")
+    private BudgetRegister budgetRegister;
+
 
     @ManyToOne
     @JoinColumn(name = "schemeid")

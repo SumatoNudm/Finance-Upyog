@@ -129,7 +129,7 @@ public class MSCommController {
     @GetMapping(value = "inbox/items", produces = APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public List<Inbox> showInbox() {
-
+        LOGGER.info("inside inbox api");
         return inboxRenderServiceDelegate.getCurrentUserInboxItems();
     }
 

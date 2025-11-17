@@ -117,7 +117,16 @@ public interface FinancialConstants {
 	public static final String CONTRACTORBILL_PASSED_STATUS = "Passed";
 	public static final String CONTRACTORBILL_PAID_STATUS = "Paid";
 	public static final String CONTRACTORBILL_REJECTED_STATUS = "REJECTED";
-	
+
+
+	// Module name for budget register
+	public static final String BUDGET_MODULE = "Budget";
+
+	//Status for Budget Register
+	public static final String BUDGET_CREATED_STATUS = "Created";
+	public static final String BUDGET_CANCELLED_STATUS = "Cancelled";
+	public static final String BUDGET_APPROVED_STATUS = "Approved";
+	public static final String BUDGET_REJECTED_STATUS = "Rejected";
 
 	// Status for Pension Bills
 	public static final String PENSIONBILL_CANCELLED_STATUS = "Cancelled";
