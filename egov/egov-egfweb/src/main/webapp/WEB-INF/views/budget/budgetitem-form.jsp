@@ -84,12 +84,15 @@
 												placeholder="Type first 3 letters of Budget code">
 										</div>
 
-										<input type="text" name="items[0].schemeCode" id="items[0].schemeCode"
-											class="scheme-input table-input form-control" style="display:none;"
-											placeholder="Type Scheme code">
+										<div class="scheme-container" style="display:none;">
+											<input type="text" id="items[0].schemeCode" name="items[0].schemeCode"
+												class="scheme-input form-control table-input"
+												placeholder="Type Scheme code">
+										</div>
 									</td>
 
-									<form:hidden path="items[0].scheme.id" name="items[0].scheme.id" id="items[0].scheme.id"
+									<form:hidden path="items[0].scheme.id" name="items[0].scheme.id"
+										id="items[0].scheme.id"
 										class="form-control table-input hidden-input schemeId" />
 
 									<form:hidden path="" name="items[0].budgetheadcode" id="items[0].budgetheadcode"

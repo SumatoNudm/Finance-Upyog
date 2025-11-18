@@ -6,7 +6,9 @@ import java.util.stream.Collectors;
 
 import org.egov.commons.CFinancialYear;
 import org.egov.commons.CFunction;
+import org.egov.commons.Scheme;
 import org.egov.commons.dao.EgwStatusHibernateDAO;
+import org.egov.commons.dao.SchemeHibernateDAO;
 import org.egov.commons.repository.FunctionRepository;
 import org.egov.commons.service.CFinancialYearService;
 import org.egov.egf.form.BudgetForm;
@@ -42,6 +44,9 @@ public class BudgetItemService {
 
     @Autowired
     private EgwStatusHibernateDAO egwStatusDAO;
+
+    @Autowired
+    private SchemeHibernateDAO schemeHibernateDAO;
 
 
     @Autowired
@@ -98,6 +103,17 @@ public class BudgetItemService {
                         throw new Exception("Invalid budget head on " + item.getBudgetGroup());
                     }
                     item.setBudgetHead(bh);
+
+                    if(item.getScheme() != null && item.getScheme().getId() != null) {
+                        Scheme scheme = schemeHibernateDAO.getSchemeById(item.getScheme().getId());
+    
+                        if(scheme == null) {
+                            throw new Exception("Invalid scheme on " + item.getBudgetGroup());
+                        }
+
+                        item.setScheme(scheme);
+                    }
+
                     budgetItemRepository.save(item);
                 }
             }

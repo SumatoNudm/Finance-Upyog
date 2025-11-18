@@ -12,7 +12,7 @@ $(document).ready(function () {
     });
 
     budgethead_initialize();
-    scheme_initialize();
+    // scheme_initialize();
 });
 
 function getCookie(name) {
@@ -26,63 +26,6 @@ function getCookie(name) {
 function getLocale(paramName) {
     return getCookie(paramName) ? getCookie(paramName) : navigator.language;
 }
-
-function scheme_initialize(row) {
-    var scheme = new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('code', 'name'),
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        remote: {
-            url: '/services/EGF/scheme/ajaxSchemes?query=%QUERY',
-            wildcard: '%QUERY',
-            dataType: "json",
-            transform: function (response) {
-                return $.map(response, function (ct) {
-                    return {
-                        id: ct.id,
-                        name: ct.name,
-                        code: ct.code,
-                        isactive: ct.isactive,
-                        stateCode: ct.stateCode
-                    };
-                });
-            }
-        }
-    });
-
-    scheme.initialize();
-
-    // apply typeahead ONLY to scheme input in this row
-    row.find('.scheme-input').typeahead(
-        {
-            hint: true,
-            highlight: true,
-            minLength: 2
-        },
-        {
-            name: 'schemes',
-            display: function (item) {
-                return item.code + ' - ' + item.name;
-            },
-            source: scheme.ttAdapter(),
-            limit: 20,
-            templates: {
-                suggestion: function (data) {
-                    return `<div>${data.code} - ${data.name}</div>`;
-                }
-            }
-        }
-    ).on('typeahead:selected typeahead:autocompleted', function (event, data) {
-
-        console.log("scheme data", data);
-
-        $(this).parents("tr:first").find('.schemeId').val(data.id);
-
-        var statecode = $(this).parents("tr:first").find('.stateCode').val();
-
-        $(this).parents("tr:first").find('.stateBudgetCode').val(statecode + "-" + data.stateCode);
-    });
-}
-
 
 function budgethead_initialize() {
     var functionid = document.getElementById("functionid")?.value;
@@ -182,10 +125,10 @@ function budgethead_initialize() {
 
             // Show/hide only inside this row
             if (program === "Yes") {
-                row.find('.scheme-input').show();
+                row.find('.scheme-container').show();
                 scheme_initialize(row);
             } else {
-                row.find('.scheme-input').hide();
+                row.find('.scheme-container').hide();
             }
 
         }
@@ -196,19 +139,24 @@ function budgethead_initialize() {
 function addBudgetDetailsRow() {
     $('.budgetcode').typeahead('destroy');
     $('.budgetcode').unbind();
+
+    $('.scheme-input').typeahead('destroy');
+    $('.scheme-input').unbind();
+
     var rowcount = $("#dynamicTable tbody tr").length;
     if (rowcount < 40) {
         if (document.getElementById('budgetdetailsrow') != null) {
             addRow('dynamicTable', 'budgetdetailsrow');
             $('#dynamicTable tbody tr:eq(' + rowcount + ')').find('.budgetHeadcode').val('');
-            $('#dynamicTable tbody tr:eq(' + rowcount + ')').find('.scheme-input').hide();
+            $('#dynamicTable tbody tr:eq(' + rowcount + ')').find('.scheme-container').hide();
             budgethead_initialize();
-          //  addCustomEvent(rowcount, 'items[index].addButton', 'keydown', shortKeyFunForAddButton);
+            //  addCustomEvent(rowcount, 'items[index].addButton', 'keydown', shortKeyFunForAddButton);
         }
     } else {
         bootbox.alert($.i18n.prop('msg.limit.reached'));
     }
 }
+
 
 // function addBudgetDetailsRow() {
 //     // Destroy previous typeahead bindings
@@ -290,4 +238,64 @@ function getBudgetGroup(code) {
     };
 
     return budgetMap[code] || 'Unknown';
+}
+
+function scheme_initialize(row) {
+    var scheme = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('code', 'name'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: {
+            url: '/services/EGF/scheme/ajaxSchemes?query=%QUERY',
+            wildcard: '%QUERY',
+            dataType: "json",
+            transform: function (response) {
+                return $.map(response, function (ct) {
+                    return {
+                        id: ct.id,
+                        name: ct.name,
+                        code: ct.code,
+                        isactive: ct.isactive,
+                        stateCode: ct.stateCode
+                    };
+                });
+            }
+        }
+    });
+
+    scheme.initialize();
+
+    // apply typeahead ONLY to scheme input in this row
+    row.find('.scheme-input').typeahead(
+        {
+            hint: true,
+            highlight: true,
+            minLength: 2
+        },
+        {
+            name: 'schemes',
+            display: function (item) {
+                return item.code + ' - ' + item.name;
+            },
+            source: scheme.ttAdapter(),
+            limit: 20,
+            templates: {
+                suggestion: function (data) {
+                    return `<div>${data.code} - ${data.name}</div>`;
+                }
+            }
+        }
+    ).on('typeahead:selected typeahead:autocompleted', function (event, data) {
+
+        console.log('scheme selected:', data);
+        console.log('this element:', this);
+        console.log('closest .scheme-container:', $(this).closest('.scheme-container').length);
+        console.log('closest tr:', $(this).closest('tr').length);
+        console.log('parent html:', $(this).parent().prop('outerHTML'));
+
+        row.find('.schemeId').val(data.id);
+
+        var statecode = row.find('.stateCode').val();
+
+        row.find('.stateBudgetCode').val(statecode + "-" + data.stateCode);
+    });
 }
