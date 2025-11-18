@@ -165,7 +165,7 @@ public class BudgetItemController {
 		redirectAttrs.addFlashAttribute("message", "Budget items saved successfully!");
 
 
-		return "redirect:/budget/new";
+		return "forward:/budget/view/"+budgetForm.getFunctionid();
 	}
 
 
