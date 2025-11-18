@@ -83,6 +83,9 @@ public class BudgetItem extends AbstractAuditable {
     @JoinColumn(name = "schemeid")
     private Scheme scheme;
 
+    @Column(name = "statebudgetcode")
+    private String stateBudgetCode;
+
 
     @Override
     public Long getId() {

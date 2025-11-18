@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/budget")
-public class BudgetItemController extends GenericWorkFlowController {
+public class BudgetItemController {
 	private static final String BUDGET_ITEM_NEW = "budgetitem-new";
 	private static final String BUDGET_ITEM = "budgetItem";
 	private static final String BUDGET_FORM = "budgetitem-form";
@@ -140,10 +140,10 @@ public class BudgetItemController extends GenericWorkFlowController {
 
 		model.addAttribute("budgetForm", new BudgetForm());
 
-		BudgetRegister budgetRegister = new BudgetRegister();
+		//BudgetRegister budgetRegister = new BudgetRegister();
 
-		model.addAttribute(STATE_TYPE, "BudgetRegister");
-		prepareWorkflow(model, budgetRegister, new WorkflowContainer());
+		//model.addAttribute(STATE_TYPE, "BudgetRegister");
+		//prepareWorkflow(model, budgetRegister, new WorkflowContainer());
 
 		addFinancialYears(model);
 

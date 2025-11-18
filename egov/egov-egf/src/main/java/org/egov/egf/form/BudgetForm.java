@@ -18,6 +18,8 @@ public class BudgetForm {
 
     private Long currentFinancialYear;
 
+    private Long stateBudgetCode;
+
     public BudgetForm() {
         // Ensure the list is never null
         this.items = new ArrayList<>();
@@ -73,6 +75,13 @@ public class BudgetForm {
         this.currentFinancialYear = currentFinancialYear;
     }
 
+    public Long getStateBudgetCode() {
+        return stateBudgetCode;
+    }
+
+    public void setStateBudgetCode(Long stateBudgetCode) {
+        this.stateBudgetCode = stateBudgetCode;
+    }
 
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();

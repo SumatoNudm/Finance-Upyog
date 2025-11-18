@@ -42,7 +42,7 @@ function scheme_initialize(row) {
                         name: ct.name,
                         code: ct.code,
                         isactive: ct.isactive,
-                        state_code: ct.state_code
+                        stateCode: ct.stateCode
                     };
                 });
             }
@@ -72,11 +72,14 @@ function scheme_initialize(row) {
             }
         }
     ).on('typeahead:selected typeahead:autocompleted', function (event, data) {
+
+        console.log("scheme data", data);
+
         $(this).parents("tr:first").find('.schemeId').val(data.id);
 
         var statecode = $(this).parents("tr:first").find('.stateCode').val();
 
-        $(this).parents("tr:first").find('.stateBudgetCode').val(statecode + "-" + data.state_code);
+        $(this).parents("tr:first").find('.stateBudgetCode').val(statecode + "-" + data.stateCode);
     });
 }
 
@@ -131,8 +134,8 @@ function budgethead_initialize() {
             }
         }
     ).on('typeahead:selected typeahead:autocompleted', function (event, data) {
-        console.log("Selected data:", data);
-        console.log("Selected event:", event);
+        // console.log("Selected data:", data);
+        // console.log("Selected event:", event);
 
         var originalBudgetHeadcode = data.code;
         var functionCode = document.getElementById("functionCode")?.value;
@@ -200,7 +203,7 @@ function addBudgetDetailsRow() {
             $('#dynamicTable tbody tr:eq(' + rowcount + ')').find('.budgetHeadcode').val('');
             $('#dynamicTable tbody tr:eq(' + rowcount + ')').find('.scheme-input').hide();
             budgethead_initialize();
-            addCustomEvent(rowcount, 'items[index].addButton', 'keydown', shortKeyFunForAddButton);
+          //  addCustomEvent(rowcount, 'items[index].addButton', 'keydown', shortKeyFunForAddButton);
         }
     } else {
         bootbox.alert($.i18n.prop('msg.limit.reached'));
