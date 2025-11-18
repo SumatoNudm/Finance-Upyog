@@ -49,6 +49,7 @@ public class BudgetItemService {
     private SchemeHibernateDAO schemeHibernateDAO;
 
 
+
     @Autowired
     public BudgetItemService(final BudgetItemRepository budgetItemRepository, final FunctionRepository functionRepository) {
         this.budgetItemRepository = budgetItemRepository;
@@ -95,6 +96,13 @@ public class BudgetItemService {
             if (form.getItems() != null && !form.getItems().isEmpty()) {
                 List<BudgetItem> items = form.getItems();
                 for (BudgetItem item : items) {
+
+                    try {
+                        LOGGER.info("item: bh id:" + item.getBudgetHead().getId() + ", scheme id:" + item.getScheme().getId());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
                     item.setFunction(function);
                     item.setFinancialYear(financialYear);
                     item.setCurrentFinancialYear(nextFinancialYear);
@@ -104,14 +112,19 @@ public class BudgetItemService {
                     }
                     item.setBudgetHead(bh);
 
-                    if(item.getScheme() != null && item.getScheme().getId() != null) {
-                        Scheme scheme = schemeHibernateDAO.getSchemeById(item.getScheme().getId());
-    
-                        if(scheme == null) {
+                    if (item.getScheme() != null && item.getScheme().getId() != null) {
+                        LOGGER.info("scheme is not null!");
+//                        Scheme scheme = schemeHibernateDAO.getSchemeById(item.getScheme().getId());
+
+                       Scheme scheme =  schemeHibernateDAO.getCurrentSession().load(Scheme.class, item.getScheme().getId());
+
+                        if (scheme == null) {
                             throw new Exception("Invalid scheme on " + item.getBudgetGroup());
                         }
 
                         item.setScheme(scheme);
+                    } else {
+                        item.setScheme(null);
                     }
 
                     budgetItemRepository.save(item);
@@ -129,22 +142,22 @@ public class BudgetItemService {
             }
 
 
-            final BudgetRegister budgetRegister = new BudgetRegister();
-            budgetRegister.setBudgetRegisterNumber("bud-2026-27-001");
-            budgetRegister.setFinancialYear(financialYearService.getCurrentFinancialYear());
-            budgetRegister.setBudgetType("RE");
+//            final BudgetRegister budgetRegister = new BudgetRegister();
+//            budgetRegister.setBudgetRegisterNumber("bud-2026-27-001");
+//            budgetRegister.setFinancialYear(financialYearService.getCurrentFinancialYear());
+//            budgetRegister.setBudgetType("RE");
 //            budgetRegister.setStatus(egwStatusDAO.getStatusByModuleAndCode(FinancialConstants.BUDGET_MODULE, FinancialConstants.BUDGET_CREATED_STATUS));
 
 
-           BudgetRegister saved =  budgetRegisterWorkflowService.create(
-                    budgetRegister,101L, "Initial submission for review", null, "START", "FMO"
-            );
-
-
-           LOGGER.info("Budget Register");
-            LOGGER.info("ID:{}", saved.getId());
-            LOGGER.info("Number:{}", saved.getBudgetRegisterNumber());
-            LOGGER.info("Workflow State:{}", saved.getCurrentState().getValue());
+//           BudgetRegister saved =  budgetRegisterWorkflowService.create(
+//                    budgetRegister,101L, "Initial submission for review", null, "START", "FMO"
+//            );
+//
+//
+//           LOGGER.info("Budget Register");
+//            LOGGER.info("ID:{}", saved.getId());
+//            LOGGER.info("Number:{}", saved.getBudgetRegisterNumber());
+//            LOGGER.info("Workflow State:{}", saved.getCurrentState().getValue());
 
 
 

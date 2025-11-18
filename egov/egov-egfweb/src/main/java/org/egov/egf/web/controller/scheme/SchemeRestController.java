@@ -3,6 +3,7 @@ package org.egov.egf.web.controller.scheme;
 
 import org.egov.commons.Scheme;
 import org.egov.commons.dao.SchemeHibernateDAO;
+import org.egov.services.masters.SchemeService;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -21,6 +22,7 @@ public class SchemeRestController {
 
     @Autowired
     private SchemeHibernateDAO schemeHibernateDAO;
+
 
 
     @GetMapping(value = "/ajaxSchemes", produces = MediaType.APPLICATION_JSON_VALUE)

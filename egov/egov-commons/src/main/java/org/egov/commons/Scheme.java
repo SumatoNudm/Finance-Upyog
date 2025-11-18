@@ -104,7 +104,7 @@ public class Scheme implements java.io.Serializable {
 	}
 
 	@SuppressWarnings("unused")
-	private void setId(final Integer id) {
+	public void setId(final Integer id) {
 		this.id = id;
 	}
 
