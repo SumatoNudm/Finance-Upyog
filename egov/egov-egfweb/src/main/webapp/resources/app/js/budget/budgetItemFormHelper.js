@@ -120,6 +120,8 @@ function budgethead_initialize() {
             $(this).parents("tr:first").find('.budgetHeadId').val(data.id);
             $(this).parents("tr:first").find('.stateCode').val(data.stateCode);
 
+            $(this).parents("tr:first").find('.stateBudgetCode').val(data.stateCode);
+
             var row = $(this).parents("tr:first");
             var program = data.program;
 
