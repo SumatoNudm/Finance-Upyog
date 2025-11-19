@@ -1,5 +1,6 @@
 package org.egov.model.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -14,7 +15,6 @@ import org.egov.commons.service.CFinancialYearService;
 import org.egov.egf.form.BudgetForm;
 import org.egov.model.budget.BudgetHead;
 import org.egov.model.budget.BudgetItem;
-import org.egov.model.budget.BudgetRegister;
 import org.egov.model.repository.BudgetItemRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,24 +65,23 @@ public class BudgetItemService {
 
         try {
             // validate function
-
             CFunction function = functionRepository.findOne(form.getFunctionid());
-            
             if (function == null) {
                 throw new Exception("The selected function not found !");
             }
 
-            LOGGER.info("FY" + form.getFinancialYear() + "CFY" + form.getCurrentFinancialYear());
-
+            // Validate financial years
             CFinancialYear financialYear = financialYearService.findOne(form.getFinancialYear());
-
             CFinancialYear nextFinancialYear = financialYearService.findOne(form.getCurrentFinancialYear());
-
             if (financialYear == null || nextFinancialYear == null) {
                 throw new Exception("Financial year not found !");
             }
 
+
+
+            // ---------------------------------
             // Save Opening Balance
+            // ---------------------------------
             if (form.getOpening() != null) {
                 BudgetItem opening = form.getOpening();
                 opening.setBudgetGroup("Opening_Balance");
@@ -92,54 +91,124 @@ public class BudgetItemService {
                 budgetItemRepository.save(opening);
             }
 
-            // Save Revenue/Capital Budget Items
+
+            // ---------------------------------
+            // Running totals
+            // ---------------------------------
+            BigDecimal BudgetEstimateRevenue = BigDecimal.ZERO;
+            BigDecimal ActualRevenue = BigDecimal.ZERO;
+            BigDecimal RevisedEstimateRevenue = BigDecimal.ZERO;
+            BigDecimal nextBudgetEstimateRevenue = BigDecimal.ZERO;
+
+            BigDecimal BudgetEstimateExpenditure = BigDecimal.ZERO;
+            BigDecimal ActualExpenditure = BigDecimal.ZERO;
+            BigDecimal RevisedEstimateExpenditure = BigDecimal.ZERO;
+            BigDecimal nextBudgetEstimateExpenditure = BigDecimal.ZERO;
+
+
+            // ---------------------------------
+            // Save Budget Items
+            // ---------------------------------
             if (form.getItems() != null && !form.getItems().isEmpty()) {
                 List<BudgetItem> items = form.getItems();
-                for (BudgetItem item : items) {
 
-                    try {
-                        LOGGER.info("item: bh id:" + item.getBudgetHead().getId() + ", scheme id:" + item.getScheme().getId());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                for (BudgetItem item : items) {
 
                     item.setFunction(function);
                     item.setFinancialYear(financialYear);
                     item.setCurrentFinancialYear(nextFinancialYear);
-                    BudgetHead bh= budgetHeadService.findById(item.getBudgetHead().getId());
+
+
+                    // validating budget head
+                    BudgetHead bh = budgetHeadService.findById(item.getBudgetHead().getId());
                     if (bh == null) {
                         throw new Exception("Invalid budget head on " + item.getBudgetGroup());
                     }
                     item.setBudgetHead(bh);
 
+                    // validating scheme
                     if (item.getScheme() != null && item.getScheme().getId() != null) {
-                        LOGGER.info("scheme is not null!");
-//                        Scheme scheme = schemeHibernateDAO.getSchemeById(item.getScheme().getId());
-
                        Scheme scheme =  schemeHibernateDAO.getCurrentSession().load(Scheme.class, item.getScheme().getId());
-
                         if (scheme == null) {
                             throw new Exception("Invalid scheme on " + item.getBudgetGroup());
                         }
-
                         item.setScheme(scheme);
                     } else {
                         item.setScheme(null);
                     }
 
+
+                    // Categorize revenue / expenditure
+                    final String code =  item.getBudgetHead().getAccountTypeCode();
+                    if (code == null) continue;
+
+                    switch (code) {
+                        case "RR":
+                        case "CR":
+                            BudgetEstimateRevenue = BudgetEstimateRevenue.add(item.getCurrentEstimate());
+                            ActualRevenue = ActualRevenue.add(item.getCurrentActual());
+                            RevisedEstimateRevenue = RevisedEstimateRevenue.add(item.getCurrentRevisedEstimate());
+                            nextBudgetEstimateRevenue = nextBudgetEstimateRevenue.add(item.getNextEstimate());
+                            break;
+                        case "RE":
+                        case "CE":
+                            BudgetEstimateExpenditure = BudgetEstimateExpenditure.add(item.getCurrentEstimate());
+                            ActualExpenditure = ActualExpenditure.add(item.getCurrentActual());
+                            RevisedEstimateExpenditure = RevisedEstimateExpenditure.add(item.getCurrentRevisedEstimate());
+                            nextBudgetEstimateExpenditure = nextBudgetEstimateExpenditure.add(item.getNextEstimate());
+                            break;
+                        default:
+                            break;
+                    }
+
+                    LOGGER.info("Budget Estimate Revenue:" + BudgetEstimateRevenue + ", Actual Revenue:" + ActualRevenue + ", Revised Estimate Revenue:" + RevisedEstimateRevenue + ", Next Budget Estimate Revenue:" + nextBudgetEstimateRevenue);
+                    LOGGER.info("Budget Estimate Expenditure:" + BudgetEstimateExpenditure + ", Actual Expenditure:" + ActualExpenditure + ", Revised Estimate Expenditure:" + RevisedEstimateExpenditure + ", Next Budget Estimate Expenditure:" + nextBudgetEstimateExpenditure);
+
+
                     budgetItemRepository.save(item);
                 }
+
             }
 
+            // ---------------------------------
+            // Compute Final Totals
+            // ---------------------------------
+            BigDecimal totalBudgetEstimate = BudgetEstimateRevenue.subtract(BudgetEstimateExpenditure);
+            BigDecimal totalActual = ActualRevenue.subtract(ActualExpenditure);
+            BigDecimal totalRevisedEstimate = RevisedEstimateRevenue.subtract(RevisedEstimateExpenditure);
+            BigDecimal totalNextBudgetEstimate = nextBudgetEstimateRevenue.subtract(nextBudgetEstimateExpenditure);
+
+            LOGGER.info("Budget Estimate:{}, Actual:{}, Revised Estimate:{}, Next Budget Estimate:{}", totalBudgetEstimate, totalActual, totalRevisedEstimate, totalNextBudgetEstimate);
+
+            BudgetItem openingBalance = form.getOpening();
+
+
+            // ---------------------------------
+            // Closing Balance
+            // ---------------------------------
+            BudgetItem closingBalance = new BudgetItem();
+            closingBalance.setFunction(function);
+            closingBalance.setFinancialYear(financialYear);
+            closingBalance.setCurrentFinancialYear(nextFinancialYear);
+            closingBalance.setBudgetGroup("Closing_Balance");
+            closingBalance.setCurrentEstimate(openingBalance.getCurrentEstimate().add(totalBudgetEstimate));
+            closingBalance.setCurrentActual(openingBalance.getCurrentActual().add(totalActual));
+            closingBalance.setCurrentRevisedEstimate(openingBalance.getCurrentRevisedEstimate().add(totalRevisedEstimate));
+            closingBalance.setNextEstimate(openingBalance.getNextEstimate().add(totalNextBudgetEstimate));
+
+            budgetItemRepository.save(closingBalance);
+
+
+
             // Save Closing Balance
-            if (form.getClosing() != null) {
-                BudgetItem closing = form.getClosing();
-                closing.setBudgetGroup("Closing_Balance");
-                closing.setFunction(function);
-                closing.setFinancialYear(financialYear);
-                closing.setCurrentFinancialYear(nextFinancialYear);
-                budgetItemRepository.save(closing);
-            }
+//            if (form.getClosing() != null) {
+//                BudgetItem closing = form.getClosing();
+//                closing.setBudgetGroup("Closing_Balance");
+//                closing.setFunction(function);
+//                closing.setFinancialYear(financialYear);
+//                closing.setCurrentFinancialYear(nextFinancialYear);
+//                budgetItemRepository.save(closing);
+//            }
 
 
 //            final BudgetRegister budgetRegister = new BudgetRegister();
@@ -200,6 +269,66 @@ public class BudgetItemService {
 
     public Boolean checkIfBudgetExistsForFunctionAndFinancialYear(CFunction function, CFinancialYear currentFinancialYear) {
         return budgetItemRepository.existsBudgetForCurrentFY(function.getId(), currentFinancialYear.getId());
+    }
+
+
+    private Boolean isExpenditure(String code) {
+        return code.equalsIgnoreCase("re") || code.equalsIgnoreCase("ce");
+    }
+
+    private Boolean isRevenue(String code) {
+        return code.equalsIgnoreCase("rr") || code.equalsIgnoreCase("cr");
+    }
+
+    public BigDecimal calculateClosingBalance(List<BudgetItem> items) {
+
+        if (items == null || items.isEmpty()) {
+            return BigDecimal.ZERO;
+        }
+
+        BigDecimal rr = BigDecimal.ZERO; // Revenue Receipts
+        BigDecimal cr = BigDecimal.ZERO; // Capital Receipts
+        BigDecimal re = BigDecimal.ZERO; // Revenue Expenditure
+        BigDecimal ce = BigDecimal.ZERO; // Capital Expenditure
+
+        for (BudgetItem item : items) {
+            if (item == null || item.getBudgetHead() == null) {
+                continue;
+            }
+
+            String code = item.getBudgetHead().getCode();
+            if (code == null) {
+                continue;
+            }
+
+            // choose which amount to use for calculation
+            BigDecimal amount = item.getNextEstimate();  // or getCurrentRevisedEstimate(), etc.
+            if (amount == null) {
+                amount = BigDecimal.ZERO;
+            }
+
+            switch (code) {
+                case "RR":  // Revenue Receipts
+                    rr = rr.add(amount);
+                    break;
+                case "CR":  // Capital Receipts
+                    cr = cr.add(amount);
+                    break;
+                case "RE":  // Revenue Expenditure
+                    re = re.add(amount);
+                    break;
+                case "CE":  // Capital Expenditure
+                    ce = ce.add(amount);
+                    break;
+                default:
+                    // unknown code -> ignore or log
+                    // LOGGER.warn("Unknown budget head code for closing balance: {}", code);
+                    break;
+            }
+        }
+
+        // closing balance = RR + CR - RE - CE
+        return rr.add(cr).subtract(re).subtract(ce);
     }
 
 

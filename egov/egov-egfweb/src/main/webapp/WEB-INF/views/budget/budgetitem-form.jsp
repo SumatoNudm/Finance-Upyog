@@ -63,7 +63,6 @@
 							</tbody>
 						</table>
 
-						${schemeApplicable}
 						<table class="table table-bordered" id="dynamicTable">
 							<thead>
 								<tr>
@@ -138,7 +137,7 @@
 							</tbody>
 						</table>
 
-						<table class="table table-bordered" id="closingBalanceTable">
+						<!--<table class="table table-bordered" id="closingBalanceTable">
 							<thead>
 								<tr>
 									<th></th>
@@ -164,7 +163,7 @@
 											class="form-control"></td>
 								</tr>
 							</tbody>
-						</table>
+						</table>-->
 
 						<!-- Submit Button -->
 						<div class="text-center mt-4">

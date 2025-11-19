@@ -12,8 +12,6 @@ public class BudgetForm {
 
     private List<BudgetItem> items;      // Revenue/Capital rows (multiple)
 
-    private BudgetItem closing;          // Closing Balance row
-
     private Long financialYear;
 
     private Long currentFinancialYear;
@@ -51,13 +49,6 @@ public class BudgetForm {
         this.items = items;
     }
 
-    public BudgetItem getClosing() {
-        return closing;
-    }
-
-    public void setClosing(BudgetItem closing) {
-        this.closing = closing;
-    }
 
     public Long getFinancialYear() {
         return financialYear;
