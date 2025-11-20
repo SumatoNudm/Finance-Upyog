@@ -138,7 +138,26 @@ public class BudgetItemController {
 
 		model.addAttribute("function", function);
 
+//		List<BudgetItem> budgetItems = functionBudgetHeadService.functionBudgetHeads(function.getId()).stream().map(fbh -> {
+//		 	 BudgetItem budgetItem =  new BudgetItem();
+//			 budgetItem.setBudgetHead(fbh.getBudgetHead());
+//			 budgetItem.setFunction(fbh.getFunction());
+//			 budgetItem.setFinancialYear(financialYears.get("nextFy"));
+//			 budgetItem.setCurrentFinancialYear(financialYears.get("currentFy"));
+//			return budgetItem;
+//		}).collect(Collectors.toList());
+
+//		BudgetForm budgetForm = new BudgetForm();
+//		budgetForm.setItems(budgetItems);
+
+		List<BudgetHead> budgetHeads = functionBudgetHeadService.functionBudgetHeads(function.getId()).stream().map(FunctionBudgetHead::getBudgetHead).collect(Collectors.toList());
+
+		model.addAttribute("budgetHeads", budgetHeads);
+
 		model.addAttribute("budgetForm", new BudgetForm());
+
+
+
 
 		//BudgetRegister budgetRegister = new BudgetRegister();
 
