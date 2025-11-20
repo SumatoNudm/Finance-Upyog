@@ -114,6 +114,10 @@ public class BudgetItemService {
 
                 for (BudgetItem item : items) {
 
+                    if(item.getBudgetHead() == null || item.getBudgetHead().getId() == null) {
+                        continue;
+                    }
+
                     item.setFunction(function);
                     item.setFinancialYear(financialYear);
                     item.setCurrentFinancialYear(nextFinancialYear);

@@ -501,6 +501,13 @@
                        value="/WEB-INF/views/budget/budgetitem-new.jsp"/>
     </definition>
 
+    <definition name="budgetitem-edit" extends="base_layout">
+        <put-attribute name="page-title" value="title.budgetitem.new"
+                       cascade="true"/>
+        <put-attribute name="body"
+                       value="/WEB-INF/views/budget/budgetitem-edit.jsp"/>
+    </definition>
+
 
     <definition name="functionwisebudget-form" extends="base_layout">
         <put-attribute name="page-title" value="title.budgetitem.new"

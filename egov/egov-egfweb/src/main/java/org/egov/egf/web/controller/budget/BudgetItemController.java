@@ -31,10 +31,9 @@ public class BudgetItemController {
 	private static final String BUDGET_ITEM = "budgetItem";
 	private static final String BUDGET_FORM = "budgetitem-form";
 	private static final String BUDGET_ITEM_VIEW = "budgetitem-view";
-
+	private static final String BUDGET_ITEM_EDIT = "budgetitem-edit";
 
 	private static final String STATE_TYPE = "stateType";
-
 
 	private static final Logger LOGGER = Logger.getLogger(BudgetItemController.class);
 
@@ -52,8 +51,6 @@ public class BudgetItemController {
 
 	@Autowired
 	private FunctionBudgetHeadService functionBudgetHeadService;
-
-
 
 	@RequestMapping(value = "/new", method = { RequestMethod.GET, RequestMethod.POST })
 	public String newForm(final Model model) {
@@ -87,10 +84,10 @@ public class BudgetItemController {
 		calendar.add(Calendar.DATE, 1);
 		CFinancialYear nextFinancialYear = financialYearService.getFinancialYearByDate(calendar.getTime());
 		// if (nextFinancialYear == null) {
-		// 	// return validation error stating no financial year
-		// 	errors.add("Financial year not found for budget entry !");
-		// 	model.addAttribute("errors", errors);
-		// 	return;
+		// // return validation error stating no financial year
+		// errors.add("Financial year not found for budget entry !");
+		// model.addAttribute("errors", errors);
+		// return;
 		// }
 
 		if (nextFinancialYear == null) {
@@ -121,15 +118,15 @@ public class BudgetItemController {
 
 		LOGGER.info("hello");
 
-		Map<String, CFinancialYear> financialYears =  addFinancialYears(model);
+		Map<String, CFinancialYear> financialYears = addFinancialYears(model);
 
-        if (financialYears == null || financialYears.size() < 2) {
+		if (financialYears == null || financialYears.size() < 2) {
 			return "budget/new";
 		}
 
 		CFunction function = functionService.findOne(id);
 
-		Boolean budgetAlreadyEntered =  checkIfBudgetAlreadyEntered(function, financialYears);
+		Boolean budgetAlreadyEntered = checkIfBudgetAlreadyEntered(function, financialYears);
 
 		if (Boolean.TRUE.equals(budgetAlreadyEntered)) {
 			redirectAttributes.addFlashAttribute("error", "Budget already entered for the selected function.");
@@ -161,8 +158,8 @@ public class BudgetItemController {
 
 		//BudgetRegister budgetRegister = new BudgetRegister();
 
-		//model.addAttribute(STATE_TYPE, "BudgetRegister");
-		//prepareWorkflow(model, budgetRegister, new WorkflowContainer());
+		// model.addAttribute(STATE_TYPE, "BudgetRegister");
+		// prepareWorkflow(model, budgetRegister, new WorkflowContainer());
 
 		addFinancialYears(model);
 
@@ -171,29 +168,27 @@ public class BudgetItemController {
 
 	private Boolean checkIfBudgetAlreadyEntered(CFunction function, Map<String, CFinancialYear> financialYears) {
 		final CFinancialYear currentFy = financialYears.get("currentFy");
-		Boolean budgetExists =  budgetItemService.checkIfBudgetExistsForFunctionAndFinancialYear(function, currentFy);
+		Boolean budgetExists = budgetItemService.checkIfBudgetExistsForFunctionAndFinancialYear(function, currentFy);
 		return budgetExists;
 	}
 
 	@PostMapping("/create")
-	public String save(@ModelAttribute BudgetForm budgetForm, RedirectAttributes redirectAttrs, final HttpServletRequest request) {
+	public String save(@ModelAttribute BudgetForm budgetForm, RedirectAttributes redirectAttrs,
+			final HttpServletRequest request) {
 
 		LOGGER.info("opening bal entry \n\n");
 		LOGGER.info(budgetForm.getFunctionid());
 		budgetItemService.saveBudgetInputForm(budgetForm); // inside service: save opening, items, closing
 		redirectAttrs.addFlashAttribute("message", "Budget items saved successfully!");
 
-
-		return "forward:/budget/view/"+budgetForm.getFunctionid();
+		return "forward:/budget/view/" + budgetForm.getFunctionid();
 	}
-
 
 	@RequestMapping(value = "/newv2", method = { RequestMethod.GET, RequestMethod.POST })
 	public String newFormv2(final Model model) {
 		// model.addAttribute(BUDGET_ITEM, new BudgetItem());
-//		prepareIfBudgetCanInput(model);
+		// prepareIfBudgetCanInput(model);
 		model.addAttribute("function", new CFunction());
-
 
 		List<BudgetHead> heads = budgetHeadService.getActiveBudgetHeads();
 
@@ -231,55 +226,52 @@ public class BudgetItemController {
 			throw new Exception("Invalid financial year ! for " + calendar.getTime());
 		}
 
-
 		model.addAttribute("currentFy", currentFy);
 		model.addAttribute("nextFy", nextFy);
 
-
-
-
-
-
-
 		List<String> types = Arrays.asList("Opening_Balance", "Closing_Balance", "Revenue_Budget", "Capital_Budget");
-		Map<String,List<BudgetItem>> grouped = budgetItemService.getBudgetItemsByTypesFunctionFy(types, function, currentFy);
+		Map<String, List<BudgetItem>> grouped = budgetItemService.getBudgetItemsByTypesFunctionFy(types, function,
+				currentFy);
 
+		// model.addAttribute("Opening_Balance", grouped.getOrDefault("Opening_Balance",
+		// Collections.emptyList()));
+		// model.addAttribute("Closing_Balance", grouped.getOrDefault("Closing_Balance",
+		// Collections.emptyList()));
+		// model.addAttribute("Revenue_Budget", grouped.getOrDefault("Revenue_Budget",
+		// Collections.emptyList()));
+		// model.addAttribute("Capital_Budget", grouped.getOrDefault("Capital_Budget",
+		// Collections.emptyList()));
+		//
+		// model.addAttribute("budgetGroups", grouped);
 
-//		model.addAttribute("Opening_Balance", grouped.getOrDefault("Opening_Balance", Collections.emptyList()));
-//		model.addAttribute("Closing_Balance", grouped.getOrDefault("Closing_Balance", Collections.emptyList()));
-//		model.addAttribute("Revenue_Budget", grouped.getOrDefault("Revenue_Budget", Collections.emptyList()));
-//		model.addAttribute("Capital_Budget", grouped.getOrDefault("Capital_Budget", Collections.emptyList()));
-//
-//		model.addAttribute("budgetGroups", grouped);
+		// Map<String, Map<BudgetAccountType, Map<String, List<BudgetItem>>>>
+		// nestedGroup = new LinkedHashMap<>();
+		//
+		// for (Map.Entry<String, List<BudgetItem>> entry : grouped.entrySet()) {
+		//
+		// String type = entry.getKey(); // "Opening_Balance"
+		// List<BudgetItem> items = entry.getValue(); // list of BudgetItem for that
+		// type
+		//
+		// if (shouldSkip(type, items)) {
+		// continue;
+		// }
+		//
+		// // group by accountType then by category
+		// Map<BudgetAccountType, Map<String, List<BudgetItem>>> byAccountAndCategory =
+		// items.stream()
+		// .collect(Collectors.groupingBy(
+		// item -> item.getBudgetHead().getAccountType(), // 1st group: accountType
+		// Collectors.groupingBy(
+		// item -> item.getBudgetHead().getCategory() // 2nd group: category
+		// )
+		// ));
+		//
+		// nestedGroup.put(type, byAccountAndCategory);
+		//
+		// }
 
-
-//		Map<String, Map<BudgetAccountType, Map<String, List<BudgetItem>>>> nestedGroup = new LinkedHashMap<>();
-//
-//		for (Map.Entry<String, List<BudgetItem>> entry : grouped.entrySet()) {
-//
-//			String type = entry.getKey();                 // "Opening_Balance"
-//			List<BudgetItem> items = entry.getValue();    // list of BudgetItem for that type
-//
-//			if (shouldSkip(type, items)) {
-//				continue;
-//			}
-//
-//			// group by accountType then by category
-//			Map<BudgetAccountType, Map<String, List<BudgetItem>>> byAccountAndCategory =
-//					items.stream()
-//							.collect(Collectors.groupingBy(
-//									item -> item.getBudgetHead().getAccountType(),   // 1st group: accountType
-//									Collectors.groupingBy(
-//											item -> item.getBudgetHead().getCategory()   // 2nd group: category
-//									)
-//							));
-//
-//			nestedGroup.put(type, byAccountAndCategory);
-//
-//		}
-
-//		model.addAttribute("nestedGroup", nestedGroup);
-
+		// model.addAttribute("nestedGroup", nestedGroup);
 
 		final List<BudgetItem> oBal = grouped.getOrDefault("Opening_Balance", Collections.emptyList());
 		final List<BudgetItem> cBal = grouped.getOrDefault("Closing_Balance", Collections.emptyList());
@@ -289,27 +281,21 @@ public class BudgetItemController {
 		model.addAttribute("opening_balance", oBal);
 		model.addAttribute("closing_balance", cBal);
 
-		//grouping for revenue budget
+		// grouping for revenue budget
 		Map<BudgetAccountType, Map<String, List<BudgetItem>>> groupedRB = rb.stream().collect(Collectors.groupingBy(
 				item -> item.getBudgetHead().getAccountType(),
 				Collectors.groupingBy(
-						itm -> itm.getBudgetHead().getCategory()
-				)
-		));
+						itm -> itm.getBudgetHead().getCategory())));
 
 		model.addAttribute("grouped_rb", groupedRB);
-
 
 		// grouping for capital budget
 		Map<BudgetAccountType, Map<String, List<BudgetItem>>> groupedCB = cb.stream().collect(Collectors.groupingBy(
 				item -> item.getBudgetHead().getAccountType(),
 				Collectors.groupingBy(
-						itm -> itm.getBudgetHead().getCategory()
-				)
-		));
+						itm -> itm.getBudgetHead().getCategory())));
 
 		model.addAttribute("grouped_cb", groupedCB);
-
 
 		Map<String, BudgetTotals> rbTotals = new LinkedHashMap<>();
 
@@ -321,7 +307,6 @@ public class BudgetItemController {
 
 		model.addAttribute("rbTotals", rbTotals);
 
-
 		Map<String, BudgetTotals> cbTotals = new LinkedHashMap<>();
 
 		for (Map.Entry<BudgetAccountType, Map<String, List<BudgetItem>>> acct : groupedCB.entrySet()) {
@@ -331,7 +316,6 @@ public class BudgetItemController {
 		}
 
 		model.addAttribute("cbTotals", cbTotals);
-
 
 		return BUDGET_ITEM_VIEW;
 	}
@@ -343,7 +327,6 @@ public class BudgetItemController {
 				|| "Opening_Balance".equals(type)
 				|| "Closing_Balance".equals(type);
 	}
-
 
 	private BudgetTotals computeTotals(List<BudgetItem> items) {
 
@@ -370,7 +353,60 @@ public class BudgetItemController {
 		return new BudgetTotals(est, act, rev, nxt);
 	}
 
+	@PostMapping("/edit/{functionId}")
+	public String edit(@PathVariable Long functionId, Model model) throws Exception {
 
+		final CFunction function = functionService.findOne(functionId);
 
+		if (function == null) {
+			throw new Exception("Selected function is invalid!");
+		}
+
+		model.addAttribute("function", function);
+
+		final CFinancialYear currentFy = financialYearService.getCurrentFinancialYear();
+
+		if (currentFy == null) {
+			throw new Exception("Financial year is invalid !");
+		}
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(currentFy.getEndingDate());
+		calendar.add(Calendar.DATE, 1);
+		CFinancialYear nextFy = financialYearService.getFinancialYearByDate(calendar.getTime());
+
+		if (nextFy == null) {
+			throw new Exception("Invalid financial year ! for " + calendar.getTime());
+		}
+
+		model.addAttribute("currentFy", currentFy);
+		model.addAttribute("nextFy", nextFy);
+
+		model.addAttribute("budgetForm", new BudgetForm());
+
+		List<String> types = Arrays.asList("Opening_Balance", "Closing_Balance", "Revenue_Budget", "Capital_Budget");
+		Map<String, List<BudgetItem>> grouped = budgetItemService.getBudgetItemsByTypesFunctionFy(types, function,
+				currentFy);
+
+		final List<BudgetItem> oBal = grouped.getOrDefault("Opening_Balance", Collections.emptyList());
+		final List<BudgetItem> cBal = grouped.getOrDefault("Closing_Balance", Collections.emptyList());
+
+		model.addAttribute("opening_balance", oBal);
+		model.addAttribute("closing_balance", cBal);
+
+		List<BudgetItem> revenue = grouped.getOrDefault("Revenue_Budget", Collections.emptyList());
+		List<BudgetItem> capital = grouped.getOrDefault("Capital_Budget", Collections.emptyList());
+
+		// merge both lists into one
+		List<BudgetItem> allBudget = new ArrayList<>();
+		allBudget.addAll(revenue);
+		allBudget.addAll(capital);
+
+		model.addAttribute("opening_balance", oBal);
+		model.addAttribute("closing_balance", cBal);
+		model.addAttribute("all_budget_items", allBudget);
+
+		return BUDGET_ITEM_EDIT;
+	}
 
 }
