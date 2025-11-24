@@ -530,6 +530,14 @@
                        value="/WEB-INF/views/budget/budgetitem-view.jsp"/>
     </definition>
 
+    <definition name="budgetheader-new" extends="base_layout">
+        <put-attribute name="page-title" value="title.budgetitem.new"
+                       cascade="true"/>
+        <put-attribute name="body"
+                       value="/WEB-INF/views/budget/header/budgetheader-new.jsp"/>
+    </definition>
+
+
     <definition name="budgetgroup-view" extends="base_layout">
         <put-attribute name="page-title" value="title.budgetgroup.view"
                        cascade="true"/>
