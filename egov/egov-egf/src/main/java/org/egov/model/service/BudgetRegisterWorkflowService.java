@@ -342,4 +342,12 @@ public class BudgetRegisterWorkflowService {
         return saved;
     }
 
+
+    public void initiateBudgetRegisterWf(BudgetRegister budgetRegister) {
+
+
+
+    }
+
+
 }

@@ -40,19 +40,24 @@ public class BudgetRegister extends StateAware implements java.io.Serializable {
 
     @SafeHtml
     @Length(max = 50)
-    @Column(unique = true, updatable = false)
+    @Column(unique = true, updatable = false, name = "budgetregisternumber")
     private String budgetRegisterNumber;
+
+    @SafeHtml
+    @Length(max = 100)
+    @Column(updatable = false, name = "budgetregistername")
+    private String budgetRegisterName;
 
     @NotNull
     private Date createdDate = new Date();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "financial_year_id")
-    private CFinancialYear financialYear;  // e.g. 2025-26
+    @JoinColumn(name = "currentfinancialyearid", nullable = false)
+    private CFinancialYear currentFinancialYear;
 
-    @SafeHtml
-    @Length(max = 50)
-    private String budgetType;     // REVENUE / CAPITAL
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "financialyearid", nullable = false)
+    private CFinancialYear financialYear;
 
 
     @ManyToOne
