@@ -74,11 +74,18 @@ public class BudgetRegister extends StateAware implements java.io.Serializable {
 
     // --- Transient UI fields ---
     @Transient
-    private String approvalComment;
+    @SafeHtml
+    private String approvalComent;
     @Transient
+    @SafeHtml
     private String approvalDesignation;
     @Transient
+    @SafeHtml
+    private String approvalDepartment;
+    @Transient
+    @SafeHtml
     private String workFlowAction;
+
 
     @Override
     public String getStateDetails() {

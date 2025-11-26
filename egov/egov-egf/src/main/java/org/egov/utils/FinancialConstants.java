@@ -123,6 +123,7 @@ public interface FinancialConstants {
 	public static final String BUDGET_MODULE = "Budget";
 
 	//Status for Budget Register
+	public static final String BUDGET_CREATED_NEW = "New";
 	public static final String BUDGET_CREATED_STATUS = "Created";
 	public static final String BUDGET_CANCELLED_STATUS = "Cancelled";
 	public static final String BUDGET_APPROVED_STATUS = "Approved";

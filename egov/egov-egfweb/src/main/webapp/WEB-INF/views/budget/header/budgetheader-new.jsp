@@ -1,9 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="/WEB-INF/tags/cdn.tld" prefix="cdn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
 
-<form:form role="form" action="form" modelAttribute="budgetRegister" id="budgetRegisterForm"
+<form:form role="form" action="create" modelAttribute="budgetRegister" id="budgetRegisterForm"
            cssClass="form-horizontal form-groups-bordered" enctype="multipart/form-data">
 
 
@@ -18,12 +20,21 @@
             </div>
         </c:if>
 
+        <c:if test="${not empty message}">
+            <div class="alert alert-success alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                ${message}
+            </div>
+        </c:if>
+
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-primary" data-collapsed="0">
                     <div class="panel-heading">
                         <div class="panel-title">
-                            <spring:message code="lbl.budget.input" text="Create Budget Register" />
+                            <spring:message code="lbl.budget.register" text="Budget Register" />
                         </div>
                     </div>
 
@@ -45,7 +56,7 @@
                             </label>
 
                             <div class="col-sm-6 add-margin">
-                                <form:input type="text" path="budgetRegister.budgetRegisterName" name="budgetRegister.budgetRegisterName" id="budgetRegister.budgetRegisterName" class="form-control"
+                                <form:input type="text" path="budgetRegisterName" name="budgetRegisterName" id="budgetRegisterName" class="form-control"
                                              required="required" />
 
                             </div>
@@ -60,12 +71,13 @@
                             <div class="form-group">
                                 <label class="col-sm-6 control-label">Current Financial Year</label>
                                 <div class="col-sm-6">
+
                                     <input type="text"
                                            class="form-control"
                                            value="${budgetRegister.currentFinancialYear.finYearRange}"
                                            readonly />
 
-                                    <form:hidden path="budgetRegister.currentFinancialYear.id"/>
+                                    <form:hidden path="currentFinancialYear.id" />
                                 </div>
                             </div>
                         </div>
@@ -80,7 +92,7 @@
                                            value="${budgetRegister.financialYear.finYearRange}"
                                            readonly />
 
-                                    <form:hidden path="budgetRegister.financialYear.id"/>
+                                    <form:hidden path="financialYear.id"/>
                                 </div>
                             </div>
                         </div>
@@ -89,7 +101,7 @@
 
 
                     <div class="form-group text-center">
-                        <c:if test="${empty errors}">
+                        <c:if test="${empty error}">
                             <button type='submit' class='btn btn-primary' id="buttonNext">
                                 <spring:message code='lbl.submit' text="Next" />
                             </button>
@@ -102,6 +114,15 @@
             </div>
         </div>
     </div>
+
+
+    <!--<jsp:include page="../../common/commonworkflowmatrix-expensebill.jsp"/>
+    <div class="buttonbottom" align="center">
+        <jsp:include page="../../common/commonworkflowmatrix-button.jsp"/>
+    </div>-->
+
+
+
 </form:form>
 
 <script>

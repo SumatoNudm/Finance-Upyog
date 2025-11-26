@@ -1,5 +1,6 @@
 package org.egov.model.service;
 
+import org.egov.commons.CFinancialYear;
 import org.egov.commons.EgwStatus;
 import org.egov.commons.dao.EgwStatusHibernateDAO;
 import org.egov.eis.entity.Assignment;
@@ -345,9 +346,29 @@ public class BudgetRegisterWorkflowService {
 
     public void initiateBudgetRegisterWf(BudgetRegister budgetRegister) {
 
+        final User user = securityUtils.getCurrentUser();
+        final Date currentDate = new Date();
 
+        budgetRegister.setCreatedBy(user.getId());
+        budgetRegister.setCreatedDate(currentDate);
+
+        budgetRegister.setLastModifiedBy(user.getId());
+        budgetRegister.setLastModifiedDate(currentDate);
+
+        budgetRegisterWorkflowRepository.save(budgetRegister);
 
     }
 
 
+    public String generateBudgetRegisterNumber(String finYearRange) {
+        Long seq = budgetRegisterWorkflowRepository.getNextBudgetRegisterSequence();
+        return String.format("BR-%s-%04d", finYearRange, seq);
+    }
+
+
+    public List<BudgetRegister> findByFinancialYears(CFinancialYear currentFy, CFinancialYear nextFy) {
+
+        return budgetRegisterWorkflowRepository.findByCurrentFinancialYearAndFinancialYear(currentFy, nextFy);
+
+    }
 }
