@@ -24,6 +24,7 @@ import java.util.*;
 public class BudgetRegisterController extends GenericWorkFlowController {
 
     private static final String BUDGET_HEADER_NEW = "budgetheader-new";
+    private static final String BUDGET_REGISTER_VIEW = "budgetregister-view";
 
     private static final Logger LOGGER = Logger.getLogger(BudgetRegisterController.class);
 
@@ -121,6 +122,25 @@ public class BudgetRegisterController extends GenericWorkFlowController {
 
 
 
+    @RequestMapping(value = "/view", method = {RequestMethod.GET, RequestMethod.POST})
+    public String view(final Model model) {
+        LOGGER.info("budget register view:");
+        List<BudgetRegister> budgetRegisters = budgetRegisterWorkflowService.findBudgetRegisters();
+        List<CFinancialYear> financialYears = financialYearService.getAllFinancialYears();
+
+        LOGGER.info("Budget Register: ");
+        budgetRegisters.forEach(budgetRegister -> {
+            LOGGER.info("Number: " + budgetRegister.getBudgetRegisterNumber() + ", Name: " + budgetRegister.getBudgetRegisterName() + ", created Date: " + budgetRegister.getCreatedDate() + ", currentFy: " + budgetRegister.getCurrentFinancialYear().getFinYearRange() + ", next Fy: " + budgetRegister.getFinancialYear().getFinYearRange() + ", status: " + budgetRegister.getStatus().getCode()) ;
+        });
+
+        model.addAttribute("budgetRegisters", budgetRegisters);
+        model.addAttribute("financialYears", financialYears);
+
+        return BUDGET_REGISTER_VIEW;
+    }
+
+
+
     private Map<String, CFinancialYear> addFinancialYears(Model model) {
         CFinancialYear financialYear = financialYearService.getCurrentFinancialYear();
         ArrayList<String> errors = new ArrayList<>();
@@ -149,6 +169,8 @@ public class BudgetRegisterController extends GenericWorkFlowController {
 
         return financialYearMap;
     }
+
+
 
 
 

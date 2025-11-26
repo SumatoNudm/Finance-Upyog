@@ -23,6 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -370,5 +371,9 @@ public class BudgetRegisterWorkflowService {
 
         return budgetRegisterWorkflowRepository.findByCurrentFinancialYearAndFinancialYear(currentFy, nextFy);
 
+    }
+
+    public List<BudgetRegister> findBudgetRegisters() {
+        return budgetRegisterWorkflowRepository.findAll(new Sort(Sort.Direction.DESC, "budgetRegisterNumber"));
     }
 }
