@@ -135,28 +135,28 @@ public class BudgetItemController {
 
 		model.addAttribute("function", function);
 
-//		List<BudgetItem> budgetItems = functionBudgetHeadService.functionBudgetHeads(function.getId()).stream().map(fbh -> {
-//		 	 BudgetItem budgetItem =  new BudgetItem();
-//			 budgetItem.setBudgetHead(fbh.getBudgetHead());
-//			 budgetItem.setFunction(fbh.getFunction());
-//			 budgetItem.setFinancialYear(financialYears.get("nextFy"));
-//			 budgetItem.setCurrentFinancialYear(financialYears.get("currentFy"));
-//			return budgetItem;
-//		}).collect(Collectors.toList());
+		// List<BudgetItem> budgetItems =
+		// functionBudgetHeadService.functionBudgetHeads(function.getId()).stream().map(fbh
+		// -> {
+		// BudgetItem budgetItem = new BudgetItem();
+		// budgetItem.setBudgetHead(fbh.getBudgetHead());
+		// budgetItem.setFunction(fbh.getFunction());
+		// budgetItem.setFinancialYear(financialYears.get("nextFy"));
+		// budgetItem.setCurrentFinancialYear(financialYears.get("currentFy"));
+		// return budgetItem;
+		// }).collect(Collectors.toList());
 
-//		BudgetForm budgetForm = new BudgetForm();
-//		budgetForm.setItems(budgetItems);
+		// BudgetForm budgetForm = new BudgetForm();
+		// budgetForm.setItems(budgetItems);
 
-		List<BudgetHead> budgetHeads = functionBudgetHeadService.functionBudgetHeads(function.getId()).stream().map(FunctionBudgetHead::getBudgetHead).collect(Collectors.toList());
+		List<BudgetHead> budgetHeads = functionBudgetHeadService.functionBudgetHeads(function.getId()).stream()
+				.map(FunctionBudgetHead::getBudgetHead).collect(Collectors.toList());
 
 		model.addAttribute("budgetHeads", budgetHeads);
 
 		model.addAttribute("budgetForm", new BudgetForm());
 
-
-
-
-		//BudgetRegister budgetRegister = new BudgetRegister();
+		// BudgetRegister budgetRegister = new BudgetRegister();
 
 		// model.addAttribute(STATE_TYPE, "BudgetRegister");
 		// prepareWorkflow(model, budgetRegister, new WorkflowContainer());
@@ -382,17 +382,24 @@ public class BudgetItemController {
 		model.addAttribute("currentFy", currentFy);
 		model.addAttribute("nextFy", nextFy);
 
-		model.addAttribute("budgetForm", new BudgetForm());
+		//model.addAttribute("budgetForm", new BudgetForm());
 
 		List<String> types = Arrays.asList("Opening_Balance", "Closing_Balance", "Revenue_Budget", "Capital_Budget");
 		Map<String, List<BudgetItem>> grouped = budgetItemService.getBudgetItemsByTypesFunctionFy(types, function,
 				currentFy);
 
-		final List<BudgetItem> oBal = grouped.getOrDefault("Opening_Balance", Collections.emptyList());
-		final List<BudgetItem> cBal = grouped.getOrDefault("Closing_Balance", Collections.emptyList());
+		// final List<BudgetItem> oBal = grouped.getOrDefault("Opening_Balance",
+		// Collections.emptyList());
+		// final List<BudgetItem> cBal = grouped.getOrDefault("Closing_Balance",
+		// Collections.emptyList());
 
-		model.addAttribute("opening_balance", oBal);
-		model.addAttribute("closing_balance", cBal);
+		// model.addAttribute("opening_balance", oBal.get(0));
+		// model.addAttribute("closing_balance", cBal);
+
+		List<BudgetItem> oBal = grouped.getOrDefault("Opening_Balance", Collections.emptyList());
+		//BudgetItem first = oBal.isEmpty() ? new BudgetItem() : oBal.get(0);
+
+		//model.addAttribute("opening_balance", oBal);
 
 		List<BudgetItem> revenue = grouped.getOrDefault("Revenue_Budget", Collections.emptyList());
 		List<BudgetItem> capital = grouped.getOrDefault("Capital_Budget", Collections.emptyList());
@@ -402,11 +409,41 @@ public class BudgetItemController {
 		allBudget.addAll(revenue);
 		allBudget.addAll(capital);
 
-		model.addAttribute("opening_balance", oBal);
-		model.addAttribute("closing_balance", cBal);
+		// model.addAttribute("opening_balance", oBal);
+		// model.addAttribute("closing_balance", cBal);
 		model.addAttribute("all_budget_items", allBudget);
 
+		BudgetForm form = new BudgetForm();
+		form.setOpening(oBal.get(0)); // <-- FIX
+		form.setItems(allBudget); // <-- items also must be set
+		form.setFunctionid(function.getId());
+		form.setCurrentFinancialYear(currentFy.getId());
+		form.setFinancialYear(nextFy.getId());
+
+		model.addAttribute("budgetForm", form);
+
+		model.addAttribute("function", function);
+		model.addAttribute("currentFy", currentFy);
+		model.addAttribute("nextFy", nextFy);
+
+		System.out.println("Opening in GET = " + form.getOpening().getId());
+
 		return BUDGET_ITEM_EDIT;
+	}
+
+	@PostMapping("/update")
+	public String update(@ModelAttribute BudgetForm budgetForm, RedirectAttributes redirectAttrs) {
+
+		LOGGER.info("update form \n\n");
+		LOGGER.info(budgetForm.getOpening().getId());
+
+		System.out.println("Opening in POST = " + budgetForm.getOpening().getId());
+
+		budgetItemService.updateBudgetInputForm(budgetForm); // inside service: save opening, items, closing
+		// redirectAttrs.addFlashAttribute("message", "Budget items saved
+		// successfully!");
+
+		return "forward:/budget/view/" + budgetForm.getFunctionid();
 	}
 
 }

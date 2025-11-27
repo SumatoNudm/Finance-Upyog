@@ -8,7 +8,7 @@ public class BudgetForm {
 
     private Long functionid;             // Selected Function ID
 
-    private BudgetItem opening;          // Opening Balance row
+    private BudgetItem opening = new BudgetItem();          // Opening Balance row
 
     private List<BudgetItem> items;      // Revenue/Capital rows (multiple)
 
