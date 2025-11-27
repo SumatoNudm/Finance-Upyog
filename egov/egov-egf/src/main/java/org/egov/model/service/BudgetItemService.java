@@ -362,11 +362,23 @@ public void updateBudgetInputForm(BudgetForm form) {
             opening.setCurrentFinancialYear(currentFinancialYear);
             opening.setBudgetGroup("Opening_Balance");
 
-            if (opening.getId() != null) {
-                budgetItemRepository.save(opening);  // update
-            } else {
-                budgetItemRepository.save(opening);  // insert
+            BudgetItem openingBalance = budgetItemRepository.findOne(opening.getId());
+
+            if (openingBalance == null) {
+                throw new Exception("opening balance is null");
             }
+
+            LOGGER.info("saving:");
+            LOGGER.info( "my id:" + openingBalance.getId());
+
+
+            openingBalance.setCurrentEstimate(opening.getCurrentEstimate());
+            openingBalance.setCurrentActual(opening.getCurrentActual());
+            openingBalance.setCurrentRevisedEstimate(opening.getCurrentRevisedEstimate());
+            openingBalance.setNextEstimate(opening.getNextEstimate());
+
+
+            budgetItemRepository.save(openingBalance);
         }
 
         // ========================================

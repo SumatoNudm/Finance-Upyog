@@ -434,14 +434,23 @@ public class BudgetItemController {
 	@PostMapping("/update")
 	public String update(@ModelAttribute BudgetForm budgetForm, RedirectAttributes redirectAttrs) {
 
-		LOGGER.info("update form \n\n");
-		LOGGER.info(budgetForm.getOpening().getId());
+		try {
 
-		System.out.println("Opening in POST = " + budgetForm.getOpening().getId());
+			LOGGER.info("update form \n\n");
+			LOGGER.info(budgetForm.getOpening().getId());
+			LOGGER.info(budgetForm.getFunctionid());
+			LOGGER.info(budgetForm.getCurrentFinancialYear());
+			LOGGER.info(budgetForm.getFinancialYear());
 
-		budgetItemService.updateBudgetInputForm(budgetForm); // inside service: save opening, items, closing
-		// redirectAttrs.addFlashAttribute("message", "Budget items saved
-		// successfully!");
+			System.out.println("Opening in POST = " + budgetForm.getOpening().getId());
+
+			budgetItemService.updateBudgetInputForm(budgetForm); // inside service: save opening, items, closing
+			// redirectAttrs.addFlashAttribute("message", "Budget items saved
+			// successfully!");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		return "forward:/budget/view/" + budgetForm.getFunctionid();
 	}

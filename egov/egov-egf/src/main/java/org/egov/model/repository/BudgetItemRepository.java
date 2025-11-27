@@ -39,4 +39,5 @@ public interface BudgetItemRepository extends JpaRepository<BudgetItem, Long> {
                                      @Param("currentFinancialYearId") Long currentFinancialYearId);
 
 
+    BudgetItem findById(Long id);
 }

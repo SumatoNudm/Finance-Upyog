@@ -21,6 +21,7 @@
                             <input type="hidden" id="currentFinancialYear" name="currentFinancialYear"
                                 value="${currentFy.id}" />
                             <input type="hidden" id="financialYear" name="financialYear" value="${nextFy.id}" />
+
                         </div>
                     </div>
 
@@ -48,8 +49,9 @@
                                     <!-- Hidden fields -->
                                     <form:hidden path="opening.budgetGroup" id="opening.budgetGroup" name="opening.budgetGroup" value="Opening_Balance" /> 
                                     <form:hidden path="opening.function.id" id="opening.functionid" name="opening.functionid" value="${function.id}" />
-                                    <form:hidden path="opening.id" value="${budgetForm.opening.id}" />
+                                    <form:hidden path="opening.id" />
 
+                                    <form:input path="opening.id" />
 
                                     <td style="width: 40%;">
                                         Opening Balance as on
