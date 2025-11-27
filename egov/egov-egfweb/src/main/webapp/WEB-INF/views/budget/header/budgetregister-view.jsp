@@ -32,7 +32,7 @@
                                 <th>Financial Year</th>
                                 <th>Status</th>
                                 <th>Created Date</th>
-                                <!--<th class="text-center">Actions</th>-->
+                                <th class="text-center">Actions</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -46,6 +46,11 @@
                                     </td>
                                     <td>
                                         <fmt:formatDate value="${budgetRegister.createdDate}" pattern="dd-MMM-yyyy HH:mm" />
+                                    </td>
+                                    <td>
+                                        <a href="${pageContext.request.contextPath}/budget/register/workflow/${budgetRegister.budgetRegisterNumber}" class="btn btn-primary btn-sm">
+                                            Workflow
+                                        </a>
                                     </td>
                                 </tr>
                             </c:forEach>

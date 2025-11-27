@@ -19,6 +19,8 @@ import org.egov.model.repository.BudgetRegisterWorkflowRepository;
 import org.egov.pims.commons.Position;
 import org.egov.pims.commons.service.PositionService;
 import org.egov.utils.FinancialConstants;
+import org.joda.time.DateTime;
+import org.python.antlr.ast.Str;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +53,8 @@ public class BudgetRegisterWorkflowService {
 
     @Autowired
     private EgwStatusHibernateDAO egwStatusDAO;
+
+
 
 
     private Assignment getCurrentUserAssignment(final Long userId) {
@@ -149,7 +153,7 @@ public class BudgetRegisterWorkflowService {
 
         // Collect final approval designations (if any) by querying WF matrix for FINAL_APPROVAL_PENDING
         WorkFlowMatrix wfmatrix = egBudgetRegisterWorkflowService.getWfMatrix(
-                budgetRegister.getStateType(), null, null, additionalRule, "FINAL_APPROVAL_PENDING", null);
+                budgetRegister.getStateType(), null, null, additionalRule, "New", null);
 
         if (wfmatrix != null && wfmatrix.getCurrentDesignation() != null) {
             Arrays.stream(wfmatrix.getCurrentDesignation().split(","))
@@ -163,11 +167,11 @@ public class BudgetRegisterWorkflowService {
         if (budgetRegister.getState() == null) {
             if (approvalDesignation != null &&
                     finalDesignationNames.contains(approvalDesignation.trim().toUpperCase())) {
-                stateValue = "FINAL_APPROVAL_PENDING";
+                stateValue = "Created";
             }
 
             // fetch matrix for start (currState = null or empty)
-            wfmatrix = egBudgetRegisterWorkflowService.getWfMatrix(budgetRegister.getStateType(), null, null, additionalRule, "", null);
+            wfmatrix = egBudgetRegisterWorkflowService.getWfMatrix(budgetRegister.getStateType(), null, null, additionalRule, "New", null);
             if (wfmatrix == null) {
                 LOG.error("Workflow matrix missing for stateType={} (start).", budgetRegister.getStateType());
                 throw new IllegalStateException("Workflow configuration missing for stateType=" + budgetRegister.getStateType());
@@ -284,7 +288,7 @@ public class BudgetRegisterWorkflowService {
         EgwStatus status;
         if (budgetRegister.getId() == null) {
             // first time creation
-            status = egwStatusDAO.getStatusByModuleAndCode(FinancialConstants.BUDGET_MODULE, FinancialConstants.BUDGET_CREATED_STATUS);
+            status = egwStatusDAO.getStatusByModuleAndCode(FinancialConstants.BUDGET_MODULE, FinancialConstants.BUDGET_CREATED_NEW);
             if (status == null)
                 throw new ValidationException(new ValidationError("status", "Status 'NEW' not configured in egw_status for module 'Budget'"));
             budgetRegister.setStatus(status);
@@ -315,18 +319,18 @@ public class BudgetRegisterWorkflowService {
         EgwStatus newStatus = null;
         switch (workFlowAction.toUpperCase()) {
             case "APPROVE":
-                newStatus = egwStatusDAO.getStatusByModuleAndCode("Budget", "APPROVED");
+                newStatus = egwStatusDAO.getStatusByModuleAndCode("BudgetRegister", "Approved");
                 break;
             case "REJECT":
-                newStatus = egwStatusDAO.getStatusByModuleAndCode("Budget", "REJECTED");
+                newStatus = egwStatusDAO.getStatusByModuleAndCode("BudgetRegister", "Rejected");
                 break;
             case "CANCEL":
-                newStatus = egwStatusDAO.getStatusByModuleAndCode("Budget", "CANCELLED");
+                newStatus = egwStatusDAO.getStatusByModuleAndCode("BudgetRegister", "Cancelled");
                 break;
             case "START":
             case "FORWARD":
             default:
-                newStatus = egwStatusDAO.getStatusByModuleAndCode("Budget", "CREATED");
+                newStatus = egwStatusDAO.getStatusByModuleAndCode("BudgetRegister", "Created");
                 break;
         }
         budgetRegister.setStatus(newStatus);
@@ -376,4 +380,142 @@ public class BudgetRegisterWorkflowService {
     public List<BudgetRegister> findBudgetRegisters() {
         return budgetRegisterWorkflowRepository.findAll(new Sort(Sort.Direction.DESC, "budgetRegisterNumber"));
     }
+
+    public BudgetRegister findBudgetRegisterByRegisterNumber(String budgetRegisterNumber) {
+        return budgetRegisterWorkflowRepository.findByBudgetRegisterNumber(budgetRegisterNumber);
+    }
+
+
+
+    public void createBudgetRegisterWorkFlowTransitionNew(final BudgetRegister budgetRegister, final Long approvalPosition, final String approvalComment, final String additionalRule, final String workFlowAction, final String approvalDesignation) {
+
+        LOG.info("Budget Register Workflow started!");
+
+        final User user = securityUtils.getCurrentUser();
+
+        final DateTime currentDate = new DateTime();
+
+        Assignment wfInitiator = null;
+
+        Map<String, String> finalDesignationNames = new HashMap<>();
+
+        final String currentState = "";
+        String stateValue = "";
+
+        if (budgetRegister.getId() != null) {
+            wfInitiator = this.getCurrentUserAssignment(budgetRegister.getCreatedBy());
+        }
+        if (FinancialConstants.BUTTONREJECT.equalsIgnoreCase(workFlowAction)) {
+            LOG.info("BudgetWF: REJECT");
+            stateValue = FinancialConstants.WORKFLOW_STATE_REJECTED;
+            budgetRegister.transition().progressWithStateCopy().withSenderName(user.getUsername() + "::" + user.getName())
+                    .withComments(approvalComment)
+                    .withStateValue(stateValue)
+                    .withDateInfo(currentDate.toDate())
+                    .withOwner(wfInitiator.getPosition())
+                    .withNextAction("")
+                    .withNatureOfTask(FinancialConstants.WORKFLOWTYPE_BUDGET_REGISTER_DISPLAYNAME);
+        } else  {
+            WorkFlowMatrix workFlowMatrix;
+            Designation designation = this.getDesignationDetails(approvalDesignation);
+            Position ownerPosition = new Position();
+            ownerPosition.setId(approvalPosition);
+
+            workFlowMatrix = egBudgetRegisterWorkflowService.getWfMatrix(budgetRegister.getStateType(), null, null, additionalRule, FinancialConstants.WF_STATE_FINAL_APPROVAL_PENDING, null);
+
+            if (workFlowMatrix != null && workFlowMatrix.getCurrentDesignation() != null) {
+                final List<String> finalDesignationName = Arrays.asList(workFlowMatrix.getCurrentDesignation().split(","));
+                for (final String designationName : finalDesignationName) {
+                    if (designationName != null && !"".equals(designationName.trim())) {
+                        finalDesignationNames.put(designationName.toUpperCase(), designationName.toUpperCase());
+                    }
+                }
+            }
+
+            if (budgetRegister.getState() == null) {
+                LOG.info("BudgetWF: state null");
+                if (designation != null && finalDesignationNames.get(designation.getName().toUpperCase()) != null) {
+                    stateValue = FinancialConstants.WF_STATE_FINAL_APPROVAL_PENDING;
+                }
+
+                workFlowMatrix = egBudgetRegisterWorkflowService.getWfMatrix(budgetRegister.getStateType(), null, null, additionalRule, currentState, null);
+
+                LOG.info("BudgetWF: next action: " + workFlowMatrix.getNextAction());
+
+                if (stateValue.isEmpty()) {
+                    stateValue = workFlowMatrix.getNextState();
+                }
+
+                budgetRegister.transition().start()
+                        .withSenderName(user.getUsername() + "::" + user.getName())
+                        .withComments(approvalComment)
+                        .withStateValue(stateValue)
+                        .withDateInfo(new Date())
+                        .withOwner(ownerPosition)
+                        .withNextAction(workFlowMatrix.getNextAction())
+                        .withNatureOfTask(FinancialConstants.WORKFLOWTYPE_BUDGET_REGISTER_DISPLAYNAME)
+                        .withCreatedBy(user.getId())
+                        .withtLastModifiedBy(user.getId());
+
+            } else if (FinancialConstants.BUTTONCANCEL.equalsIgnoreCase(workFlowAction)) {
+                LOG.info("BudgetWF: CANCEL");
+                stateValue = FinancialConstants.WORKFLOW_STATE_CANCELLED;
+                budgetRegister.transition().end()
+                        .withSenderName(user.getUsername() + "::" + user.getName())
+                        .withComments(approvalComment)
+                        .withStateValue(stateValue)
+                        .withDateInfo(currentDate.toDate())
+                        .withNextAction("")
+                        .withNatureOfTask(FinancialConstants.WORKFLOWTYPE_BUDGET_REGISTER_DISPLAYNAME);
+
+            } else if (FinancialConstants.BUTTONAPPROVE.equalsIgnoreCase(workFlowAction)) {
+                LOG.info("BudgetWF: APPROVE");
+                workFlowMatrix = egBudgetRegisterWorkflowService.getWfMatrix(budgetRegister.getStateType(), null, null, additionalRule, budgetRegister.getCurrentState().getValue(), null);
+
+                if (stateValue.isEmpty()) {
+                    stateValue = workFlowMatrix.getNextState();
+                }
+
+                budgetRegister.transition().end()
+                        .withSenderName(user.getUsername() + "::" + user.getName())
+                        .withComments(approvalComment)
+                        .withStateValue(stateValue)
+                        .withDateInfo(new Date())
+                        .withNextAction(workFlowMatrix.getNextAction())
+                        .withNatureOfTask(FinancialConstants.WORKFLOWTYPE_BUDGET_REGISTER_DISPLAYNAME);
+
+            } else {
+                LOG.info("BudgetWF: SOMETHING");
+                if (designation != null && finalDesignationNames.get(designation.getName().toUpperCase()) != null) {
+                    stateValue = FinancialConstants.WF_STATE_FINAL_APPROVAL_PENDING;
+                }
+
+                workFlowMatrix = egBudgetRegisterWorkflowService.getWfMatrix(budgetRegister.getStateType(), null, null, additionalRule, budgetRegister.getCurrentState().getValue(), null);
+
+                if (stateValue.isEmpty()) {
+                    stateValue = workFlowMatrix.getNextState();
+                }
+
+                budgetRegister.transition().progressWithStateCopy()
+                        .withSenderName(user.getUsername() + "::" + user.getName())
+                        .withStateValue(stateValue)
+                        .withDateInfo(new Date())
+                        .withOwner(ownerPosition)
+                        .withNextAction(workFlowMatrix.getNextAction())
+                        .withNatureOfTask(FinancialConstants.WORKFLOWTYPE_BUDGET_REGISTER_DISPLAYNAME);
+
+
+            }
+
+        }
+
+        LOG.info("Workflow transition completed !");
+
+    }
+
+    public void save(BudgetRegister currentBudgetRegister) {
+        budgetRegisterWorkflowRepository.save(currentBudgetRegister);
+    }
 }
+
+

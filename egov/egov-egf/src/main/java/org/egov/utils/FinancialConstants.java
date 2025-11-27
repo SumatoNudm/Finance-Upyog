@@ -120,7 +120,7 @@ public interface FinancialConstants {
 
 
 	// Module name for budget register
-	public static final String BUDGET_MODULE = "Budget";
+	public static final String BUDGET_MODULE = "BudgetRegister";
 
 	//Status for Budget Register
 	public static final String BUDGET_CREATED_NEW = "New";
@@ -391,6 +391,7 @@ public interface FinancialConstants {
 	public static final String WORKFLOWTYPE_WORKS_BILL_DISPLAYNAME = "Works Bill";
 	public static final String WORKFLOWTYPE_SBILL_DISPLAYNAME = "Supplier Bill";
 	public static final String WORKFLOWTYPE_VOUCHER_DISPLAYNAME = "Voucher";
+	public static final String WORKFLOWTYPE_BUDGET_REGISTER_DISPLAYNAME = "Budget Register";
 
 	public static final String WORKFLOW_STATUS_CODE_REJECTED = "REJECTED";
 	public static final String KEY_DATAENTRYCUTOFFDATE = "DataEntryCutOffDate";

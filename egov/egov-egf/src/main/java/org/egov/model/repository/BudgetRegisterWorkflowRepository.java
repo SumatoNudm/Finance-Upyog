@@ -17,5 +17,7 @@ public interface BudgetRegisterWorkflowRepository extends JpaRepository<BudgetRe
     List<BudgetRegister> findByCurrentFinancialYearAndFinancialYear(CFinancialYear currentFinancialYear, CFinancialYear financialYear);
 
 
+    BudgetRegister findByBudgetRegisterNumber(String budgetRegisterNumber);
+
 
 }
