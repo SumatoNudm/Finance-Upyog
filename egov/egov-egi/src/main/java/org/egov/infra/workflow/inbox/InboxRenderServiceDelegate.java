@@ -93,6 +93,7 @@ public class InboxRenderServiceDelegate<T extends StateAware> {
     private static final String SUPPLIER_BILL = "Supplier Bill";
     private static final String EXPENSE_BILL = "Expense Bill";
     private static final String WORKS_BILL = "Works Bill";
+    private static final String BUDGET_REGISTER = "Budget Register";
     private static final Logger LOG = LoggerFactory.getLogger(InboxRenderServiceDelegate.class);
     private static final String INBOX_RENDER_SERVICE_SUFFIX = "%sInboxRenderService";
     private static final Map<String, WorkflowTypes> WORKFLOW_TYPE_CACHE = new ConcurrentHashMap<>();
@@ -214,6 +215,9 @@ public class InboxRenderServiceDelegate<T extends StateAware> {
                             workflowType,
                             getNextAction(stateAware.getState())));
         }
+        List<Inbox> mList = microserviceUtils.getInboxItems();
+        LOGGER.info("links:");
+        mList.forEach(m -> LOGGER.info(m.getLink()));
         inboxItems.addAll(microserviceUtils.getInboxItems());
         return inboxItems
                 .stream()
