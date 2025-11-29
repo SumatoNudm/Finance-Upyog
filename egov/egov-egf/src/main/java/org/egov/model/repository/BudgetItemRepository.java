@@ -4,6 +4,7 @@ package org.egov.model.repository;
 import org.egov.commons.CFinancialYear;
 import org.egov.commons.CFunction;
 import org.egov.model.budget.BudgetItem;
+import org.egov.model.budget.BudgetRegister;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -29,6 +30,10 @@ public interface BudgetItemRepository extends JpaRepository<BudgetItem, Long> {
             List<String> budgetGroup, CFunction function, CFinancialYear currentFinancialYear);
 
 
+    List<BudgetItem> findByBudgetGroupInAndFunctionAndCurrentFinancialYearAndBudgetRegister(
+            List<String> budgetGroup, CFunction function, CFinancialYear currentFinancialYear, BudgetRegister budgetRegister);
+
+
     List<BudgetItem> findByFunctionAndCurrentFinancialYear(CFunction function, CFinancialYear currentFinancialYear);
 
 
@@ -43,4 +48,12 @@ public interface BudgetItemRepository extends JpaRepository<BudgetItem, Long> {
 
     BudgetItem findByFunctionAndBudgetGroup(CFunction function, String budgetGroup);
 
+    @Query("select count(b) > 0 from BudgetItem b " +
+            "where b.function.id = :functionId " +
+            "and b.currentFinancialYear.id = :currentFinancialYearId " +
+            "and b.budgetRegister.id = :budgetRegisterId"
+    )
+    Boolean existsBudgetForCurrentFYAndBudgetRegister(@Param("functionId") Long functionId,
+                                                      @Param("currentFinancialYearId") Long currentFinancialYearId,
+                                                      @Param("budgetRegisterId") Long budgetRegisterId);
 }

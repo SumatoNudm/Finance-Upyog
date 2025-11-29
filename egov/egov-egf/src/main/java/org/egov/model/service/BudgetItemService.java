@@ -16,6 +16,7 @@ import org.egov.commons.service.CFinancialYearService;
 import org.egov.egf.form.BudgetForm;
 import org.egov.model.budget.BudgetHead;
 import org.egov.model.budget.BudgetItem;
+import org.egov.model.budget.BudgetRegister;
 import org.egov.model.repository.BudgetItemRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,7 +66,7 @@ public class BudgetItemService {
     }
 
     @Transactional
-    public void saveBudgetInputForm(BudgetForm form) {
+    public void saveBudgetInputForm(BudgetForm form, Long budgetRegisterId) {
 
         try {
             // validate function
@@ -73,6 +74,13 @@ public class BudgetItemService {
             if (function == null) {
                 throw new Exception("The selected function not found !");
             }
+
+            BudgetRegister budgetRegister = budgetRegisterWorkflowService.findOne(budgetRegisterId);
+
+            if (budgetRegister == null) {
+                throw new Exception("Selected budget register is invalid or not available.");
+            }
+
 
             // Validate financial years
             CFinancialYear financialYear = financialYearService.findOne(form.getFinancialYear());
@@ -90,6 +98,8 @@ public class BudgetItemService {
                 opening.setFunction(function);
                 opening.setFinancialYear(financialYear);
                 opening.setCurrentFinancialYear(nextFinancialYear);
+
+                opening.setBudgetRegister(budgetRegister);
                 budgetItemRepository.save(opening);
             }
 
@@ -121,6 +131,8 @@ public class BudgetItemService {
                     item.setFunction(function);
                     item.setFinancialYear(financialYear);
                     item.setCurrentFinancialYear(nextFinancialYear);
+
+                    item.setBudgetRegister(budgetRegister);
 
                     // validating budget head
                     BudgetHead bh = budgetHeadService.findById(item.getBudgetHead().getId());
@@ -205,6 +217,8 @@ public class BudgetItemService {
                     .setCurrentRevisedEstimate(openingBalance.getCurrentRevisedEstimate().add(totalRevisedEstimate));
             closingBalance.setNextEstimate(openingBalance.getNextEstimate().add(totalNextBudgetEstimate));
 
+            closingBalance.setBudgetRegister(budgetRegister);
+
             budgetItemRepository.save(closingBalance);
 
             // Save Closing Balance
@@ -266,6 +280,20 @@ public class BudgetItemService {
                 .collect(Collectors.groupingBy(BudgetItem::getBudgetGroup));
     }
 
+    public Map<String, List<BudgetItem>> getBudgetItemsByTypesFunctionFyBudgetRegister(
+            List<String> types, CFunction function, CFinancialYear financialYear, BudgetRegister budgetRegister) {
+
+        List<BudgetItem> items = budgetItemRepository
+                .findByBudgetGroupInAndFunctionAndCurrentFinancialYearAndBudgetRegister(types, function, financialYear, budgetRegister);
+
+        // LOGGER.info("inside service!");
+        // LOGGER.info(items.size());
+        // items.forEach(i -> LOGGER.info(i.getBudgetCode()));
+
+        return items.stream()
+                .collect(Collectors.groupingBy(BudgetItem::getBudgetGroup));
+    }
+
     public List<BudgetItem> getBudgetItemsByFunctionAndCurrentFinancialYear(CFunction function,
             CFinancialYear currentFinancialYear) {
         List<BudgetItem> budgetItems = budgetItemRepository.findByFunctionAndCurrentFinancialYear(function,
@@ -276,6 +304,11 @@ public class BudgetItemService {
     public Boolean checkIfBudgetExistsForFunctionAndFinancialYear(CFunction function,
             CFinancialYear currentFinancialYear) {
         return budgetItemRepository.existsBudgetForCurrentFY(function.getId(), currentFinancialYear.getId());
+    }
+
+    public Boolean checkIfBudgetExistsForFunctionAndFinancialYearAndBudgetRegister(CFunction function,
+                                                                                   CFinancialYear currentFinancialYear, BudgetRegister budgetRegister) {
+        return budgetItemRepository.existsBudgetForCurrentFYAndBudgetRegister(function.getId(), currentFinancialYear.getId(), budgetRegister.getId());
     }
 
     private Boolean isExpenditure(String code) {

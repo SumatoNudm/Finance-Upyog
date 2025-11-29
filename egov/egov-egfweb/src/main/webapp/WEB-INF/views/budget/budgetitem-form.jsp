@@ -20,6 +20,7 @@
 							<input type="hidden" id="currentFinancialYear" name="currentFinancialYear"
 								value="${currentFy.id}" />
 							<input type="hidden" id="financialYear" name="financialYear" value="${nextFy.id}" />
+							<form:hidden path="" id="budgetRegisterId" name="budgetRegisterId" value="${budgetRegisterId}" />
 						</div>
 					</div>
 

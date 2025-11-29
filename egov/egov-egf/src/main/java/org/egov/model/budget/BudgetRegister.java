@@ -86,6 +86,9 @@ public class BudgetRegister extends StateAware implements java.io.Serializable {
     @SafeHtml
     private String workFlowAction;
 
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     @Override
     public String getStateDetails() {
