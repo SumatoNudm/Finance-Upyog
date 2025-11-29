@@ -32,6 +32,7 @@ public class BudgetItemController {
 	private static final String BUDGET_FORM = "budgetitem-form";
 	private static final String BUDGET_ITEM_VIEW = "budgetitem-view";
 	private static final String BUDGET_ITEM_EDIT = "budgetitem-edit";
+	private static final String BUDGET_FUNCTION = "budgetitem-function";
 
 	private static final String STATE_TYPE = "stateType";
 
@@ -200,7 +201,8 @@ public class BudgetItemController {
 		return "functionwisebudget-form";
 	}
 
-	@PostMapping(value = "/view/{functionId}")
+	//@PostMapping(value = "/view/{functionId}")
+	@RequestMapping(value = "/view/{functionId}", method = { RequestMethod.GET, RequestMethod.POST })
 	public String view(final Model model, @PathVariable Long functionId) throws Exception {
 
 		final CFunction function = functionService.findOne(functionId);
@@ -445,14 +447,25 @@ public class BudgetItemController {
 			System.out.println("Opening in POST = " + budgetForm.getOpening().getId());
 
 			budgetItemService.updateBudgetInputForm(budgetForm); // inside service: save opening, items, closing
-			// redirectAttrs.addFlashAttribute("message", "Budget items saved
-			// successfully!");
+			redirectAttrs.addFlashAttribute("message", "Budget items updated successfully!");
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return "forward:/budget/view/" + budgetForm.getFunctionid();
+	}
+
+
+	@PostMapping(value = "/function")
+	public String functionView(final Model model){
+
+		List<CFunction> budgetFunction = budgetItemService.functionListWithBudget();
+
+		model.addAttribute("budgetFunction", budgetFunction);
+
+		return BUDGET_FUNCTION;
+
 	}
 
 }

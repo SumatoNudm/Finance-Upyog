@@ -33,5 +33,6 @@ public class FunctionBudgetHeadService {
     public List<CFunction> getFunctionsByNameOrCode(String query) {
         return functionBudgetHeadRepository.findDistinctFunctionsHavingBudgetHead(query);
     }
+    
 
 }

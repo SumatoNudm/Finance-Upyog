@@ -43,4 +43,7 @@ public interface BudgetItemRepository extends JpaRepository<BudgetItem, Long> {
 
     BudgetItem findByFunctionAndBudgetGroup(CFunction function, String budgetGroup);
 
+    @Query("SELECT DISTINCT b.function FROM BudgetItem b ORDER BY b.function.code")
+    List<CFunction> findDistinctFunctionsWithBudgetItems();
+
 }

@@ -533,4 +533,10 @@ public class BudgetItemService {
         }
     }
 
+    public List<CFunction> functionListWithBudget() {
+        List<CFunction> functions = budgetItemRepository.findDistinctFunctionsWithBudgetItems();
+
+        return functions;
+    }
+
 }
