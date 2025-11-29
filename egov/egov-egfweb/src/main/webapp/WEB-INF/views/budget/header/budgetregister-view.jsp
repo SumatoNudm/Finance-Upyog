@@ -8,6 +8,15 @@
     <div class="row">
         <div class="col-md-12">
 
+            <c:if test="${not empty message}">
+                <div class="alert alert-success alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    ${message}
+                </div>
+            </c:if>
+
             <div class="panel panel-default">
                 <div class="panel-heading clearfix">
                     <h4 class="panel-title pull-left" style="padding-top:6px;">Budget Registers</h4>
@@ -48,7 +57,7 @@
                                         <fmt:formatDate value="${budgetRegister.createdDate}" pattern="dd-MMM-yyyy HH:mm" />
                                     </td>
                                     <td>
-                                        <a href="${pageContext.request.contextPath}/budget/register/workflow/${budgetRegister.budgetRegisterNumber}" class="btn btn-primary btn-sm">
+                                        <a href="${pageContext.request.contextPath}/budget/register/workflow/view/${budgetRegister.budgetRegisterNumber}" class="btn btn-primary btn-sm">
                                             Workflow
                                         </a>
                                     </td>

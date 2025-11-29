@@ -69,12 +69,15 @@ public class MSCommController {
 	public List<Designation> getDesignations(@RequestParam Map<String, String> params) {
 		final List<String> workflowDesignations = new ArrayList<>();
 		if (!SELECT.equals(params.get("departmentRule").trim())) {
+            LOGGER.info("inside get designations:");
+            LOGGER.info("current state: " + params.get("currentState"));
 			final WorkFlowMatrix wfmatrix = workflowService.getWfMatrix(params.get("type"),
 					params.get("departmentRule").trim(), null, params.get("additionalRule"), params.get("currentState"),
 					params.get("pendingAction"));
 			if (wfmatrix.getCurrentDesignation() != null) {
 				workflowDesignations.addAll(Arrays.asList(wfmatrix.getCurrentDesignation().split(",")));
 			}
+            workflowDesignations.forEach(LOGGER::info);
 			return microserviceUtils.getDesignations().stream()
 					.filter(desig -> workflowDesignations.contains(desig.getName())).collect(Collectors.toList());
 		}

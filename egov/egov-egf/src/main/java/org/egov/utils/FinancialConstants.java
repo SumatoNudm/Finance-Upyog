@@ -129,6 +129,8 @@ public interface FinancialConstants {
 	public static final String BUDGET_APPROVED_STATUS = "Approved";
 	public static final String BUDGET_REJECTED_STATUS = "Rejected";
 
+	public static final String BUDGET_FORWARDED_FROM_FMO = "FMO_FORWARDED";
+
 	// Status for Pension Bills
 	public static final String PENSIONBILL_CANCELLED_STATUS = "Cancelled";
 

@@ -552,6 +552,13 @@
     </definition>
 
 
+    <definition name="budgetregister-workflow-form" extends="base_layout">
+        <put-attribute name="page-title" value="title.budgetitem.new"
+                       cascade="true"/>
+        <put-attribute name="body"
+                       value="/WEB-INF/views/budget/header/budgetregister-workflow-form.jsp"/>
+    </definition>
+
 
 
     <definition name="budgetgroup-view" extends="base_layout">

@@ -11,7 +11,7 @@
 
     <div class="main-content">
 
-        <c:if test="${not empty error}">
+        <c:if test="${not empty error and empty hideError}">
             <div class="alert alert-danger alert-dismissible" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>

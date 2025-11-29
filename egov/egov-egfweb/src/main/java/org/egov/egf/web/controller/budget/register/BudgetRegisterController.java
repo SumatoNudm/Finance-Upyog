@@ -4,8 +4,11 @@ import org.apache.log4j.Logger;
 import org.egov.commons.CFinancialYear;
 import org.egov.commons.dao.EgwStatusHibernateDAO;
 import org.egov.commons.service.CFinancialYearService;
+import org.egov.egf.utils.FinancialUtils;
 import org.egov.eis.web.contract.WorkflowContainer;
 import org.egov.eis.web.controller.workflow.GenericWorkFlowController;
+import org.egov.infra.admin.master.entity.User;
+import org.egov.infra.security.utils.SecurityUtils;
 import org.egov.model.budget.BudgetRegister;
 import org.egov.model.service.BudgetRegisterWorkflowService;
 import org.egov.utils.FinancialConstants;
@@ -27,6 +30,7 @@ public class BudgetRegisterController extends GenericWorkFlowController {
     private static final String BUDGET_HEADER_NEW = "budgetheader-new";
     private static final String BUDGET_REGISTER_VIEW = "budgetregister-view";
     private static final String BUDGET_REGISTER_WORKFLOW = "budgetregister-workflow";
+    private static final String BUDGET_REGISTER_WORKFLOW_FORM = "budgetregister-workflow-form";
 
     private static final Logger LOGGER = Logger.getLogger(BudgetRegisterController.class);
 
@@ -49,16 +53,22 @@ public class BudgetRegisterController extends GenericWorkFlowController {
     @Autowired
     private EgwStatusHibernateDAO egwStatusDAO;
 
+    @Autowired
+    private FinancialUtils financialUtils;
+
+    @Autowired
+    private SecurityUtils securityUtils;
+
 
     @RequestMapping(value = "/new", method = { RequestMethod.GET, RequestMethod.POST })
-    public String newForm(final Model model,@ModelAttribute("budgetRegister") final BudgetRegister budgetRegister) {
+    public String newForm(final Model model,@ModelAttribute("budgetRegister") final BudgetRegister budgetRegister, RedirectAttributes redirectAttributes) {
 
         Map<String, CFinancialYear> financialYearMap = addFinancialYears(model);
         String name = "Budget_" + financialYearMap.get("nextFy").getFinYearRange();
 
         List<BudgetRegister> budgetRegisters =  budgetRegisterWorkflowService.findByFinancialYears(financialYearMap.get("currentFy"), financialYearMap.get("nextFy"));
 
-        if (budgetRegisters != null || !budgetRegisters.isEmpty()) {
+        if (budgetRegisters != null && !budgetRegisters.isEmpty()) {
             model.addAttribute("error", "Budget is already created for the financial year !");
         }
 
@@ -117,9 +127,10 @@ public class BudgetRegisterController extends GenericWorkFlowController {
 
 
         redirectAttributes.addAttribute("message", "Budget Register Created !");
+        redirectAttributes.addAttribute("hideError", "true");
 
 
-        return "redirect:/budget/register/new";
+        return "redirect:/budget/register/view";
     }
 
 
@@ -143,16 +154,92 @@ public class BudgetRegisterController extends GenericWorkFlowController {
 
 
 
+    @RequestMapping(value = "/workflow/view/{budgetRegisterNumber}", method = {RequestMethod.GET, RequestMethod.POST})
+    public String workflow(final Model model, @PathVariable("budgetRegisterNumber") @SafeHtml String budgetRegisterNumber, RedirectAttributes redirectAttributes) {
+
+        BudgetRegister budgetRegister = budgetRegisterWorkflowService.findBudgetRegisterByRegisterNumber(budgetRegisterNumber);
+
+        if (budgetRegister == null) {
+            redirectAttributes.addAttribute("error", "Selected Budget register not found!");
+            return "redirect:/budget/register/view";
+        }
+
+        model.addAttribute("budgetRegister", budgetRegister);
+
+        model.addAttribute(STATE_TYPE, budgetRegister.getClass().getSimpleName());
+
+        prepareWorkflow(model, budgetRegister, new WorkflowContainer());
+
+        if (budgetRegister.getState() != null) {
+            model.addAttribute("currentState", budgetRegister.getState().getValue());
+
+            model.addAttribute("workflowHistory",
+                    financialUtils.getHistory(budgetRegister.getState(), budgetRegister.getStateHistory()));
+        } else  {
+            User currentUser = securityUtils.getCurrentUser();
+            if (currentUser.getId().equals(budgetRegister.getCreatedBy())) {
+                model.addAttribute("showWorkflow", "true");
+            }
+        }
+
+        return BUDGET_REGISTER_WORKFLOW;
+    }
 
 
-    @RequestMapping(value = "/workflow/update", method = {RequestMethod.POST})
-    public String workflowUpdate(@ModelAttribute BudgetRegister budgetRegister, final Model model, final BindingResult resultBinder, final HttpServletRequest request, @RequestParam @SafeHtml final String workFlowAction) {
+
+    // to show from workflow
+    @RequestMapping(value = "/workflow/form/{id}", method = {RequestMethod.GET, RequestMethod.POST})
+    public String workflowUpdateForm(final Model model, @PathVariable("id") @SafeHtml Long id, RedirectAttributes redirectAttributes) {
+
+//        BudgetRegister budgetRegister = budgetRegisterWorkflowService.findBudgetRegisterByRegisterNumber(budgetRegisterNumber);
+        BudgetRegister budgetRegister = budgetRegisterWorkflowService.findOne(id);
+
+        if (budgetRegister == null) {
+            redirectAttributes.addAttribute("error", "Selected Budget register not found!");
+            return "redirect:/budget/register/view";
+        }
+
+        model.addAttribute("budgetRegister", budgetRegister);
+
+        model.addAttribute(STATE_TYPE, budgetRegister.getClass().getSimpleName());
+
+        prepareWorkflow(model, budgetRegister, new WorkflowContainer());
+
+        if (budgetRegister.getState() != null) {
+            model.addAttribute("currentState", budgetRegister.getState().getValue());
+
+            model.addAttribute("workflowHistory",
+                    financialUtils.getHistory(budgetRegister.getState(), budgetRegister.getStateHistory()));
+        }
+
+//        else  {
+//            User currentUser = securityUtils.getCurrentUser();
+//            if (currentUser.getId().equals(budgetRegister.getCreatedBy())) {
+//                model.addAttribute("showWorkflow", "true");
+//            }
+//        }
+
+        return BUDGET_REGISTER_WORKFLOW_FORM;
+    }
+
+
+
+    @PostMapping(value = "/workflow/update")
+    public String workflowUpdate( @ModelAttribute BudgetRegister budgetRegister, final Model model, final BindingResult resultBinder, final HttpServletRequest request, @RequestParam @SafeHtml final String workFlowAction) {
+
+        //@PathVariable("budgetRegisterNumber") @SafeHtml String budgetRegisterNumber,
 
         LOGGER.info("work flow update !");
         LOGGER.info(budgetRegister.getBudgetRegisterNumber());
 
 
         final BudgetRegister currentBudgetRegister = budgetRegisterWorkflowService.findBudgetRegisterByRegisterNumber(budgetRegister.getBudgetRegisterNumber());
+
+//        final BudgetRegister currentBudgetRegister = budgetRegisterWorkflowService.findBudgetRegisterByRegisterNumber(budgetRegisterNumber);
+
+        if (currentBudgetRegister == null) {
+            return "redirect:/budget/register/workflow/view/"+ budgetRegister.getBudgetRegisterNumber();
+        }
 
         Long approvalPosition = 0l;
         String approvalComment = "";
@@ -172,35 +259,18 @@ public class BudgetRegisterController extends GenericWorkFlowController {
 
 //        budgetRegisterWorkflowService.create(budgetRegister, approvalPosition, approvalComment, null, "FORWARD", approvalDesignation);
 
-        budgetRegisterWorkflowService.createBudgetRegisterWorkFlowTransitionNew(currentBudgetRegister, approvalPosition, approvalComment, null, "FORWARD", approvalDesignation);
+        budgetRegisterWorkflowService.createBudgetRegisterWorkFlowTransitionNew(currentBudgetRegister, approvalPosition, approvalComment, null, workFlowAction, approvalDesignation);
 
         budgetRegisterWorkflowService.save(currentBudgetRegister);
 
 //        redirectAttributes.addAttribute("message", "Budget register forwarded !");
 
 
-        return "redirect:/budget/register/workflow/" + currentBudgetRegister.getBudgetRegisterNumber();
+        return "redirect:/budget/register/workflow/view/" + currentBudgetRegister.getBudgetRegisterNumber();
     }
 
 
-    @RequestMapping(value = "/workflow/{budgetRegisterNumber}", method = {RequestMethod.GET, RequestMethod.POST})
-    public String workflow(final Model model, @PathVariable("budgetRegisterNumber") @SafeHtml String budgetRegisterNumber, RedirectAttributes redirectAttributes) {
 
-        BudgetRegister budgetRegister = budgetRegisterWorkflowService.findBudgetRegisterByRegisterNumber(budgetRegisterNumber);
-
-        if (budgetRegister == null) {
-            redirectAttributes.addAttribute("error", "Selected Budget register not found!");
-            return "redirect:/budget/register/view";
-        }
-
-        model.addAttribute("budgetRegister", budgetRegister);
-
-        model.addAttribute(STATE_TYPE, budgetRegister.getClass().getSimpleName());
-
-        prepareWorkflow(model, budgetRegister, new WorkflowContainer());
-
-        return BUDGET_REGISTER_WORKFLOW;
-    }
 
 
     private Map<String, CFinancialYear> addFinancialYears(Model model) {
