@@ -47,11 +47,11 @@
                             <tbody>
                                 <tr>
                                     <!-- Hidden fields -->
-                                    <form:hidden path="opening.budgetGroup" id="opening.budgetGroup" name="opening.budgetGroup" value="Opening_Balance" /> 
-                                    <form:hidden path="opening.function.id" id="opening.functionid" name="opening.functionid" value="${function.id}" />
+                                    <form:hidden path="opening.budgetGroup" id="opening.budgetGroup"
+                                        name="opening.budgetGroup" value="Opening_Balance" />
+                                    <form:hidden path="opening.function.id" id="opening.functionid"
+                                        name="opening.functionid" value="${function.id}" />
                                     <form:hidden path="opening.id" />
-
-                                    <form:input path="opening.id" />
 
                                     <td style="width: 40%;">
                                         Opening Balance as on
@@ -59,32 +59,29 @@
                                     </td>
 
                                     <td style="width: 15%;">
-                                        <form:input path="opening.currentEstimate"
-                                             cssClass="form-control"
+                                        <form:input path="opening.currentEstimate" cssClass="form-control"
                                             maxlength="12" />
                                     </td>
 
                                     <td style="width: 15%;">
-                                        <form:input path="opening.currentActual"
-                                             cssClass="form-control"
+                                        <form:input path="opening.currentActual" cssClass="form-control"
                                             maxlength="12" />
                                     </td>
 
                                     <td style="width: 15%;">
-                                        <form:input path="opening.currentRevisedEstimate"
-                                             cssClass="form-control"
+                                        <form:input path="opening.currentRevisedEstimate" cssClass="form-control"
                                             maxlength="12" />
                                     </td>
 
                                     <td style="width: 15%;">
-                                        <form:input path="opening.nextEstimate" 
-                                            cssClass="form-control" maxlength="12" />
+                                        <form:input path="opening.nextEstimate" cssClass="form-control"
+                                            maxlength="12" />
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
 
-                        <!-- <table class="table table-bordered" id="dynamicTable">
+                        <table class="table table-bordered" id="dynamicTable">
                             <thead>
                                 <tr>
                                     <th>Budget Head</th>
@@ -106,14 +103,26 @@
                                                     class="form-control table-input budgetHeadcode budgetcode"
                                                     placeholder="Type first 3 letters of Budget code">
                                             </div>
-                                            <c:if test="${item.scheme.id != null}">
-                                                <div class="scheme-container">
-                                                    <input type="text" id="items[${st.index}].schemeCode"
-                                                        name="items[${st.index}].schemeCode" value="${item.scheme.code}"
-                                                        class="scheme-input form-control table-input"
-                                                        placeholder="Type Scheme code">
-                                                </div>
-                                            </c:if>
+                                            <c:choose>
+                                                <c:when test="${item.scheme.id != null}">
+                                                    <div class="scheme-container">
+                                                        <input type="text" id="items[${st.index}].schemeCode"
+                                                            name="items[${st.index}].schemeCode"
+                                                            value="${item.scheme.code}"
+                                                            class="scheme-input form-control table-input"
+                                                            placeholder="Type Scheme code">
+                                                    </div>
+                                                </c:when>
+
+                                                <c:otherwise>
+                                                    <div class="scheme-container" style="display:none;">
+                                                        <input type="text" id="items[${st.index}].schemeCode"
+                                                            name="items[${st.index}].schemeCode"
+                                                            class="scheme-input form-control table-input"
+                                                            placeholder="Type Scheme code">
+                                                    </div>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </td>
 
                                         <form:hidden path="items[${st.index}].scheme.id"
@@ -173,7 +182,7 @@
                                     </tr>
                                 </c:forEach>
                             </tbody>
-                        </table> -->
+                        </table>
 
                         <!-- Submit Button -->
                         <div class="text-center mt-4">
@@ -204,4 +213,19 @@
 </script>
 <script src="<cdn:url value='/resources/app/js/budget/budgetItemFormHelper.js' context='/services/EGF'/>"></script>
 <script src="<cdn:url value='/resources/app/js/common/helper.js?rnd=${app_release_no}' context='/services/EGF'/>">
+</script>
+
+<script>
+    $(document).on('input', '.budgetcode', function () {
+        let row = $(this).closest('tr');
+
+        // Clear hidden scheme id
+        row.find('.schemeId').val('');
+
+        // Optional: clear scheme code text also
+        row.find('.scheme-input').val('');
+
+        // Optional: hide scheme container if you want
+        // row.find('.scheme-container').hide();
+    });
 </script>

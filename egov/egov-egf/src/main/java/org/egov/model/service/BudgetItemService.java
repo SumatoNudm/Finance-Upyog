@@ -337,88 +337,200 @@ public class BudgetItemService {
         return rr.add(cr).subtract(re).subtract(ce);
     }
 
-@Transactional
-public void updateBudgetInputForm(BudgetForm form) {
+    @Transactional
+    public void updateBudgetInputForm(BudgetForm form) {
 
-    try {
+        try {
 
-        // ---- Load Required Entities ----
-        CFunction function = functionRepository.findOne(form.getFunctionid());
-        CFinancialYear financialYear = financialYearService.findOne(form.getFinancialYear());
-        CFinancialYear currentFinancialYear = financialYearService.findOne(form.getCurrentFinancialYear());
+            // ========================================
+            // 1️⃣ UPDATE OR INSERT OPENING BALANCE
+            // ========================================
 
-        Long stateBudgetCode = form.getStateBudgetCode();
+            BudgetItem opening = form.getOpening();
+            if (opening != null) {
 
-        // ========================================
-        // 1️⃣  UPDATE OR INSERT OPENING BALANCE
-        // ========================================
-        BudgetItem opening = form.getOpening();
-        if (opening != null) {
+                BudgetItem openingBalance = budgetItemRepository.findOne(opening.getId());
 
-            LOGGER.info("opening id" + opening.getId());
+                if (openingBalance == null) {
+                    throw new Exception("opening balance is null");
+                }
 
-            opening.setFunction(function);
-            opening.setFinancialYear(financialYear);
-            opening.setCurrentFinancialYear(currentFinancialYear);
-            opening.setBudgetGroup("Opening_Balance");
+                LOGGER.info("saving:");
+                LOGGER.info("my id:" + openingBalance.getId());
 
-            BudgetItem openingBalance = budgetItemRepository.findOne(opening.getId());
+                openingBalance.setCurrentEstimate(opening.getCurrentEstimate());
+                openingBalance.setCurrentActual(opening.getCurrentActual());
+                openingBalance.setCurrentRevisedEstimate(opening.getCurrentRevisedEstimate());
+                openingBalance.setNextEstimate(opening.getNextEstimate());
 
-            if (openingBalance == null) {
-                throw new Exception("opening balance is null");
+                budgetItemRepository.save(openingBalance);
             }
 
-            LOGGER.info("saving:");
-            LOGGER.info( "my id:" + openingBalance.getId());
+            // ---------------------------------
+            // Running totals
+            // ---------------------------------
+            BigDecimal BudgetEstimateRevenue = BigDecimal.ZERO;
+            BigDecimal ActualRevenue = BigDecimal.ZERO;
+            BigDecimal RevisedEstimateRevenue = BigDecimal.ZERO;
+            BigDecimal nextBudgetEstimateRevenue = BigDecimal.ZERO;
 
+            BigDecimal BudgetEstimateExpenditure = BigDecimal.ZERO;
+            BigDecimal ActualExpenditure = BigDecimal.ZERO;
+            BigDecimal RevisedEstimateExpenditure = BigDecimal.ZERO;
+            BigDecimal nextBudgetEstimateExpenditure = BigDecimal.ZERO;
 
-            openingBalance.setCurrentEstimate(opening.getCurrentEstimate());
-            openingBalance.setCurrentActual(opening.getCurrentActual());
-            openingBalance.setCurrentRevisedEstimate(opening.getCurrentRevisedEstimate());
-            openingBalance.setNextEstimate(opening.getNextEstimate());
+            // ========================================
+            // 2️⃣ MULTIPLE BUDGET ITEMS (ADD / UPDATE)
+            // ========================================
 
-
-            budgetItemRepository.save(openingBalance);
-        }
-
-        // ========================================
-        // 2️⃣  MULTIPLE BUDGET ITEMS (ADD / UPDATE)
-        // ========================================
-        for (BudgetItem item : form.getItems()) {
-
-            if (item == null) continue;
-            if (item.getBudgetHead() == null || item.getBudgetHead().getId() == null) continue;
-
-            item.setFunction(function);
-            item.setFinancialYear(financialYear);
-            item.setCurrentFinancialYear(currentFinancialYear);
-          //item.setStateBudgetCode(stateBudgetCode);
-
-            // Budget Group
-            item.setBudgetGroup("Normal");   // FIXED
-
-            // -- Fix Budget Head --
-            BudgetHead bh = budgetHeadService.findById(item.getBudgetHead().getId());
-            item.setBudgetHead(bh);
-
-            // -- Fix Scheme --
-            if (item.getScheme() != null && item.getScheme().getId() != null) {
-                Scheme scheme = schemeHibernateDAO.getCurrentSession()
-                        .load(Scheme.class, item.getScheme().getId());
-                item.setScheme(scheme);
-            } else {
-                item.setScheme(null);
+            // Fetch function and financial years ONCE, not for every row
+            CFunction function = functionRepository.findOne(form.getFunctionid());
+            if (function == null) {
+                throw new Exception("The selected function not found !");
             }
 
-            // Save
-            budgetItemRepository.save(item); // works for both insert + update
-        }
+            CFinancialYear financialYear = financialYearService.findOne(form.getFinancialYear());
+            CFinancialYear nextFinancialYear = financialYearService.findOne(form.getCurrentFinancialYear());
 
-    } catch (Exception e) {
-        e.printStackTrace();
+            if (financialYear == null || nextFinancialYear == null) {
+                throw new Exception("Financial year not found !");
+            }
+
+            for (BudgetItem item : form.getItems()) {
+
+                if (item == null)
+                    continue;
+
+                // NOTE: Some rows may be empty – skip them safely
+                if (item.getBudgetHead() == null || item.getBudgetHead().getId() == null)
+                    continue;
+
+                // --- Validate Budget Head ---
+                BudgetHead bh = budgetHeadService.findById(item.getBudgetHead().getId());
+                if (bh == null) {
+                    throw new Exception("Invalid budget head on " + item.getBudgetGroup());
+                }
+                item.setBudgetHead(bh);
+
+                // --- Validate Scheme ---
+                if (item.getScheme() != null && item.getScheme().getId() != null) {
+
+                    Scheme scheme = schemeHibernateDAO.getCurrentSession()
+                            .get(Scheme.class, item.getScheme().getId());
+
+                    if (scheme == null) {
+                        throw new Exception("Invalid scheme on " + item.getBudgetGroup());
+                    }
+
+                    item.setScheme(scheme); // valid scheme
+                } else {
+                    item.setScheme(null); // UI cleared → destroy scheme
+                }
+
+                // --------------------------------------------------------------------
+                // FIX: New row detection (VERY IMPORTANT)
+                // --------------------------------------------------------------------
+                if (item.getId() == null || item.getId() == 0) {
+                    // ---- INSERT NEW RECORD ----
+                    LOGGER.info("Inserting new record → " + item.getBudgetCode());
+
+                    item.setFunction(function);
+                    item.setFinancialYear(financialYear);
+                    item.setCurrentFinancialYear(nextFinancialYear);
+
+                    budgetItemRepository.save(item);
+                } else {
+
+                    // ---- UPDATE EXISTING RECORD ----
+                    BudgetItem budgetInput = budgetItemRepository.findOne(item.getId());
+
+                    if (budgetInput == null) {
+                        // fail-safe: if ID sent but record missing → treat as new
+                        LOGGER.warn("ID sent but no record found. Creating as new.");
+                        item.setId(null);
+                        item.setFunction(function);
+                        item.setFinancialYear(financialYear);
+                        item.setCurrentFinancialYear(nextFinancialYear);
+                        budgetItemRepository.save(item);
+                        continue;
+                    }
+
+                    budgetInput.setCurrentEstimate(item.getCurrentEstimate());
+                    budgetInput.setCurrentActual(item.getCurrentActual());
+                    budgetInput.setCurrentRevisedEstimate(item.getCurrentRevisedEstimate());
+                    budgetInput.setNextEstimate(item.getNextEstimate());
+
+                    budgetInput.setBudgetCode(item.getBudgetCode());
+                    budgetInput.setBudgetGroup(item.getBudgetGroup());
+                    budgetInput.setBudgetHead(item.getBudgetHead());
+                    budgetInput.setStateBudgetCode(item.getStateBudgetCode());
+
+                    // Scheme logic
+                    if (item.getScheme() == null) {
+                        budgetInput.setScheme(null); // destroy old scheme
+                    } else {
+                        budgetInput.setScheme(item.getScheme()); // keep/update scheme
+                    }
+
+                    budgetItemRepository.save(budgetInput);
+                }
+
+                // --------------------------------------------------------------------
+                // Categorization
+                // --------------------------------------------------------------------
+                final String code = item.getBudgetHead().getAccountTypeCode();
+                if (code == null)
+                    continue;
+
+                switch (code) {
+
+                    case "RR":
+                    case "CR":
+                        BudgetEstimateRevenue = BudgetEstimateRevenue.add(item.getCurrentEstimate());
+                        ActualRevenue = ActualRevenue.add(item.getCurrentActual());
+                        RevisedEstimateRevenue = RevisedEstimateRevenue.add(item.getCurrentRevisedEstimate());
+                        nextBudgetEstimateRevenue = nextBudgetEstimateRevenue.add(item.getNextEstimate());
+                        break;
+
+                    case "RE":
+                    case "CE":
+                        BudgetEstimateExpenditure = BudgetEstimateExpenditure.add(item.getCurrentEstimate());
+                        ActualExpenditure = ActualExpenditure.add(item.getCurrentActual());
+                        RevisedEstimateExpenditure = RevisedEstimateExpenditure.add(item.getCurrentRevisedEstimate());
+                        nextBudgetEstimateExpenditure = nextBudgetEstimateExpenditure.add(item.getNextEstimate());
+                        break;
+                }
+            }
+
+            // ---------------------------------
+            // Compute Final Totals
+            // ---------------------------------
+            BigDecimal totalBudgetEstimate = BudgetEstimateRevenue.subtract(BudgetEstimateExpenditure);
+            BigDecimal totalActual = ActualRevenue.subtract(ActualExpenditure);
+            BigDecimal totalRevisedEstimate = RevisedEstimateRevenue.subtract(RevisedEstimateExpenditure);
+            BigDecimal totalNextBudgetEstimate = nextBudgetEstimateRevenue.subtract(nextBudgetEstimateExpenditure);
+
+            LOGGER.info("Budget Estimate:{}, Actual:{}, Revised Estimate:{}, Next Budget Estimate:{}",
+                    totalBudgetEstimate, totalActual, totalRevisedEstimate, totalNextBudgetEstimate);
+
+            BudgetItem openingBalance = budgetItemRepository.findOne(form.getOpening().getId());
+
+            // ---------------------------------
+            // Closing Balance
+            // ---------------------------------
+            BudgetItem closingBalance = budgetItemRepository.findByFunctionAndBudgetGroup(function, "Closing_Balance");
+
+            closingBalance.setCurrentEstimate(openingBalance.getCurrentEstimate().add(totalBudgetEstimate));
+            closingBalance.setCurrentActual(openingBalance.getCurrentActual().add(totalActual));
+            closingBalance
+                    .setCurrentRevisedEstimate(openingBalance.getCurrentRevisedEstimate().add(totalRevisedEstimate));
+            closingBalance.setNextEstimate(openingBalance.getNextEstimate().add(totalNextBudgetEstimate));
+
+            budgetItemRepository.save(closingBalance);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-}
-
-
 
 }

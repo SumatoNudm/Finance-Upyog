@@ -40,4 +40,7 @@ public interface BudgetItemRepository extends JpaRepository<BudgetItem, Long> {
 
 
     BudgetItem findById(Long id);
+
+    BudgetItem findByFunctionAndBudgetGroup(CFunction function, String budgetGroup);
+
 }
