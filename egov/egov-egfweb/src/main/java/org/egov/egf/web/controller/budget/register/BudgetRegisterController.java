@@ -64,11 +64,22 @@ public class BudgetRegisterController extends GenericWorkFlowController {
     public String newForm(final Model model,@ModelAttribute("budgetRegister") final BudgetRegister budgetRegister, RedirectAttributes redirectAttributes) {
 
         Map<String, CFinancialYear> financialYearMap = addFinancialYears(model);
-        String name = "Budget_" + financialYearMap.get("nextFy").getFinYearRange();
+        String name = "Budget-" + financialYearMap.get("nextFy").getFinYearRange();
 
-        List<BudgetRegister> budgetRegisters =  budgetRegisterWorkflowService.findByFinancialYears(financialYearMap.get("currentFy"), financialYearMap.get("nextFy"));
+        /*List<BudgetRegister> budgetRegisters =  budgetRegisterWorkflowService.findByFinancialYears(financialYearMap.get("currentFy"), financialYearMap.get("nextFy"));
 
         if (budgetRegisters != null && !budgetRegisters.isEmpty()) {
+            model.addAttribute("error", "Budget is already created for the financial year !");
+        }*/
+
+        BudgetRegister availableBudgetRegister = budgetRegisterWorkflowService.findLatestByFinancialYears(financialYearMap.get("currentFy"), financialYearMap.get("nextFy"));
+
+
+        if (availableBudgetRegister != null
+                && availableBudgetRegister.getStatus() != null
+                && availableBudgetRegister.getStatus().getCode() != null
+                && !availableBudgetRegister.getStatus().getCode().equalsIgnoreCase("rejected")) {
+
             model.addAttribute("error", "Budget is already created for the financial year !");
         }
 
@@ -80,9 +91,9 @@ public class BudgetRegisterController extends GenericWorkFlowController {
         model.addAttribute("budgetRegister", budgetRegister);
 
 
-        model.addAttribute(STATE_TYPE, budgetRegister.getClass().getSimpleName());
+//        model.addAttribute(STATE_TYPE, budgetRegister.getClass().getSimpleName());
 
-        prepareWorkflow(model, budgetRegister, new WorkflowContainer());
+//        prepareWorkflow(model, budgetRegister, new WorkflowContainer());
 
         return BUDGET_HEADER_NEW;
     }

@@ -377,6 +377,10 @@ public class BudgetRegisterWorkflowService {
 
     }
 
+    public BudgetRegister findLatestByFinancialYears(CFinancialYear currentFy, CFinancialYear nextFy) {
+        return budgetRegisterWorkflowRepository.findTopByCurrentFinancialYearAndFinancialYearOrderByIdDesc(currentFy, nextFy);
+    }
+
     public List<BudgetRegister> findBudgetRegisters() {
         return budgetRegisterWorkflowRepository.findAll(new Sort(Sort.Direction.DESC, "budgetRegisterNumber"));
     }

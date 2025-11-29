@@ -54,7 +54,7 @@
                             <th>Name</th>
                             <th>Financial Year</th>
                             <th>Status</th>
-                            <th>Created Date</th>
+                            <!--<th>Created Date</th>-->
                         </tr>
                         </thead>
                         <tr>
@@ -64,9 +64,9 @@
                             <td>
                                 <c:out value="${budgetRegister.status.code}" />
                             </td>
-                            <td>
+                            <!--<td>
                                 <fmt:formatDate value="${budgetRegister.createdDate}" pattern="dd-MMM-yyyy HH:mm" />
-                            </td>
+                            </td>-->
                         </tr>
 
                     </table>
