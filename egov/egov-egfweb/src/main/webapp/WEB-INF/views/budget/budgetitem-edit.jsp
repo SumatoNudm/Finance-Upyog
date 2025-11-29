@@ -2,8 +2,9 @@
 <%@ include file="/includes/taglibs.jsp"%>
 <%@ taglib uri="/WEB-INF/tags/cdn.tld" prefix="cdn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
-<form:form role="form" action="update" modelAttribute="budgetForm" id="budgetItemFunction"
+<form:form role="form" action="../update" modelAttribute="budgetForm" id="budgetItemFunction"
     cssClass="form-horizontal form-groups-bordered" enctype="multipart/form-data">
 
     <div class="main-content">
@@ -20,6 +21,7 @@
                             <input type="hidden" id="currentFinancialYear" name="currentFinancialYear"
                                 value="${currentFy.id}" />
                             <input type="hidden" id="financialYear" name="financialYear" value="${nextFy.id}" />
+
                         </div>
                     </div>
 
@@ -43,29 +45,39 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <c:forEach var="item" items="${opening_balance}">
-                                    <tr>
-                                        <input type="hidden" id="opening.budgetgroup" name="opening.budgetgroup"
-                                            value="Opening_Balance" />
-                                        <input type="hidden" id="opening.functionid" name="opening.functionid"
-                                            value="${function.id}" />
-                                        <td style="width: 40%;">Opening Balance as on
-                                            <fmt:formatDate value="${currentFy.startingDate}" pattern="dd/MM/yyyy" />
-                                        </td>
-                                        <td style="width: 15%;"><input type="text" name="opening.currentEstimate"
-                                                value="${item.currentEstimate}" data-pattern="decimalvalue"
-                                                maxlength="12" class="form-control"></td>
-                                        <td style="width: 15%;"><input type="text" name="opening.currentActual"
-                                                value="${item.currentActual}" data-pattern="decimalvalue" maxlength="12"
-                                                class="form-control"></td>
-                                        <td style="width: 15%;"><input type="text" name="opening.currentRevisedEstimate"
-                                                value="${item.currentRevisedEstimate}" data-pattern="decimalvalue"
-                                                maxlength="12" class="form-control"></td>
-                                        <td style="width: 15%;"><input type="text" name="opening.nextEstimate"
-                                                value="${item.nextEstimate}" data-pattern="decimalvalue" maxlength="12"
-                                                class="form-control"></td>
-                                    </tr>
-                                </c:forEach>
+                                <tr>
+                                    <!-- Hidden fields -->
+                                    <form:hidden path="opening.budgetGroup" id="opening.budgetGroup"
+                                        name="opening.budgetGroup" value="Opening_Balance" />
+                                    <form:hidden path="opening.function.id" id="opening.functionid"
+                                        name="opening.functionid" value="${function.id}" />
+                                    <form:hidden path="opening.id" />
+
+                                    <td style="width: 40%;">
+                                        Opening Balance as on
+                                        <fmt:formatDate value="${currentFy.startingDate}" pattern="dd/MM/yyyy" />
+                                    </td>
+
+                                    <td style="width: 15%;">
+                                        <form:input path="opening.currentEstimate" cssClass="form-control"
+                                            maxlength="12" />
+                                    </td>
+
+                                    <td style="width: 15%;">
+                                        <form:input path="opening.currentActual" cssClass="form-control"
+                                            maxlength="12" />
+                                    </td>
+
+                                    <td style="width: 15%;">
+                                        <form:input path="opening.currentRevisedEstimate" cssClass="form-control"
+                                            maxlength="12" />
+                                    </td>
+
+                                    <td style="width: 15%;">
+                                        <form:input path="opening.nextEstimate" cssClass="form-control"
+                                            maxlength="12" />
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
 
@@ -85,141 +97,97 @@
                                     <tr id="budgetdetailsrow">
                                         <td style="width: 30%;">
                                             <div style="margin-bottom: 8px;">
-                                                <input type="text" id="items[${st.index}].budgetcode" name="items[${st.index}].budgetcode"
-                                                    value="${item.budgetHead.name}"
+                                                <input type="text" id="items[${st.index}].budgetcode"
+                                                    name="items[${st.index}].budgetcode"
+                                                    value="${item.budgetHead.code} - ${item.budgetHead.name}"
                                                     class="form-control table-input budgetHeadcode budgetcode"
                                                     placeholder="Type first 3 letters of Budget code">
                                             </div>
+                                            <c:choose>
+                                                <c:when test="${item.scheme.id != null}">
+                                                    <div class="scheme-container">
+                                                        <input type="text" id="items[${st.index}].schemeCode"
+                                                            name="items[${st.index}].schemeCode"
+                                                            value="${item.scheme.code}"
+                                                            class="scheme-input form-control table-input"
+                                                            placeholder="Type Scheme code">
+                                                    </div>
+                                                </c:when>
 
-                                            <div class="scheme-container">
-                                                <input type="text" id="items[${st.index}].schemeCode" name="items[${st.index}].schemeCode"
-                                                    value="${item.scheme.code}"
-                                                    class="scheme-input form-control table-input"
-                                                    placeholder="Type Scheme code">
-                                            </div>
+                                                <c:otherwise>
+                                                    <div class="scheme-container" style="display:none;">
+                                                        <input type="text" id="items[${st.index}].schemeCode"
+                                                            name="items[${st.index}].schemeCode"
+                                                            class="scheme-input form-control table-input"
+                                                            placeholder="Type Scheme code">
+                                                    </div>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </td>
 
-                                        <form:hidden path="items[${st.index}].scheme.id" name="items[${st.index}].scheme.id"
-                                            value="${item.scheme.id}" id="items[${st.index}].scheme.id"
+                                        <form:hidden path="items[${st.index}].scheme.id"
+                                            name="items[${st.index}].scheme.id" value="${item.scheme.id}"
+                                            id="items[${st.index}].scheme.id"
                                             class="form-control table-input hidden-input schemeId" />
 
-                                        <form:hidden path="" name="items[${st.index}].budgetheadcode" id="items[${st.index}].budgetheadcode"
-                                            value="${item.budgetHead.code}"
+                                        <form:hidden path="" name="items[${st.index}].budgetheadcode"
+                                            id="items[${st.index}].budgetheadcode" value="${item.budgetHead.code}"
                                             class="form-control table-input hidden-input budgetheadcode" />
-                                        <form:hidden path="" name="items[${st.index}].budgetCode" id="items[${st.index}].genBudgetCode"
-                                            value="${item.budgetCode}"
+                                        <form:hidden path="" name="items[${st.index}].budgetCode"
+                                            id="items[${st.index}].genBudgetCode" value="${item.budgetCode}"
                                             class="form-control table-input hidden-input genBudgetCode" />
-                                        <form:hidden path="" name="items[${st.index}].budgetGroup" id="items[${st.index}].budgetGroup"
-                                            value="${item.budgetGroup}"
+                                        <form:hidden path="" name="items[${st.index}].budgetGroup"
+                                            id="items[${st.index}].budgetGroup" value="${item.budgetGroup}"
                                             class="form-control table-input hidden-input budgetGroup" />
 
-                                        <form:hidden path="" name="items[${st.index}].stateCode" id="items[${st.index}].stateCode"
-                                            value="${item.budgetHead.stateCode}"
+                                        <form:hidden path="" name="items[${st.index}].stateCode"
+                                            id="items[${st.index}].stateCode" value="${item.budgetHead.stateCode}"
                                             class="form-control table-input hidden-input stateCode" />
 
                                         <form:hidden path="" name="items[${st.index}].stateBudgetCode"
                                             id="items[${st.index}].stateBudgetCode" value="${item.stateBudgetCode}"
                                             class="form-control table-input hidden-input stateBudgetCode" />
 
-                                        <form:hidden path="items[${st.index}].budgetHead.id" name="items[${st.index}].budgetHead.id"
-                                            value="${item.budgetHead.id}" id="items[${st.index}].budgetHead.id"
+                                        <form:hidden path="items[${st.index}].budgetHead.id"
+                                            name="items[${st.index}].budgetHead.id" value="${item.budgetHead.id}"
+                                            id="items[${st.index}].budgetHead.id"
                                             class="form-control table-input hidden-input budgetHeadId" />
 
-                                        <form:hidden path="" name="items[${st.index}].budgetHeadId" id="items[${st.index}].budgetHeadId"
-                                            value="${item.budgetHead.id}"
+                                        <form:hidden path="" name="items[${st.index}].budgetHeadId"
+                                            id="items[${st.index}].budgetHeadId" value="${item.budgetHead.id}"
                                             class="form-control table-input hidden-input budgetHeadId" />
 
-                                        <td style="width: 15%;"><input type="text" name="items[${st.index}].currentEstimate"
+                                        <form:hidden path="" name="items[${st.index}].id" id="items[${st.index}].id"
+                                            value="${item.id}" class="form-control table-input hidden-input id" />
+
+                                        <td style="width: 15%;"><input type="text"
+                                                name="items[${st.index}].currentEstimate"
                                                 value="${item.currentEstimate}" class="form-control"></td>
-                                        <td style="width: 15%;"><input type="text" name="items[${st.index}].currentActual"
-                                                value="${item.currentActual}" class="form-control"></td>
+                                        <td style="width: 15%;"><input type="text"
+                                                name="items[${st.index}].currentActual" value="${item.currentActual}"
+                                                class="form-control"></td>
                                         <td style="width: 15%;"><input type="text"
                                                 name="items[${st.index}].currentRevisedEstimate"
                                                 value="${item.currentRevisedEstimate}" class="form-control"></td>
-                                        <td style="width: 15%;"><input type="text" name="items[${st.index}].nextEstimate"
-                                                value="${item.nextEstimate}" class="form-control"></td>
+                                        <td style="width: 15%;"><input type="text"
+                                                name="items[${st.index}].nextEstimate" value="${item.nextEstimate}"
+                                                class="form-control"></td>
 
                                         <td class="text-center" style="width: 10%;">
-                                                <span style="cursor:pointer;" onclick="addBudgetDetailsRow();"
-                                                    tabindex="0" id="items[${st.index}].addButton" data-toggle="tooltip" title=""
-                                                    data-original-title="press SPACE to Add!" aria-hidden="true"><i
-                                                        class="fa fa-plus"></i></span>
-                                            <c:if test="${empty st.index}">
-                                                <span class="add-padding debit-delete-row"
-                                                    onclick="deleteBudgetDetailsRow(this);"><i class="fa fa-trash"
-                                                        aria-hidden="true" data-toggle="tooltip" title=""
-                                                        data-original-title="Delete!"></i></span>
-                                            </c:if>
+                                            <span style="cursor:pointer;" onclick="addBudgetDetailsRow();" tabindex="0"
+                                                id="items[${st.index}].addButton" data-toggle="tooltip" title=""
+                                                data-original-title="press SPACE to Add!" aria-hidden="true"><i
+                                                    class="fa fa-plus"></i></span>
                                         </td>
                                     </tr>
                                 </c:forEach>
-
-                                <!-- <tr id="budgetdetailsrow" style="display:none;">
-                                    <td style="width: 30%;">
-                                        <div style="margin-bottom: 8px;">
-                                            <input type="text" id="items[${st.index}].budgetcode" name="items[0].budgetcode"
-                                                class="form-control table-input budgetHeadcode budgetcode"
-                                                placeholder="Type first 3 letters of Budget code">
-                                        </div>
-
-                                        <div class="scheme-container" style="display:none;">
-                                            <input type="text" id="items[0].schemeCode" name="items[0].schemeCode"
-                                                class="scheme-input form-control table-input"
-                                                placeholder="Type Scheme code">
-                                        </div>
-                                    </td>
-
-                                    <form:hidden path="items[0].scheme.id" name="items[0].scheme.id"
-                                        id="items[0].scheme.id"
-                                        class="form-control table-input hidden-input schemeId" />
-
-                                    <form:hidden path="" name="items[0].budgetheadcode" id="items[0].budgetheadcode"
-                                        class="form-control table-input hidden-input budgetheadcode" />
-                                    <form:hidden path="" name="items[0].budgetCode" id="items[0].genBudgetCode"
-                                        class="form-control table-input hidden-input genBudgetCode" />
-                                    <form:hidden path="" name="items[0].budgetGroup" id="items[0].budgetGroup"
-                                        class="form-control table-input hidden-input budgetGroup" />
-
-                                    <form:hidden path="" name="items[0].stateCode" id="items[0].stateCode"
-                                        class="form-control table-input hidden-input stateCode" />
-
-                                    <form:hidden path="" name="items[0].stateBudgetCode" id="items[0].stateBudgetCode"
-                                        class="form-control table-input hidden-input stateBudgetCode" />
-
-                                    <form:hidden path="items[0].budgetHead.id" name="items[0].budgetHead.id"
-                                        id="items[0].budgetHead.id"
-                                        class="form-control table-input hidden-input budgetHeadId" />
-
-                                    <form:hidden path="" name="items[0].budgetHeadId" id="items[0].budgetHeadId"
-                                        class="form-control table-input hidden-input budgetHeadId" />
-
-                                    <td style="width: 15%;"><input type="text" name="items[0].currentEstimate"
-                                            class="form-control"></td>
-                                    <td style="width: 15%;"><input type="text" name="items[0].currentActual"
-                                            class="form-control"></td>
-                                    <td style="width: 15%;"><input type="text" name="items[0].currentRevisedEstimate"
-                                            class="form-control"></td>
-                                    <td style="width: 15%;"><input type="text" name="items[0].nextEstimate"
-                                            class="form-control"></td>
-
-                                    <td class="text-center" style="width: 10%;">
-                                        <span style="cursor:pointer;" onclick="addBudgetDetailsRow();" tabindex="0"
-                                            id="items[0].addButton" data-toggle="tooltip" title=""
-                                            data-original-title="press SPACE to Add!" aria-hidden="true"><i
-                                                class="fa fa-plus"></i></span>
-                                        <span class="add-padding debit-delete-row"
-                                            onclick="deleteBudgetDetailsRow(this);"><i class="fa fa-trash"
-                                                aria-hidden="true" data-toggle="tooltip" title=""
-                                                data-original-title="Delete!"></i></span>
-                                    </td>
-                                </tr> -->
                             </tbody>
                         </table>
 
                         <!-- Submit Button -->
                         <div class="text-center mt-4">
                             <button type='submit' class='btn btn-primary' id="buttonSubmit">
-                                <spring:message code='lbl.create' text="Create" />
+                                <spring:message code='lbl.update' text="Update" />
                             </button>
                         </div>
 
@@ -245,4 +213,19 @@
 </script>
 <script src="<cdn:url value='/resources/app/js/budget/budgetItemFormHelper.js' context='/services/EGF'/>"></script>
 <script src="<cdn:url value='/resources/app/js/common/helper.js?rnd=${app_release_no}' context='/services/EGF'/>">
+</script>
+
+<script>
+    $(document).on('input', '.budgetcode', function () {
+        let row = $(this).closest('tr');
+
+        // Clear hidden scheme id
+        row.find('.schemeId').val('');
+
+        // Optional: clear scheme code text also
+        row.find('.scheme-input').val('');
+
+        // Optional: hide scheme container if you want
+        // row.find('.scheme-container').hide();
+    });
 </script>

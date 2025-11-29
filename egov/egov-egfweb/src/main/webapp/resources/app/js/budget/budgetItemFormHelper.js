@@ -106,7 +106,7 @@ function budgethead_initialize() {
 
         if (flag) {
             bootbox.alert($.i18n.prop('msg.budget.code.already.added'), function () {
-                var index = bc.length - 1;
+               var index = bc.length - 1;
                 if (document.getElementById('items[' + index + '].budgetcode'))
                     document.getElementById('items[' + index + '].budgetcode').value = "";
             }
