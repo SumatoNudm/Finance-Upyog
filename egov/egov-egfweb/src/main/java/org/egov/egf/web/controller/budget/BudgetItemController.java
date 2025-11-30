@@ -228,7 +228,7 @@ public class BudgetItemController {
 		return "functionwisebudget-form";
 	}
 
-	@PostMapping(value = "/view/{functionId}/{budgetRegisterId}")
+	@RequestMapping(value = "/view/{functionId}/{budgetRegisterId}", method = {RequestMethod.GET, RequestMethod.POST})
 	public String view(final Model model, @PathVariable Long functionId, @PathVariable Long budgetRegisterId, RedirectAttributes redirectAttributes) throws Exception {
 
 		final CFunction function = functionService.findOne(functionId);
@@ -392,7 +392,7 @@ public class BudgetItemController {
 		return new BudgetTotals(est, act, rev, nxt);
 	}
 
-	@PostMapping("/edit/{functionId}")
+	@RequestMapping(value = "/edit/{functionId}", method = {RequestMethod.GET, RequestMethod.POST})
 	public String edit(@PathVariable Long functionId, Model model) throws Exception {
 
 		final CFunction function = functionService.findOne(functionId);
@@ -494,10 +494,23 @@ public class BudgetItemController {
 	}
 
 
-	@PostMapping(value = "/function")
-	public String functionView(final Model model){
+	@RequestMapping(value = "/functionwise/{budgetRegisterId}", method = {RequestMethod.GET, RequestMethod.POST})
+	public String functionView(final Model model, @PathVariable("budgetRegisterId") Long budgetRegisterId, RedirectAttributes redirectAttributes){
 
-		List<CFunction> budgetFunction = budgetItemService.functionListWithBudget();
+		BudgetRegister budgetRegister = budgetRegisterWorkflowService.findOne(budgetRegisterId);
+
+		if (budgetRegister == null) {
+			model.addAttribute("error", "Selected Budget register not available or invalid.");
+			redirectAttributes.addAttribute("error", "Selected Budget register not available or invalid.");
+			return "";
+		}
+
+		model.addAttribute("budgetRegisterId", budgetRegisterId);
+		model.addAttribute("budgetRegister", budgetRegister);
+
+//		List<CFunction> budgetFunction = budgetItemService.functionListWithBudget();
+
+		List<CFunction> budgetFunction = budgetItemService.functionsHavingBudgetOfBudgetRegister(budgetRegister);
 
 		model.addAttribute("budgetFunction", budgetFunction);
 

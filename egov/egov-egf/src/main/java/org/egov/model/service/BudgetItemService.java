@@ -572,4 +572,10 @@ public class BudgetItemService {
         return functions;
     }
 
+    public List<CFunction> functionsHavingBudgetOfBudgetRegister(BudgetRegister budgetRegister) {
+        List<CFunction> functions = budgetItemRepository.findDistinctFunctionsByBudgetRegisterWithBudgetItems(budgetRegister.getId());
+
+        return functions;
+    }
+
 }
