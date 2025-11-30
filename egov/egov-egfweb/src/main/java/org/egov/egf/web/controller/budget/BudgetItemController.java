@@ -229,7 +229,7 @@ public class BudgetItemController {
 	}
 
 	@RequestMapping(value = "/view/{functionId}/{budgetRegisterId}", method = {RequestMethod.GET, RequestMethod.POST})
-	public String view(final Model model, @PathVariable Long functionId, @PathVariable Long budgetRegisterId, RedirectAttributes redirectAttributes) throws Exception {
+	public String view(final Model model, @PathVariable Long functionId,  @PathVariable("budgetRegisterId") Long budgetRegisterId, RedirectAttributes redirectAttributes) throws Exception {
 
 		final CFunction function = functionService.findOne(functionId);
 
@@ -392,8 +392,8 @@ public class BudgetItemController {
 		return new BudgetTotals(est, act, rev, nxt);
 	}
 
-	@RequestMapping(value = "/edit/{functionId}", method = {RequestMethod.GET, RequestMethod.POST})
-	public String edit(@PathVariable Long functionId, Model model) throws Exception {
+	@RequestMapping(value = "/edit/{functionId}/{budgetRegisterId}", method = {RequestMethod.GET, RequestMethod.POST})
+	public String edit(@PathVariable Long functionId,  @PathVariable("budgetRegisterId") Long budgetRegisterId, Model model, RedirectAttributes redirectAttributes) throws Exception {
 
 		final CFunction function = functionService.findOne(functionId);
 
@@ -402,6 +402,17 @@ public class BudgetItemController {
 		}
 
 		model.addAttribute("function", function);
+
+		BudgetRegister budgetRegister = budgetRegisterWorkflowService.findOne(budgetRegisterId);
+
+		if (budgetRegister == null) {
+			redirectAttributes.addAttribute("error", "Selected Budget register not available or invalid.");
+			return "redirect:/budget/new";
+		}
+
+		model.addAttribute("budgetRegisterId", budgetRegisterId);
+		model.addAttribute("budgetRegister", budgetRegister);
+
 
 		final CFinancialYear currentFy = financialYearService.getCurrentFinancialYear();
 
@@ -424,8 +435,8 @@ public class BudgetItemController {
 		//model.addAttribute("budgetForm", new BudgetForm());
 
 		List<String> types = Arrays.asList("Opening_Balance", "Closing_Balance", "Revenue_Budget", "Capital_Budget");
-		Map<String, List<BudgetItem>> grouped = budgetItemService.getBudgetItemsByTypesFunctionFy(types, function,
-				currentFy);
+		Map<String, List<BudgetItem>> grouped = budgetItemService.getBudgetItemsByTypesFunctionFyBudgetRegister(types, function,
+				currentFy, budgetRegister);
 
 		// final List<BudgetItem> oBal = grouped.getOrDefault("Opening_Balance",
 		// Collections.emptyList());
@@ -470,10 +481,17 @@ public class BudgetItemController {
 		return BUDGET_ITEM_EDIT;
 	}
 
-	@PostMapping("/update")
-	public String update(@ModelAttribute BudgetForm budgetForm, RedirectAttributes redirectAttrs) {
+	@PostMapping("/update/{budgetRegisterId}")
+	public String update(@ModelAttribute BudgetForm budgetForm,  @PathVariable("budgetRegisterId") Long budgetRegisterId, RedirectAttributes redirectAttrs) {
 
 		try {
+
+			BudgetRegister budgetRegister = budgetRegisterWorkflowService.findOne(budgetRegisterId);
+
+			if (budgetRegister == null) {
+				redirectAttrs.addAttribute("error", "Selected Budget register not available or invalid.");
+				return "redirect:/budget/new";
+			}
 
 			LOGGER.info("update form \n\n");
 			LOGGER.info(budgetForm.getOpening().getId());
@@ -483,14 +501,14 @@ public class BudgetItemController {
 
 			System.out.println("Opening in POST = " + budgetForm.getOpening().getId());
 
-			budgetItemService.updateBudgetInputForm(budgetForm); // inside service: save opening, items, closing
+			budgetItemService.updateBudgetInputForm(budgetForm, budgetRegister); // inside service: save opening, items, closing
 			redirectAttrs.addFlashAttribute("message", "Budget items updated successfully!");
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		return "forward:/budget/view/" + budgetForm.getFunctionid();
+		return "redirect:/budget/view/" + budgetForm.getFunctionid() + "/"+ budgetRegisterId;
 	}
 
 

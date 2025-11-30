@@ -371,7 +371,7 @@ public class BudgetItemService {
     }
 
     @Transactional
-    public void updateBudgetInputForm(BudgetForm form) {
+    public void updateBudgetInputForm(BudgetForm form, BudgetRegister budgetRegister) {
 
         try {
 
@@ -470,6 +470,7 @@ public class BudgetItemService {
                     item.setFunction(function);
                     item.setFinancialYear(financialYear);
                     item.setCurrentFinancialYear(nextFinancialYear);
+                    item.setBudgetRegister(budgetRegister);
 
                     budgetItemRepository.save(item);
                 } else {
@@ -484,6 +485,7 @@ public class BudgetItemService {
                         item.setFunction(function);
                         item.setFinancialYear(financialYear);
                         item.setCurrentFinancialYear(nextFinancialYear);
+                        item.setBudgetRegister(budgetRegister);
                         budgetItemRepository.save(item);
                         continue;
                     }
@@ -551,7 +553,7 @@ public class BudgetItemService {
             // ---------------------------------
             // Closing Balance
             // ---------------------------------
-            BudgetItem closingBalance = budgetItemRepository.findByFunctionAndBudgetGroup(function, "Closing_Balance");
+            BudgetItem closingBalance = budgetItemRepository.findByFunctionAndBudgetGroupAndBudgetRegister(function, "Closing_Balance", budgetRegister);
 
             closingBalance.setCurrentEstimate(openingBalance.getCurrentEstimate().add(totalBudgetEstimate));
             closingBalance.setCurrentActual(openingBalance.getCurrentActual().add(totalActual));

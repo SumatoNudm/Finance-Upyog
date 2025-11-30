@@ -65,4 +65,6 @@ public interface BudgetItemRepository extends JpaRepository<BudgetItem, Long> {
     @Query("SELECT DISTINCT b.function FROM BudgetItem b WHERE b.budgetRegister.id = :budgetRegisterId ORDER BY b.function.code")
     List<CFunction> findDistinctFunctionsByBudgetRegisterWithBudgetItems(@Param("budgetRegisterId") Long budgetRegisterId);
 
+
+    BudgetItem findByFunctionAndBudgetGroupAndBudgetRegister(CFunction function, String closingBalance, BudgetRegister budgetRegister);
 }
