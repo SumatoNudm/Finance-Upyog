@@ -77,9 +77,9 @@
 
     <!-- CREATE BUTTON (Right Side) -->
     <div class="top-create-btn">
-        <a href="${pageContext.request.contextPath}/budget/new/${budgetRegister.id}" class="btn btn-primary btn-sm">
+        <!--<a href="${pageContext.request.contextPath}/budget/new/${budgetRegister.id}" class="btn btn-primary btn-sm">
             + Create New
-        </a>
+        </a>-->
     </div>
 
     <table>
