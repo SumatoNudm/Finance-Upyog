@@ -5,9 +5,14 @@ import org.egov.commons.CFinancialYear;
 import org.egov.commons.dao.EgwStatusHibernateDAO;
 import org.egov.commons.service.CFinancialYearService;
 import org.egov.egf.utils.FinancialUtils;
+import org.egov.eis.entity.Employee;
+import org.egov.eis.service.OldEmployeeService;
 import org.egov.eis.web.contract.WorkflowContainer;
 import org.egov.eis.web.controller.workflow.GenericWorkFlowController;
 import org.egov.infra.admin.master.entity.User;
+import org.egov.infra.microservice.models.Designation;
+import org.egov.infra.microservice.models.EmployeeInfo;
+import org.egov.infra.microservice.utils.MicroserviceUtils;
 import org.egov.infra.security.utils.SecurityUtils;
 import org.egov.model.budget.BudgetRegister;
 import org.egov.model.service.BudgetRegisterWorkflowService;
@@ -58,6 +63,12 @@ public class BudgetRegisterController extends GenericWorkFlowController {
 
     @Autowired
     private SecurityUtils securityUtils;
+
+    @Autowired
+    private OldEmployeeService employeeService;
+
+    @Autowired
+    private MicroserviceUtils microServiceUtil;
 
 
     @RequestMapping(value = "/new", method = { RequestMethod.GET, RequestMethod.POST })
@@ -186,12 +197,31 @@ public class BudgetRegisterController extends GenericWorkFlowController {
 
             model.addAttribute("workflowHistory",
                     financialUtils.getHistory(budgetRegister.getState(), budgetRegister.getStateHistory()));
-        } else  {
+        } else {
             User currentUser = securityUtils.getCurrentUser();
             if (currentUser.getId().equals(budgetRegister.getCreatedBy())) {
                 model.addAttribute("showWorkflow", "true");
             }
+            Boolean hasCreatePermission = currentUser.hasRole("EGF Bill Creator");
+
+
+            List<EmployeeInfo> emplist = microServiceUtil.getEmployee(currentUser.getId(), null, null, null);
+
+            LOGGER.info("emplist: " + emplist.size());
+
+            if (emplist != null && !emplist.isEmpty()) {
+                String designation = emplist.get(0).getAssignments().get(0).getDesignation();
+                LOGGER.info("emp-des: " + designation);
+                String[] desigs = new String[]{"Financial Management Officer", "FMO", "Accounts Officer", "AO"};
+                if (Arrays.asList(desigs).contains(designation)) {
+                    model.addAttribute("allowCreate", hasCreatePermission);
+                }
+            }
+
         }
+
+
+
 
         return BUDGET_REGISTER_WORKFLOW;
     }

@@ -11,8 +11,10 @@ import org.egov.eis.web.controller.workflow.GenericWorkFlowController;
 import org.egov.model.budget.*;
 import org.egov.model.service.BudgetHeadService;
 import org.egov.model.service.BudgetItemService;
+import org.egov.model.service.BudgetRegisterWorkflowService;
 import org.egov.model.service.FunctionBudgetHeadService;
 import org.egov.utils.BudgetAccountType;
+import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -53,11 +55,23 @@ public class BudgetItemController {
 	@Autowired
 	private FunctionBudgetHeadService functionBudgetHeadService;
 
-	@RequestMapping(value = "/new", method = { RequestMethod.GET, RequestMethod.POST })
-	public String newForm(final Model model) {
+	@Autowired
+	private BudgetRegisterWorkflowService budgetRegisterWorkflowService;
+
+
+	@RequestMapping(value = "/new/{budgetRegisterId}", method = { RequestMethod.GET, RequestMethod.POST })
+	public String newForm(final Model model, @PathVariable("budgetRegisterId") Long budgetRegisterId) {
 		// model.addAttribute(BUDGET_ITEM, new BudgetItem());
 		prepareIfBudgetCanInput(model);
 		model.addAttribute("function", new CFunction());
+
+		BudgetRegister budgetRegister = budgetRegisterWorkflowService.findOne(budgetRegisterId);
+
+		if (budgetRegister == null) {
+			model.addAttribute("error", "Selected Budget register not available or invalid.");
+		}
+
+		model.addAttribute("budgetRegisterId", budgetRegisterId);
 		return BUDGET_ITEM_NEW;
 	}
 
@@ -115,24 +129,36 @@ public class BudgetItemController {
 	// }
 
 	@RequestMapping(value = "/form", method = { RequestMethod.POST })
-	public String budgetForm(@ModelAttribute("id") Long id, final Model model, RedirectAttributes redirectAttributes) {
+	public String budgetForm(@ModelAttribute("id") Long id, @ModelAttribute("budgetRegisterId") Long budgetRegisterId, final Model model, RedirectAttributes redirectAttributes) {
 
 		LOGGER.info("hello");
+		LOGGER.info("budget register id:" + budgetRegisterId);
 
 		Map<String, CFinancialYear> financialYears = addFinancialYears(model);
 
 		if (financialYears == null || financialYears.size() < 2) {
-			return "budget/new";
+			return "budget/new/"+budgetRegisterId;
 		}
 
 		CFunction function = functionService.findOne(id);
 
-		Boolean budgetAlreadyEntered = checkIfBudgetAlreadyEntered(function, financialYears);
+		BudgetRegister budgetRegister = budgetRegisterWorkflowService.findOne(budgetRegisterId);
+
+		if (budgetRegister == null) {
+			redirectAttributes.addAttribute("error", "Selected Budget register not available or invalid.");
+			return "redirect:/budget/new/"+budgetRegisterId;
+		}
+
+		model.addAttribute("budgetRegisterId", budgetRegisterId);
+
+
+		Boolean budgetAlreadyEntered = checkIfBudgetAlreadyEntered(function, financialYears, budgetRegister);
 
 		if (Boolean.TRUE.equals(budgetAlreadyEntered)) {
 			redirectAttributes.addFlashAttribute("error", "Budget already entered for the selected function.");
-			return "redirect:/budget/new";
+			return "redirect:/budget/new/"+budgetRegisterId;
 		}
+
 
 		model.addAttribute("function", function);
 
@@ -167,22 +193,23 @@ public class BudgetItemController {
 		return BUDGET_FORM;
 	}
 
-	private Boolean checkIfBudgetAlreadyEntered(CFunction function, Map<String, CFinancialYear> financialYears) {
+	private Boolean checkIfBudgetAlreadyEntered(CFunction function, Map<String, CFinancialYear> financialYears, BudgetRegister budgetRegister) {
 		final CFinancialYear currentFy = financialYears.get("currentFy");
-		Boolean budgetExists = budgetItemService.checkIfBudgetExistsForFunctionAndFinancialYear(function, currentFy);
+//		Boolean budgetExists = budgetItemService.checkIfBudgetExistsForFunctionAndFinancialYear(function, currentFy);
+		Boolean budgetExists = budgetItemService.checkIfBudgetExistsForFunctionAndFinancialYearAndBudgetRegister(function, currentFy, budgetRegister);
 		return budgetExists;
 	}
 
 	@PostMapping("/create")
-	public String save(@ModelAttribute BudgetForm budgetForm, RedirectAttributes redirectAttrs,
+	public String save(@ModelAttribute BudgetForm budgetForm, @ModelAttribute("budgetRegisterId") Long budgetRegisterId, RedirectAttributes redirectAttrs,
 			final HttpServletRequest request) {
 
 		LOGGER.info("opening bal entry \n\n");
 		LOGGER.info(budgetForm.getFunctionid());
-		budgetItemService.saveBudgetInputForm(budgetForm); // inside service: save opening, items, closing
+		budgetItemService.saveBudgetInputForm(budgetForm, budgetRegisterId); // inside service: save opening, items, closing
 		redirectAttrs.addFlashAttribute("message", "Budget items saved successfully!");
 
-		return "forward:/budget/view/" + budgetForm.getFunctionid();
+		return "forward:/budget/view/" + budgetForm.getFunctionid()+"/"+budgetRegisterId;
 	}
 
 	@RequestMapping(value = "/newv2", method = { RequestMethod.GET, RequestMethod.POST })
@@ -201,9 +228,8 @@ public class BudgetItemController {
 		return "functionwisebudget-form";
 	}
 
-	//@PostMapping(value = "/view/{functionId}")
-	@RequestMapping(value = "/view/{functionId}", method = { RequestMethod.GET, RequestMethod.POST })
-	public String view(final Model model, @PathVariable Long functionId) throws Exception {
+	@PostMapping(value = "/view/{functionId}/{budgetRegisterId}")
+	public String view(final Model model, @PathVariable Long functionId, @PathVariable Long budgetRegisterId, RedirectAttributes redirectAttributes) throws Exception {
 
 		final CFunction function = functionService.findOne(functionId);
 
@@ -231,9 +257,20 @@ public class BudgetItemController {
 		model.addAttribute("currentFy", currentFy);
 		model.addAttribute("nextFy", nextFy);
 
+
+		BudgetRegister budgetRegister = budgetRegisterWorkflowService.findOne(budgetRegisterId);
+
+		if (budgetRegister == null) {
+			redirectAttributes.addAttribute("error", "Selected Budget register not available or invalid.");
+			return "redirect:/budget/new";
+		}
+
+		model.addAttribute("budgetRegisterId", budgetRegisterId);
+
+
 		List<String> types = Arrays.asList("Opening_Balance", "Closing_Balance", "Revenue_Budget", "Capital_Budget");
-		Map<String, List<BudgetItem>> grouped = budgetItemService.getBudgetItemsByTypesFunctionFy(types, function,
-				currentFy);
+		Map<String, List<BudgetItem>> grouped = budgetItemService.getBudgetItemsByTypesFunctionFyBudgetRegister(types, function,
+				currentFy, budgetRegister);
 
 		// model.addAttribute("Opening_Balance", grouped.getOrDefault("Opening_Balance",
 		// Collections.emptyList()));

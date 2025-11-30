@@ -8,7 +8,7 @@
 
 
 
-<form:form role="form" action="form" modelAttribute="function" id="budgetItemFunction"
+<form:form role="form" action="../form" modelAttribute="function" id="budgetItemFunction"
   cssClass="form-horizontal form-groups-bordered" enctype="multipart/form-data">
 
 
@@ -53,6 +53,9 @@
 
                 <form:hidden path="id" name="id" id="functionId"
                   class="form-control table-input hidden-input cfunction" />
+                <!--<form:hidden path="" name="budgetRegisterId" id="budgetRegisterId"
+                             class="form-control table-input hidden-input" />-->
+                <form:hidden path="" id="budgetRegisterId" name="budgetRegisterId" value="${budgetRegisterId}" />
                 <form:errors path="id" cssClass="add-margin error-msg" />
               </div>
             </div>
@@ -66,7 +69,7 @@
           </div> -->
 
           <div class="form-group text-center">
-            <c:if test="${empty errors}">
+            <c:if test="${empty error}">
               <button type='submit' class='btn btn-primary' id="buttonNext">
                 <spring:message code='lbl.next' text="Next" />
               </button>

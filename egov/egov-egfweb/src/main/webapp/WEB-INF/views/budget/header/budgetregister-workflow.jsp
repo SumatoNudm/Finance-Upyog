@@ -73,6 +73,36 @@
 
                 </div>
 
+
+                <div class="panel-body">
+
+                    <c:if test="${not empty allowCreate}">
+                        <div class="pull-right">
+                            <a href="${pageContext.request.contextPath}/budget/new/${budgetRegister.id}" class="btn btn-primary btn-sm mr-2">
+                                Create Function wise Budget
+                            </a>
+                        </div>
+                    </c:if>
+                    <div class="pull-right" style="margin-right: 15px;" >
+                        <a href="${pageContext.request.contextPath}/budget/register/new" class="btn btn-primary btn-sm">
+                            View Function wise Budget
+                        </a>
+                    </div>
+
+                    <div class="pull-right" style="margin-right: 15px;" >
+                        <a href="${pageContext.request.contextPath}/budget/register/new" class="btn btn-primary btn-sm">
+                            View Complete Budget
+                        </a>
+                    </div>
+
+                    <!--<div class="pull-right">
+                        <a href="${pageContext.request.contextPath}/budget/register/new" class="btn btn-primary btn-sm">
+                            Create New
+                        </a>
+                    </div>-->
+                </div>
+
+
                 <c:if test="${not empty showWorkflow}">
 
                     <jsp:include page="../../common/commonworkflowmatrix-expensebill.jsp"/>
