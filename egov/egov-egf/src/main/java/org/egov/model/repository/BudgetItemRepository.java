@@ -33,6 +33,10 @@ public interface BudgetItemRepository extends JpaRepository<BudgetItem, Long> {
     List<BudgetItem> findByBudgetGroupInAndFunctionAndCurrentFinancialYearAndBudgetRegister(
             List<String> budgetGroup, CFunction function, CFinancialYear currentFinancialYear, BudgetRegister budgetRegister);
 
+    List<BudgetItem> findByBudgetGroupInAndBudgetRegister(
+            List<String> budgetGroup, BudgetRegister budgetRegister);
+
+
 
     List<BudgetItem> findByFunctionAndCurrentFinancialYear(CFunction function, CFinancialYear currentFinancialYear);
 

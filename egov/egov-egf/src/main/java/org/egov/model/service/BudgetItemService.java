@@ -580,4 +580,19 @@ public class BudgetItemService {
         return functions;
     }
 
+
+    public Map<String, List<BudgetItem>> getBudgetItemsByTypesAndBudgetRegister(
+            List<String> types,BudgetRegister budgetRegister) {
+
+        List<BudgetItem> items = budgetItemRepository
+                .findByBudgetGroupInAndBudgetRegister(types, budgetRegister);
+
+        // LOGGER.info("inside service!");
+        // LOGGER.info(items.size());
+        // items.forEach(i -> LOGGER.info(i.getBudgetCode()));
+
+        return items.stream()
+                .collect(Collectors.groupingBy(BudgetItem::getBudgetGroup));
+    }
+
 }

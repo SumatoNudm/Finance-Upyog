@@ -90,7 +90,7 @@
                     </div>
 
                     <div class="pull-right" style="margin-right: 15px;" >
-                        <a href="${pageContext.request.contextPath}/budget/register/view/${budgetRegister.id}" class="btn btn-primary btn-sm">
+                        <a href="${pageContext.request.contextPath}/budget/complete/${budgetRegister.id}/view" class="btn btn-primary btn-sm">
                             View Complete Budget
                         </a>
                     </div>
