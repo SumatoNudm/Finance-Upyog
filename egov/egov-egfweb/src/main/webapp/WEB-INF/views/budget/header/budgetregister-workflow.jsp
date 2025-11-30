@@ -89,6 +89,12 @@
                         </a>
                     </div>
 
+                    <div class="pull-right" style="margin-right: 15px;" >
+                        <a href="${pageContext.request.contextPath}/budget/register/new" class="btn btn-primary btn-sm">
+                            View Complete Budget
+                        </a>
+                    </div>
+
                     <!--<div class="pull-right">
                         <a href="${pageContext.request.contextPath}/budget/register/new" class="btn btn-primary btn-sm">
                             Create New

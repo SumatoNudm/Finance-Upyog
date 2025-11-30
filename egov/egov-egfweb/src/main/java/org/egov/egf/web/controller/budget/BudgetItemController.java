@@ -136,7 +136,7 @@ public class BudgetItemController {
 		Map<String, CFinancialYear> financialYears = addFinancialYears(model);
 
 		if (financialYears == null || financialYears.size() < 2) {
-			return "budget/new";
+			return "budget/new/"+budgetRegisterId;
 		}
 
 		CFunction function = functionService.findOne(id);
@@ -145,7 +145,7 @@ public class BudgetItemController {
 
 		if (budgetRegister == null) {
 			redirectAttributes.addAttribute("error", "Selected Budget register not available or invalid.");
-			return "redirect:/budget/new";
+			return "redirect:/budget/new/"+budgetRegisterId;
 		}
 
 		model.addAttribute("budgetRegisterId", budgetRegisterId);
@@ -155,7 +155,7 @@ public class BudgetItemController {
 
 		if (Boolean.TRUE.equals(budgetAlreadyEntered)) {
 			redirectAttributes.addFlashAttribute("error", "Budget already entered for the selected function.");
-			return "redirect:/budget/new";
+			return "redirect:/budget/new/"+budgetRegisterId;
 		}
 
 
@@ -208,7 +208,7 @@ public class BudgetItemController {
 		budgetItemService.saveBudgetInputForm(budgetForm, budgetRegisterId); // inside service: save opening, items, closing
 		redirectAttrs.addFlashAttribute("message", "Budget items saved successfully!");
 
-		return "forward:/budget/view/" + budgetForm.getFunctionid();
+		return "forward:/budget/view/" + budgetForm.getFunctionid()+"/"+budgetRegisterId;
 	}
 
 	@RequestMapping(value = "/newv2", method = { RequestMethod.GET, RequestMethod.POST })
