@@ -18,10 +18,9 @@ public interface FunctionBudgetHeadRepository extends JpaRepository<FunctionBudg
     List<FunctionBudgetHead> findByIdGreaterThan(Long id, Sort sort);
 
     @Query("select distinct fb.function " +
-    " from FunctionBudgetHead fb " +
-    "where ( lower(fb.function.name) like lower(concat('%', :query, '%'))" +
-         "or lower(fb.function.code) like lower(concat('%', :query, '%')) )"
-    )
+            " from FunctionBudgetHead fb " +
+            "where ( lower(fb.function.name) like lower(concat('%', :query, '%'))" +
+            "or lower(fb.function.code) like lower(concat('%', :query, '%')) )")
     List<CFunction> findDistinctFunctionsHavingBudgetHead(@Param("query") String query);
 
 }

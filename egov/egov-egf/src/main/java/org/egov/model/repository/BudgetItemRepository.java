@@ -56,4 +56,7 @@ public interface BudgetItemRepository extends JpaRepository<BudgetItem, Long> {
     Boolean existsBudgetForCurrentFYAndBudgetRegister(@Param("functionId") Long functionId,
                                                       @Param("currentFinancialYearId") Long currentFinancialYearId,
                                                       @Param("budgetRegisterId") Long budgetRegisterId);
+    @Query("SELECT DISTINCT b.function FROM BudgetItem b ORDER BY b.function.code")
+    List<CFunction> findDistinctFunctionsWithBudgetItems();
+
 }
