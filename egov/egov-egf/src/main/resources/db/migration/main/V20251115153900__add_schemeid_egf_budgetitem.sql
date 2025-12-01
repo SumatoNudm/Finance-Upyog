@@ -1,2 +1,2 @@
-ALTER TABLE IF EXISTS egf_budgetitem
-ADD COLUMN IF NOT EXISTS schemeid BIGINT;
+-- ALTER TABLE IF EXISTS egf_budgetitem
+-- ADD COLUMN IF NOT EXISTS schemeid BIGINT;

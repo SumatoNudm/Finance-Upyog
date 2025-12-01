@@ -1,1 +1,1 @@
-ALTER TABLE IF EXISTS scheme RENAME COLUMN state_code TO statecode;
+-- ALTER TABLE IF EXISTS scheme RENAME COLUMN state_code TO statecode;

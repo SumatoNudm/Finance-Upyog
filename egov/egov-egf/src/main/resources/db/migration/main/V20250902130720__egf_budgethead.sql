@@ -15,6 +15,7 @@ CREATE TABLE egf_budgethead
   program character varying(10),
   category character varying(100),
   isactive boolean,
+  state_code VARCHAR(100),
   createdby bigint NOT NULL,
   lastmodifiedby bigint,
   createddate timestamp without time zone NOT NULL,
