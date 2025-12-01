@@ -34,7 +34,7 @@ mv ${DEPLOY_FOLDER}/egov-ear*.ear ${WILDFLY_HOME}/Archive/egov-ear.ear.${dated}
 # Run Maven clean package
 echo "Running Maven clean package..."
 # (mvn clean package)
-(mvn clean package -s settings.xml -Ddb.user=postgres -Ddb.password=postgres -Ddb.driver=org.postgresql.Driver -Ddb.url=jdbc:postgresql://localhost:5432/finance_db_v4 -DskipTests)
+(mvn clean package -s settings.xml -Ddb.user=postgres -Ddb.password=postgres -Ddb.driver=org.postgresql.Driver -Ddb.url=jdbc:postgresql://localhost:5432/finance_db_v5 -DskipTests)
 if [ $? -ne 0 ]
 then
     echo "Maven build failed. Exiting."

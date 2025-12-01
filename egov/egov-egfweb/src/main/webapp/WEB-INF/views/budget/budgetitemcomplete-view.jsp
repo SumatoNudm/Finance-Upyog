@@ -275,7 +275,7 @@
         <c:if test="${closing_balance != null}">
             <tr>
                 <td>
-                    Opening Balance as on
+                    Closing Balance as on
                     <fmt:formatDate value="${currentFy.endingDate}" pattern="dd/MM/yyyy"/>
                 </td>
                 <td></td>
