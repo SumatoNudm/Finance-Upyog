@@ -12,6 +12,8 @@ INSERT INTO eg_wf_matrix
 (id, department, objecttype, currentstate, currentstatus, pendingactions, currentdesignation, additionalrule, nextstate, nextaction, nextdesignation, nextstatus, validactions, fromqty, toqty, fromdate, todate, "version", enablefields, forwardenabled, smsemailenabled, nextref, rejectenabled)
 VALUES(NEXTVAL('SEQ_EG_WF_MATRIX'), 'ANY', 'BudgetRegister', 'SUBMITTED_TO_EO', NULL, NULL, 'Executive Officer', NULL, 'FORWARDED_TO_DMA', 'APPROVE,REJECT', 'DMA', NULL, 'FORWARD,REJECT,REVERT', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL);
 
+SELECT setval('seq_eg_wf_types', (SELECT COALESCE(MAX(id), 0) FROM eg_wf_types));
+
 INSERT INTO eg_wf_types
 (id, module, type, link, createdby, createddate, lastmodifiedby, lastmodifieddate, enabled, grouped, typefqn, displayname, version)
 VALUES(nextval('seq_eg_wf_types'), (select id from eg_module where name='BudgetRegister'), 'BudgetRegister', '/services/EGF/budget/register/workflow/form/:ID', 1, NULL, NULL, NULL, true, false, 'org.egov.model.budget.BudgetRegister', 'Budget Input', 0);
