@@ -36,6 +36,7 @@ public class BudgetRegisterController extends GenericWorkFlowController {
     private static final String BUDGET_REGISTER_VIEW = "budgetregister-view";
     private static final String BUDGET_REGISTER_WORKFLOW = "budgetregister-workflow";
     private static final String BUDGET_REGISTER_WORKFLOW_FORM = "budgetregister-workflow-form";
+    private static final String BUDGET_REGISTER_ERROR = "budgetregister-error";
 
     private static final Logger LOGGER = Logger.getLogger(BudgetRegisterController.class);
 
@@ -44,7 +45,6 @@ public class BudgetRegisterController extends GenericWorkFlowController {
     private static final String APPROVAL_POSITION = "approvalPosition";
 
     private static final String APPROVAL_DESIGNATION = "approvalDesignation";
-
 
     @Autowired
     private CFinancialYearService financialYearService;
@@ -70,21 +70,31 @@ public class BudgetRegisterController extends GenericWorkFlowController {
     @Autowired
     private MicroserviceUtils microServiceUtil;
 
-
     @RequestMapping(value = "/new", method = { RequestMethod.GET, RequestMethod.POST })
-    public String newForm(final Model model,@ModelAttribute("budgetRegister") final BudgetRegister budgetRegister, RedirectAttributes redirectAttributes) {
+    public String newForm(final Model model, @ModelAttribute("budgetRegister") final BudgetRegister budgetRegister,
+            RedirectAttributes redirectAttributes) {
 
         Map<String, CFinancialYear> financialYearMap = addFinancialYears(model);
+
+        if (financialYearMap == null || financialYearMap.get("currentFy") == null || financialYearMap.get("nextFy") == null) {
+            return BUDGET_REGISTER_ERROR;
+        }
+
         String name = "Budget-" + financialYearMap.get("nextFy").getFinYearRange();
 
-        /*List<BudgetRegister> budgetRegisters =  budgetRegisterWorkflowService.findByFinancialYears(financialYearMap.get("currentFy"), financialYearMap.get("nextFy"));
+        /*
+         * List<BudgetRegister> budgetRegisters =
+         * budgetRegisterWorkflowService.findByFinancialYears(financialYearMap.get(
+         * "currentFy"), financialYearMap.get("nextFy"));
+         * 
+         * if (budgetRegisters != null && !budgetRegisters.isEmpty()) {
+         * model.addAttribute("error",
+         * "Budget is already created for the financial year !");
+         * }
+         */
 
-        if (budgetRegisters != null && !budgetRegisters.isEmpty()) {
-            model.addAttribute("error", "Budget is already created for the financial year !");
-        }*/
-
-        BudgetRegister availableBudgetRegister = budgetRegisterWorkflowService.findLatestByFinancialYears(financialYearMap.get("currentFy"), financialYearMap.get("nextFy"));
-
+        BudgetRegister availableBudgetRegister = budgetRegisterWorkflowService
+                .findLatestByFinancialYears(financialYearMap.get("currentFy"), financialYearMap.get("nextFy"));
 
         if (availableBudgetRegister != null
                 && availableBudgetRegister.getStatus() != null
@@ -94,79 +104,87 @@ public class BudgetRegisterController extends GenericWorkFlowController {
             model.addAttribute("error", "Budget is already created for the financial year !");
         }
 
-//        BudgetRegister budgetRegister = new BudgetRegister();
+        // BudgetRegister budgetRegister = new BudgetRegister();
         budgetRegister.setBudgetRegisterName(name);
         budgetRegister.setCurrentFinancialYear(financialYearMap.get("currentFy"));
         budgetRegister.setFinancialYear(financialYearMap.get("nextFy"));
 
         model.addAttribute("budgetRegister", budgetRegister);
 
+        // model.addAttribute(STATE_TYPE, budgetRegister.getClass().getSimpleName());
 
-//        model.addAttribute(STATE_TYPE, budgetRegister.getClass().getSimpleName());
-
-//        prepareWorkflow(model, budgetRegister, new WorkflowContainer());
+        // prepareWorkflow(model, budgetRegister, new WorkflowContainer());
 
         return BUDGET_HEADER_NEW;
     }
 
-
-
-    //public String create(final BudgetRegister budgetRegister, RedirectAttributes redirectAttributes, final HttpServletRequest request, @RequestParam @SafeHtml final String workFlowAction) {
+    // public String create(final BudgetRegister budgetRegister, RedirectAttributes
+    // redirectAttributes, final HttpServletRequest request, @RequestParam @SafeHtml
+    // final String workFlowAction) {
     @PostMapping(value = "/create")
-    public String create(final BudgetRegister budgetRegister, RedirectAttributes redirectAttributes, final HttpServletRequest request) {
+    public String create(final BudgetRegister budgetRegister, RedirectAttributes redirectAttributes,
+            final HttpServletRequest request) {
 
+        LOGGER.info("name:" + budgetRegister.getBudgetRegisterName() + ", number: "
+                + budgetRegister.getBudgetRegisterNumber() + ", currentFy: "
+                + budgetRegister.getCurrentFinancialYear().getId() + ", nextFy: "
+                + budgetRegister.getFinancialYear().getId());
 
-        LOGGER.info("name:" + budgetRegister.getBudgetRegisterName() +", number: "+ budgetRegister.getBudgetRegisterNumber() + ", currentFy: " + budgetRegister.getCurrentFinancialYear().getId() + ", nextFy: " + budgetRegister.getFinancialYear().getId());
-
-        final CFinancialYear currentFy = cFinancialYearService.findOne(budgetRegister.getCurrentFinancialYear().getId());
+        final CFinancialYear currentFy = cFinancialYearService
+                .findOne(budgetRegister.getCurrentFinancialYear().getId());
         final CFinancialYear nextFy = cFinancialYearService.findOne(budgetRegister.getFinancialYear().getId());
 
         budgetRegister.setCurrentFinancialYear(currentFy);
         budgetRegister.setFinancialYear(nextFy);
 
-        budgetRegister.setBudgetRegisterNumber(budgetRegisterWorkflowService.generateBudgetRegisterNumber(nextFy.getFinYearRange()));
+        budgetRegister.setBudgetRegisterNumber(
+                budgetRegisterWorkflowService.generateBudgetRegisterNumber(nextFy.getFinYearRange()));
 
-        budgetRegister.setStatus(egwStatusDAO.getStatusByModuleAndCode(FinancialConstants.BUDGET_MODULE, FinancialConstants.BUDGET_CREATED_NEW));
-
-
+        budgetRegister.setStatus(egwStatusDAO.getStatusByModuleAndCode(FinancialConstants.BUDGET_MODULE,
+                FinancialConstants.BUDGET_CREATED_NEW));
 
         budgetRegisterWorkflowService.initiateBudgetRegisterWf(budgetRegister);
 
-
-//        Long approvalPosition = 0l;
-//        String approvalComment = "";
-//        String approvalDesignation = "";
-//        if (request.getParameter("approvalComent") != null)
-//            approvalComment = request.getParameter("approvalComent");
-//        if (request.getParameter(APPROVAL_POSITION) != null && !request.getParameter(APPROVAL_POSITION).isEmpty())
-//            approvalPosition = Long.valueOf(request.getParameter(APPROVAL_POSITION));
-//        if (request.getParameter(APPROVAL_DESIGNATION) != null
-//                && !request.getParameter(APPROVAL_DESIGNATION).isEmpty())
-//            approvalDesignation = String.valueOf(request.getParameter(APPROVAL_DESIGNATION));
-//
-//
-//        LOGGER.info("comment:" + approvalComment + ", position: " + approvalPosition + ", designation: " + approvalDesignation);
-
+        // Long approvalPosition = 0l;
+        // String approvalComment = "";
+        // String approvalDesignation = "";
+        // if (request.getParameter("approvalComent") != null)
+        // approvalComment = request.getParameter("approvalComent");
+        // if (request.getParameter(APPROVAL_POSITION) != null &&
+        // !request.getParameter(APPROVAL_POSITION).isEmpty())
+        // approvalPosition = Long.valueOf(request.getParameter(APPROVAL_POSITION));
+        // if (request.getParameter(APPROVAL_DESIGNATION) != null
+        // && !request.getParameter(APPROVAL_DESIGNATION).isEmpty())
+        // approvalDesignation =
+        // String.valueOf(request.getParameter(APPROVAL_DESIGNATION));
+        //
+        //
+        // LOGGER.info("comment:" + approvalComment + ", position: " + approvalPosition
+        // + ", designation: " + approvalDesignation);
 
         redirectAttributes.addAttribute("message", "Budget Register Created !");
         redirectAttributes.addAttribute("hideError", "true");
 
-
         return "redirect:/budget/register/view";
     }
 
-
-
-    @RequestMapping(value = "/view", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "/view", method = { RequestMethod.GET, RequestMethod.POST })
     public String view(final Model model) {
         LOGGER.info("budget register view:");
         List<BudgetRegister> budgetRegisters = budgetRegisterWorkflowService.findBudgetRegisters();
         List<CFinancialYear> financialYears = financialYearService.getAllFinancialYears();
 
-        /*LOGGER.info("Budget Register: ");
-        budgetRegisters.forEach(budgetRegister -> {
-            LOGGER.info("Number: " + budgetRegister.getBudgetRegisterNumber() + ", Name: " + budgetRegister.getBudgetRegisterName() + ", created Date: " + budgetRegister.getCreatedDate() + ", currentFy: " + budgetRegister.getCurrentFinancialYear().getFinYearRange() + ", next Fy: " + budgetRegister.getFinancialYear().getFinYearRange() + ", status: " + budgetRegister.getStatus().getCode()) ;
-        });*/
+        /*
+         * LOGGER.info("Budget Register: ");
+         * budgetRegisters.forEach(budgetRegister -> {
+         * LOGGER.info("Number: " + budgetRegister.getBudgetRegisterNumber() +
+         * ", Name: " + budgetRegister.getBudgetRegisterName() + ", created Date: " +
+         * budgetRegister.getCreatedDate() + ", currentFy: " +
+         * budgetRegister.getCurrentFinancialYear().getFinYearRange() + ", next Fy: " +
+         * budgetRegister.getFinancialYear().getFinYearRange() + ", status: " +
+         * budgetRegister.getStatus().getCode()) ;
+         * });
+         */
 
         model.addAttribute("budgetRegisters", budgetRegisters);
         model.addAttribute("financialYears", financialYears);
@@ -174,12 +192,13 @@ public class BudgetRegisterController extends GenericWorkFlowController {
         return BUDGET_REGISTER_VIEW;
     }
 
+    @RequestMapping(value = "/workflow/view/{budgetRegisterNumber}", method = { RequestMethod.GET, RequestMethod.POST })
+    public String workflow(final Model model,
+            @PathVariable("budgetRegisterNumber") @SafeHtml String budgetRegisterNumber,
+            RedirectAttributes redirectAttributes) {
 
-
-    @RequestMapping(value = "/workflow/view/{budgetRegisterNumber}", method = {RequestMethod.GET, RequestMethod.POST})
-    public String workflow(final Model model, @PathVariable("budgetRegisterNumber") @SafeHtml String budgetRegisterNumber, RedirectAttributes redirectAttributes) {
-
-        BudgetRegister budgetRegister = budgetRegisterWorkflowService.findBudgetRegisterByRegisterNumber(budgetRegisterNumber);
+        BudgetRegister budgetRegister = budgetRegisterWorkflowService
+                .findBudgetRegisterByRegisterNumber(budgetRegisterNumber);
 
         if (budgetRegister == null) {
             redirectAttributes.addAttribute("error", "Selected Budget register not found!");
@@ -202,8 +221,7 @@ public class BudgetRegisterController extends GenericWorkFlowController {
             if (currentUser.getId().equals(budgetRegister.getCreatedBy())) {
                 model.addAttribute("showWorkflow", "true");
             }
-//            Boolean hasCreatePermission = currentUser.hasRole("EGF Bill Creator");
-
+            // Boolean hasCreatePermission = currentUser.hasRole("EGF Bill Creator");
 
             List<EmployeeInfo> emplist = microServiceUtil.getEmployee(currentUser.getId(), null, null, null);
 
@@ -212,7 +230,7 @@ public class BudgetRegisterController extends GenericWorkFlowController {
             if (emplist != null && !emplist.isEmpty()) {
                 String designation = emplist.get(0).getAssignments().get(0).getDesignation();
                 LOGGER.info("emp-des: " + designation);
-                String[] desigs = new String[]{"Financial Management Officer", "FMO", "Accounts Officer", "AO"};
+                String[] desigs = new String[] { "Financial Management Officer", "FMO", "Accounts Officer", "AO" };
                 if (Arrays.asList(desigs).contains(designation)) {
                     model.addAttribute("allowCreate", true);
                 }
@@ -220,19 +238,16 @@ public class BudgetRegisterController extends GenericWorkFlowController {
 
         }
 
-
-
-
         return BUDGET_REGISTER_WORKFLOW;
     }
 
-
-
     // to show from workflow
-    @RequestMapping(value = "/workflow/form/{id}", method = {RequestMethod.GET, RequestMethod.POST})
-    public String workflowUpdateForm(final Model model, @PathVariable("id") @SafeHtml Long id, RedirectAttributes redirectAttributes) {
+    @RequestMapping(value = "/workflow/form/{id}", method = { RequestMethod.GET, RequestMethod.POST })
+    public String workflowUpdateForm(final Model model, @PathVariable("id") @SafeHtml Long id,
+            RedirectAttributes redirectAttributes) {
 
-//        BudgetRegister budgetRegister = budgetRegisterWorkflowService.findBudgetRegisterByRegisterNumber(budgetRegisterNumber);
+        // BudgetRegister budgetRegister =
+        // budgetRegisterWorkflowService.findBudgetRegisterByRegisterNumber(budgetRegisterNumber);
         BudgetRegister budgetRegister = budgetRegisterWorkflowService.findOne(id);
 
         if (budgetRegister == null) {
@@ -253,33 +268,34 @@ public class BudgetRegisterController extends GenericWorkFlowController {
                     financialUtils.getHistory(budgetRegister.getState(), budgetRegister.getStateHistory()));
         }
 
-//        else  {
-//            User currentUser = securityUtils.getCurrentUser();
-//            if (currentUser.getId().equals(budgetRegister.getCreatedBy())) {
-//                model.addAttribute("showWorkflow", "true");
-//            }
-//        }
+        // else {
+        // User currentUser = securityUtils.getCurrentUser();
+        // if (currentUser.getId().equals(budgetRegister.getCreatedBy())) {
+        // model.addAttribute("showWorkflow", "true");
+        // }
+        // }
 
         return BUDGET_REGISTER_WORKFLOW_FORM;
     }
 
-
-
     @PostMapping(value = "/workflow/update")
-    public String workflowUpdate( @ModelAttribute BudgetRegister budgetRegister, final Model model, final BindingResult resultBinder, final HttpServletRequest request, @RequestParam @SafeHtml final String workFlowAction) {
+    public String workflowUpdate(@ModelAttribute BudgetRegister budgetRegister, final Model model,
+            final BindingResult resultBinder, final HttpServletRequest request,
+            @RequestParam @SafeHtml final String workFlowAction) {
 
-        //@PathVariable("budgetRegisterNumber") @SafeHtml String budgetRegisterNumber,
+        // @PathVariable("budgetRegisterNumber") @SafeHtml String budgetRegisterNumber,
 
         LOGGER.info("work flow update !");
         LOGGER.info(budgetRegister.getBudgetRegisterNumber());
 
+        final BudgetRegister currentBudgetRegister = budgetRegisterWorkflowService
+                .findBudgetRegisterByRegisterNumber(budgetRegister.getBudgetRegisterNumber());
 
-        final BudgetRegister currentBudgetRegister = budgetRegisterWorkflowService.findBudgetRegisterByRegisterNumber(budgetRegister.getBudgetRegisterNumber());
-
-//        final BudgetRegister currentBudgetRegister = budgetRegisterWorkflowService.findBudgetRegisterByRegisterNumber(budgetRegisterNumber);
+        // final BudgetRegister currentBudgetRegister =
+        // budgetRegisterWorkflowService.findBudgetRegisterByRegisterNumber(budgetRegisterNumber);
 
         if (currentBudgetRegister == null) {
-            return "redirect:/budget/register/workflow/view/"+ budgetRegister.getBudgetRegisterNumber();
+            return "redirect:/budget/register/workflow/view/" + budgetRegister.getBudgetRegisterNumber();
         }
 
         Long approvalPosition = 0l;
@@ -293,26 +309,21 @@ public class BudgetRegisterController extends GenericWorkFlowController {
                 && !request.getParameter(APPROVAL_DESIGNATION).isEmpty())
             approvalDesignation = String.valueOf(request.getParameter(APPROVAL_DESIGNATION));
 
+        LOGGER.info("comment:" + approvalComment + ", position: " + approvalPosition + ", designation: "
+                + approvalDesignation + ", Action:" + workFlowAction);
 
-        LOGGER.info("comment:" + approvalComment + ", position: " + approvalPosition + ", designation: " + approvalDesignation + ", Action:" + workFlowAction);
+        // budgetRegisterWorkflowService.create(budgetRegister, approvalPosition,
+        // approvalComment, null, "FORWARD", approvalDesignation);
 
-
-
-//        budgetRegisterWorkflowService.create(budgetRegister, approvalPosition, approvalComment, null, "FORWARD", approvalDesignation);
-
-        budgetRegisterWorkflowService.createBudgetRegisterWorkFlowTransitionNew(currentBudgetRegister, approvalPosition, approvalComment, null, workFlowAction, approvalDesignation);
+        budgetRegisterWorkflowService.createBudgetRegisterWorkFlowTransitionNew(currentBudgetRegister, approvalPosition,
+                approvalComment, null, workFlowAction, approvalDesignation);
 
         budgetRegisterWorkflowService.save(currentBudgetRegister);
 
-//        redirectAttributes.addAttribute("message", "Budget register forwarded !");
-
+        // redirectAttributes.addAttribute("message", "Budget register forwarded !");
 
         return "redirect:/budget/register/workflow/view/" + currentBudgetRegister.getBudgetRegisterNumber();
     }
-
-
-
-
 
     private Map<String, CFinancialYear> addFinancialYears(Model model) {
         CFinancialYear financialYear = financialYearService.getCurrentFinancialYear();
@@ -342,12 +353,5 @@ public class BudgetRegisterController extends GenericWorkFlowController {
 
         return financialYearMap;
     }
-
-
-
-
-
-
-
 
 }
