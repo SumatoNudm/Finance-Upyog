@@ -13,4 +13,4 @@ egov/\.metadata/
 
 egov/\.recommenders/
 
-.deploy.sh
+egov/\deploy.sh
