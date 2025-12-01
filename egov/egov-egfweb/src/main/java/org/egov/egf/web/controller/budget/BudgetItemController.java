@@ -8,12 +8,17 @@ import org.egov.commons.service.FunctionService;
 import org.egov.egf.form.BudgetForm;
 import org.egov.eis.web.contract.WorkflowContainer;
 import org.egov.eis.web.controller.workflow.GenericWorkFlowController;
+import org.egov.infra.admin.master.entity.User;
+import org.egov.infra.microservice.models.EmployeeInfo;
+import org.egov.infra.microservice.utils.MicroserviceUtils;
+import org.egov.infra.security.utils.SecurityUtils;
 import org.egov.model.budget.*;
 import org.egov.model.service.BudgetHeadService;
 import org.egov.model.service.BudgetItemService;
 import org.egov.model.service.BudgetRegisterWorkflowService;
 import org.egov.model.service.FunctionBudgetHeadService;
 import org.egov.utils.BudgetAccountType;
+import org.egov.utils.FinancialConstants;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -58,6 +63,12 @@ public class BudgetItemController {
 
 	@Autowired
 	private BudgetRegisterWorkflowService budgetRegisterWorkflowService;
+
+	@Autowired
+	private MicroserviceUtils microServiceUtil;
+
+	@Autowired
+	private SecurityUtils securityUtils;
 
 
 	@RequestMapping(value = "/new/{budgetRegisterId}", method = { RequestMethod.GET, RequestMethod.POST })
@@ -532,6 +543,27 @@ public class BudgetItemController {
 		List<CFunction> budgetFunction = budgetItemService.functionsHavingBudgetOfBudgetRegister(budgetRegister);
 
 		model.addAttribute("budgetFunction", budgetFunction);
+
+		User currentUser = securityUtils.getCurrentUser();
+
+		List<EmployeeInfo> emplist = microServiceUtil.getEmployee(currentUser.getId(), null, null, null);
+
+		LOGGER.info("emplist: " + emplist.size());
+
+		String[] allowedStatus =  new String[]{"reverted", "REVERTED", "NEW", "new"};
+
+		if (Arrays.asList(allowedStatus).contains(budgetRegister.getStatus().getCode().toLowerCase())) {
+			if (emplist != null && !emplist.isEmpty()) {
+				String designation = emplist.get(0).getAssignments().get(0).getDesignation();
+				LOGGER.info("emp-des: " + designation);
+				String[] desigs = new String[]{"Financial Management Officer", "FMO", "Accounts Officer", "AO"};
+				if (Arrays.asList(desigs).contains(designation)) {
+					model.addAttribute("allowCreate", true);
+				}
+			}
+		}
+
+
 
 		return BUDGET_FUNCTION;
 

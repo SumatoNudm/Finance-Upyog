@@ -202,7 +202,7 @@ public class BudgetRegisterController extends GenericWorkFlowController {
             if (currentUser.getId().equals(budgetRegister.getCreatedBy())) {
                 model.addAttribute("showWorkflow", "true");
             }
-            Boolean hasCreatePermission = currentUser.hasRole("EGF Bill Creator");
+//            Boolean hasCreatePermission = currentUser.hasRole("EGF Bill Creator");
 
 
             List<EmployeeInfo> emplist = microServiceUtil.getEmployee(currentUser.getId(), null, null, null);
@@ -214,7 +214,7 @@ public class BudgetRegisterController extends GenericWorkFlowController {
                 LOGGER.info("emp-des: " + designation);
                 String[] desigs = new String[]{"Financial Management Officer", "FMO", "Accounts Officer", "AO"};
                 if (Arrays.asList(desigs).contains(designation)) {
-                    model.addAttribute("allowCreate", hasCreatePermission);
+                    model.addAttribute("allowCreate", true);
                 }
             }
 
