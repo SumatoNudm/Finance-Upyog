@@ -339,14 +339,14 @@ INSERT INTO EG_ROLEACTION (ROLEID, ACTIONID) values ((select id from eg_role whe
 ------------------END---------------------
 -------------------START-------------------
 
--- DROP SEQUENCE seq_eg_wf_types;
+DROP SEQUENCE seq_eg_wf_types;
 
--- CREATE SEQUENCE seq_eg_wf_types
---     START WITH 11
---     INCREMENT BY 1
---     NO MINVALUE
---     NO MAXVALUE
---     CACHE 1;
+CREATE SEQUENCE seq_eg_wf_types
+    START WITH 11
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
 Insert into eg_wf_types (id,module,type,link,createdby,createddate,lastmodifiedby,lastmodifieddate,groupyn,typefqn,displayname,version) values (nextval('seq_eg_wf_types'),(select id from eg_module where name='Collection'),'ReceiptHeader','/collection/receipts/collectionsWorkflow-listWorkflow.action?inboxItemDetails=:ID',1,now(),1,now(), 'N', 'org.egov.collection.entity.ReceiptHeader', 'Collections Receipt Header', 0 );
 -------------------END----------------------
 -------------------START--------------------
