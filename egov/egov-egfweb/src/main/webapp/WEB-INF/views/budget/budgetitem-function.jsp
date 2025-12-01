@@ -70,15 +70,16 @@
 
 <body>
 
-    <h1>Functions with Budget Overview</h1>
+    <h3>Function wise Budget Overview</h3>
+    <br/>
 
-    <h4>Budget Register:</h4>
+    <h4>Budget Register: ${budgetRegister.budgetRegisterName} - ${budgetRegister.budgetRegisterNumber}</h4>
 
     <!-- CREATE BUTTON (Right Side) -->
     <div class="top-create-btn">
-        <a href="${pageContext.request.contextPath}/budget/new" class="btn btn-create">
-            + Create Budget
-        </a>
+        <!--<a href="${pageContext.request.contextPath}/budget/new/${budgetRegister.id}" class="btn btn-primary btn-sm">
+            + Create New
+        </a>-->
     </div>
 
     <table>
@@ -93,8 +94,8 @@
                 <td>${item.name}</td>
                 <td>${item.code}</td>
                 <td>
-                    <a href="${pageContext.request.contextPath}/budget/view/${item.id}" class="btn btn-view">View</a>
-                    <a href="${pageContext.request.contextPath}/budget/edit/${item.id}" class="btn btn-edit">Edit</a>
+                    <a href="${pageContext.request.contextPath}/budget/view/${item.id}/${budgetRegister.id}" class="btn btn-primary btn-sm">View</a>
+                    <a href="${pageContext.request.contextPath}/budget/edit/${item.id}/${budgetRegister.id}" class="btn btn-secondary btn-sm">Edit</a>
                 </td>
             </tr>
         </c:forEach>

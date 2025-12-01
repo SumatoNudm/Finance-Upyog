@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
-<form:form role="form" action="../update" modelAttribute="budgetForm" id="budgetItemFunction"
+<form:form role="form" action="../../update/${budgetRegister.id}" modelAttribute="budgetForm" id="budgetItemFunction"
     cssClass="form-horizontal form-groups-bordered" enctype="multipart/form-data">
 
     <div class="main-content">

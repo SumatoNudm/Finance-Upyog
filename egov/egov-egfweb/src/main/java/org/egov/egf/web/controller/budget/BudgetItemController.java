@@ -35,6 +35,7 @@ public class BudgetItemController {
 	private static final String BUDGET_ITEM_VIEW = "budgetitem-view";
 	private static final String BUDGET_ITEM_EDIT = "budgetitem-edit";
 	private static final String BUDGET_FUNCTION = "budgetitem-function";
+	private static final String BUDGET_COMPLETE_VIEW = "budgetitemcomplete-view";
 
 	private static final String STATE_TYPE = "stateType";
 
@@ -228,8 +229,8 @@ public class BudgetItemController {
 		return "functionwisebudget-form";
 	}
 
-	@PostMapping(value = "/view/{functionId}/{budgetRegisterId}")
-	public String view(final Model model, @PathVariable Long functionId, @PathVariable Long budgetRegisterId, RedirectAttributes redirectAttributes) throws Exception {
+	@RequestMapping(value = "/view/{functionId}/{budgetRegisterId}", method = {RequestMethod.GET, RequestMethod.POST})
+	public String view(final Model model, @PathVariable Long functionId,  @PathVariable("budgetRegisterId") Long budgetRegisterId, RedirectAttributes redirectAttributes) throws Exception {
 
 		final CFunction function = functionService.findOne(functionId);
 
@@ -392,8 +393,8 @@ public class BudgetItemController {
 		return new BudgetTotals(est, act, rev, nxt);
 	}
 
-	@PostMapping("/edit/{functionId}")
-	public String edit(@PathVariable Long functionId, Model model) throws Exception {
+	@RequestMapping(value = "/edit/{functionId}/{budgetRegisterId}", method = {RequestMethod.GET, RequestMethod.POST})
+	public String edit(@PathVariable Long functionId,  @PathVariable("budgetRegisterId") Long budgetRegisterId, Model model, RedirectAttributes redirectAttributes) throws Exception {
 
 		final CFunction function = functionService.findOne(functionId);
 
@@ -402,6 +403,17 @@ public class BudgetItemController {
 		}
 
 		model.addAttribute("function", function);
+
+		BudgetRegister budgetRegister = budgetRegisterWorkflowService.findOne(budgetRegisterId);
+
+		if (budgetRegister == null) {
+			redirectAttributes.addAttribute("error", "Selected Budget register not available or invalid.");
+			return "redirect:/budget/new";
+		}
+
+		model.addAttribute("budgetRegisterId", budgetRegisterId);
+		model.addAttribute("budgetRegister", budgetRegister);
+
 
 		final CFinancialYear currentFy = financialYearService.getCurrentFinancialYear();
 
@@ -424,8 +436,8 @@ public class BudgetItemController {
 		//model.addAttribute("budgetForm", new BudgetForm());
 
 		List<String> types = Arrays.asList("Opening_Balance", "Closing_Balance", "Revenue_Budget", "Capital_Budget");
-		Map<String, List<BudgetItem>> grouped = budgetItemService.getBudgetItemsByTypesFunctionFy(types, function,
-				currentFy);
+		Map<String, List<BudgetItem>> grouped = budgetItemService.getBudgetItemsByTypesFunctionFyBudgetRegister(types, function,
+				currentFy, budgetRegister);
 
 		// final List<BudgetItem> oBal = grouped.getOrDefault("Opening_Balance",
 		// Collections.emptyList());
@@ -470,10 +482,17 @@ public class BudgetItemController {
 		return BUDGET_ITEM_EDIT;
 	}
 
-	@PostMapping("/update")
-	public String update(@ModelAttribute BudgetForm budgetForm, RedirectAttributes redirectAttrs) {
+	@PostMapping("/update/{budgetRegisterId}")
+	public String update(@ModelAttribute BudgetForm budgetForm,  @PathVariable("budgetRegisterId") Long budgetRegisterId, RedirectAttributes redirectAttrs) {
 
 		try {
+
+			BudgetRegister budgetRegister = budgetRegisterWorkflowService.findOne(budgetRegisterId);
+
+			if (budgetRegister == null) {
+				redirectAttrs.addAttribute("error", "Selected Budget register not available or invalid.");
+				return "redirect:/budget/new";
+			}
 
 			LOGGER.info("update form \n\n");
 			LOGGER.info(budgetForm.getOpening().getId());
@@ -483,27 +502,151 @@ public class BudgetItemController {
 
 			System.out.println("Opening in POST = " + budgetForm.getOpening().getId());
 
-			budgetItemService.updateBudgetInputForm(budgetForm); // inside service: save opening, items, closing
+			budgetItemService.updateBudgetInputForm(budgetForm, budgetRegister); // inside service: save opening, items, closing
 			redirectAttrs.addFlashAttribute("message", "Budget items updated successfully!");
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		return "forward:/budget/view/" + budgetForm.getFunctionid();
+		return "redirect:/budget/view/" + budgetForm.getFunctionid() + "/"+ budgetRegisterId;
 	}
 
 
-	@PostMapping(value = "/function")
-	public String functionView(final Model model){
+	@RequestMapping(value = "/functionwise/{budgetRegisterId}", method = {RequestMethod.GET, RequestMethod.POST})
+	public String functionView(final Model model, @PathVariable("budgetRegisterId") Long budgetRegisterId, RedirectAttributes redirectAttributes){
 
-		List<CFunction> budgetFunction = budgetItemService.functionListWithBudget();
+		BudgetRegister budgetRegister = budgetRegisterWorkflowService.findOne(budgetRegisterId);
+
+		if (budgetRegister == null) {
+			model.addAttribute("error", "Selected Budget register not available or invalid.");
+			redirectAttributes.addAttribute("error", "Selected Budget register not available or invalid.");
+			return "";
+		}
+
+		model.addAttribute("budgetRegisterId", budgetRegisterId);
+		model.addAttribute("budgetRegister", budgetRegister);
+
+//		List<CFunction> budgetFunction = budgetItemService.functionListWithBudget();
+
+		List<CFunction> budgetFunction = budgetItemService.functionsHavingBudgetOfBudgetRegister(budgetRegister);
 
 		model.addAttribute("budgetFunction", budgetFunction);
 
 		return BUDGET_FUNCTION;
 
 	}
+
+	@RequestMapping(value = "/complete/{budgetRegisterId}/view", method = {RequestMethod.GET, RequestMethod.POST})
+	public String completeBudgetView(final Model model, @PathVariable("budgetRegisterId") Long budgetRegisterId, RedirectAttributes redirectAttributes) {
+
+		BudgetRegister budgetRegister = budgetRegisterWorkflowService.findOne(budgetRegisterId);
+
+		if (budgetRegister == null) {
+			redirectAttributes.addAttribute("error", "Selected Budget register not available or invalid.");
+			return "redirect:/budget/new";
+		}
+
+		model.addAttribute("budgetRegisterId", budgetRegisterId);
+		model.addAttribute("budgetRegister", budgetRegister);
+
+		addFinancialYears(model);
+
+
+		List<String> types = Arrays.asList("Opening_Balance", "Closing_Balance", "Revenue_Budget", "Capital_Budget");
+		Map<String, List<BudgetItem>> grouped = budgetItemService.getBudgetItemsByTypesAndBudgetRegister(types,
+				 budgetRegister);
+
+		final List<BudgetItem> oBal = grouped.getOrDefault("Opening_Balance", Collections.emptyList());
+		final List<BudgetItem> cBal = grouped.getOrDefault("Closing_Balance", Collections.emptyList());
+		final List<BudgetItem> rb = grouped.getOrDefault("Revenue_Budget", Collections.emptyList());
+		final List<BudgetItem> cb = grouped.getOrDefault("Capital_Budget", Collections.emptyList());
+
+
+		BigDecimal openingCurrentEstimate = BigDecimal.ZERO;
+		BigDecimal openingActual = BigDecimal.ZERO;
+		BigDecimal openingRevised = BigDecimal.ZERO;
+		BigDecimal openingNext = BigDecimal.ZERO;
+
+		for (BudgetItem ob : oBal) {
+			openingCurrentEstimate = openingCurrentEstimate.add(ob.getCurrentEstimate());
+			openingActual = openingActual.add(ob.getCurrentActual());
+			openingRevised = openingRevised.add(ob.getCurrentRevisedEstimate());
+			openingNext = openingNext.add(ob.getNextEstimate());
+		}
+
+		BudgetItem openingBalance = new BudgetItem();
+		openingBalance.setCurrentEstimate(openingCurrentEstimate);
+		openingBalance.setCurrentActual(openingActual);
+		openingBalance.setCurrentRevisedEstimate(openingRevised);
+		openingBalance.setNextEstimate(openingNext);
+
+		LOGGER.info("ce: " + openingBalance.getCurrentEstimate() +", ca: "+ openingBalance.getCurrentActual() + ", cr: "+ openingBalance.getCurrentRevisedEstimate() + ", ne: "+ openingBalance.getNextEstimate());
+
+		//closing
+		BigDecimal closingCurrentEstimate = BigDecimal.ZERO;
+		BigDecimal closingActual = BigDecimal.ZERO;
+		BigDecimal closingRevised = BigDecimal.ZERO;
+		BigDecimal closingNext = BigDecimal.ZERO;
+
+		for (BudgetItem cbalance : cBal) {
+			closingCurrentEstimate = closingCurrentEstimate.add(cbalance.getCurrentEstimate());
+			closingActual = closingActual.add(cbalance.getCurrentActual());
+			closingRevised = closingRevised.add(cbalance.getCurrentRevisedEstimate());
+			closingNext = closingNext.add(cbalance.getNextEstimate());
+		}
+
+		BudgetItem closingBalance = new BudgetItem();
+		closingBalance.setCurrentEstimate(closingCurrentEstimate);
+		closingBalance.setCurrentActual(closingActual);
+		closingBalance.setCurrentRevisedEstimate(closingRevised);
+		closingBalance.setNextEstimate(closingNext);
+
+		model.addAttribute("opening_balance", openingBalance);
+		model.addAttribute("closing_balance", closingBalance);
+
+
+
+		// grouping for revenue budget
+		Map<BudgetAccountType, Map<String, List<BudgetItem>>> groupedRB = rb.stream().collect(Collectors.groupingBy(
+				item -> item.getBudgetHead().getAccountType(),
+				Collectors.groupingBy(
+						itm -> itm.getBudgetHead().getCategory())));
+
+		model.addAttribute("grouped_rb", groupedRB);
+
+		// grouping for capital budget
+		Map<BudgetAccountType, Map<String, List<BudgetItem>>> groupedCB = cb.stream().collect(Collectors.groupingBy(
+				item -> item.getBudgetHead().getAccountType(),
+				Collectors.groupingBy(
+						itm -> itm.getBudgetHead().getCategory())));
+
+		model.addAttribute("grouped_cb", groupedCB);
+
+
+		Map<String, BudgetTotals> rbTotals = new LinkedHashMap<>();
+
+		for (Map.Entry<BudgetAccountType, Map<String, List<BudgetItem>>> acct : groupedRB.entrySet()) {
+			for (Map.Entry<String, List<BudgetItem>> cat : acct.getValue().entrySet()) {
+				rbTotals.put(cat.getKey(), computeTotals(cat.getValue()));
+			}
+		}
+
+		model.addAttribute("rbTotals", rbTotals);
+
+		Map<String, BudgetTotals> cbTotals = new LinkedHashMap<>();
+
+		for (Map.Entry<BudgetAccountType, Map<String, List<BudgetItem>>> acct : groupedCB.entrySet()) {
+			for (Map.Entry<String, List<BudgetItem>> cat : acct.getValue().entrySet()) {
+				cbTotals.put(cat.getKey(), computeTotals(cat.getValue()));
+			}
+		}
+
+		model.addAttribute("cbTotals", cbTotals);
+
+		return BUDGET_COMPLETE_VIEW;
+	}
+
 
 }
 

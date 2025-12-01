@@ -84,13 +84,13 @@
                         </div>
                     </c:if>
                     <div class="pull-right" style="margin-right: 15px;" >
-                        <a href="${pageContext.request.contextPath}/budget/register/new" class="btn btn-primary btn-sm">
+                        <a href="${pageContext.request.contextPath}/budget/functionwise/${budgetRegister.id}" class="btn btn-primary btn-sm">
                             View Function wise Budget
                         </a>
                     </div>
 
                     <div class="pull-right" style="margin-right: 15px;" >
-                        <a href="${pageContext.request.contextPath}/budget/register/new" class="btn btn-primary btn-sm">
+                        <a href="${pageContext.request.contextPath}/budget/complete/${budgetRegister.id}/view" class="btn btn-primary btn-sm">
                             View Complete Budget
                         </a>
                     </div>
