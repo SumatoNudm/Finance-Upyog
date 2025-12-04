@@ -218,6 +218,7 @@ public class BudgetRegisterController extends GenericWorkFlowController {
                     financialUtils.getHistory(budgetRegister.getState(), budgetRegister.getStateHistory()));
         } else {
             User currentUser = securityUtils.getCurrentUser();
+            LOGGER.info("current user id :" + currentUser.getId());
             if (currentUser.getId().equals(budgetRegister.getCreatedBy())) {
                 model.addAttribute("showWorkflow", "true");
             }

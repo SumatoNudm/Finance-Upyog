@@ -95,11 +95,6 @@
                         </a>
                     </div>
 
-                    <!--<div class="pull-right">
-                        <a href="${pageContext.request.contextPath}/budget/register/new" class="btn btn-primary btn-sm">
-                            Create New
-                        </a>
-                    </div>-->
                 </div>
 
 
