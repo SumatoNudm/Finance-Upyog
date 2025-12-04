@@ -14,6 +14,7 @@ import org.egov.infra.microservice.models.Designation;
 import org.egov.infra.microservice.models.EmployeeInfo;
 import org.egov.infra.microservice.utils.MicroserviceUtils;
 import org.egov.infra.security.utils.SecurityUtils;
+import org.egov.infra.workflow.entity.StateHistory;
 import org.egov.model.budget.BudgetRegister;
 import org.egov.model.service.BudgetRegisterWorkflowService;
 import org.egov.utils.FinancialConstants;
@@ -213,7 +214,6 @@ public class BudgetRegisterController extends GenericWorkFlowController {
 
         if (budgetRegister.getState() != null) {
             model.addAttribute("currentState", budgetRegister.getState().getValue());
-
             model.addAttribute("workflowHistory",
                     financialUtils.getHistory(budgetRegister.getState(), budgetRegister.getStateHistory()));
         } else {

@@ -57,7 +57,7 @@
 			<spring:message  code="lbl.apphistory" text="Workflow History"/>
 		</div>
 		<div class="history-icon">
-			<i class="fa fa-angle-up fa-2x" id="toggle-his-icon"></i>
+			<i class="fa fa-angle-down fa-2x" id="toggle-his-icon"></i>
 		</div>
 	</div>
 <div class="panel-body history-slide display-hide">
@@ -72,6 +72,7 @@
 		<c:choose>
 			<c:when test="${!workflowHistory.isEmpty()}">
 				<c:forEach items="${workflowHistory}" var="history">
+
 				<div class="row add-margin">
 					<div class="col-sm-2 col-xs-12 add-margin">
 						<fmt:formatDate value="${history.date}" var="historyDate"

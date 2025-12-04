@@ -34,11 +34,7 @@
 
             <div class="panel-heading clearfix">
                 <h4 class="panel-title pull-left" style="padding-top:6px;">Budget Register</h4>
-                <!--<div class="pull-right">
-                    <a href="${pageContext.request.contextPath}/budget/register/new" class="btn btn-primary btn-sm">
-                        Create New
-                    </a>
-                </div>-->
+
             </div>
 
             <div class="panel-body">
@@ -97,6 +93,10 @@
 
                 </div>
 
+
+                <c:if test="${!workflowHistory.isEmpty()}">
+                    <jsp:include page="../../common/commonworkflowhistory-view.jsp"></jsp:include>
+                </c:if>
 
                 <c:if test="${not empty showWorkflow}">
 
