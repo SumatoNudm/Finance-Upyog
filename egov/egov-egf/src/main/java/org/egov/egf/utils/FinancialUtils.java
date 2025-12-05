@@ -287,10 +287,6 @@ public class FinancialUtils {
                 workflowHistory.put("comments", stateHistory.getComments());
                 workflowHistory.put("updatedBy", stateHistory.getLastModifiedBy() + "::"
                         + stateHistory.getLastModifiedBy());
-//                EmployeeInfo lastUpdatedBy = this.microServiceUtil.getEmployeeByPositionId(stateHistory.getLastModifiedBy());
-//                if (lastUpdatedBy != null) {
-//                    workflowHistory.put("updatedBy", lastUpdatedBy.getUser().getName());
-//                }
                 workflowHistory.put("status", stateHistory.getValue());
                 final Long owner = stateHistory.getOwnerPosition();
                 final State _sowner = stateHistory.getState();
@@ -298,8 +294,7 @@ public class FinancialUtils {
                 // user = stateHistory.getOwnerUser();
                 if (null != ownerobj) {
 //                    workflowHistory.put("user", user.getUsername() + "::" + user.getName());
-                    workflowHistory.put("user",ownerobj.getUser().getUserName()+"::"+ownerobj.getUser().getName()); // original code
-//                    workflowHistory.put("user", ownerobj.getUser().getName()); // By MriDx
+                    workflowHistory.put("user",ownerobj.getUser().getUserName()+"::"+ownerobj.getUser().getName());
                     Department department=   this.microServiceUtil.getDepartmentByCode(ownerobj.getAssignments().get(0).getDepartment());
                     if(null != department)
                         workflowHistory.put("department", department.getName());
@@ -317,10 +312,6 @@ public class FinancialUtils {
             map.put("date", state.getDateInfo());
             map.put("comments", state.getComments() != null ? state.getComments() : "");
             map.put("updatedBy", state.getLastModifiedBy() + "::" + state.getLastModifiedBy());
-//            EmployeeInfo lastUpdatedBy = this.microServiceUtil.getEmployeeByPositionId(state.getLastModifiedBy());
-//            if (lastUpdatedBy != null) {
-//                map.put("updatedBy", lastUpdatedBy.getUser().getName());
-//            }
             map.put("status", state.getValue());
             final Long ownerPosition = state.getOwnerPosition();
             // user = state.getOwnerUser();
@@ -328,8 +319,7 @@ public class FinancialUtils {
             
 //            if (null != user) {
             if(null != ownerobj){
-                map.put("user", ownerobj.getUser().getUserName() + "::" + ownerobj.getUser().getName()); // original code
-//                map.put("user", ownerobj.getUser().getName()); // By MriDx
+                map.put("user", ownerobj.getUser().getUserName() + "::" + ownerobj.getUser().getName());
               Department department=   this.microServiceUtil.getDepartmentByCode(ownerobj.getAssignments().get(0).getDepartment());
               if(null != department)
                   map.put("department", department.getName());

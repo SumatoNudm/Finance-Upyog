@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="/WEB-INF/tags/fmt.tld" prefix="fmt" %>
 
 
 <form:form role="form" action="../update" modelAttribute="budgetRegister" id="budgetRegisterForm"
@@ -34,11 +35,7 @@
 
             <div class="panel-heading clearfix">
                 <h4 class="panel-title pull-left" style="padding-top:6px;">Budget Register</h4>
-                <!--<div class="pull-right">
-                    <a href="${pageContext.request.contextPath}/budget/register/new" class="btn btn-primary btn-sm">
-                        Create New
-                    </a>
-                </div>-->
+
             </div>
 
             <div class="panel-body">

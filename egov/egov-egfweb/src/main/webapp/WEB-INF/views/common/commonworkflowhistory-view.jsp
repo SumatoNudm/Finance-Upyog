@@ -73,11 +73,11 @@
 			<c:when test="${!workflowHistory.isEmpty()}">
 				<c:forEach items="${workflowHistory}" var="history">
 
+					${history}
 				<div class="row add-margin">
 					<div class="col-sm-2 col-xs-12 add-margin">
 						<fmt:formatDate value="${history.date}" var="historyDate"
-							pattern="dd-MM-yyyy HH:mm a E" />
-						<c:out value="${historyDate}" />
+							pattern="dd-MM-yyyy hh:mm a E" />
 					</div>
 					<div class="col-sm-2 col-xs-12 add-margin">
 						<c:out value="${history.updatedBy}" />

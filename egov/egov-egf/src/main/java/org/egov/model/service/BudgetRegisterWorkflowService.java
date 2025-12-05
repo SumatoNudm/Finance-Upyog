@@ -4,6 +4,7 @@ import org.egov.commons.CFinancialYear;
 import org.egov.commons.EgwStatus;
 import org.egov.commons.dao.EgwStatusHibernateDAO;
 import org.egov.eis.entity.Assignment;
+import org.egov.eis.entity.Employee;
 import org.egov.infra.admin.master.entity.User;
 import org.egov.infra.microservice.models.Department;
 import org.egov.infra.microservice.models.Designation;
@@ -30,6 +31,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class BudgetRegisterWorkflowService {
@@ -382,7 +384,20 @@ public class BudgetRegisterWorkflowService {
     }
 
     public List<BudgetRegister> findBudgetRegisters() {
-        return budgetRegisterWorkflowRepository.findAll(new Sort(Sort.Direction.DESC, "budgetRegisterNumber"));
+        List<BudgetRegister> budgetRegisters =  budgetRegisterWorkflowRepository.findAll(new Sort(Sort.Direction.DESC, "budgetRegisterNumber"));
+
+        budgetRegisters.stream().map(budgetRegister -> {
+
+//            EmployeeInfo employeeInfo =  this.microServiceUtil.getEmployeeById(budgetRegister.getCreatedBy());
+//            if (employeeInfo != null) {
+//                budgetRegister.setCreatedByUser;
+//            }
+
+            return budgetRegister;
+        }).collect(Collectors.toList());
+
+        return budgetRegisters;
+
     }
 
     public BudgetRegister findBudgetRegisterByRegisterNumber(String budgetRegisterNumber) {

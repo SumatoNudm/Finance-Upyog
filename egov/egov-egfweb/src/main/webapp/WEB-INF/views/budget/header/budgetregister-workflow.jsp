@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="/WEB-INF/tags/fmt.tld" prefix="fmt" %>
 
 
 <form:form role="form" action="../update" modelAttribute="budgetRegister" id="budgetRegisterForm"
@@ -50,7 +51,7 @@
                             <th>Name</th>
                             <th>Financial Year</th>
                             <th>Status</th>
-                            <!--<th>Created Date</th>-->
+                            <th>Created Date</th>
                         </tr>
                         </thead>
                         <tr>
@@ -60,9 +61,9 @@
                             <td>
                                 <c:out value="${budgetRegister.status.code}" />
                             </td>
-                            <!--<td>
-                                <fmt:formatDate value="${budgetRegister.createdDate}" pattern="dd-MMM-yyyy HH:mm" />
-                            </td>-->
+                            <td>
+                                <fmt:formatDate value="${budgetRegister.createdDate}" pattern="dd-MMM-yyyy hh:mm a" />
+                            </td>
                         </tr>
 
                     </table>
