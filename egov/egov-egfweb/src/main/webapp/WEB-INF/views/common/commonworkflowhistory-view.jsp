@@ -72,8 +72,6 @@
 		<c:choose>
 			<c:when test="${!workflowHistory.isEmpty()}">
 				<c:forEach items="${workflowHistory}" var="history">
-
-					${history}
 				<div class="row add-margin">
 					<div class="col-sm-2 col-xs-12 add-margin">
 						<fmt:formatDate value="${history.date}" var="historyDate"

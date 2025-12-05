@@ -130,6 +130,8 @@ public interface FinancialConstants {
 	public static final String BUDGET_REJECTED_STATUS = "Rejected";
 
 	public static final String BUDGET_FORWARDED_FROM_FMO = "FMO_FORWARDED";
+	public static final String BUDGET_FORWARDED_FROM_EO = "EO_FORWARDED";
+	public static final String BUDGET_REVERTED = "REVERTED";
 
 	// Status for Pension Bills
 	public static final String PENSIONBILL_CANCELLED_STATUS = "Cancelled";
@@ -367,6 +369,7 @@ public interface FinancialConstants {
 	public static final String BUTTONAPPROVE = "Approve";
 	public static final String BUTTONFORWARD = "Forward";
 	public static final String BUTTONREJECT = "Reject";
+	public static final String BUTTONREVERT = "Revert";
 	public static final String BUTTONSAVE = "Save";
 	public static final String BUTTONCANCEL = "Cancel";
 	public static final String BUTTONVERIFY = "Verify";
@@ -374,6 +377,7 @@ public interface FinancialConstants {
 	public static final String WORKFLOW_STATE_NEW = "NEW";
 	public static final String WORKFLOW_STATE_APPROVED = "Approved";
 	public static final String WORKFLOW_STATE_REJECTED = "Rejected";
+	public static final String WORKFLOW_STATE_REVERTED = "Reverted";
 	public static final String WORKFLOW_STATE_FORWARDED = "Forwarded";
 	public static final String WORKFLOW_STATE_CANCELLED = "Cancelled";
 	public static final String WORKFLOW_STATE_CREATED = "Created";

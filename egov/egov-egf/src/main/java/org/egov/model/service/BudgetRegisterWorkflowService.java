@@ -435,7 +435,8 @@ public class BudgetRegisterWorkflowService {
         if (FinancialConstants.BUTTONREJECT.equalsIgnoreCase(workFlowAction)) {
             LOG.info("BudgetWF: REJECT");
             stateValue = FinancialConstants.WORKFLOW_STATE_REJECTED;
-            budgetRegister.transition().progressWithStateCopy().withSenderName(user.getUsername() + "::" + user.getName())
+            budgetRegister.transition().end()
+                    .withSenderName(user.getUsername() + "::" + user.getName())
                     .withComments(approvalComment)
                     .withStateValue(stateValue)
                     .withDateInfo(currentDate.toDate())
@@ -445,6 +446,21 @@ public class BudgetRegisterWorkflowService {
 
             budgetRegister.setStatus(egwStatusDAO.getStatusByModuleAndCode(FinancialConstants.BUDGET_MODULE, FinancialConstants.BUDGET_REJECTED_STATUS));
 
+        } else if (FinancialConstants.BUTTONREVERT.equalsIgnoreCase(workFlowAction)) {
+
+            String nextAction = "Correction Pending";
+
+
+            stateValue = FinancialConstants.WORKFLOW_STATE_REVERTED;
+            budgetRegister.transition().progressWithStateCopy().withSenderName(user.getUsername() + "::" + user.getName())
+                    .withComments(approvalComment)
+                    .withStateValue(stateValue)
+                    .withDateInfo(currentDate.toDate())
+                    .withOwner(wfInitiator.getPosition())
+                    .withNextAction(nextAction)
+                    .withNatureOfTask(FinancialConstants.WORKFLOWTYPE_BUDGET_REGISTER_DISPLAYNAME);
+
+            budgetRegister.setStatus(egwStatusDAO.getStatusByModuleAndCode(FinancialConstants.BUDGET_MODULE, FinancialConstants.BUDGET_REVERTED));
         } else  {
             WorkFlowMatrix workFlowMatrix;
             Designation designation = this.getDesignationDetails(approvalDesignation);
@@ -520,6 +536,34 @@ public class BudgetRegisterWorkflowService {
 
                 budgetRegister.setStatus(egwStatusDAO.getStatusByModuleAndCode(FinancialConstants.BUDGET_MODULE, FinancialConstants.BUDGET_APPROVED_STATUS));
 
+            } else if (FinancialConstants.BUTTONFORWARD.equalsIgnoreCase(workFlowAction)) {
+                workFlowMatrix = egBudgetRegisterWorkflowService.getWfMatrix(budgetRegister.getStateType(), null, null, additionalRule, budgetRegister.getCurrentState().getValue(), null);
+
+                if (stateValue.isEmpty()) {
+                    stateValue = workFlowMatrix.getNextState();
+                }
+
+                EgwStatus egwStatus;
+
+                if (wfInitiator.getDesignation().getCode().equalsIgnoreCase("eo")) {
+                    // eo forward to dma
+                    egwStatus = egwStatusDAO.getStatusByModuleAndCode(FinancialConstants.BUDGET_MODULE, FinancialConstants.BUDGET_FORWARDED_FROM_EO);
+                } else  {
+                    // fmo forward to eo
+                    egwStatus = egwStatusDAO.getStatusByModuleAndCode(FinancialConstants.BUDGET_MODULE, FinancialConstants.BUDGET_FORWARDED_FROM_FMO);
+                }
+
+                budgetRegister.transition().progressWithStateCopy()
+                        .withSenderName(user.getUsername() + "::" + user.getName())
+                        .withStateValue(stateValue)
+                        .withComments(approvalComment)
+                        .withDateInfo(new Date())
+                        .withOwner(ownerPosition)
+                        .withNextAction(workFlowMatrix.getNextAction())
+                        .withNatureOfTask(FinancialConstants.WORKFLOWTYPE_BUDGET_REGISTER_DISPLAYNAME);
+
+                budgetRegister.setStatus(egwStatus);
+
             } else {
                 LOG.info("BudgetWF: SOMETHING");
                 LOG.info("BudgetWF: " + workFlowAction);
@@ -550,6 +594,8 @@ public class BudgetRegisterWorkflowService {
         }
 
         LOG.info("Workflow transition completed !");
+
+        save(budgetRegister);
 
     }
 
