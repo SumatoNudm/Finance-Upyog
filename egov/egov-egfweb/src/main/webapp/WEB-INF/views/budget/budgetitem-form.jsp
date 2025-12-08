@@ -20,7 +20,8 @@
 							<input type="hidden" id="currentFinancialYear" name="currentFinancialYear"
 								value="${currentFy.id}" />
 							<input type="hidden" id="financialYear" name="financialYear" value="${nextFy.id}" />
-							<form:hidden path="" id="budgetRegisterId" name="budgetRegisterId" value="${budgetRegisterId}" />
+							<form:hidden path="" id="budgetRegisterId" name="budgetRegisterId"
+								value="${budgetRegisterId}" />
 						</div>
 					</div>
 
@@ -53,13 +54,17 @@
 										<fmt:formatDate value="${currentFy.startingDate}" pattern="dd/MM/yyyy" />
 									</td>
 									<td style="width: 15%;"><input type="text" name="opening.currentEstimate"
-											data-pattern="decimalvalue" maxlength="12" class="form-control"></td>
+											data-pattern="decimalvalue" maxlength="12" class="form-control"
+											required="required"></td>
 									<td style="width: 15%;"><input type="text" name="opening.currentActual"
-											data-pattern="decimalvalue" maxlength="12" class="form-control"></td>
+											data-pattern="decimalvalue" maxlength="12" class="form-control"
+											required="required"></td>
 									<td style="width: 15%;"><input type="text" name="opening.currentRevisedEstimate"
-											data-pattern="decimalvalue" maxlength="12" class="form-control"></td>
+											data-pattern="decimalvalue" maxlength="12" class="form-control"
+											required="required"></td>
 									<td style="width: 15%;"><input type="text" name="opening.nextEstimate"
-											data-pattern="decimalvalue" maxlength="12" class="form-control"></td>
+											data-pattern="decimalvalue" maxlength="12" class="form-control"
+											required="required"></td>
 								</tr>
 							</tbody>
 						</table>
@@ -81,7 +86,9 @@
 										<div style="margin-bottom: 8px;">
 											<input type="text" id="items[0].budgetcode" name="items[0].budgetcode"
 												class="form-control table-input budgetHeadcode budgetcode"
-												placeholder="Type first 3 letters of Budget code">
+												placeholder="Type first 3 letters of Budget code"
+												data-errormsg="Budget Code is mandatory!" data-idx="0"
+												data-optional="0">
 										</div>
 
 										<div class="scheme-container" style="display:none;">
@@ -116,13 +123,17 @@
 										class="form-control table-input hidden-input budgetHeadId" />
 
 									<td style="width: 15%;"><input type="text" name="items[0].currentEstimate"
-											class="form-control"></td>
+											class="form-control" data-errormsg="Current budget estimate is mandatory!"
+											data-idx="0" data-optional="0" required="required"></td>
 									<td style="width: 15%;"><input type="text" name="items[0].currentActual"
-											class="form-control"></td>
+											class="form-control" data-errormsg="Actuals is mandatory!" data-idx="0"
+											data-optional="0" required="required"></td>
 									<td style="width: 15%;"><input type="text" name="items[0].currentRevisedEstimate"
-											class="form-control"></td>
+											class="form-control" data-errormsg="Current revised estimate is mandatory!"
+											data-idx="0" data-optional="0" required="required"></td>
 									<td style="width: 15%;"><input type="text" name="items[0].nextEstimate"
-											class="form-control"></td>
+											class="form-control" data-errormsg="Next budget estimate is mandatory!"
+											data-idx="0" data-optional="0" required="required"></td>
 
 									<td class="text-center" style="width: 10%;">
 										<span style="cursor:pointer;" onclick="addBudgetDetailsRow();" tabindex="0"

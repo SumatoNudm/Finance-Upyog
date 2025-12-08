@@ -106,7 +106,7 @@ function budgethead_initialize() {
 
         if (flag) {
             bootbox.alert($.i18n.prop('msg.budget.code.already.added'), function () {
-               var index = bc.length - 1;
+                var index = bc.length - 1;
                 if (document.getElementById('items[' + index + '].budgetcode'))
                     document.getElementById('items[' + index + '].budgetcode').value = "";
             }
@@ -135,7 +135,38 @@ function budgethead_initialize() {
 
         }
 
+        $(this).removeClass("is-invalid");
     });
+
+    // Clear hidden fields *whenever user types*
+    $('.budgetcode').on('input', function () {
+        var row = $(this).parents("tr:first");
+
+        row.find(".budgetHeadId").val("");
+        row.find(".budgetheadcode").val("");
+        row.find(".budgetGroup").val("");
+        row.find(".genBudgetCode").val("");
+        row.find(".schemeId").val("");
+        row.find(".stateCode").val("");
+        row.find(".stateBudgetCode").val("");
+
+        $(this).removeClass("is-invalid");
+    });
+
+    // Simple invalid code check
+    $('.budgetcode').on('blur', function () {
+        var row = $(this).parents("tr:first");
+        var budgetHeadId = row.find(".budgetHeadId").val();
+
+        if (!budgetHeadId) {
+            $(this).addClass("is-invalid");
+            row.find(".budgetcode").val("");
+            bootbox.alert("Invalid Budget Code!");
+        } else {
+            $(this).removeClass("is-invalid");
+        }
+    });
+
 }
 
 function addBudgetDetailsRow() {
@@ -146,7 +177,7 @@ function addBudgetDetailsRow() {
     $('.scheme-input').unbind();
 
     var rowcount = $("#dynamicTable tbody tr").length;
-    if (rowcount < 40) {
+    if (rowcount < 80) {
         if (document.getElementById('budgetdetailsrow') != null) {
             addRow('dynamicTable', 'budgetdetailsrow');
             $('#dynamicTable tbody tr:eq(' + rowcount + ')').find('.budgetHeadcode').val('');
@@ -298,6 +329,7 @@ function scheme_initialize(row) {
 
         var statecode = row.find('.stateCode').val();
 
-        row.find('.stateBudgetCode').val(statecode + "-" + data.stateCode);
+        //row.find('.stateBudgetCode').val(statecode + "-" + data.stateCode);
+        row.find('.stateBudgetCode').val(statecode + "-" + (data.stateCode || "").trim());
     });
 }
