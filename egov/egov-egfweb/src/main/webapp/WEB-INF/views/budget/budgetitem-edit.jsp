@@ -59,22 +59,22 @@
                                     </td>
 
                                     <td style="width: 15%;">
-                                        <form:input path="opening.currentEstimate" cssClass="form-control"
+                                        <form:input type="number" path="opening.currentEstimate" cssClass="form-control"
                                             maxlength="12" />
                                     </td>
 
                                     <td style="width: 15%;">
-                                        <form:input path="opening.currentActual" cssClass="form-control"
+                                        <form:input type="number" path="opening.currentActual" cssClass="form-control"
                                             maxlength="12" />
                                     </td>
 
                                     <td style="width: 15%;">
-                                        <form:input path="opening.currentRevisedEstimate" cssClass="form-control"
-                                            maxlength="12" />
+                                        <form:input type="number" path="opening.currentRevisedEstimate"
+                                            cssClass="form-control" maxlength="12" />
                                     </td>
 
                                     <td style="width: 15%;">
-                                        <form:input path="opening.nextEstimate" cssClass="form-control"
+                                        <form:input type="number" path="opening.nextEstimate" cssClass="form-control"
                                             maxlength="12" />
                                     </td>
                                 </tr>
@@ -101,7 +101,9 @@
                                                     name="items[${st.index}].budgetcode"
                                                     value="${item.budgetHead.code} - ${item.budgetHead.name}"
                                                     class="form-control table-input budgetHeadcode budgetcode"
-                                                    placeholder="Type first 3 letters of Budget code">
+                                                    placeholder="Type first 3 letters of Budget code"
+                                                    data-errormsg="Budget Code is mandatory!" data-idx="0"
+                                                    data-optional="0">
                                             </div>
                                             <c:choose>
                                                 <c:when test="${item.scheme.id != null}">
@@ -160,18 +162,22 @@
                                         <form:hidden path="" name="items[${st.index}].id" id="items[${st.index}].id"
                                             value="${item.id}" class="form-control table-input hidden-input id" />
 
-                                        <td style="width: 15%;"><input type="text"
+                                        <td style="width: 15%;"><input type="number"
                                                 name="items[${st.index}].currentEstimate"
-                                                value="${item.currentEstimate}" class="form-control"></td>
-                                        <td style="width: 15%;"><input type="text"
+                                                value="${item.currentEstimate}" class="form-control" data-errormsg="Current budget estimate is mandatory!"
+											data-idx="0" data-optional="0" required="required"></td>
+                                        <td style="width: 15%;"><input type="number"
                                                 name="items[${st.index}].currentActual" value="${item.currentActual}"
-                                                class="form-control"></td>
-                                        <td style="width: 15%;"><input type="text"
+                                                class="form-control" data-errormsg="Actuals is mandatory!" data-idx="0"
+											data-optional="0" required="required"></td>
+                                        <td style="width: 15%;"><input type="number"
                                                 name="items[${st.index}].currentRevisedEstimate"
-                                                value="${item.currentRevisedEstimate}" class="form-control"></td>
-                                        <td style="width: 15%;"><input type="text"
+                                                value="${item.currentRevisedEstimate}" class="form-control" data-errormsg="Current revised estimate is mandatory!"
+											data-idx="0" data-optional="0" required="required"></td>
+                                        <td style="width: 15%;"><input type="number"
                                                 name="items[${st.index}].nextEstimate" value="${item.nextEstimate}"
-                                                class="form-control"></td>
+                                                class="form-control" data-errormsg="Next budget estimate is mandatory!"
+											data-idx="0" data-optional="0" required="required"></td>
 
                                         <td class="text-center" style="width: 10%;">
                                             <span style="cursor:pointer;" onclick="addBudgetDetailsRow();" tabindex="0"

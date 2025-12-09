@@ -53,16 +53,16 @@
 									<td style="width: 40%;">Opening Balance as on
 										<fmt:formatDate value="${currentFy.startingDate}" pattern="dd/MM/yyyy" />
 									</td>
-									<td style="width: 15%;"><input type="text" name="opening.currentEstimate"
+									<td style="width: 15%;"><input type="number" name="opening.currentEstimate"
 											data-pattern="decimalvalue" maxlength="12" class="form-control"
 											required="required"></td>
-									<td style="width: 15%;"><input type="text" name="opening.currentActual"
+									<td style="width: 15%;"><input type="number" name="opening.currentActual"
 											data-pattern="decimalvalue" maxlength="12" class="form-control"
 											required="required"></td>
-									<td style="width: 15%;"><input type="text" name="opening.currentRevisedEstimate"
+									<td style="width: 15%;"><input type="number" name="opening.currentRevisedEstimate"
 											data-pattern="decimalvalue" maxlength="12" class="form-control"
 											required="required"></td>
-									<td style="width: 15%;"><input type="text" name="opening.nextEstimate"
+									<td style="width: 15%;"><input type="number" name="opening.nextEstimate"
 											data-pattern="decimalvalue" maxlength="12" class="form-control"
 											required="required"></td>
 								</tr>
@@ -122,16 +122,16 @@
 									<form:hidden path="" name="items[0].budgetHeadId" id="items[0].budgetHeadId"
 										class="form-control table-input hidden-input budgetHeadId" />
 
-									<td style="width: 15%;"><input type="text" name="items[0].currentEstimate"
+									<td style="width: 15%;"><input type="number" name="items[0].currentEstimate"
 											class="form-control" data-errormsg="Current budget estimate is mandatory!"
 											data-idx="0" data-optional="0" required="required"></td>
-									<td style="width: 15%;"><input type="text" name="items[0].currentActual"
+									<td style="width: 15%;"><input type="number" name="items[0].currentActual"
 											class="form-control" data-errormsg="Actuals is mandatory!" data-idx="0"
 											data-optional="0" required="required"></td>
-									<td style="width: 15%;"><input type="text" name="items[0].currentRevisedEstimate"
+									<td style="width: 15%;"><input type="number" name="items[0].currentRevisedEstimate"
 											class="form-control" data-errormsg="Current revised estimate is mandatory!"
 											data-idx="0" data-optional="0" required="required"></td>
-									<td style="width: 15%;"><input type="text" name="items[0].nextEstimate"
+									<td style="width: 15%;"><input type="number" name="items[0].nextEstimate"
 											class="form-control" data-errormsg="Next budget estimate is mandatory!"
 											data-idx="0" data-optional="0" required="required"></td>
 
