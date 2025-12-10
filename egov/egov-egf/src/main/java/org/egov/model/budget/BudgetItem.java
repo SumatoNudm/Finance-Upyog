@@ -98,21 +98,11 @@ public class BudgetItem extends AbstractAuditable {
     }
 
 
-    public String toString() {
-        String stringValue = "Function Id: " + function.getId() +
-                ", Function Code: " + function.getCode() +
-                ", Budget Head Id: " + budgetHead.getId() +
-                ", Financial year: " + financialYear +
-                ", Current Financial year: " + currentFinancialYear +
-                ", Budget Code: " + budgetCode +
-                ", Budget Group: " + budgetGroup +
-                ", Current estimate: " + currentEstimate +
-                ", Current Actual: " + currentActual +
-                ", Current Revised: " + currentRevisedEstimate +
-                ", Next Estimate: " + nextEstimate;
 
-        return stringValue;
+    public Boolean isValuesFilled() {
+        return currentEstimate != null && currentActual != null && currentRevisedEstimate != null && nextEstimate != null;
     }
+
 
 
 
