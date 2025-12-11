@@ -6,7 +6,7 @@
 <%@ taglib uri="/WEB-INF/tags/fmt.tld" prefix="fmt" %>
 
 
-<div class="container">
+<div class="main-content">
     <div class="row">
         <div class="col-md-12">
 

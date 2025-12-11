@@ -74,7 +74,6 @@ public class BudgetItemController {
 	@Autowired
 	private SecurityUtils securityUtils;
 
-
 	@RequestMapping(value = "/new/{budgetRegisterId}", method = { RequestMethod.GET, RequestMethod.POST })
 	public String newForm(final Model model, @PathVariable("budgetRegisterId") Long budgetRegisterId) {
 		// model.addAttribute(BUDGET_ITEM, new BudgetItem());
@@ -126,12 +125,13 @@ public class BudgetItemController {
 
 
 	@RequestMapping(value = "/form", method = { RequestMethod.POST })
-	public String budgetForm(@ModelAttribute("id") Long id, @ModelAttribute("budgetRegisterId") Long budgetRegisterId, final Model model, RedirectAttributes redirectAttributes) {
+	public String budgetForm(@ModelAttribute("id") Long id, @ModelAttribute("budgetRegisterId") Long budgetRegisterId,
+			final Model model, RedirectAttributes redirectAttributes) {
 
 		Map<String, CFinancialYear> financialYears = addFinancialYears(model);
 
 		if (financialYears == null || financialYears.size() < 2) {
-			return "budget/new/"+budgetRegisterId;
+			return "budget/new/" + budgetRegisterId;
 		}
 
 		CFunction function = functionService.findOne(id);
@@ -140,7 +140,7 @@ public class BudgetItemController {
 
 		if (budgetRegister == null) {
 			redirectAttributes.addAttribute("error", "Selected Budget register not available or invalid.");
-			return "redirect:/budget/new/"+budgetRegisterId;
+			return "redirect:/budget/new/" + budgetRegisterId;
 		}
 
 		model.addAttribute("budgetRegisterId", budgetRegisterId);
@@ -149,7 +149,7 @@ public class BudgetItemController {
 
 		if (Boolean.TRUE.equals(budgetAlreadyEntered)) {
 			redirectAttributes.addFlashAttribute("error", "Budget already entered for the selected function.");
-			return "redirect:/budget/new/"+budgetRegisterId;
+			return "redirect:/budget/new/" + budgetRegisterId;
 		}
 
 		model.addAttribute("function", function);
@@ -165,10 +165,14 @@ public class BudgetItemController {
 		return BUDGET_FORM;
 	}
 
-	private Boolean checkIfBudgetAlreadyEntered(CFunction function, Map<String, CFinancialYear> financialYears, BudgetRegister budgetRegister) {
+	private Boolean checkIfBudgetAlreadyEntered(CFunction function, Map<String, CFinancialYear> financialYears,
+			BudgetRegister budgetRegister) {
 		final CFinancialYear currentFy = financialYears.get("currentFy");
-//		Boolean budgetExists = budgetItemService.checkIfBudgetExistsForFunctionAndFinancialYear(function, currentFy);
-		Boolean budgetExists = budgetItemService.checkIfBudgetExistsForFunctionAndFinancialYearAndBudgetRegister(function, currentFy, budgetRegister);
+		// Boolean budgetExists =
+		// budgetItemService.checkIfBudgetExistsForFunctionAndFinancialYear(function,
+		// currentFy);
+		Boolean budgetExists = budgetItemService
+				.checkIfBudgetExistsForFunctionAndFinancialYearAndBudgetRegister(function, currentFy, budgetRegister);
 		return budgetExists;
 	}
 
@@ -219,7 +223,7 @@ public class BudgetItemController {
 
         redirectAttrs.addFlashAttribute("message", "Budget items saved successfully!");
 
-		return "forward:/budget/view/" + budgetForm.getFunctionid()+"/"+budgetRegisterId;
+		return "forward:/budget/view/" + budgetForm.getFunctionid() + "/" + budgetRegisterId;
 	}
 
 	private void populateValidationErrors(Model model, CFunction function, Long budgetRegisterId, BudgetForm budgetForm) {
@@ -247,8 +251,10 @@ public class BudgetItemController {
 		return "functionwisebudget-form";
 	}
 
-	@RequestMapping(value = "/view/{functionId}/{budgetRegisterId}", method = {RequestMethod.GET, RequestMethod.POST})
-	public String view(final Model model, @PathVariable Long functionId,  @PathVariable("budgetRegisterId") Long budgetRegisterId, RedirectAttributes redirectAttributes) throws Exception {
+	@RequestMapping(value = "/view/{functionId}/{budgetRegisterId}", method = { RequestMethod.GET, RequestMethod.POST })
+	public String view(final Model model, @PathVariable Long functionId,
+			@PathVariable("budgetRegisterId") Long budgetRegisterId, RedirectAttributes redirectAttributes)
+			throws Exception {
 
 		final CFunction function = functionService.findOne(functionId);
 
@@ -270,7 +276,6 @@ public class BudgetItemController {
 		model.addAttribute("nextFy", budgetRegister.getFinancialYear());
 
 		model.addAttribute("budgetRegisterId", budgetRegisterId);
-
 
 		List<String> types = Arrays.asList("Opening_Balance", "Closing_Balance", "Revenue_Budget", "Capital_Budget");
 		Map<String, List<BudgetItem>> grouped = budgetItemService.getBudgetItemsByTypesFunctionAndBudgetRegister(types, function,
@@ -403,8 +408,9 @@ public class BudgetItemController {
 		return new BudgetTotals(est, act, rev, nxt);
 	}
 
-	@RequestMapping(value = "/edit/{functionId}/{budgetRegisterId}", method = {RequestMethod.GET, RequestMethod.POST})
-	public String edit(@PathVariable Long functionId,  @PathVariable("budgetRegisterId") Long budgetRegisterId, Model model, RedirectAttributes redirectAttributes) throws Exception {
+	@RequestMapping(value = "/edit/{functionId}/{budgetRegisterId}", method = { RequestMethod.GET, RequestMethod.POST })
+	public String edit(@PathVariable Long functionId, @PathVariable("budgetRegisterId") Long budgetRegisterId,
+			Model model, RedirectAttributes redirectAttributes) throws Exception {
 
 		final CFunction function = functionService.findOne(functionId);
 
@@ -424,7 +430,6 @@ public class BudgetItemController {
 		model.addAttribute("budgetRegisterId", budgetRegisterId);
 		model.addAttribute("budgetRegister", budgetRegister);
 
-
 		final CFinancialYear currentFy = financialYearService.getCurrentFinancialYear();
 
 		if (currentFy == null) {
@@ -443,7 +448,7 @@ public class BudgetItemController {
 		model.addAttribute("currentFy", currentFy);
 		model.addAttribute("nextFy", nextFy);
 
-		//model.addAttribute("budgetForm", new BudgetForm());
+		// model.addAttribute("budgetForm", new BudgetForm());
 
 		List<String> types = Arrays.asList("Opening_Balance", "Closing_Balance", "Revenue_Budget", "Capital_Budget");
 		Map<String, List<BudgetItem>> grouped = budgetItemService.getBudgetItemsByTypesFunctionFyBudgetRegister(types, function, budgetRegister);
@@ -457,9 +462,9 @@ public class BudgetItemController {
 		// model.addAttribute("closing_balance", cBal);
 
 		List<BudgetItem> oBal = grouped.getOrDefault("Opening_Balance", Collections.emptyList());
-		//BudgetItem first = oBal.isEmpty() ? new BudgetItem() : oBal.get(0);
+		// BudgetItem first = oBal.isEmpty() ? new BudgetItem() : oBal.get(0);
 
-		//model.addAttribute("opening_balance", oBal);
+		// model.addAttribute("opening_balance", oBal);
 
 		List<BudgetItem> revenue = grouped.getOrDefault("Revenue_Budget", Collections.emptyList());
 		List<BudgetItem> capital = grouped.getOrDefault("Capital_Budget", Collections.emptyList());
@@ -492,7 +497,8 @@ public class BudgetItemController {
 	}
 
 	@PostMapping("/update/{budgetRegisterId}")
-	public String update(@ModelAttribute BudgetForm budgetForm,  @PathVariable("budgetRegisterId") Long budgetRegisterId, RedirectAttributes redirectAttrs) {
+	public String update(@ModelAttribute BudgetForm budgetForm, @PathVariable("budgetRegisterId") Long budgetRegisterId,
+			RedirectAttributes redirectAttrs) {
 
 		try {
 
@@ -511,19 +517,20 @@ public class BudgetItemController {
 
 			System.out.println("Opening in POST = " + budgetForm.getOpening().getId());
 
-			budgetItemService.updateBudgetInputForm(budgetForm, budgetRegister); // inside service: save opening, items, closing
+			budgetItemService.updateBudgetInputForm(budgetForm, budgetRegister); // inside service: save opening, items,
+																					// closing
 			redirectAttrs.addFlashAttribute("message", "Budget items updated successfully!");
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		return "redirect:/budget/view/" + budgetForm.getFunctionid() + "/"+ budgetRegisterId;
+		return "redirect:/budget/view/" + budgetForm.getFunctionid() + "/" + budgetRegisterId;
 	}
 
-
-	@RequestMapping(value = "/functionwise/{budgetRegisterId}", method = {RequestMethod.GET, RequestMethod.POST})
-	public String functionView(final Model model, @PathVariable("budgetRegisterId") Long budgetRegisterId, RedirectAttributes redirectAttributes){
+	@RequestMapping(value = "/functionwise/{budgetRegisterId}", method = { RequestMethod.GET, RequestMethod.POST })
+	public String functionView(final Model model, @PathVariable("budgetRegisterId") Long budgetRegisterId,
+			RedirectAttributes redirectAttributes) {
 
 		BudgetRegister budgetRegister = budgetRegisterWorkflowService.findOne(budgetRegisterId);
 
@@ -536,7 +543,7 @@ public class BudgetItemController {
 		model.addAttribute("budgetRegisterId", budgetRegisterId);
 		model.addAttribute("budgetRegister", budgetRegister);
 
-//		List<CFunction> budgetFunction = budgetItemService.functionListWithBudget();
+		// List<CFunction> budgetFunction = budgetItemService.functionListWithBudget();
 
 		List<CFunction> budgetFunction = budgetItemService.functionsHavingBudgetOfBudgetRegister(budgetRegister);
 
@@ -548,27 +555,26 @@ public class BudgetItemController {
 
 		LOGGER.info("emplist: " + emplist.size());
 
-		String[] allowedStatus =  new String[]{"reverted", "REVERTED", "NEW", "new"};
+		String[] allowedStatus = new String[] { "reverted", "REVERTED", "NEW", "new" };
 
 		if (Arrays.asList(allowedStatus).contains(budgetRegister.getStatus().getCode().toLowerCase())) {
 			if (emplist != null && !emplist.isEmpty()) {
 				String designation = emplist.get(0).getAssignments().get(0).getDesignation();
 				LOGGER.info("emp-des: " + designation);
-				String[] desigs = new String[]{"Financial Management Officer", "FMO", "Accounts Officer", "AO"};
+				String[] desigs = new String[] { "Financial Management Officer", "FMO", "Accounts Officer", "AO" };
 				if (Arrays.asList(desigs).contains(designation)) {
 					model.addAttribute("allowCreate", true);
 				}
 			}
 		}
 
-
-
 		return BUDGET_FUNCTION;
 
 	}
 
-	@RequestMapping(value = "/complete/{budgetRegisterId}/view", method = {RequestMethod.GET, RequestMethod.POST})
-	public String completeBudgetView(final Model model, @PathVariable("budgetRegisterId") Long budgetRegisterId, RedirectAttributes redirectAttributes) {
+	@RequestMapping(value = "/complete/{budgetRegisterId}/view", method = { RequestMethod.GET, RequestMethod.POST })
+	public String completeBudgetView(final Model model, @PathVariable("budgetRegisterId") Long budgetRegisterId,
+			RedirectAttributes redirectAttributes) {
 
 		BudgetRegister budgetRegister = budgetRegisterWorkflowService.findOne(budgetRegisterId);
 
@@ -582,16 +588,14 @@ public class BudgetItemController {
 
 		addFinancialYears(model);
 
-
 		List<String> types = Arrays.asList("Opening_Balance", "Closing_Balance", "Revenue_Budget", "Capital_Budget");
 		Map<String, List<BudgetItem>> grouped = budgetItemService.getBudgetItemsByTypesAndBudgetRegister(types,
-				 budgetRegister);
+				budgetRegister);
 
 		final List<BudgetItem> oBal = grouped.getOrDefault("Opening_Balance", Collections.emptyList());
 		final List<BudgetItem> cBal = grouped.getOrDefault("Closing_Balance", Collections.emptyList());
 		final List<BudgetItem> rb = grouped.getOrDefault("Revenue_Budget", Collections.emptyList());
 		final List<BudgetItem> cb = grouped.getOrDefault("Capital_Budget", Collections.emptyList());
-
 
 		BigDecimal openingCurrentEstimate = BigDecimal.ZERO;
 		BigDecimal openingActual = BigDecimal.ZERO;
@@ -611,9 +615,10 @@ public class BudgetItemController {
 		openingBalance.setCurrentRevisedEstimate(openingRevised);
 		openingBalance.setNextEstimate(openingNext);
 
-		LOGGER.info("ce: " + openingBalance.getCurrentEstimate() +", ca: "+ openingBalance.getCurrentActual() + ", cr: "+ openingBalance.getCurrentRevisedEstimate() + ", ne: "+ openingBalance.getNextEstimate());
+		LOGGER.info("ce: " + openingBalance.getCurrentEstimate() + ", ca: " + openingBalance.getCurrentActual()
+				+ ", cr: " + openingBalance.getCurrentRevisedEstimate() + ", ne: " + openingBalance.getNextEstimate());
 
-		//closing
+		// closing
 		BigDecimal closingCurrentEstimate = BigDecimal.ZERO;
 		BigDecimal closingActual = BigDecimal.ZERO;
 		BigDecimal closingRevised = BigDecimal.ZERO;
@@ -635,24 +640,44 @@ public class BudgetItemController {
 		model.addAttribute("opening_balance", openingBalance);
 		model.addAttribute("closing_balance", closingBalance);
 
-
-
 		// grouping for revenue budget
-		Map<BudgetAccountType, Map<String, List<BudgetItem>>> groupedRB = rb.stream().collect(Collectors.groupingBy(
-				item -> item.getBudgetHead().getAccountType(),
-				Collectors.groupingBy(
-						itm -> itm.getBudgetHead().getCategory())));
+
+		// Map<BudgetAccountType, Map<String, List<BudgetItem>>> groupedRB =
+		// rb.stream().collect(Collectors.groupingBy(
+		// item -> item.getBudgetHead().getAccountType(),
+		// Collectors.groupingBy(
+		// itm -> itm.getBudgetHead().getCategory())));
+
+		Map<BudgetAccountType, Map<String, List<BudgetItem>>> groupedRB = rb.stream()
+				.sorted(Comparator.comparing(item -> item.getBudgetHead().getOrder())) // this works
+				.collect(Collectors.groupingBy(
+						item -> item.getBudgetHead().getAccountType(),
+						LinkedHashMap::new, // << preserve order of account types
+						Collectors.groupingBy(
+								itm -> itm.getBudgetHead().getCategory(),
+								LinkedHashMap::new, // << preserve order of categories
+								Collectors.toList())));
 
 		model.addAttribute("grouped_rb", groupedRB);
 
 		// grouping for capital budget
-		Map<BudgetAccountType, Map<String, List<BudgetItem>>> groupedCB = cb.stream().collect(Collectors.groupingBy(
-				item -> item.getBudgetHead().getAccountType(),
-				Collectors.groupingBy(
-						itm -> itm.getBudgetHead().getCategory())));
+		// Map<BudgetAccountType, Map<String, List<BudgetItem>>> groupedCB =
+		// cb.stream().collect(Collectors.groupingBy(
+		// item -> item.getBudgetHead().getAccountType(),
+		// Collectors.groupingBy(
+		// itm -> itm.getBudgetHead().getCategory())));
+
+		Map<BudgetAccountType, Map<String, List<BudgetItem>>> groupedCB = cb.stream()
+				.sorted(Comparator.comparing(item -> item.getBudgetHead().getOrder())) // sort by order
+				.collect(Collectors.groupingBy(
+						item -> item.getBudgetHead().getAccountType(),
+						LinkedHashMap::new, // preserve AccountType order
+						Collectors.groupingBy(
+								itm -> itm.getBudgetHead().getCategory(),
+								LinkedHashMap::new, // preserve Category order
+								Collectors.toList())));
 
 		model.addAttribute("grouped_cb", groupedCB);
-
 
 		Map<String, BudgetTotals> rbTotals = new LinkedHashMap<>();
 
@@ -677,8 +702,4 @@ public class BudgetItemController {
 		return BUDGET_COMPLETE_VIEW;
 	}
 
-
 }
-
-
-
