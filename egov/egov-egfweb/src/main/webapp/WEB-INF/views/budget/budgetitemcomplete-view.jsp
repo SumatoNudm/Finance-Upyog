@@ -80,7 +80,7 @@
     <h2 class="panel-title"
         style="font-weight: 700; font-size: 2rem; margin-bottom: 15px; position: relative; padding-left: 12px;">
         <span style="position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: #0d6efd; border-radius: 2px;"></span>
-        Budget Register Number: ${budgetRegister.budgetRegisterName} - ${budgetRegister.budgetRegisterNumber}
+        Budget Register : ${budgetRegister.budgetRegisterName} - ${budgetRegister.budgetRegisterNumber}
         <!--<span class="text-muted" style="font-size: 1.3rem;">(${function.code})</span>-->
     </h2>
 
