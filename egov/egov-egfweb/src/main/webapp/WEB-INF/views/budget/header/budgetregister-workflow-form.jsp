@@ -59,7 +59,7 @@
                             <td><c:out value="${budgetRegister.budgetRegisterName}" /></td>
                             <td><c:out value="${budgetRegister.financialYear.finYearRange}" /></td>
                             <td>
-                                <c:out value="${budgetRegister.status.code}" />
+                                <c:out value="${budgetRegister.status.description}" />
                             </td>
                             <td>
                                 <fmt:formatDate value="${budgetRegister.createdDate}" pattern="dd-MMM-yyyy HH:mm" />
@@ -67,6 +67,16 @@
                         </tr>
 
                     </table>
+
+                </div>
+
+                <div class="panel-body">
+
+                    <div class="pull-right" style="margin-right: 15px;" >
+                        <a href="${pageContext.request.contextPath}/budget/complete/${budgetRegister.id}/view"  class="btn btn-primary btn-sm" onclick="window.open(this.href, '_blank', 'width=1080,height=700'); return false;" >
+                            View Complete Budget
+                        </a>
+                    </div>
 
                 </div>
 

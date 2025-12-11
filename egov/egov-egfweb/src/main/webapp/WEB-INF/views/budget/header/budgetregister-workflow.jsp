@@ -59,7 +59,7 @@
                             <td><c:out value="${budgetRegister.budgetRegisterName}" /></td>
                             <td><c:out value="${budgetRegister.financialYear.finYearRange}" /></td>
                             <td>
-                                <c:out value="${budgetRegister.status.code}" />
+                                <c:out value="${budgetRegister.status.description}" />
                             </td>
                             <td>
                                 <fmt:formatDate value="${budgetRegister.createdDate}" pattern="dd-MMM-yyyy hh:mm a" />

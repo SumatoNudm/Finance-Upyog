@@ -4,7 +4,6 @@ import org.egov.commons.CFinancialYear;
 import org.egov.commons.EgwStatus;
 import org.egov.commons.dao.EgwStatusHibernateDAO;
 import org.egov.eis.entity.Assignment;
-import org.egov.eis.entity.Employee;
 import org.egov.infra.admin.master.entity.User;
 import org.egov.infra.microservice.models.Department;
 import org.egov.infra.microservice.models.Designation;
@@ -18,10 +17,8 @@ import org.egov.infra.workflow.service.SimpleWorkflowService;
 import org.egov.model.budget.BudgetRegister;
 import org.egov.model.repository.BudgetRegisterWorkflowRepository;
 import org.egov.pims.commons.Position;
-import org.egov.pims.commons.service.PositionService;
 import org.egov.utils.FinancialConstants;
 import org.joda.time.DateTime;
-import org.python.antlr.ast.Str;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -451,7 +448,7 @@ public class BudgetRegisterWorkflowService {
             String nextAction = "Correction Pending";
 
 
-            stateValue = FinancialConstants.WORKFLOW_STATE_REVERTED;
+            stateValue = FinancialConstants.BUDGET_REVERTED;
             budgetRegister.transition().progressWithStateCopy().withSenderName(user.getUsername() + "::" + user.getName())
                     .withComments(approvalComment)
                     .withStateValue(stateValue)
@@ -545,13 +542,43 @@ public class BudgetRegisterWorkflowService {
 
                 EgwStatus egwStatus;
 
-                if (wfInitiator.getDesignation().getCode().equalsIgnoreCase("eo")) {
-                    // eo forward to dma
-                    egwStatus = egwStatusDAO.getStatusByModuleAndCode(FinancialConstants.BUDGET_MODULE, FinancialConstants.BUDGET_FORWARDED_FROM_EO);
-                } else  {
-                    // fmo forward to eo
-                    egwStatus = egwStatusDAO.getStatusByModuleAndCode(FinancialConstants.BUDGET_MODULE, FinancialConstants.BUDGET_FORWARDED_FROM_FMO);
+//                EmployeeInfo currentEmployee = null;
+//
+//                if (budgetRegister != null) {
+//                    currentEmployee = microServiceUtil.getEmployeeByPositionId(budgetRegister.currentAssignee());
+//                }
+
+//                if (wfInitiator.getDesignation().getCode().equalsIgnoreCase("eo")) {
+//                    // eo forward to dma
+//                    egwStatus = egwStatusDAO.getStatusByModuleAndCode(FinancialConstants.BUDGET_MODULE, FinancialConstants.BUDGET_FORWARDED_FROM_EO);
+//                } else  {
+//                    // fmo forward to eo
+//                    egwStatus = egwStatusDAO.getStatusByModuleAndCode(FinancialConstants.BUDGET_MODULE, FinancialConstants.BUDGET_FORWARDED_FROM_FMO);
+//                }
+
+                egwStatus = egwStatusDAO.getStatusByModuleAndCode(FinancialConstants.BUDGET_MODULE, FinancialConstants.BUDGET_FORWARDED_FROM_FMO);
+
+                budgetRegister.transition().progressWithStateCopy()
+                        .withSenderName(user.getUsername() + "::" + user.getName())
+                        .withStateValue(stateValue)
+                        .withComments(approvalComment)
+                        .withDateInfo(new Date())
+                        .withOwner(ownerPosition)
+                        .withNextAction(workFlowMatrix.getNextAction())
+                        .withNatureOfTask(FinancialConstants.WORKFLOWTYPE_BUDGET_REGISTER_DISPLAYNAME);
+
+                budgetRegister.setStatus(egwStatus);
+
+            } else if (FinancialConstants.BUTTONFORWARD_TO_DMA.equalsIgnoreCase(workFlowAction)) {
+                workFlowMatrix = egBudgetRegisterWorkflowService.getWfMatrix(budgetRegister.getStateType(), null, null, additionalRule, budgetRegister.getCurrentState().getValue(), null);
+
+                if (stateValue.isEmpty()) {
+                    stateValue = workFlowMatrix.getNextState();
                 }
+
+                EgwStatus egwStatus;
+
+                egwStatus = egwStatusDAO.getStatusByModuleAndCode(FinancialConstants.BUDGET_MODULE, FinancialConstants.BUDGET_FORWARDED_FROM_EO);
 
                 budgetRegister.transition().progressWithStateCopy()
                         .withSenderName(user.getUsername() + "::" + user.getName())

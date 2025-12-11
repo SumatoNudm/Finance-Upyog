@@ -123,11 +123,11 @@ public interface FinancialConstants {
 	public static final String BUDGET_MODULE = "BudgetRegister";
 
 	//Status for Budget Register
-	public static final String BUDGET_CREATED_NEW = "New";
+	public static final String BUDGET_CREATED_NEW = "NEW";
 	public static final String BUDGET_CREATED_STATUS = "Created";
-	public static final String BUDGET_CANCELLED_STATUS = "Cancelled";
-	public static final String BUDGET_APPROVED_STATUS = "Approved";
-	public static final String BUDGET_REJECTED_STATUS = "Rejected";
+	public static final String BUDGET_CANCELLED_STATUS = "CANCELLED";
+	public static final String BUDGET_APPROVED_STATUS = "APPROVED";
+	public static final String BUDGET_REJECTED_STATUS = "REJECTED";
 
 	public static final String BUDGET_FORWARDED_FROM_FMO = "FMO_FORWARDED";
 	public static final String BUDGET_FORWARDED_FROM_EO = "EO_FORWARDED";
@@ -373,6 +373,7 @@ public interface FinancialConstants {
 	public static final String BUTTONSAVE = "Save";
 	public static final String BUTTONCANCEL = "Cancel";
 	public static final String BUTTONVERIFY = "Verify";
+	public static final String BUTTONFORWARD_TO_DMA = "Forward to DMA";
 
 	public static final String WORKFLOW_STATE_NEW = "NEW";
 	public static final String WORKFLOW_STATE_APPROVED = "Approved";
