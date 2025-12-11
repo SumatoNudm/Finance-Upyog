@@ -14,6 +14,7 @@ import org.egov.infra.microservice.models.Designation;
 import org.egov.infra.microservice.models.EmployeeInfo;
 import org.egov.infra.microservice.utils.MicroserviceUtils;
 import org.egov.infra.security.utils.SecurityUtils;
+import org.egov.infra.workflow.entity.StateHistory;
 import org.egov.model.budget.BudgetRegister;
 import org.egov.model.service.BudgetRegisterWorkflowService;
 import org.egov.utils.FinancialConstants;
@@ -45,6 +46,8 @@ public class BudgetRegisterController extends GenericWorkFlowController {
     private static final String APPROVAL_POSITION = "approvalPosition";
 
     private static final String APPROVAL_DESIGNATION = "approvalDesignation";
+
+    private static  final String[] allowedToCreateDesignations = new String[] { "Financial Management Officer", "FMO", "Accounts Officer", "AO" };
 
     @Autowired
     private CFinancialYearService financialYearService;
@@ -101,7 +104,7 @@ public class BudgetRegisterController extends GenericWorkFlowController {
                 && availableBudgetRegister.getStatus().getCode() != null
                 && !availableBudgetRegister.getStatus().getCode().equalsIgnoreCase("rejected")) {
 
-            model.addAttribute("error", "Budget is already created for the financial year !");
+//            model.addAttribute("error", "Budget is already created for the financial year !");
         }
 
         // BudgetRegister budgetRegister = new BudgetRegister();
@@ -211,32 +214,35 @@ public class BudgetRegisterController extends GenericWorkFlowController {
 
         prepareWorkflow(model, budgetRegister, new WorkflowContainer());
 
+        User currentUser = securityUtils.getCurrentUser();
+
+        List<EmployeeInfo> emplist = microServiceUtil.getEmployee(currentUser.getId(), null, null, null);
+
+        Boolean allowCreate = false;
+
+        if (emplist != null && !emplist.isEmpty()) {
+            String designation = emplist.get(0).getAssignments().get(0).getDesignation();
+
+
+            if (Arrays.asList(allowedToCreateDesignations).contains(designation)) {
+                allowCreate = true;
+            }
+        }
+
         if (budgetRegister.getState() != null) {
             model.addAttribute("currentState", budgetRegister.getState().getValue());
-
             model.addAttribute("workflowHistory",
                     financialUtils.getHistory(budgetRegister.getState(), budgetRegister.getStateHistory()));
+            if (budgetRegister.getCurrentState().getValue().equalsIgnoreCase("reverted") && allowCreate ) {
+                model.addAttribute("allowCreate", true);
+            }
         } else {
-            User currentUser = securityUtils.getCurrentUser();
-            LOGGER.info("current user id :" + currentUser.getId());
             if (currentUser.getId().equals(budgetRegister.getCreatedBy())) {
                 model.addAttribute("showWorkflow", "true");
             }
-            // Boolean hasCreatePermission = currentUser.hasRole("EGF Bill Creator");
-
-            List<EmployeeInfo> emplist = microServiceUtil.getEmployee(currentUser.getId(), null, null, null);
-
-            LOGGER.info("emplist: " + emplist.size());
-
-            if (emplist != null && !emplist.isEmpty()) {
-                String designation = emplist.get(0).getAssignments().get(0).getDesignation();
-                LOGGER.info("emp-des: " + designation);
-                String[] desigs = new String[] { "Financial Management Officer", "FMO", "Accounts Officer", "AO" };
-                if (Arrays.asList(desigs).contains(designation)) {
-                    model.addAttribute("allowCreate", true);
-                }
+            if (allowCreate) {
+                model.addAttribute("allowCreate", true);
             }
-
         }
 
         return BUDGET_REGISTER_WORKFLOW;
@@ -319,7 +325,7 @@ public class BudgetRegisterController extends GenericWorkFlowController {
         budgetRegisterWorkflowService.createBudgetRegisterWorkFlowTransitionNew(currentBudgetRegister, approvalPosition,
                 approvalComment, null, workFlowAction, approvalDesignation);
 
-        budgetRegisterWorkflowService.save(currentBudgetRegister);
+//        budgetRegisterWorkflowService.save(currentBudgetRegister);
 
         // redirectAttributes.addAttribute("message", "Budget register forwarded !");
 

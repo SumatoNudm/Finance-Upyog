@@ -3,6 +3,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="/WEB-INF/tags/fmt.tld" prefix="fmt" %>
+
 
 <div class="main-content">
     <div class="row">
@@ -40,7 +42,7 @@
                                 <th>Name</th>
                                 <th>Financial Year</th>
                                 <th>Status</th>
-                                <!--<th>Created Date</th>-->
+                                <th>Created Date</th>
                                 <th class="text-center">Actions</th>
                             </tr>
                             </thead>
@@ -51,11 +53,11 @@
                                     <td><c:out value="${budgetRegister.budgetRegisterName}" /></td>
                                     <td><c:out value="${budgetRegister.financialYear.finYearRange}" /></td>
                                     <td>
-                                        <c:out value="${budgetRegister.status.code}" />
+                                        <c:out value="${budgetRegister.status.description}" />
                                     </td>
-                                    <!--<td>
-                                        <fmt:formatDate value="${budgetRegister.createdDate}" pattern="dd-MMM-yyyy HH:mm" />
-                                    </td>-->
+                                    <td>
+                                        <fmt:formatDate value="${budgetRegister.createdDate}" pattern="dd-MMM-yyyy hh:mm a" />
+                                    </td>
                                     <td>
                                         <a href="${pageContext.request.contextPath}/budget/register/workflow/view/${budgetRegister.budgetRegisterNumber}" class="btn btn-primary btn-sm">
                                             View

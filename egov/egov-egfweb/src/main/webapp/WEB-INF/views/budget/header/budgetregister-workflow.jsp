@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="/WEB-INF/tags/fmt.tld" prefix="fmt" %>
 
 
 <form:form role="form" action="../update" modelAttribute="budgetRegister" id="budgetRegisterForm"
@@ -34,11 +35,7 @@
 
             <div class="panel-heading clearfix">
                 <h4 class="panel-title pull-left" style="padding-top:6px;">Budget Register</h4>
-                <!--<div class="pull-right">
-                    <a href="${pageContext.request.contextPath}/budget/register/new" class="btn btn-primary btn-sm">
-                        Create New
-                    </a>
-                </div>-->
+
             </div>
 
             <div class="panel-body">
@@ -54,7 +51,7 @@
                             <th>Name</th>
                             <th>Financial Year</th>
                             <th>Status</th>
-                            <!--<th>Created Date</th>-->
+                            <th>Created Date</th>
                         </tr>
                         </thead>
                         <tr>
@@ -62,11 +59,11 @@
                             <td><c:out value="${budgetRegister.budgetRegisterName}" /></td>
                             <td><c:out value="${budgetRegister.financialYear.finYearRange}" /></td>
                             <td>
-                                <c:out value="${budgetRegister.status.code}" />
+                                <c:out value="${budgetRegister.status.description}" />
                             </td>
-                            <!--<td>
-                                <fmt:formatDate value="${budgetRegister.createdDate}" pattern="dd-MMM-yyyy HH:mm" />
-                            </td>-->
+                            <td>
+                                <fmt:formatDate value="${budgetRegister.createdDate}" pattern="dd-MMM-yyyy hh:mm a" />
+                            </td>
                         </tr>
 
                     </table>
@@ -97,6 +94,10 @@
 
                 </div>
 
+
+                <c:if test="${!workflowHistory.isEmpty()}">
+                    <jsp:include page="../../common/commonworkflowhistory-view.jsp"></jsp:include>
+                </c:if>
 
                 <c:if test="${not empty showWorkflow}">
 

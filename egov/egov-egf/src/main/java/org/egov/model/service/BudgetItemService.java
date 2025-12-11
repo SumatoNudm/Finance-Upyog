@@ -1,6 +1,7 @@
 package org.egov.model.service;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +15,7 @@ import org.egov.commons.dao.SchemeHibernateDAO;
 import org.egov.commons.repository.FunctionRepository;
 import org.egov.commons.service.CFinancialYearService;
 import org.egov.egf.form.BudgetForm;
+import org.egov.model.budget.Budget;
 import org.egov.model.budget.BudgetHead;
 import org.egov.model.budget.BudgetItem;
 import org.egov.model.budget.BudgetRegister;
@@ -24,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 
 @Service
 public class BudgetItemService {
@@ -65,95 +68,153 @@ public class BudgetItemService {
         return budgetItemRepository.save(item);
     }
 
-    @Transactional
-    public void saveBudgetInputForm(BudgetForm form, Long budgetRegisterId) {
 
-        try {
-            // validate function
-            CFunction function = functionRepository.findOne(form.getFunctionid());
-            if (function == null) {
-                throw new Exception("The selected function not found !");
+    public BudgetRegister validateBudgetRegister(Long budgetRegisterId,final BindingResult resultBinder) {
+        BudgetRegister mBudgetRegister = budgetRegisterWorkflowService.findOne(budgetRegisterId);
+        if (mBudgetRegister == null) {
+            resultBinder.reject("budgetRegister", "The selected budget register is not available or invalid.");
+        }
+        return mBudgetRegister;
+    }
+
+    public CFunction validateFunction(Long functionId, final  BindingResult bindingResult) {
+        CFunction function = functionRepository.findOne(functionId);
+        if (function == null) {
+            bindingResult.reject("function", "* The selected function is not available or invalid.");
+        }
+        return function;
+    }
+
+    public void validateOpeningBudget(BudgetItem openingBalance, final BindingResult bindingResult, CFunction function, BudgetRegister budgetRegister) {
+        if (!openingBalance.isValuesFilled()) {
+            bindingResult.reject("opening", "* Fill all values of opening balance.");
+            if (openingBalance.getCurrentEstimate() == null) {
+                bindingResult.rejectValue("opening.currentEstimate",  "opening.currentEstimate", "Budget estimate is invalid.");
+            }
+            if (openingBalance.getCurrentActual() == null) {
+                bindingResult.rejectValue("opening.currentActual",  "opening.currentActual", "Budget estimate actual is invalid.");
+            }
+            if (openingBalance.getCurrentRevisedEstimate() == null) {
+                bindingResult.rejectValue("opening.currentRevisedEstimate",  "opening.currentRevisedEstimate", "Budget revised estimate is invalid.");
+            }
+            if (openingBalance.getNextEstimate() == null) {
+                bindingResult.rejectValue("opening.nextEstimate",  "opening.nextEstimate", "Next estimate is invalid.");
+            }
+        } else {
+            openingBalance.setBudgetGroup("Opening_Balance");
+            openingBalance.setFunction(function);
+            openingBalance.setFinancialYear(budgetRegister.getFinancialYear());
+            openingBalance.setCurrentFinancialYear(budgetRegister.getCurrentFinancialYear());
+            openingBalance.setBudgetRegister(budgetRegister);
+        }
+    }
+
+    public void validateBudgetItems(List<BudgetItem> budgetItems, final BindingResult bindingResult, CFunction function, BudgetRegister budgetRegister) {
+
+        for (int i = 0; i < budgetItems.size(); i++) {
+            BudgetItem item = budgetItems.get(i);
+
+            item.setFunction(function);
+            item.setFinancialYear(budgetRegister.getFinancialYear());
+            item.setCurrentFinancialYear(budgetRegister.getCurrentFinancialYear());
+            item.setBudgetRegister(budgetRegister);
+
+
+            // Numeric validations
+            if (item.getCurrentEstimate() == null) {
+                bindingResult.rejectValue("items[" + i + "].currentEstimate",
+                        "budget.currentEstimate.invalid",
+                        "Budget estimate is invalid.");
+            }
+            if (item.getCurrentActual() == null) {
+                bindingResult.rejectValue("items[" + i + "].currentActual",
+                        "budget.currentActual.invalid",
+                        "Budget actual is invalid.");
+            }
+            if (item.getCurrentRevisedEstimate() == null) {
+                bindingResult.rejectValue("items[" + i + "].currentRevisedEstimate",
+                        "budget.currentRevisedEstimate.invalid",
+                        "Budget revised estimate is invalid.");
+            }
+            if (item.getNextEstimate() == null) {
+                bindingResult.rejectValue("items[" + i + "].nextEstimate",
+                        "budget.nextEstimate.invalid",
+                        "Next estimate is invalid.");
             }
 
-            BudgetRegister budgetRegister = budgetRegisterWorkflowService.findOne(budgetRegisterId);
-
-            if (budgetRegister == null) {
-                throw new Exception("Selected budget register is invalid or not available.");
+            // Validate Budget Head
+            if (item.getBudgetHead() == null || item.getBudgetHead().getId() == null) {
+                bindingResult.rejectValue("items[" + i + "].budgetHead.id",
+                        "budgetHead.id.invalid",
+                        "Select a budget head.");
+                continue;
             }
 
-
-            // Validate financial years
-            CFinancialYear financialYear = financialYearService.findOne(form.getFinancialYear());
-            CFinancialYear nextFinancialYear = financialYearService.findOne(form.getCurrentFinancialYear());
-            if (financialYear == null || nextFinancialYear == null) {
-                throw new Exception("Financial year not found !");
+            BudgetHead head = budgetHeadService.findById(item.getBudgetHead().getId());
+            if (head == null) {
+                bindingResult.rejectValue("items[" + i + "].budgetHead.id",
+                        "budgetHead.id.invalid",
+                        "Select a valid budget head.");
+                continue;
             }
 
-            // ---------------------------------
-            // Save Opening Balance
-            // ---------------------------------
-            if (form.getOpening() != null) {
-                BudgetItem opening = form.getOpening();
-                opening.setBudgetGroup("Opening_Balance");
-                opening.setFunction(function);
-                opening.setFinancialYear(financialYear);
-                opening.setCurrentFinancialYear(nextFinancialYear);
+            item.setBudgetHead(head);
 
-                opening.setBudgetRegister(budgetRegister);
-                budgetItemRepository.save(opening);
+            // If program = yes → scheme is required
+            if ("yes".equalsIgnoreCase(head.getProgram())) {
+
+                if (item.getScheme() == null || item.getScheme().getId() == null) {
+                    bindingResult.rejectValue("items[" + i + "].scheme.id",
+                            "scheme.id.required",
+                            "Scheme is required.");
+                    continue;
+                }
+
+                Scheme scheme = schemeHibernateDAO.getCurrentSession().get(Scheme.class,
+                        item.getScheme().getId());
+                if (scheme == null) {
+                    bindingResult.rejectValue("items[" + i + "].scheme.id",
+                            "scheme.id.invalid",
+                            "Select a valid scheme.");
+                } else {
+                    item.setScheme(scheme);
+                }
+
+            } else {
+                item.setScheme(null);
             }
+        }
 
-            // ---------------------------------
-            // Running totals
-            // ---------------------------------
-            BigDecimal BudgetEstimateRevenue = BigDecimal.ZERO;
-            BigDecimal ActualRevenue = BigDecimal.ZERO;
-            BigDecimal RevisedEstimateRevenue = BigDecimal.ZERO;
-            BigDecimal nextBudgetEstimateRevenue = BigDecimal.ZERO;
 
-            BigDecimal BudgetEstimateExpenditure = BigDecimal.ZERO;
-            BigDecimal ActualExpenditure = BigDecimal.ZERO;
-            BigDecimal RevisedEstimateExpenditure = BigDecimal.ZERO;
-            BigDecimal nextBudgetEstimateExpenditure = BigDecimal.ZERO;
+    }
 
-            // ---------------------------------
-            // Save Budget Items
-            // ---------------------------------
-            if (form.getItems() != null && !form.getItems().isEmpty()) {
-                List<BudgetItem> items = form.getItems();
+    @Transactional(rollbackFor = Exception.class)
+    public void saveBudgetInputForm(BudgetForm form, BudgetRegister budgetRegister, CFunction function) throws Exception {
 
-                for (BudgetItem item : items) {
 
-                    if (item.getBudgetHead() == null || item.getBudgetHead().getId() == null) {
-                        continue;
-                    }
+        // save opening budget
+        BudgetItem openingBalance = form.getOpening();
+        budgetItemRepository.save(form.getOpening());
 
-                    item.setFunction(function);
-                    item.setFinancialYear(financialYear);
-                    item.setCurrentFinancialYear(nextFinancialYear);
 
-                    item.setBudgetRegister(budgetRegister);
+        // calculate totals
 
-                    // validating budget head
-                    BudgetHead bh = budgetHeadService.findById(item.getBudgetHead().getId());
-                    if (bh == null) {
-                        throw new Exception("Invalid budget head on " + item.getBudgetGroup());
-                    }
-                    item.setBudgetHead(bh);
+        // Revenue
+        BigDecimal BudgetEstimateRevenue = BigDecimal.ZERO;
+        BigDecimal ActualRevenue = BigDecimal.ZERO;
+        BigDecimal RevisedEstimateRevenue = BigDecimal.ZERO;
+        BigDecimal nextBudgetEstimateRevenue = BigDecimal.ZERO;
 
-                    // validating scheme
-                    if (item.getScheme() != null && item.getScheme().getId() != null) {
-                        Scheme scheme = schemeHibernateDAO.getCurrentSession().load(Scheme.class,
-                                item.getScheme().getId());
-                        if (scheme == null) {
-                            throw new Exception("Invalid scheme on " + item.getBudgetGroup());
-                        }
-                        item.setScheme(scheme);
-                    } else {
-                        item.setScheme(null);
-                    }
+        // Expenditure
+        BigDecimal BudgetEstimateExpenditure = BigDecimal.ZERO;
+        BigDecimal ActualExpenditure = BigDecimal.ZERO;
+        BigDecimal RevisedEstimateExpenditure = BigDecimal.ZERO;
+        BigDecimal nextBudgetEstimateExpenditure = BigDecimal.ZERO;
 
-                    // Categorize revenue / expenditure
+        if (form.getItems() != null && !form.getItems().isEmpty()) {
+
+                for (BudgetItem item : form.getItems()) {
+
                     final String code = item.getBudgetHead().getAccountTypeCode();
                     if (code == null)
                         continue;
@@ -177,134 +238,51 @@ public class BudgetItemService {
                         default:
                             break;
                     }
-
-                    LOGGER.info("Budget Estimate Revenue:" + BudgetEstimateRevenue + ", Actual Revenue:" + ActualRevenue
-                            + ", Revised Estimate Revenue:" + RevisedEstimateRevenue + ", Next Budget Estimate Revenue:"
-                            + nextBudgetEstimateRevenue);
-                    LOGGER.info("Budget Estimate Expenditure:" + BudgetEstimateExpenditure + ", Actual Expenditure:"
-                            + ActualExpenditure + ", Revised Estimate Expenditure:" + RevisedEstimateExpenditure
-                            + ", Next Budget Estimate Expenditure:" + nextBudgetEstimateExpenditure);
-
-                    budgetItemRepository.save(item);
                 }
-
-            }
-
-            // ---------------------------------
-            // Compute Final Totals
-            // ---------------------------------
-            BigDecimal totalBudgetEstimate = BudgetEstimateRevenue.subtract(BudgetEstimateExpenditure);
-            BigDecimal totalActual = ActualRevenue.subtract(ActualExpenditure);
-            BigDecimal totalRevisedEstimate = RevisedEstimateRevenue.subtract(RevisedEstimateExpenditure);
-            BigDecimal totalNextBudgetEstimate = nextBudgetEstimateRevenue.subtract(nextBudgetEstimateExpenditure);
-
-            LOGGER.info("Budget Estimate:{}, Actual:{}, Revised Estimate:{}, Next Budget Estimate:{}",
-                    totalBudgetEstimate, totalActual, totalRevisedEstimate, totalNextBudgetEstimate);
-
-            BudgetItem openingBalance = form.getOpening();
-
-            // ---------------------------------
-            // Closing Balance
-            // ---------------------------------
-            BudgetItem closingBalance = new BudgetItem();
-            closingBalance.setFunction(function);
-            closingBalance.setFinancialYear(financialYear);
-            closingBalance.setCurrentFinancialYear(nextFinancialYear);
-            closingBalance.setBudgetGroup("Closing_Balance");
-            closingBalance.setCurrentEstimate(openingBalance.getCurrentEstimate().add(totalBudgetEstimate));
-            closingBalance.setCurrentActual(openingBalance.getCurrentActual().add(totalActual));
-            closingBalance
-                    .setCurrentRevisedEstimate(openingBalance.getCurrentRevisedEstimate().add(totalRevisedEstimate));
-            closingBalance.setNextEstimate(openingBalance.getNextEstimate().add(totalNextBudgetEstimate));
-
-            closingBalance.setBudgetRegister(budgetRegister);
-
-            budgetItemRepository.save(closingBalance);
-
-            // Save Closing Balance
-            // if (form.getClosing() != null) {
-            // BudgetItem closing = form.getClosing();
-            // closing.setBudgetGroup("Closing_Balance");
-            // closing.setFunction(function);
-            // closing.setFinancialYear(financialYear);
-            // closing.setCurrentFinancialYear(nextFinancialYear);
-            // budgetItemRepository.save(closing);
-            // }
-
-            // final BudgetRegister budgetRegister = new BudgetRegister();
-            // budgetRegister.setBudgetRegisterNumber("bud-2026-27-001");
-            // budgetRegister.setFinancialYear(financialYearService.getCurrentFinancialYear());
-            // budgetRegister.setBudgetType("RE");
-            // budgetRegister.setStatus(egwStatusDAO.getStatusByModuleAndCode(FinancialConstants.BUDGET_MODULE,
-            // FinancialConstants.BUDGET_CREATED_STATUS));
-
-            // BudgetRegister saved = budgetRegisterWorkflowService.create(
-            // budgetRegister,101L, "Initial submission for review", null, "START", "FMO"
-            // );
-            //
-            //
-            // LOGGER.info("Budget Register");
-            // LOGGER.info("ID:{}", saved.getId());
-            // LOGGER.info("Number:{}", saved.getBudgetRegisterNumber());
-            // LOGGER.info("Workflow State:{}", saved.getCurrentState().getValue());
-
-        } catch (Exception e) {
-            e.printStackTrace();
         }
 
+        BigDecimal totalBudgetEstimate = BudgetEstimateRevenue.subtract(BudgetEstimateExpenditure);
+        BigDecimal totalActual = ActualRevenue.subtract(ActualExpenditure);
+        BigDecimal totalRevisedEstimate = RevisedEstimateRevenue.subtract(RevisedEstimateExpenditure);
+        BigDecimal totalNextBudgetEstimate = nextBudgetEstimateRevenue.subtract(nextBudgetEstimateExpenditure);
+
+        BudgetItem closingBalance = new BudgetItem();
+        closingBalance.setFunction(function);
+        closingBalance.setFinancialYear(budgetRegister.getFinancialYear());
+        closingBalance.setCurrentFinancialYear(budgetRegister.getCurrentFinancialYear());
+        closingBalance.setBudgetGroup("Closing_Balance");
+        closingBalance.setCurrentEstimate(openingBalance.getCurrentEstimate().add(totalBudgetEstimate));
+        closingBalance.setCurrentActual(openingBalance.getCurrentActual().add(totalActual));
+        closingBalance
+                .setCurrentRevisedEstimate(openingBalance.getCurrentRevisedEstimate().add(totalRevisedEstimate));
+        closingBalance.setNextEstimate(openingBalance.getNextEstimate().add(totalNextBudgetEstimate));
+
+        closingBalance.setBudgetRegister(budgetRegister);
+
+        budgetItemRepository.save(closingBalance);
+
+
+        // save all budget items
+        budgetItemRepository.save(form.getItems());
     }
 
-    public void getFunctionWiseBudgetItems(final Long functionId, final Model model) {
-
-    }
-
-    // public List<BudgetItem> findByTypeAndFunctionIdAndFinancialYearId(String
-    // type, CFunction function, Long fyId) {
-    // return
-    // budgetItemRepository.findByBudgetGroupAndCurrentFinancialYearIdAndFunction(type,
-    // fyId, function);
-    //
-    // }
-
-    public Map<String, List<BudgetItem>> getBudgetItemsByTypesFunctionFy(
-            List<String> types, CFunction function, CFinancialYear financialYear) {
-
-        List<BudgetItem> items = budgetItemRepository
-                .findByBudgetGroupInAndFunctionAndCurrentFinancialYear(types, function, financialYear);
-
-        // LOGGER.info("inside service!");
-        // LOGGER.info(items.size());
-        // items.forEach(i -> LOGGER.info(i.getBudgetCode()));
-
-        return items.stream()
-                .collect(Collectors.groupingBy(BudgetItem::getBudgetGroup));
-    }
 
     public Map<String, List<BudgetItem>> getBudgetItemsByTypesFunctionFyBudgetRegister(
-            List<String> types, CFunction function, CFinancialYear financialYear, BudgetRegister budgetRegister) {
+            List<String> types, CFunction function, BudgetRegister budgetRegister) {
 
         List<BudgetItem> items = budgetItemRepository
-                .findByBudgetGroupInAndFunctionAndCurrentFinancialYearAndBudgetRegister(types, function, financialYear, budgetRegister);
+                .findByBudgetGroupInAndFunctionAndBudgetRegister(types, function, budgetRegister);
 
-        // LOGGER.info("inside service!");
-        // LOGGER.info(items.size());
-        // items.forEach(i -> LOGGER.info(i.getBudgetCode()));
 
         return items.stream()
                 .collect(Collectors.groupingBy(BudgetItem::getBudgetGroup));
     }
 
-    public List<BudgetItem> getBudgetItemsByFunctionAndCurrentFinancialYear(CFunction function,
-            CFinancialYear currentFinancialYear) {
-        List<BudgetItem> budgetItems = budgetItemRepository.findByFunctionAndCurrentFinancialYear(function,
-                currentFinancialYear);
-        return budgetItems;
+
+    public Map<String, List<BudgetItem>> getBudgetItemsByTypesFunctionAndBudgetRegister(List<String> types, CFunction function, BudgetRegister budgetRegister) {
+        return budgetItemRepository.findByBudgetGroupInAndFunctionAndBudgetRegister(types, function, budgetRegister).stream().collect(Collectors.groupingBy(BudgetItem::getBudgetGroup));
     }
 
-    public Boolean checkIfBudgetExistsForFunctionAndFinancialYear(CFunction function,
-            CFinancialYear currentFinancialYear) {
-        return budgetItemRepository.existsBudgetForCurrentFY(function.getId(), currentFinancialYear.getId());
-    }
 
     public Boolean checkIfBudgetExistsForFunctionAndFinancialYearAndBudgetRegister(CFunction function,
                                                                                    CFinancialYear currentFinancialYear, BudgetRegister budgetRegister) {
@@ -319,56 +297,6 @@ public class BudgetItemService {
         return code.equalsIgnoreCase("rr") || code.equalsIgnoreCase("cr");
     }
 
-    public BigDecimal calculateClosingBalance(List<BudgetItem> items) {
-
-        if (items == null || items.isEmpty()) {
-            return BigDecimal.ZERO;
-        }
-
-        BigDecimal rr = BigDecimal.ZERO; // Revenue Receipts
-        BigDecimal cr = BigDecimal.ZERO; // Capital Receipts
-        BigDecimal re = BigDecimal.ZERO; // Revenue Expenditure
-        BigDecimal ce = BigDecimal.ZERO; // Capital Expenditure
-
-        for (BudgetItem item : items) {
-            if (item == null || item.getBudgetHead() == null) {
-                continue;
-            }
-
-            String code = item.getBudgetHead().getCode();
-            if (code == null) {
-                continue;
-            }
-
-            // choose which amount to use for calculation
-            BigDecimal amount = item.getNextEstimate(); // or getCurrentRevisedEstimate(), etc.
-            if (amount == null) {
-                amount = BigDecimal.ZERO;
-            }
-
-            switch (code) {
-                case "RR": // Revenue Receipts
-                    rr = rr.add(amount);
-                    break;
-                case "CR": // Capital Receipts
-                    cr = cr.add(amount);
-                    break;
-                case "RE": // Revenue Expenditure
-                    re = re.add(amount);
-                    break;
-                case "CE": // Capital Expenditure
-                    ce = ce.add(amount);
-                    break;
-                default:
-                    // unknown code -> ignore or log
-                    // LOGGER.warn("Unknown budget head code for closing balance: {}", code);
-                    break;
-            }
-        }
-
-        // closing balance = RR + CR - RE - CE
-        return rr.add(cr).subtract(re).subtract(ce);
-    }
 
     @Transactional
     public void updateBudgetInputForm(BudgetForm form, BudgetRegister budgetRegister) {
@@ -595,4 +523,7 @@ public class BudgetItemService {
                 .collect(Collectors.groupingBy(BudgetItem::getBudgetGroup));
     }
 
+    public boolean validateIfFunctionBudgetExists(BudgetRegister budgetRegister, CFunction function) {
+        return budgetItemRepository.existsFunctionWiseBudget(function.getId(), budgetRegister.getId());
+    }
 }

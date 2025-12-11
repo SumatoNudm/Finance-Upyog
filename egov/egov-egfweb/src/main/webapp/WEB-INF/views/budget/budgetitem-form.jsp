@@ -6,6 +6,8 @@
 <form:form role="form" action="create" modelAttribute="budgetForm" id="budgetItemFunction"
 	cssClass="form-horizontal form-groups-bordered" enctype="multipart/form-data">
 
+	<form:errors cssClass="error-msg" />
+
 	<div class="main-content">
 		<div class="row">
 			<div class="col-md-12">

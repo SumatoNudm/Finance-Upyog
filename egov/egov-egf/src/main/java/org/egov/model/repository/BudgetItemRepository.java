@@ -33,6 +33,8 @@ public interface BudgetItemRepository extends JpaRepository<BudgetItem, Long> {
     List<BudgetItem> findByBudgetGroupInAndFunctionAndCurrentFinancialYearAndBudgetRegister(
             List<String> budgetGroup, CFunction function, CFinancialYear currentFinancialYear, BudgetRegister budgetRegister);
 
+    List<BudgetItem> findByBudgetGroupInAndFunctionAndBudgetRegister(List<String> budgetGroup, CFunction function, BudgetRegister budgetRegister);
+
     List<BudgetItem> findByBudgetGroupInAndBudgetRegister(
             List<String> budgetGroup, BudgetRegister budgetRegister);
 
@@ -46,6 +48,11 @@ public interface BudgetItemRepository extends JpaRepository<BudgetItem, Long> {
             "and b.currentFinancialYear.id = :currentFinancialYearId")
     boolean existsBudgetForCurrentFY(@Param("functionId") Long functionId,
                                      @Param("currentFinancialYearId") Long currentFinancialYearId);
+
+    @Query("select count(b) > 0 from BudgetItem b " +
+            "where b.function.id = :functionId " +
+            "and b.budgetRegister.id = :budgetRegisterId")
+    boolean existsFunctionWiseBudget(@Param("functionId") Long functionId, @Param("budgetRegisterId") Long budgetRegisterId);
 
 
     BudgetItem findById(Long id);

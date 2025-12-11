@@ -86,6 +86,11 @@ public class BudgetRegister extends StateAware implements java.io.Serializable {
     @SafeHtml
     private String workFlowAction;
 
+
+    @Transient
+    private User createdByUser;
+
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -94,4 +99,6 @@ public class BudgetRegister extends StateAware implements java.io.Serializable {
     public String getStateDetails() {
         return getState().getComments().isEmpty() ? budgetRegisterNumber : budgetRegisterNumber + "-" + getState().getComments();
     }
+
+
 }
