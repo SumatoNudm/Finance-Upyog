@@ -65,6 +65,8 @@ public class BudgetHead extends AbstractAuditable {
     @Column(name = "state_code")
     private String stateCode;
 
+    private Long order;
+
     // --- Getters and Setters ---
     @Override
     public Long getId() {
@@ -140,6 +142,12 @@ public class BudgetHead extends AbstractAuditable {
         this.stateCode = stateCode;
     }
 
+    public Long getOrder() {
+        return order;
+    }
 
+    public void setOrder(Long order) {
+        this.order = order;
+    }
 
 }

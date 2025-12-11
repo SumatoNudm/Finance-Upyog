@@ -12,7 +12,7 @@ $(document).ready(function () {
     });
 
     budgethead_initialize();
-    // scheme_initialize();
+    //scheme_initialize();
 });
 
 function getCookie(name) {
@@ -128,9 +128,25 @@ function budgethead_initialize() {
             // Show/hide only inside this row
             if (program === "Yes") {
                 row.find('.scheme-container').show();
+                row.find('.scheme-input')
+                    .attr('required', 'required')
+                    .attr('data-optional', '0')
+                    .attr('data-errormsg', 'Scheme Code is mandatory!')
+                    .attr('data-idx', '0');
+
+                row.find('.scheme-input').typeahead('destroy').unbind();
+
                 scheme_initialize(row);
             } else {
                 row.find('.scheme-container').hide();
+
+                row.find('.scheme-input')
+                    .removeAttr('required')
+                    .attr('data-optional', '1')
+                    .removeAttr('data-errormsg')
+                    .removeAttr('data-idx');
+
+                row.find('.scheme-input').typeahead('destroy').unbind();
             }
 
         }
@@ -173,8 +189,8 @@ function addBudgetDetailsRow() {
     $('.budgetcode').typeahead('destroy');
     $('.budgetcode').unbind();
 
-    $('.scheme-input').typeahead('destroy');
-    $('.scheme-input').unbind();
+    // $('.scheme-input').typeahead('destroy');
+    // $('.scheme-input').unbind();
 
     var rowcount = $("#dynamicTable tbody tr").length;
     if (rowcount < 80) {
@@ -189,7 +205,6 @@ function addBudgetDetailsRow() {
         bootbox.alert($.i18n.prop('msg.limit.reached'));
     }
 }
-
 
 // function addBudgetDetailsRow() {
 //     // Destroy previous typeahead bindings
