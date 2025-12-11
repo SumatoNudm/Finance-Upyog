@@ -185,6 +185,8 @@ function budgethead_initialize() {
 
 }
 
+
+
 function addBudgetDetailsRow() {
     $('.budgetcode').typeahead('destroy');
     $('.budgetcode').unbind();
@@ -347,4 +349,40 @@ function scheme_initialize(row) {
         //row.find('.stateBudgetCode').val(statecode + "-" + data.stateCode);
         row.find('.stateBudgetCode').val(statecode + "-" + (data.stateCode || "").trim());
     });
+
+
+    addSchemeValidations();
+
+}
+
+
+function addSchemeValidations() {
+    // Clear hidden fields *whenever user types*
+        $('.scheme-input').on('input', function () {
+            var row = $(this).parents("tr:first");
+
+            var stateCode = row.find('.stateCode').val();
+
+            row.find(".schemeId").val("");
+            row.find(".stateBudgetCode").val(stateCode);
+
+            $(this).removeClass("is-invalid");
+        });
+
+        // Simple invalid code check
+        $('.scheme-input').on('blur', function () {
+            var row = $(this).parents("tr:first");
+             var stateCode = row.find('.stateCode').val();
+             var schemeId = row.find('.schemeId').val();
+
+            if (!schemeId) {
+                $(this).addClass("is-invalid");
+                row.find(".schemeId").val("");
+                row.find(".scheme-input").val("");
+                row.find(".stateBudgetCode").val(stateCode);
+                bootbox.alert("Invalid Scheme !");
+            } else {
+                $(this).removeClass("is-invalid");
+            }
+        });
 }
