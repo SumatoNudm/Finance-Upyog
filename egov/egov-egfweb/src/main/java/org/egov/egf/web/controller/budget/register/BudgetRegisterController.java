@@ -85,16 +85,6 @@ public class BudgetRegisterController extends GenericWorkFlowController {
 
         String name = "Budget-" + financialYearMap.get("nextFy").getFinYearRange();
 
-        /*
-         * List<BudgetRegister> budgetRegisters =
-         * budgetRegisterWorkflowService.findByFinancialYears(financialYearMap.get(
-         * "currentFy"), financialYearMap.get("nextFy"));
-         * 
-         * if (budgetRegisters != null && !budgetRegisters.isEmpty()) {
-         * model.addAttribute("error",
-         * "Budget is already created for the financial year !");
-         * }
-         */
 
         BudgetRegister availableBudgetRegister = budgetRegisterWorkflowService
                 .findLatestByFinancialYears(financialYearMap.get("currentFy"), financialYearMap.get("nextFy"));
@@ -104,34 +94,49 @@ public class BudgetRegisterController extends GenericWorkFlowController {
                 && availableBudgetRegister.getStatus().getCode() != null
                 && !availableBudgetRegister.getStatus().getCode().equalsIgnoreCase("rejected")) {
 
-//            model.addAttribute("error", "Budget is already created for the financial year !");
+            model.addAttribute("error", "Budget is already created for the financial year !");
         }
 
-        // BudgetRegister budgetRegister = new BudgetRegister();
         budgetRegister.setBudgetRegisterName(name);
         budgetRegister.setCurrentFinancialYear(financialYearMap.get("currentFy"));
         budgetRegister.setFinancialYear(financialYearMap.get("nextFy"));
 
         model.addAttribute("budgetRegister", budgetRegister);
 
-        // model.addAttribute(STATE_TYPE, budgetRegister.getClass().getSimpleName());
-
-        // prepareWorkflow(model, budgetRegister, new WorkflowContainer());
 
         return BUDGET_HEADER_NEW;
     }
 
-    // public String create(final BudgetRegister budgetRegister, RedirectAttributes
-    // redirectAttributes, final HttpServletRequest request, @RequestParam @SafeHtml
-    // final String workFlowAction) {
+
     @PostMapping(value = "/create")
-    public String create(final BudgetRegister budgetRegister, RedirectAttributes redirectAttributes,
+    public String create(final BudgetRegister budgetRegister, final Model model, RedirectAttributes redirectAttributes,
             final HttpServletRequest request) {
 
-        LOGGER.info("name:" + budgetRegister.getBudgetRegisterName() + ", number: "
-                + budgetRegister.getBudgetRegisterNumber() + ", currentFy: "
-                + budgetRegister.getCurrentFinancialYear().getId() + ", nextFy: "
-                + budgetRegister.getFinancialYear().getId());
+        Map<String, CFinancialYear> financialYearMap = addFinancialYears(model);
+
+        if (financialYearMap == null || financialYearMap.get("currentFy") == null || financialYearMap.get("nextFy") == null) {
+            return BUDGET_REGISTER_ERROR;
+        }
+
+
+        BudgetRegister availableBudgetRegister = budgetRegisterWorkflowService
+                .findLatestByFinancialYears(financialYearMap.get("currentFy"), financialYearMap.get("nextFy"));
+
+        if (availableBudgetRegister != null
+                && availableBudgetRegister.getStatus() != null
+                && availableBudgetRegister.getStatus().getCode() != null
+                && !availableBudgetRegister.getStatus().getCode().equalsIgnoreCase("rejected")) {
+
+            model.addAttribute("error", "Budget is already created for the financial year !");
+            redirectAttributes.addAttribute("error", "Budget is already created for the financial year !");
+
+//            budgetRegister.setBudgetRegisterName(name);
+            budgetRegister.setCurrentFinancialYear(financialYearMap.get("currentFy"));
+            budgetRegister.setFinancialYear(financialYearMap.get("nextFy"));
+
+            model.addAttribute("budgetRegister", budgetRegister);
+            return BUDGET_HEADER_NEW;
+        }
 
         final CFinancialYear currentFy = cFinancialYearService
                 .findOne(budgetRegister.getCurrentFinancialYear().getId());
