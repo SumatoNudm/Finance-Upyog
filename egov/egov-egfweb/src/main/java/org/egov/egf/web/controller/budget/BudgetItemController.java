@@ -208,7 +208,7 @@ public class BudgetItemController {
 
 
 		if (resultBinder.hasErrors()) {
-			populateValidationErrors(model, function, budgetRegisterId, budgetForm);
+			populateValidationErrors(model, function, budgetRegisterId, budgetForm, budgetRegister);
 			return BUDGET_FORM;
 		}
 
@@ -226,11 +226,12 @@ public class BudgetItemController {
 		return "forward:/budget/view/" + budgetForm.getFunctionid() + "/" + budgetRegisterId;
 	}
 
-	private void populateValidationErrors(Model model, CFunction function, Long budgetRegisterId, BudgetForm budgetForm) {
+	private void populateValidationErrors(Model model, CFunction function, Long budgetRegisterId, BudgetForm budgetForm, BudgetRegister budgetRegister) {
 		model.addAttribute("id", function.getId());
 		model.addAttribute("function", function);
 		model.addAttribute("budgetRegisterId", budgetRegisterId);
 		model.addAttribute("budgetForm", budgetForm);
+		model.addAttribute("budgetRegister", budgetRegister);
 		addFinancialYears(model);
 
 	}
@@ -497,25 +498,30 @@ public class BudgetItemController {
 	}
 
 	@PostMapping("/update/{budgetRegisterId}")
-	public String update(@ModelAttribute BudgetForm budgetForm, @PathVariable("budgetRegisterId") Long budgetRegisterId,
+	public String update(Model model, @ModelAttribute @Valid BudgetForm budgetForm, final BindingResult resultBinder, @PathVariable("budgetRegisterId") Long budgetRegisterId,
 			RedirectAttributes redirectAttrs) {
 
+		// validate budget register
+		BudgetRegister budgetRegister = null;
+		budgetRegister =  budgetItemService.validateBudgetRegister(budgetRegisterId, resultBinder);
+
+		//validate function
+		CFunction function = budgetItemService.validateFunction(budgetForm.getFunctionid(), resultBinder);
+
+		// validate opening balance
+		budgetItemService.validateOpeningBudget(budgetForm.getOpening(), resultBinder, function, budgetRegister);
+
+
+		// validate each entries
+		budgetItemService.validateBudgetItems(budgetForm.getItems(), resultBinder, function, budgetRegister);
+
+		if (resultBinder.hasErrors()) {
+			populateValidationErrors(model, function, budgetRegisterId, budgetForm, budgetRegister);
+			return BUDGET_ITEM_EDIT;
+		}
+
+
 		try {
-
-			BudgetRegister budgetRegister = budgetRegisterWorkflowService.findOne(budgetRegisterId);
-
-			if (budgetRegister == null) {
-				redirectAttrs.addAttribute("error", "Selected Budget register not available or invalid.");
-				return "redirect:/budget/new";
-			}
-
-			LOGGER.info("update form \n\n");
-			LOGGER.info(budgetForm.getOpening().getId());
-			LOGGER.info(budgetForm.getFunctionid());
-			LOGGER.info(budgetForm.getCurrentFinancialYear());
-			LOGGER.info(budgetForm.getFinancialYear());
-
-			System.out.println("Opening in POST = " + budgetForm.getOpening().getId());
 
 			budgetItemService.updateBudgetInputForm(budgetForm, budgetRegister); // inside service: save opening, items,
 																					// closing
@@ -523,6 +529,7 @@ public class BudgetItemController {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			return "error/422";
 		}
 
 		return "redirect:/budget/view/" + budgetForm.getFunctionid() + "/" + budgetRegisterId;
