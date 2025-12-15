@@ -10,6 +10,7 @@ import org.egov.eis.service.OldEmployeeService;
 import org.egov.eis.web.contract.WorkflowContainer;
 import org.egov.eis.web.controller.workflow.GenericWorkFlowController;
 import org.egov.infra.admin.master.entity.User;
+import org.egov.infra.microservice.models.Assignment;
 import org.egov.infra.microservice.models.Designation;
 import org.egov.infra.microservice.models.EmployeeInfo;
 import org.egov.infra.microservice.utils.MicroserviceUtils;
@@ -17,6 +18,7 @@ import org.egov.infra.security.utils.SecurityUtils;
 import org.egov.infra.workflow.entity.StateHistory;
 import org.egov.model.budget.BudgetRegister;
 import org.egov.model.service.BudgetRegisterWorkflowService;
+import org.egov.pims.commons.Position;
 import org.egov.utils.FinancialConstants;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,7 +94,8 @@ public class BudgetRegisterController extends GenericWorkFlowController {
         if (availableBudgetRegister != null
                 && availableBudgetRegister.getStatus() != null
                 && availableBudgetRegister.getStatus().getCode() != null
-                && !availableBudgetRegister.getStatus().getCode().equalsIgnoreCase("rejected")) {
+                && !(availableBudgetRegister.getStatus().getCode().equalsIgnoreCase("rejected")
+        || availableBudgetRegister.getStatus().getCode().equalsIgnoreCase("cancelled"))) {
 
             model.addAttribute("error", "Budget is already created for the financial year !");
         }
@@ -125,7 +128,8 @@ public class BudgetRegisterController extends GenericWorkFlowController {
         if (availableBudgetRegister != null
                 && availableBudgetRegister.getStatus() != null
                 && availableBudgetRegister.getStatus().getCode() != null
-                && !availableBudgetRegister.getStatus().getCode().equalsIgnoreCase("rejected")) {
+                && !(availableBudgetRegister.getStatus().getCode().equalsIgnoreCase("rejected")
+                || availableBudgetRegister.getStatus().getCode().equalsIgnoreCase("cancelled"))) {
 
             model.addAttribute("error", "Budget is already created for the financial year !");
             redirectAttributes.addAttribute("error", "Budget is already created for the financial year !");
@@ -153,23 +157,6 @@ public class BudgetRegisterController extends GenericWorkFlowController {
 
         budgetRegisterWorkflowService.initiateBudgetRegisterWf(budgetRegister);
 
-        // Long approvalPosition = 0l;
-        // String approvalComment = "";
-        // String approvalDesignation = "";
-        // if (request.getParameter("approvalComent") != null)
-        // approvalComment = request.getParameter("approvalComent");
-        // if (request.getParameter(APPROVAL_POSITION) != null &&
-        // !request.getParameter(APPROVAL_POSITION).isEmpty())
-        // approvalPosition = Long.valueOf(request.getParameter(APPROVAL_POSITION));
-        // if (request.getParameter(APPROVAL_DESIGNATION) != null
-        // && !request.getParameter(APPROVAL_DESIGNATION).isEmpty())
-        // approvalDesignation =
-        // String.valueOf(request.getParameter(APPROVAL_DESIGNATION));
-        //
-        //
-        // LOGGER.info("comment:" + approvalComment + ", position: " + approvalPosition
-        // + ", designation: " + approvalDesignation);
-
         redirectAttributes.addAttribute("message", "Budget Register Created !");
         redirectAttributes.addAttribute("hideError", "true");
 
@@ -182,17 +169,6 @@ public class BudgetRegisterController extends GenericWorkFlowController {
         List<BudgetRegister> budgetRegisters = budgetRegisterWorkflowService.findBudgetRegisters();
         List<CFinancialYear> financialYears = financialYearService.getAllFinancialYears();
 
-        /*
-         * LOGGER.info("Budget Register: ");
-         * budgetRegisters.forEach(budgetRegister -> {
-         * LOGGER.info("Number: " + budgetRegister.getBudgetRegisterNumber() +
-         * ", Name: " + budgetRegister.getBudgetRegisterName() + ", created Date: " +
-         * budgetRegister.getCreatedDate() + ", currentFy: " +
-         * budgetRegister.getCurrentFinancialYear().getFinYearRange() + ", next Fy: " +
-         * budgetRegister.getFinancialYear().getFinYearRange() + ", status: " +
-         * budgetRegister.getStatus().getCode()) ;
-         * });
-         */
 
         model.addAttribute("budgetRegisters", budgetRegisters);
         model.addAttribute("financialYears", financialYears);
@@ -223,7 +199,7 @@ public class BudgetRegisterController extends GenericWorkFlowController {
 
         List<EmployeeInfo> emplist = microServiceUtil.getEmployee(currentUser.getId(), null, null, null);
 
-        Boolean allowCreate = false;
+        boolean allowCreate = false;
 
         if (emplist != null && !emplist.isEmpty()) {
             String designation = emplist.get(0).getAssignments().get(0).getDesignation();
@@ -280,12 +256,17 @@ public class BudgetRegisterController extends GenericWorkFlowController {
                     financialUtils.getHistory(budgetRegister.getState(), budgetRegister.getStateHistory()));
         }
 
-        // else {
-        // User currentUser = securityUtils.getCurrentUser();
-        // if (currentUser.getId().equals(budgetRegister.getCreatedBy())) {
-        // model.addAttribute("showWorkflow", "true");
-        // }
-        // }
+        User user = securityUtils.getCurrentUser();
+
+        List<EmployeeInfo> emplist = microServiceUtil.getEmployee(user.getId(), null, null, null);
+
+        if (emplist != null && !emplist.isEmpty()) {
+            EmployeeInfo currentEmployee = emplist.get(0);
+           Assignment currentAssignment =  currentEmployee.getAssignments().get(currentEmployee.getAssignments().size() - 1);
+           if (budgetRegister.currentAssignee().equals(currentAssignment.getPosition())) {
+               model.addAttribute("showWorkflow", "true");
+           }
+        }
 
         return BUDGET_REGISTER_WORKFLOW_FORM;
     }

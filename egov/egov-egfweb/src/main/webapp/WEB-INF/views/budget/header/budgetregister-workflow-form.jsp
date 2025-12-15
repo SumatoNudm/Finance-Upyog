@@ -62,7 +62,7 @@
                                 <c:out value="${budgetRegister.status.description}" />
                             </td>
                             <td>
-                                <fmt:formatDate value="${budgetRegister.createdDate}" pattern="dd-MMM-yyyy HH:mm" />
+                                <fmt:formatDate value="${budgetRegister.createdDate}" pattern="dd-MMM-yyyy hh:mm a" />
                             </td>
                         </tr>
 
@@ -80,12 +80,12 @@
 
                 </div>
 
-
+                <c:if test="${not empty showWorkflow}">
                     <jsp:include page="../../common/commonworkflowmatrix-expensebill.jsp"/>
                     <div class="buttonbottom" align="center">
                         <jsp:include page="../../common/commonworkflowmatrix-button.jsp"/>
                     </div>
-
+                </c:if>
 
 
             </div>
