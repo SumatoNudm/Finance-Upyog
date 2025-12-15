@@ -162,19 +162,19 @@
                                         <form:hidden path="" name="items[${st.index}].id" id="items[${st.index}].id"
                                             value="${item.id}" class="form-control table-input hidden-input id" />
 
-                                        <td style="width: 15%;"><input type="number"
+                                        <td style="width: 15%;"><input type="number" step="0.01"
                                                 name="items[${st.index}].currentEstimate"
                                                 value="${item.currentEstimate}" class="form-control" data-errormsg="Current budget estimate is mandatory!"
 											data-idx="0" data-optional="0" required="required"></td>
-                                        <td style="width: 15%;"><input type="number"
+                                        <td style="width: 15%;"><input type="number" step="0.01"
                                                 name="items[${st.index}].currentActual" value="${item.currentActual}"
                                                 class="form-control" data-errormsg="Actuals is mandatory!" data-idx="0"
 											data-optional="0" required="required"></td>
-                                        <td style="width: 15%;"><input type="number"
+                                        <td style="width: 15%;"><input type="number" step="0.01"
                                                 name="items[${st.index}].currentRevisedEstimate"
                                                 value="${item.currentRevisedEstimate}" class="form-control" data-errormsg="Current revised estimate is mandatory!"
 											data-idx="0" data-optional="0" required="required"></td>
-                                        <td style="width: 15%;"><input type="number"
+                                        <td style="width: 15%;"><input type="number" step="0.01"
                                                 name="items[${st.index}].nextEstimate" value="${item.nextEstimate}"
                                                 class="form-control" data-errormsg="Next budget estimate is mandatory!"
 											data-idx="0" data-optional="0" required="required"></td>
