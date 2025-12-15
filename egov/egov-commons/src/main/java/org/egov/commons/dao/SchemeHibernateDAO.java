@@ -112,7 +112,7 @@ public class SchemeHibernateDAO implements SchemeDAO {
     public List<Scheme> getSchemeByNameOrCode(String queryParam) {
         String hql = "from Scheme s " +
                 "where (lower(s.name) like :search or lower(s.code) like :search) " +
-                "and s.isactive = true" +
+                "and s.isactive = true " +
                 "and s.stateCode is not null";
 
         Query query = getCurrentSession().createQuery(hql);
