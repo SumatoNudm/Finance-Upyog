@@ -59,22 +59,22 @@
                                     </td>
 
                                     <td style="width: 15%;">
-                                        <form:input type="number" path="opening.currentEstimate" cssClass="form-control"
+                                        <form:input type="number" step="0.01" path="opening.currentEstimate" cssClass="form-control"
                                             maxlength="12" />
                                     </td>
 
                                     <td style="width: 15%;">
-                                        <form:input type="number" path="opening.currentActual" cssClass="form-control"
+                                        <form:input type="number" step="0.01" path="opening.currentActual" cssClass="form-control"
                                             maxlength="12" />
                                     </td>
 
                                     <td style="width: 15%;">
-                                        <form:input type="number" path="opening.currentRevisedEstimate"
+                                        <form:input type="number" step="0.01" path="opening.currentRevisedEstimate"
                                             cssClass="form-control" maxlength="12" />
                                     </td>
 
                                     <td style="width: 15%;">
-                                        <form:input type="number" path="opening.nextEstimate" cssClass="form-control"
+                                        <form:input type="number" step="0.01" path="opening.nextEstimate" cssClass="form-control"
                                             maxlength="12" />
                                     </td>
                                 </tr>

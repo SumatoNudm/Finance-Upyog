@@ -55,16 +55,16 @@
 									<td style="width: 40%;">Opening Balance as on
 										<fmt:formatDate value="${currentFy.startingDate}" pattern="dd/MM/yyyy" />
 									</td>
-									<td style="width: 15%;"><input type="number" name="opening.currentEstimate"
+									<td style="width: 15%;"><input type="number" step="0.01" name="opening.currentEstimate"
 											data-pattern="decimalvalue" maxlength="12" class="form-control"
 											required="required"></td>
-									<td style="width: 15%;"><input type="number" name="opening.currentActual"
+									<td style="width: 15%;"><input type="number" step="0.01" name="opening.currentActual"
 											data-pattern="decimalvalue" maxlength="12" class="form-control"
 											required="required"></td>
-									<td style="width: 15%;"><input type="number" name="opening.currentRevisedEstimate"
+									<td style="width: 15%;"><input type="number" step="0.01" name="opening.currentRevisedEstimate"
 											data-pattern="decimalvalue" maxlength="12" class="form-control"
 											required="required"></td>
-									<td style="width: 15%;"><input type="number" name="opening.nextEstimate"
+									<td style="width: 15%;"><input type="number" step="0.01" name="opening.nextEstimate"
 											data-pattern="decimalvalue" maxlength="12" class="form-control"
 											required="required"></td>
 								</tr>
