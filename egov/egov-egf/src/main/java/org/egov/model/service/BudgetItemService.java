@@ -557,17 +557,13 @@ public class BudgetItemService {
 
         Map<BudgetAccountType, Map<String, List<BudgetItem>>> groupedItems = budgetItems.stream()
                 .peek(budgetItem -> {
-                    LOGGER.info("BudgetForm>BudgetHead>Id:" + budgetItem.getBudgetHead().getId());
-//					Optional<BudgetHead> budgetHead = heads.stream().filter(bh -> bh.getId().equals(budgetItem.getBudgetHead().getId())).findFirst();
                     Optional<BudgetHead> budgetHead = heads.stream()
                             .filter(bh -> bh.getId().equals(budgetItem.getBudgetHead().getId()))
                             .findFirst();
 
                     Scheme scheme = budgetItem.getScheme();
 
-
                     if (scheme != null && scheme.getId() != null) {
-//                        LOGGER.info("id:" + scheme.getId() + " , code: " + scheme.getCode() + ", name: " + scheme.getName() + ", name and code: " + scheme.getCodeAndNameForShow());
 
                        scheme = schemeHibernateDAO.getCurrentSession().get(Scheme.class,
                                 budgetItem.getScheme().getId());
@@ -584,8 +580,6 @@ public class BudgetItemService {
                     budgetItem.setBudgetRegister(budgetRegister);
                     budgetItem.setCurrentFinancialYear(budgetRegister.getCurrentFinancialYear());
                     budgetItem.setFinancialYear(budgetRegister.getFinancialYear());
-//                    budgetItem.setBudgetCode(budgetItem.generateBudgetCode());
-//                    budgetItem.setStateBudgetCode(bh.getStateCode());
                 })
                 .sorted(Comparator.comparing(item -> item.getBudgetHead().getOrder())) // sort by order
                 .collect(Collectors.groupingBy(
