@@ -387,7 +387,7 @@ function addSchemeValidations() {
             var stateCode = row.find('.stateCode').val();
 
             row.find(".schemeId").val("");
-            row.find(".stateBudgetCode").val("");
+            row.find(".stateBudgetCode").val(stateCode);
 
             $(this).removeClass("is-invalid");
         });
@@ -402,7 +402,7 @@ function addSchemeValidations() {
                 $(this).addClass("is-invalid");
                 row.find(".schemeId").val("");
                 row.find(".scheme-input").val("");
-                row.find(".stateBudgetCode").val("");
+                row.find(".stateBudgetCode").val(stateCode);
                 bootbox.alert("Invalid Scheme !");
             } else {
                 $(this).removeClass("is-invalid");

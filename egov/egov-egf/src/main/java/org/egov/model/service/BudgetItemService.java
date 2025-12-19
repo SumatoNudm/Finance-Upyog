@@ -587,6 +587,8 @@ public class BudgetItemService {
                     budgetItem.setBudgetRegister(budgetRegister);
                     budgetItem.setCurrentFinancialYear(budgetRegister.getCurrentFinancialYear());
                     budgetItem.setFinancialYear(budgetRegister.getFinancialYear());
+//                    budgetItem.setBudgetCode(budgetItem.generateBudgetCode());
+//                    budgetItem.setStateBudgetCode(bh.getStateCode());
                 })
                 .sorted(Comparator.comparing(item -> item.getBudgetHead().getOrder())) // sort by order
                 .collect(Collectors.groupingBy(

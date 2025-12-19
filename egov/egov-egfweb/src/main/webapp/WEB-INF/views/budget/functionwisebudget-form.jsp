@@ -176,6 +176,10 @@
 
                                                 <form:hidden path="items[${item.rowIndex}].budgetHead.id"/>
                                                 <form:hidden path="items[${item.rowIndex}].rowIndex"/>
+                                                <form:hidden path="items[${item.rowIndex}].budgetCode" /> <!-- normal budget code of budget item, eg: 91-RR-4027 -->
+                                                <form:hidden path="items[${item.rowIndex}].stateBudgetCode" class="stateBudgetCode" /> <!-- state budget code to be generated, eg: 4217, 4217-60 -->
+                                                <form:hidden path="items[${item.rowIndex}].budgetHead.stateCode" id="items[${item.rowIndex}].budgetHead.stateCode"
+                                                             class="form-control table-input hidden-input stateCode" /> <!-- for future use to generate state budget code, check the js -->
 
                                                 <c:if test="${item.budgetHead.schemeApplicable}">
                                                     <input type="text"
@@ -188,10 +192,9 @@
 
                                                     <form:hidden path="items[${item.rowIndex}].scheme.id" class="schemeId"  />
 
-                                                    <form:hidden path="items[${item.rowIndex}].budgetHead.stateCode" id="items[${item.rowIndex}].budgetHead.stateCode"
-                                                                 class="form-control table-input hidden-input stateCode" />
 
-                                                    <form:hidden path="items[${item.rowIndex}].stateBudgetCode" class="stateBudgetCode" />
+
+
 
                                                 </c:if>
                                             </td>

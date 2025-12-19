@@ -279,6 +279,7 @@ public class BudgetItemController {
 
 		List<BudgetHead> heads = budgetHeadService.getBudgetHeadsByFunction(function);
 
+		LOGGER.info("generateBC:");
 		List<BudgetItem> budgetItems = heads.stream().map(budgetHead -> {
 			BudgetItem budgetItem = new BudgetItem();
 			budgetItem.setBudgetHead(budgetHead);
@@ -286,6 +287,9 @@ public class BudgetItemController {
 			budgetItem.setBudgetRegister(budgetRegister);
 			budgetItem.setCurrentFinancialYear(budgetRegister.getCurrentFinancialYear());
 			budgetItem.setFinancialYear(budgetRegister.getFinancialYear());
+			LOGGER.info(budgetItem.generateBudgetCode());
+			budgetItem.setBudgetCode(budgetItem.generateBudgetCode());
+			budgetItem.setStateBudgetCode(budgetHead.getStateCode());
 
 			return budgetItem;
 		}).collect(Collectors.toList());
