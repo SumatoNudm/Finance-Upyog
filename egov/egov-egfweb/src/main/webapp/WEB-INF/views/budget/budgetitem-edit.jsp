@@ -59,13 +59,13 @@
                                     </td>
 
                                     <td style="width: 15%;">
-                                        <form:input type="number" step="0.01" path="opening.currentEstimate" cssClass="form-control"
-                                            maxlength="12" />
+                                        <form:input type="number" step="0.01" path="opening.currentEstimate"
+                                            cssClass="form-control" maxlength="12" />
                                     </td>
 
                                     <td style="width: 15%;">
-                                        <form:input type="number" step="0.01" path="opening.currentActual" cssClass="form-control"
-                                            maxlength="12" />
+                                        <form:input type="number" step="0.01" path="opening.currentActual"
+                                            cssClass="form-control" maxlength="12" />
                                     </td>
 
                                     <td style="width: 15%;">
@@ -74,8 +74,8 @@
                                     </td>
 
                                     <td style="width: 15%;">
-                                        <form:input type="number" step="0.01" path="opening.nextEstimate" cssClass="form-control"
-                                            maxlength="12" />
+                                        <form:input type="number" step="0.01" path="opening.nextEstimate"
+                                            cssClass="form-control" maxlength="12" />
                                     </td>
                                 </tr>
                             </tbody>
@@ -108,29 +108,64 @@
                                             <c:choose>
                                                 <c:when test="${item.scheme.id != null}">
                                                     <div class="scheme-container">
-                                                        <input type="text" id="items[${st.index}].schemeCode"
+                                                        <!-- <input type="text" id="items[${st.index}].schemeCode"
                                                             name="items[${st.index}].schemeCode"
                                                             value="${item.scheme.code}"
                                                             class="scheme-input form-control table-input"
-                                                            placeholder="Type Scheme code">
+                                                            placeholder="Type Scheme code"> -->
+
+                                                        <form:select path="items[${st.index}].scheme.id"
+                                                            id="items[${st.index}].schemeId"
+                                                            class="form-control scheme-input">
+
+                                                            <form:option value="">
+                                                                <spring:message code="lbl.select" />
+                                                            </form:option>
+
+                                                            <c:forEach items="${schemes}" var="scheme">
+                                                                <option value="${scheme.id}"
+                                                                    data-statecode="${scheme.stateCode}" 
+                                                                    <c:if test="${scheme.id == item.scheme.id}">selected
+                                                                    </c:if>>
+                                                                    ${scheme.code} - ${scheme.name}
+                                                                </option>
+                                                            </c:forEach>
+                                                        </form:select>
                                                     </div>
                                                 </c:when>
 
                                                 <c:otherwise>
                                                     <div class="scheme-container" style="display:none;">
-                                                        <input type="text" id="items[${st.index}].schemeCode"
+                                                        <!-- <input type="text" id="items[${st.index}].schemeCode"
                                                             name="items[${st.index}].schemeCode"
                                                             class="scheme-input form-control table-input"
-                                                            placeholder="Type Scheme code">
+                                                            placeholder="Type Scheme code"> -->
+
+                                                        <form:select path="items[${st.index}].scheme.id"
+                                                            id="items[${st.index}].schemeId"
+                                                            class="form-control scheme-input">
+
+                                                            <form:option value="">
+                                                                <spring:message code="lbl.select" />
+                                                            </form:option>
+
+                                                            <c:forEach items="${schemes}" var="scheme">
+                                                                <option value="${scheme.id}"
+                                                                    data-statecode="${scheme.stateCode}">
+                                                                    ${scheme.code} - ${scheme.name}
+                                                                </option>
+                                                            </c:forEach>
+
+                                                        </form:select>
                                                     </div>
                                                 </c:otherwise>
                                             </c:choose>
                                         </td>
 
-                                        <form:hidden path="items[${st.index}].scheme.id"
+                                        <!-- <form:hidden path="items[${st.index}].scheme.id"
                                             name="items[${st.index}].scheme.id" value="${item.scheme.id}"
                                             id="items[${st.index}].scheme.id"
-                                            class="form-control table-input hidden-input schemeId" />
+                                            class="form-control table-input hidden-input schemeId" /> -->
 
                                         <form:hidden path="" name="items[${st.index}].budgetheadcode"
                                             id="items[${st.index}].budgetheadcode" value="${item.budgetHead.code}"
@@ -164,20 +199,22 @@
 
                                         <td style="width: 15%;"><input type="number" step="0.01"
                                                 name="items[${st.index}].currentEstimate"
-                                                value="${item.currentEstimate}" class="form-control" data-errormsg="Current budget estimate is mandatory!"
-											data-idx="0" data-optional="0" required="required"></td>
+                                                value="${item.currentEstimate}" class="form-control"
+                                                data-errormsg="Current budget estimate is mandatory!" data-idx="0"
+                                                data-optional="0" required="required"></td>
                                         <td style="width: 15%;"><input type="number" step="0.01"
                                                 name="items[${st.index}].currentActual" value="${item.currentActual}"
                                                 class="form-control" data-errormsg="Actuals is mandatory!" data-idx="0"
-											data-optional="0" required="required"></td>
+                                                data-optional="0" required="required"></td>
                                         <td style="width: 15%;"><input type="number" step="0.01"
                                                 name="items[${st.index}].currentRevisedEstimate"
-                                                value="${item.currentRevisedEstimate}" class="form-control" data-errormsg="Current revised estimate is mandatory!"
-											data-idx="0" data-optional="0" required="required"></td>
+                                                value="${item.currentRevisedEstimate}" class="form-control"
+                                                data-errormsg="Current revised estimate is mandatory!" data-idx="0"
+                                                data-optional="0" required="required"></td>
                                         <td style="width: 15%;"><input type="number" step="0.01"
                                                 name="items[${st.index}].nextEstimate" value="${item.nextEstimate}"
                                                 class="form-control" data-errormsg="Next budget estimate is mandatory!"
-											data-idx="0" data-optional="0" required="required"></td>
+                                                data-idx="0" data-optional="0" required="required"></td>
 
                                         <td class="text-center" style="width: 10%;">
                                             <span style="cursor:pointer;" onclick="addBudgetDetailsRow();" tabindex="0"
