@@ -132,6 +132,7 @@ public class BudgetItemService {
 
 
             if (Boolean.TRUE.equals(item.getNotApplicable())) {
+                item.setScheme(null);
                 continue;
             }
 
@@ -533,11 +534,7 @@ public class BudgetItemService {
             List<String> types,BudgetRegister budgetRegister) {
 
         List<BudgetItem> items = budgetItemRepository
-                .findByBudgetGroupInAndBudgetRegister(types, budgetRegister);
-
-        // LOGGER.info("inside service!");
-        // LOGGER.info(items.size());
-        // items.forEach(i -> LOGGER.info(i.getBudgetCode()));
+                .findByBudgetGroupInAndBudgetRegisterAndNotApplicableFalse(types, budgetRegister);
 
         return items.stream()
                 .collect(Collectors.groupingBy(BudgetItem::getBudgetGroup));
