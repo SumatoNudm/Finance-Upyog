@@ -97,7 +97,45 @@ public class BudgetItem extends AbstractAuditable {
         this.id = id;
     }
 
+    @Transient
+    private Integer rowIndex;
 
+
+    @Column(name = "not_applicable", nullable = false)
+    private Boolean notApplicable = false;
+
+
+    public BigDecimal getSafeCurrentEstimate() {
+         if (null != currentEstimate) {
+             return  currentEstimate;
+         } else {
+             return BigDecimal.ZERO;
+         }
+    }
+
+    public BigDecimal getSafeCurrentActual() {
+        if (null != currentActual) {
+            return  currentActual;
+        } else {
+            return BigDecimal.ZERO;
+        }
+    }
+
+    public BigDecimal getSafeCurrentRevisedEstimate() {
+        if (null != currentRevisedEstimate) {
+            return  currentRevisedEstimate;
+        } else {
+            return BigDecimal.ZERO;
+        }
+    }
+
+    public BigDecimal getSafeNextEstimate() {
+        if (null != nextEstimate) {
+            return  nextEstimate;
+        } else {
+            return BigDecimal.ZERO;
+        }
+    }
 
     public Boolean isValuesFilled() {
         return currentEstimate != null && currentActual != null && currentRevisedEstimate != null && nextEstimate != null;

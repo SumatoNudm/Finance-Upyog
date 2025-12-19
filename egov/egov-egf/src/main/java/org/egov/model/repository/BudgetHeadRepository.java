@@ -1,5 +1,6 @@
 package org.egov.model.repository;
 
+import org.egov.commons.CFunction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -29,6 +30,12 @@ public interface BudgetHeadRepository extends JpaRepository<BudgetHead, Long> {
     List<BudgetHead> searchBudgetHeadsByFunctionNative(
             @Param("functionId") Long functionId,
             @Param("query") String query);
+
+    @Query(value = "SELECT bh.* FROM egf_budgethead bh " +
+            "JOIN function_budget_head fbh ON bh.id = fbh.budget_head_id " +
+            "WHERE fbh.function_id = :functionId ",
+            nativeQuery = true)
+    List<BudgetHead> getBudgetHeadByFunction(@Param("functionId") Long functionId);
 
 
 

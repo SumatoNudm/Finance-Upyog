@@ -1,14 +1,6 @@
 package org.egov.model.budget;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 import org.egov.infra.persistence.entity.AbstractAuditable;
@@ -149,5 +141,33 @@ public class BudgetHead extends AbstractAuditable {
     public void setOrder(Long order) {
         this.order = order;
     }
+
+    public boolean isSchemeApplicable() {
+        return program.equalsIgnoreCase("yes");
+    }
+
+
+    @Transient
+    public String getAccountTypeLabel() {
+
+        if (accountTypeCode == null) {
+            return "";
+        }
+
+        switch (accountTypeCode.toLowerCase()) {
+            case "rr":
+            case "re":
+                return "Revenue_Budget";
+
+            case "cr":
+            case "ce":
+                return "Capital_Budget";
+
+            default:
+                return "Unknown Budget Type";
+        }
+    }
+
+
 
 }
