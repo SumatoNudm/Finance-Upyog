@@ -299,7 +299,8 @@ public class BudgetItemService {
 
 
     public Map<String, List<BudgetItem>> getBudgetItemsByTypesFunctionAndBudgetRegister(List<String> types, CFunction function, BudgetRegister budgetRegister) {
-        return budgetItemRepository.findByBudgetGroupInAndFunctionAndBudgetRegister(types, function, budgetRegister).stream().collect(Collectors.groupingBy(BudgetItem::getBudgetGroup));
+//        return budgetItemRepository.findByBudgetGroupInAndFunctionAndBudgetRegister(types, function, budgetRegister).stream().collect(Collectors.groupingBy(BudgetItem::getBudgetGroup));
+        return budgetItemRepository.findByBudgetGroupInAndFunctionAndBudgetRegisterAndNotApplicableFalse(types, function, budgetRegister).stream().collect(Collectors.groupingBy(BudgetItem::getBudgetGroup));
     }
 
 
