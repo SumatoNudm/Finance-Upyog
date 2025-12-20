@@ -97,7 +97,7 @@
                     <a href="${pageContext.request.contextPath}/budget/view/${item.id}/${budgetRegister.id}" class="btn btn-primary btn-sm">View</a>
 
                     <c:if test="${not empty allowCreate}">
-                        <a href="${pageContext.request.contextPath}/budget/edit/${item.id}/${budgetRegister.id}" class="btn btn-secondary btn-sm">Edit</a>
+                        <a href="${pageContext.request.contextPath}/budget/editv2/${item.id}/${budgetRegister.id}" class="btn btn-secondary btn-sm">Edit</a>
                     </c:if>
                 </td>
             </tr>

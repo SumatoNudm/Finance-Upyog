@@ -3,6 +3,7 @@ package org.egov.model.service;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.egov.commons.CFinancialYear;
 import org.egov.commons.CFunction;
@@ -214,7 +215,13 @@ public class BudgetItemService {
 
         // save opening budget
         BudgetItem openingBalance = form.getOpening();
+
+        LOGGER.info("opening balance id: " + form.getOpening().getId());
+        LOGGER.info("Closing balance id: " + form.getClosing().getId());
+
         budgetItemRepository.save(form.getOpening());
+
+
 
 
         // calculate totals
@@ -266,7 +273,14 @@ public class BudgetItemService {
         BigDecimal totalRevisedEstimate = RevisedEstimateRevenue.subtract(RevisedEstimateExpenditure);
         BigDecimal totalNextBudgetEstimate = nextBudgetEstimateRevenue.subtract(nextBudgetEstimateExpenditure);
 
+
         BudgetItem closingBalance = new BudgetItem();
+
+        if (null != form.getClosing() &&  null != form.getClosing().getId()) {
+            closingBalance = form.getClosing();
+        }
+
+
         closingBalance.setFunction(function);
         closingBalance.setFinancialYear(budgetRegister.getFinancialYear());
         closingBalance.setCurrentFinancialYear(budgetRegister.getCurrentFinancialYear());
@@ -299,10 +313,16 @@ public class BudgetItemService {
     }
 
 
-    public Map<String, List<BudgetItem>> getBudgetItemsByTypesFunctionAndBudgetRegister(List<String> types, CFunction function, BudgetRegister budgetRegister) {
+    public Map<String, List<BudgetItem>> getBudgetItemsByTypesFunctionAndBudgetRegisterAndApplicable(List<String> types, CFunction function, BudgetRegister budgetRegister) {
 //        return budgetItemRepository.findByBudgetGroupInAndFunctionAndBudgetRegister(types, function, budgetRegister).stream().collect(Collectors.groupingBy(BudgetItem::getBudgetGroup));
         return budgetItemRepository.findByBudgetGroupInAndFunctionAndBudgetRegisterAndNotApplicableFalse(types, function, budgetRegister).stream().collect(Collectors.groupingBy(BudgetItem::getBudgetGroup));
     }
+
+    public Map<String, List<BudgetItem>> getBudgetItemsByTypesFunctionAndBudgetRegister(List<String> types, CFunction function, BudgetRegister budgetRegister) {
+        return budgetItemRepository.findByBudgetGroupInAndFunctionAndBudgetRegister(types, function, budgetRegister).stream().collect(Collectors.groupingBy(BudgetItem::getBudgetGroup));
+//        return budgetItemRepository.findByBudgetGroupInAndFunctionAndBudgetRegister(types, function, budgetRegister).stream().collect(Collectors.groupingBy(BudgetItem::getBudgetGroup));
+    }
+
 
 
     public Boolean checkIfBudgetExistsForFunctionAndFinancialYearAndBudgetRegister(CFunction function,
@@ -533,12 +553,13 @@ public class BudgetItemService {
     public Map<String, List<BudgetItem>> getBudgetItemsByTypesAndBudgetRegister(
             List<String> types,BudgetRegister budgetRegister) {
 
-        List<BudgetItem> items = budgetItemRepository
-                .findByBudgetGroupInAndBudgetRegisterAndNotApplicableFalse(types, budgetRegister);
+        List<BudgetItem> items = budgetItemRepository.findByBudgetGroupInAndBudgetRegisterAndNotApplicableFalse(types, budgetRegister);
 
         return items.stream()
                 .collect(Collectors.groupingBy(BudgetItem::getBudgetGroup));
     }
+
+
 
     public boolean validateIfFunctionBudgetExists(BudgetRegister budgetRegister, CFunction function) {
         return budgetItemRepository.existsFunctionWiseBudget(function.getId(), budgetRegister.getId());
@@ -598,6 +619,177 @@ public class BudgetItemService {
         model.addAttribute("currentFy", budgetRegister.getCurrentFinancialYear());
         model.addAttribute("nextFy", budgetRegister.getFinancialYear());
 
+    }
+
+    public void populateForEdit(Model model, CFunction function, Long budgetRegisterId, BudgetForm budgetForm, BudgetRegister budgetRegister) {
+
+        model.addAttribute("id", function.getId());
+        model.addAttribute("function", function);
+        model.addAttribute("budgetRegisterId", budgetRegisterId);
+
+
+        List<BudgetHead> heads = budgetHeadService.getBudgetHeadsByFunction(function);
+
+        List<BudgetItem> budgetItems = budgetForm.getItems();
+
+        Map<BudgetAccountType, Map<String, List<BudgetItem>>> groupedItems = budgetItems.stream()
+                .peek(budgetItem -> {
+                    Optional<BudgetHead> budgetHead = heads.stream()
+                            .filter(bh -> bh.getId().equals(budgetItem.getBudgetHead().getId()))
+                            .findFirst();
+
+                    if (!budgetHead.isPresent()) {
+                        LOGGER.info("budget head is null for - " + budgetItem.getId());
+                    }
+
+                    Scheme scheme = budgetItem.getScheme();
+
+                    if (scheme != null && scheme.getId() != null) {
+
+                        scheme = schemeHibernateDAO.getCurrentSession().get(Scheme.class,
+                                budgetItem.getScheme().getId());
+                        if (scheme != null) {
+                            budgetItem.setScheme(scheme);
+                        }
+                    }
+
+                    BudgetHead bh = budgetHead.get();
+
+                    budgetItem.setBudgetGroup(bh.getAccountTypeLabel());
+                    budgetItem.setBudgetHead(bh);
+                    budgetItem.setFunction(function);
+                    budgetItem.setBudgetRegister(budgetRegister);
+                    budgetItem.setCurrentFinancialYear(budgetRegister.getCurrentFinancialYear());
+                    budgetItem.setFinancialYear(budgetRegister.getFinancialYear());
+                })
+                .sorted(Comparator.comparing(item -> item.getBudgetHead().getOrder())) // sort by order
+                .collect(Collectors.groupingBy(
+                        item -> item.getBudgetHead().getAccountType(),
+                        LinkedHashMap::new, // preserve AccountType order
+                        Collectors.groupingBy(
+                                itm -> itm.getBudgetHead().getCategory(),
+                                LinkedHashMap::new, // preserve Category order
+                                Collectors.toList())));
+
+
+        model.addAttribute("groupedItems", groupedItems);
+
+
+        model.addAttribute("budgetForm", budgetForm);
+        model.addAttribute("budgetRegister", budgetRegister);
+        model.addAttribute("currentFy", budgetRegister.getCurrentFinancialYear());
+        model.addAttribute("nextFy", budgetRegister.getFinancialYear());
+    }
+
+
+    @Transactional(rollbackFor = Exception.class)
+    public void saveAndUpdateBudgetInputForm(BudgetForm form, BudgetRegister budgetRegister, CFunction function) throws Exception {
+
+
+        // save opening budget
+        BudgetItem openingBalance = form.getOpening();
+        BudgetItem openingBalanceDb = budgetItemRepository.findById(openingBalance.getId());
+        openingBalanceDb.setCurrentEstimate(openingBalance.getCurrentEstimate());
+        openingBalanceDb.setCurrentActual(openingBalance.getCurrentActual());
+        openingBalanceDb.setCurrentRevisedEstimate(openingBalance.getCurrentRevisedEstimate());
+        openingBalanceDb.setNextEstimate(openingBalance.getNextEstimate());
+
+        budgetItemRepository.save(openingBalanceDb);
+
+
+        // calculate totals
+
+        // Revenue
+        BigDecimal BudgetEstimateRevenue = BigDecimal.ZERO;
+        BigDecimal ActualRevenue = BigDecimal.ZERO;
+        BigDecimal RevisedEstimateRevenue = BigDecimal.ZERO;
+        BigDecimal nextBudgetEstimateRevenue = BigDecimal.ZERO;
+
+        // Expenditure
+        BigDecimal BudgetEstimateExpenditure = BigDecimal.ZERO;
+        BigDecimal ActualExpenditure = BigDecimal.ZERO;
+        BigDecimal RevisedEstimateExpenditure = BigDecimal.ZERO;
+        BigDecimal nextBudgetEstimateExpenditure = BigDecimal.ZERO;
+
+        if (form.getItems() != null && !form.getItems().isEmpty()) {
+
+            for (BudgetItem item : form.getItems()) {
+
+                final String code = item.getBudgetHead().getAccountTypeCode();
+                if (code == null)
+                    continue;
+
+                switch (code) {
+                    case "RR":
+                    case "CR":
+                        BudgetEstimateRevenue = BudgetEstimateRevenue.add(item.getSafeCurrentEstimate());
+                        ActualRevenue = ActualRevenue.add(item.getSafeCurrentActual());
+                        RevisedEstimateRevenue = RevisedEstimateRevenue.add(item.getSafeCurrentRevisedEstimate());
+                        nextBudgetEstimateRevenue = nextBudgetEstimateRevenue.add(item.getSafeNextEstimate());
+                        break;
+                    case "RE":
+                    case "CE":
+                        BudgetEstimateExpenditure = BudgetEstimateExpenditure.add(item.getSafeCurrentEstimate());
+                        ActualExpenditure = ActualExpenditure.add(item.getSafeCurrentActual());
+                        RevisedEstimateExpenditure = RevisedEstimateExpenditure
+                                .add(item.getSafeCurrentRevisedEstimate());
+                        nextBudgetEstimateExpenditure = nextBudgetEstimateExpenditure.add(item.getSafeNextEstimate());
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        BigDecimal totalBudgetEstimate = BudgetEstimateRevenue.subtract(BudgetEstimateExpenditure);
+        BigDecimal totalActual = ActualRevenue.subtract(ActualExpenditure);
+        BigDecimal totalRevisedEstimate = RevisedEstimateRevenue.subtract(RevisedEstimateExpenditure);
+        BigDecimal totalNextBudgetEstimate = nextBudgetEstimateRevenue.subtract(nextBudgetEstimateExpenditure);
+
+
+
+        BudgetItem closingBalance = form.getClosing();
+        BudgetItem closingBalanceDb = budgetItemRepository.findById(closingBalance.getId());
+
+        closingBalanceDb.setCurrentEstimate(openingBalance.getSafeCurrentEstimate().add(totalBudgetEstimate));
+        closingBalanceDb.setCurrentActual(openingBalance.getSafeCurrentActual().add(totalActual));
+        closingBalanceDb
+                .setCurrentRevisedEstimate(openingBalance.getSafeCurrentRevisedEstimate().add(totalRevisedEstimate));
+        closingBalanceDb.setNextEstimate(openingBalance.getSafeNextEstimate().add(totalNextBudgetEstimate));
+
+        budgetItemRepository.save(closingBalanceDb);
+
+
+        List<BudgetItem> budgetItems = form.getItems();
+        List<BudgetItem> budgetItemsDb = budgetItemRepository.findByBudgetGroupInAndFunctionAndBudgetRegister(Arrays.asList("Revenue_Budget", "Capital_Budget"), function, budgetRegister);
+
+        Map<Long, BudgetItem> submittedById =
+                budgetItems.stream()
+                        .filter(bi -> bi.getId() != null)
+                        .collect(Collectors.toMap(
+                                BudgetItem::getId,
+                                Function.identity()
+                        ));
+
+        for (BudgetItem dbItem : budgetItemsDb) {
+
+            BudgetItem submitted = submittedById.get(dbItem.getId());
+
+            if (submitted == null) {
+                continue;
+            }
+
+            dbItem.setCurrentEstimate(submitted.getCurrentEstimate());
+            dbItem.setCurrentActual(submitted.getCurrentActual());
+            dbItem.setCurrentRevisedEstimate(submitted.getCurrentRevisedEstimate());
+            dbItem.setNextEstimate(submitted.getNextEstimate());
+
+            dbItem.setScheme(submitted.getScheme());
+            dbItem.setNotApplicable(submitted.getNotApplicable());
+        }
+
+        // save all budget items
+        budgetItemRepository.save(budgetItemsDb);
     }
 
 }

@@ -352,7 +352,7 @@ public class BudgetItemController {
 		model.addAttribute("budgetRegisterId", budgetRegisterId);
 
 		List<String> types = Arrays.asList("Opening_Balance", "Closing_Balance", "Revenue_Budget", "Capital_Budget");
-		Map<String, List<BudgetItem>> grouped = budgetItemService.getBudgetItemsByTypesFunctionAndBudgetRegister(types, function,
+		Map<String, List<BudgetItem>> grouped = budgetItemService.getBudgetItemsByTypesFunctionAndBudgetRegisterAndApplicable(types, function,
 				 budgetRegister);
 
 		final List<BudgetItem> oBal = grouped.getOrDefault("Opening_Balance", Collections.emptyList());
@@ -528,6 +528,72 @@ public class BudgetItemController {
 		return BUDGET_ITEM_EDIT;
 	}
 
+	@RequestMapping(value = "/editv2/{functionId}/{budgetRegisterId}", method = { RequestMethod.GET, RequestMethod.POST })
+	public String editv2(@PathVariable Long functionId, @PathVariable("budgetRegisterId") Long budgetRegisterId,
+					   Model model, RedirectAttributes redirectAttributes) throws Exception {
+
+
+		BudgetRegister budgetRegister = budgetRegisterWorkflowService.findOne(budgetRegisterId);
+		if (budgetRegister == null) {
+			return "error/422";
+		}
+		model.addAttribute("budgetRegister", budgetRegister);
+		model.addAttribute("budgetRegisterId", budgetRegister.getId());
+
+
+		CFunction function = functionService.findOne(functionId);
+		if (function == null) {
+			return "error/422";
+		}
+		model.addAttribute("function", function);
+
+		BudgetForm budgetForm = new BudgetForm();
+		budgetForm.setFunctionid(function.getId());
+		budgetForm.setFinancialYear(budgetRegister.getFinancialYear().getId());
+		budgetForm.setCurrentFinancialYear(budgetRegister.getCurrentFinancialYear().getId());
+
+
+		List<String> types = Arrays.asList("Opening_Balance", "Closing_Balance", "Revenue_Budget", "Capital_Budget");
+		Map<String, List<BudgetItem>> grouped = budgetItemService.getBudgetItemsByTypesFunctionAndBudgetRegister(types, function,
+				budgetRegister);
+
+		final List<BudgetItem> oBal = grouped.getOrDefault("Opening_Balance", Collections.emptyList());
+
+		BudgetItem openingBalance = oBal.get(0);
+		openingBalance.setFunction(function);
+		openingBalance.setBudgetRegister(budgetRegister);
+		openingBalance.setCurrentFinancialYear(budgetRegister.getCurrentFinancialYear());
+		openingBalance.setFinancialYear(budgetRegister.getFinancialYear());
+
+		budgetForm.setOpening(openingBalance);
+
+		// closing balance
+		final List<BudgetItem> cBal = grouped.getOrDefault("Closing_Balance", Collections.emptyList());
+		BudgetItem closingBalance = cBal.get(0);
+		openingBalance.setFunction(function);
+		openingBalance.setBudgetRegister(budgetRegister);
+		openingBalance.setCurrentFinancialYear(budgetRegister.getCurrentFinancialYear());
+		openingBalance.setFinancialYear(budgetRegister.getFinancialYear());
+
+		budgetForm.setClosing(closingBalance);
+
+
+		List<BudgetItem> normalBudgetItems = new ArrayList<>();
+		normalBudgetItems.addAll(grouped.getOrDefault("Revenue_Budget", Collections.emptyList()));
+		normalBudgetItems.addAll(grouped.getOrDefault("Capital_Budget", Collections.emptyList()));
+
+		AtomicInteger counter = new AtomicInteger(0);
+		normalBudgetItems.forEach(item -> item.setRowIndex(counter.getAndIncrement()));
+
+
+		budgetForm.setItems(normalBudgetItems);
+
+		budgetItemService.populateForEdit(model, function, budgetRegister.getId(), budgetForm, budgetRegister);
+
+
+		return "functionwisebudget-edit";
+	}
+
 	@PostMapping("/update/{budgetRegisterId}")
 	public String update(Model model, @ModelAttribute @Valid BudgetForm budgetForm, final BindingResult resultBinder, @PathVariable("budgetRegisterId") Long budgetRegisterId,
 			RedirectAttributes redirectAttrs) {
@@ -554,8 +620,9 @@ public class BudgetItemController {
 
 		try {
 
-			budgetItemService.updateBudgetInputForm(budgetForm, budgetRegister); // inside service: save opening, items,
-																					// closing
+//			budgetItemService.updateBudgetInputForm(budgetForm, budgetRegister); // inside service: save opening, items,
+
+			budgetItemService.saveAndUpdateBudgetInputForm(budgetForm, budgetRegister, function);								// closing
 			redirectAttrs.addFlashAttribute("message", "Budget items updated successfully!");
 
 		} catch (Exception e) {
