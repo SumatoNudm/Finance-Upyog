@@ -3,6 +3,7 @@ package org.egov.egf.web.controller.budget;
 import org.apache.log4j.Logger;
 import org.egov.commons.CFinancialYear;
 import org.egov.commons.CFunction;
+import org.egov.commons.Scheme;
 import org.egov.commons.service.CFinancialYearService;
 import org.egov.commons.service.FunctionService;
 import org.egov.egf.form.BudgetForm;
@@ -17,10 +18,12 @@ import org.egov.model.service.BudgetHeadService;
 import org.egov.model.service.BudgetItemService;
 import org.egov.model.service.BudgetRegisterWorkflowService;
 import org.egov.model.service.FunctionBudgetHeadService;
+import org.egov.services.masters.SchemeService;
 import org.egov.utils.BudgetAccountType;
 import org.egov.utils.FinancialConstants;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -49,6 +52,9 @@ public class BudgetItemController {
 	private static final String STATE_TYPE = "stateType";
 
 	private static final Logger LOGGER = Logger.getLogger(BudgetItemController.class);
+
+	@Autowired
+    private SchemeService schemeService;
 
 	@Autowired
 	private FunctionService functionService;
@@ -151,6 +157,10 @@ public class BudgetItemController {
 			redirectAttributes.addFlashAttribute("error", "Budget already entered for the selected function.");
 			return "redirect:/budget/new/" + budgetRegisterId;
 		}
+
+		List<Scheme> schemes = schemeService.getBySchemeCode();
+
+		model.addAttribute("schemes", schemes);
 
 		model.addAttribute("function", function);
 
@@ -478,6 +488,10 @@ public class BudgetItemController {
 		// model.addAttribute("opening_balance", oBal);
 		// model.addAttribute("closing_balance", cBal);
 		model.addAttribute("all_budget_items", allBudget);
+
+		List<Scheme> schemes = schemeService.getBySchemeCode();
+
+		model.addAttribute("schemes", schemes);
 
 		BudgetForm form = new BudgetForm();
 		form.setOpening(oBal.get(0)); // <-- FIX
