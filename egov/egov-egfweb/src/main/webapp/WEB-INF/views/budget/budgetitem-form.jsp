@@ -55,15 +55,15 @@
 									<td style="width: 40%;">Opening Balance as on
 										<fmt:formatDate value="${currentFy.startingDate}" pattern="dd/MM/yyyy" />
 									</td>
-									<td style="width: 15%;"><input type="number" step="0.01" name="opening.currentEstimate"
-											data-pattern="decimalvalue" maxlength="12" class="form-control"
-											required="required"></td>
-									<td style="width: 15%;"><input type="number" step="0.01" name="opening.currentActual"
-											data-pattern="decimalvalue" maxlength="12" class="form-control"
-											required="required"></td>
-									<td style="width: 15%;"><input type="number" step="0.01" name="opening.currentRevisedEstimate"
-											data-pattern="decimalvalue" maxlength="12" class="form-control"
-											required="required"></td>
+									<td style="width: 15%;"><input type="number" step="0.01"
+											name="opening.currentEstimate" data-pattern="decimalvalue" maxlength="12"
+											class="form-control" required="required"></td>
+									<td style="width: 15%;"><input type="number" step="0.01"
+											name="opening.currentActual" data-pattern="decimalvalue" maxlength="12"
+											class="form-control" required="required"></td>
+									<td style="width: 15%;"><input type="number" step="0.01"
+											name="opening.currentRevisedEstimate" data-pattern="decimalvalue"
+											maxlength="12" class="form-control" required="required"></td>
 									<td style="width: 15%;"><input type="number" step="0.01" name="opening.nextEstimate"
 											data-pattern="decimalvalue" maxlength="12" class="form-control"
 											required="required"></td>
@@ -94,15 +94,31 @@
 										</div>
 
 										<div class="scheme-container" style="display:none;">
-											<input type="text" id="items[0].schemeCode" name="items[0].schemeCode"
+											<!-- <input type="text" id="items[0].schemeCode" name="items[0].schemeCode"
 												class="scheme-input form-control table-input"
-												placeholder="Type Scheme code">
+												placeholder="Type Scheme code"> -->
+
+											<form:select path="items[0].scheme.id" id="items[0].schemeId"
+												class="form-control scheme-input">
+
+												<form:option value="">
+													<spring:message code="lbl.select" />
+												</form:option>
+
+												<c:forEach items="${schemes}" var="scheme">
+													<option value="${scheme.id}" data-statecode="${scheme.stateCode}">
+														${scheme.code} - ${scheme.name}
+													</option>
+												</c:forEach>
+
+											</form:select>
+
 										</div>
 									</td>
 
-									<form:hidden path="items[0].scheme.id" name="items[0].scheme.id"
+									<!-- <form:hidden path="items[0].scheme.id" name="items[0].scheme.id"
 										id="items[0].scheme.id"
-										class="form-control table-input hidden-input schemeId" />
+										class="form-control table-input hidden-input schemeId" /> -->
 
 									<form:hidden path="" name="items[0].budgetheadcode" id="items[0].budgetheadcode"
 										class="form-control table-input hidden-input budgetheadcode" />
@@ -124,18 +140,22 @@
 									<form:hidden path="" name="items[0].budgetHeadId" id="items[0].budgetHeadId"
 										class="form-control table-input hidden-input budgetHeadId" />
 
-									<td style="width: 15%;"><input type="number" step="0.01" name="items[0].currentEstimate"
-											class="form-control" data-errormsg="Current budget estimate is mandatory!"
-											data-idx="0" data-optional="0" required="required"></td>
-									<td style="width: 15%;"><input type="number" step="0.01" name="items[0].currentActual"
-											class="form-control" data-errormsg="Actuals is mandatory!" data-idx="0"
+									<td style="width: 15%;"><input type="number" step="0.01"
+											name="items[0].currentEstimate" class="form-control"
+											data-errormsg="Current budget estimate is mandatory!" data-idx="0"
 											data-optional="0" required="required"></td>
-									<td style="width: 15%;"><input type="number" step="0.01" name="items[0].currentRevisedEstimate"
-											class="form-control" data-errormsg="Current revised estimate is mandatory!"
-											data-idx="0" data-optional="0" required="required"></td>
-									<td style="width: 15%;"><input type="number" step="0.01" name="items[0].nextEstimate"
-											class="form-control" data-errormsg="Next budget estimate is mandatory!"
-											data-idx="0" data-optional="0" required="required"></td>
+									<td style="width: 15%;"><input type="number" step="0.01"
+											name="items[0].currentActual" class="form-control"
+											data-errormsg="Actuals is mandatory!" data-idx="0" data-optional="0"
+											required="required"></td>
+									<td style="width: 15%;"><input type="number" step="0.01"
+											name="items[0].currentRevisedEstimate" class="form-control"
+											data-errormsg="Current revised estimate is mandatory!" data-idx="0"
+											data-optional="0" required="required"></td>
+									<td style="width: 15%;"><input type="number" step="0.01"
+											name="items[0].nextEstimate" class="form-control"
+											data-errormsg="Next budget estimate is mandatory!" data-idx="0"
+											data-optional="0" required="required"></td>
 
 									<td class="text-center" style="width: 10%;">
 										<span style="cursor:pointer;" onclick="addBudgetDetailsRow();" tabindex="0"

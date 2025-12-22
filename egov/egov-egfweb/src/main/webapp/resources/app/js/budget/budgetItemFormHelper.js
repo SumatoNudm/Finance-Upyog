@@ -157,9 +157,10 @@ function budgethead_initialize() {
                     .attr('data-errormsg', 'Scheme Code is mandatory!')
                     .attr('data-idx', '0');
 
+                  //  scheme_initialize(row);
+
                 row.find('.scheme-input').typeahead('destroy').unbind();
 
-                scheme_initialize(row);
             } else {
                 row.find('.scheme-container').hide();
 
@@ -209,13 +210,12 @@ function budgethead_initialize() {
 }
 
 
-
 function addBudgetDetailsRow() {
     $('.budgetcode').typeahead('destroy');
     $('.budgetcode').unbind();
 
-    // $('.scheme-input').typeahead('destroy');
-    // $('.scheme-input').unbind();
+    $('.scheme-input').typeahead('destroy');
+    $('.scheme-input').unbind();
 
     var rowcount = $("#dynamicTable tbody tr").length;
     if (rowcount < 80) {
@@ -230,55 +230,6 @@ function addBudgetDetailsRow() {
         bootbox.alert($.i18n.prop('msg.limit.reached'));
     }
 }
-
-// function addBudgetDetailsRow() {
-//     // Destroy previous typeahead bindings
-//     $('.budgetcode').typeahead('destroy').off();
-
-//     var rowcount = $("#dynamicTable tbody tr").length;
-
-//     // Check if the template row exists
-//     var $templateRow = $('#budgetdetailsrow');
-//     if ($templateRow.length) {
-//         // Clone the template row and remove the ID to prevent duplicates
-//         var newRow = $templateRow.clone().removeAttr('id');
-
-//         customIndex++ ;
-//         var newIndex = customIndex;
-
-//         console.log("my new index");
-
-//         newRow.find("[id],[name],[data-idx]").each(function () {
-
-//             // Update id attributes
-//             if ($(this).attr("id")) {
-//                 $(this).attr("id", $(this).attr("id").replace(/\[\d+\]/, "[" + newIndex + "]"));
-//             }
-
-//             // Update name attributes
-//             if ($(this).attr("name")) {
-//                 $(this).attr("name", $(this).attr("name").replace(/\[\d+\]/, "[" + newIndex + "]"));
-//             }
-
-//         });
-
-//         // Insert the new row before the closing balance row if it exists
-//         var $closingRow = $('#closingBalancerow');
-//         if ($closingRow.length) {
-//             newRow.insertBefore($closingRow);
-//         } else {
-//             // If closing balance row is missing, just append it to the end
-//             $('#dynamicTable tbody').append(newRow);
-//         }
-
-//         // Clear input values and reinitialize features
-//         newRow.find('.budgetHeadcode').val('');
-//         budgethead_initialize();
-
-//         // Add custom keyboard event to the new row
-//         addCustomEvent(rowcount, 'items[index].addButton', 'keydown', shortKeyFunForAddButton);
-//     }
-// }
 
 function deleteBudgetDetailsRow(obj) {
     var rowcount = $("#dynamicTable tbody tr").length;
@@ -373,25 +324,58 @@ function scheme_initialize(row) {
         row.find('.stateBudgetCode').val(statecode + "-" + (data.stateCode || "").trim());
     });
 
+   // addSchemeValidations();
+}
 
 //    addSchemeValidations();
 
-}
+// function addSchemeValidations() {
+//     // Clear hidden fields *whenever user types*
+//     $('.scheme-input').on('input', function () {
+//         var row = $(this).parents("tr:first");
 
+//         var stateCode = row.find('.stateCode').val();
 
-function addSchemeValidations() {
-    // Clear hidden fields *whenever user types*
-        $('.scheme-input').on('input', function () {
-            var row = $(this).parents("tr:first");
+//         row.find(".schemeId").val("");
+//         row.find(".stateBudgetCode").val(stateCode);
 
-            var stateCode = row.find('.stateCode').val();
+//         $(this).removeClass("is-invalid");
 
-            row.find(".schemeId").val("");
-            row.find(".stateBudgetCode").val(stateCode);
+//     });
 
-            $(this).removeClass("is-invalid");
-        });
+//     // Simple invalid code check
+//     $('.scheme-input').on('blur', function () {
+//         var row = $(this).parents("tr:first");
+//         var stateCode = row.find('.stateCode').val();
+//         var schemeId = row.find('.schemeId').val();
 
+//         if (!schemeId) {
+//             $(this).addClass("is-invalid");
+//             row.find(".schemeId").val("");
+//             row.find(".scheme-input").val("");
+//             row.find(".stateBudgetCode").val(stateCode);
+//             bootbox.alert("Invalid Scheme !");
+//         } else {
+//             $(this).removeClass("is-invalid");
+//         }
+//     });
+// }
+
+$(document).on('change', '.scheme-input', function () {
+
+    var row = $(this).closest('tr');
+
+    var schemeId = $(this).val();
+    var schemeStateCode = $(this).find(':selected').data('statecode');
+    var stateCode = row.find('.stateCode').val(); // from budget head
+
+    if (schemeId && schemeStateCode) {
+        row.find('.stateBudgetCode')
+           .val(stateCode + '-' + (schemeStateCode || "").trim());
+    } else {
+        row.find('.stateBudgetCode').val(stateCode);
+    }
+});
         // Simple invalid code check
         $('.scheme-input').on('blur', function () {
             var row = $(this).parents("tr:first");
