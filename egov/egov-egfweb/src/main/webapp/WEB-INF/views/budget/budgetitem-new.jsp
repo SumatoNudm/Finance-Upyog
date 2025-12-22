@@ -8,7 +8,7 @@
 
 
 
-<form:form role="form" action="../form" modelAttribute="function" id="budgetItemFunction"
+<form:form role="form" action="../newv2" modelAttribute="function" id="budgetItemFunction"
   cssClass="form-horizontal form-groups-bordered" enctype="multipart/form-data">
 
 

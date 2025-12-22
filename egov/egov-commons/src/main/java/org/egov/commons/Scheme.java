@@ -274,4 +274,16 @@ public class Scheme implements java.io.Serializable {
 		return "id:" + id + ",Code:" + code + "," + "isActive:" + isactive;
 	}
 
+	public String getCodeAndNameForShow() {
+		StringBuilder stringBuilder = new StringBuilder();
+		if (code != null && !code.isEmpty()) {
+			stringBuilder.append(code);
+			stringBuilder.append(" - ");
+		}
+		if (name != null && !name.isEmpty()) {
+			stringBuilder.append(name);
+		}
+		return stringBuilder.toString();
+	}
+
 }

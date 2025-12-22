@@ -1,6 +1,7 @@
 package org.egov.model.budget;
 
 
+import jdk.nashorn.internal.runtime.logging.Loggable;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,6 +10,8 @@ import org.egov.commons.CFunction;
 import org.egov.commons.Scheme;
 import org.egov.infra.persistence.entity.AbstractAuditable;
 import org.egov.infra.persistence.validator.annotation.Unique;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -24,6 +27,7 @@ public class BudgetItem extends AbstractAuditable {
     public static final String TABLE_NAME = "egf_budgetitem";
     public static final String SEQ_BUDGET_ITEM = "seq_egf_budgetitem";
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(BudgetItem.class);
 
     @Id
     @GeneratedValue(generator = SEQ_BUDGET_ITEM, strategy = GenerationType.SEQUENCE)
@@ -97,10 +101,66 @@ public class BudgetItem extends AbstractAuditable {
         this.id = id;
     }
 
+    @Transient
+    private Integer rowIndex;
 
+
+    @Column(name = "not_applicable", nullable = false)
+    private Boolean notApplicable = false;
+
+
+    public BigDecimal getSafeCurrentEstimate() {
+         if (null != currentEstimate) {
+             return  currentEstimate;
+         } else {
+             return BigDecimal.ZERO;
+         }
+    }
+
+    public BigDecimal getSafeCurrentActual() {
+        if (null != currentActual) {
+            return  currentActual;
+        } else {
+            return BigDecimal.ZERO;
+        }
+    }
+
+    public BigDecimal getSafeCurrentRevisedEstimate() {
+        if (null != currentRevisedEstimate) {
+            return  currentRevisedEstimate;
+        } else {
+            return BigDecimal.ZERO;
+        }
+    }
+
+    public BigDecimal getSafeNextEstimate() {
+        if (null != nextEstimate) {
+            return  nextEstimate;
+        } else {
+            return BigDecimal.ZERO;
+        }
+    }
 
     public Boolean isValuesFilled() {
         return currentEstimate != null && currentActual != null && currentRevisedEstimate != null && nextEstimate != null;
+    }
+
+
+    @Transient
+    public String generateBudgetCode() {
+
+        if (budgetHead == null || function == null) {
+            return null;
+        }
+
+        String functionCode = function.getCode();
+        String budgetHeadCode = budgetHead.getCode();
+
+        if (functionCode == null || budgetHeadCode == null) {
+            return null;
+        }
+
+        return functionCode + "-" + budgetHeadCode;
     }
 
 
