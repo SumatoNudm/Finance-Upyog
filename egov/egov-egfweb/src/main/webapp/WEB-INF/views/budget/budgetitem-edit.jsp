@@ -237,7 +237,7 @@
                         <div class="col-sm-9 add-margin mb-3">
                             <strong class="text-danger">
                                 <i class="fa fa-star"></i>
-                                &nbsp; BE: Budget Estimate, RE: Revised Estimate, BE: Budget Estimate.
+                                &nbsp; BE: Budget Estimate, RE: Revised Estimate.
                             </strong>
                         </div>
                     </div> <!-- /panel-body -->
