@@ -13,7 +13,30 @@ $(document).ready(function () {
 
     budgethead_initialize();
     //scheme_initialize();
+    initTypeaheadOnScheme();
+    addSchemeValidations();
+    initCheckbox();
 });
+
+
+function initCheckbox() {
+    document.addEventListener("change", function (e) {
+        if (e.target.classList.contains("na-checkbox")) {
+            const row = e.target.closest("tr");
+            const inputs = row.querySelectorAll("input[type='number'], input[type='text']");
+            inputs.forEach(i => i.disabled = e.target.checked);
+        }
+     });
+
+
+
+    document.querySelectorAll(".na-checkbox").forEach(cb => {
+        const row = cb.closest("tr");
+        const inputs = row.querySelectorAll("input[type='number'], input[type='text']");
+        inputs.forEach(i => i.disabled = cb.checked);
+    });
+}
+
 
 function getCookie(name) {
     let cookies = document.cookie;
@@ -304,6 +327,7 @@ function scheme_initialize(row) {
     // addSchemeValidations();
 }
 
+//    addSchemeValidations();
 
 // function addSchemeValidations() {
 //     // Clear hidden fields *whenever user types*

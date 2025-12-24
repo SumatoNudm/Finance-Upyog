@@ -72,6 +72,14 @@
     .indent2 { padding-left: 28px; }
     .muted   { color: #777; }
 
+    th:nth-child(1), td:nth-child(1) { width: 32%; }
+    th:nth-child(2), td:nth-child(2) { width: 10%; }
+    th:nth-child(3), td:nth-child(3) { width: 10%; }
+    th:nth-child(4), td:nth-child(4) { width: 12%; }
+    th:nth-child(5), td:nth-child(5) { width: 12%; }
+    th:nth-child(6), td:nth-child(6) { width: 12%; }
+    th:nth-child(7), td:nth-child(7) { width: 12%; }
+
 </style>
 
 

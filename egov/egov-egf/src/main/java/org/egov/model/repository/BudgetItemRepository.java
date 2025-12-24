@@ -35,8 +35,15 @@ public interface BudgetItemRepository extends JpaRepository<BudgetItem, Long> {
 
     List<BudgetItem> findByBudgetGroupInAndFunctionAndBudgetRegister(List<String> budgetGroup, CFunction function, BudgetRegister budgetRegister);
 
-    List<BudgetItem> findByBudgetGroupInAndBudgetRegister(
-            List<String> budgetGroup, BudgetRegister budgetRegister);
+    // excluding not applicable budget items
+    List<BudgetItem> findByBudgetGroupInAndFunctionAndBudgetRegisterAndNotApplicableFalse(List<String> budgetGroup, CFunction function, BudgetRegister budgetRegister);
+
+    List<BudgetItem> findByBudgetGroupInAndBudgetRegister(List<String> budgetGroup, BudgetRegister budgetRegister);
+
+    // exclude not applicable budget items
+    List<BudgetItem> findByBudgetGroupInAndBudgetRegisterAndNotApplicableFalse(List<String> budgetGroup, BudgetRegister budgetRegister);
+
+
 
 
 

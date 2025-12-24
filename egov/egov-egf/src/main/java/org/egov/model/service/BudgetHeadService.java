@@ -5,12 +5,14 @@ import javax.persistence.PersistenceContext;
 
 import org.apache.struts2.util.SortIteratorFilter;
 import org.egov.commons.CFinancialYear;
+import org.egov.commons.CFunction;
 import org.egov.model.budget.BudgetHead;
 import org.egov.model.repository.BudgetHeadRepository;
 import org.egov.utils.BudgetAccountType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -86,7 +88,7 @@ public class BudgetHeadService {
     }
 
     public List<BudgetHead> getActiveBudgetHeads() {
-        List<BudgetHead> budgetHeads = budgetHeadRepository.findAll();
+        List<BudgetHead> budgetHeads = budgetHeadRepository.findAll(new Sort(Sort.Direction.ASC, "order"));
         return budgetHeads;
     }
 
@@ -99,6 +101,10 @@ public class BudgetHeadService {
 
     public List<BudgetHead> searchBudgetHeadsByFunctionNative(final Long functionId, final String query) {
         return budgetHeadRepository.searchBudgetHeadsByFunctionNative(functionId, query);
+    }
+
+    public List<BudgetHead> getBudgetHeadsByFunction(CFunction function) {
+        return budgetHeadRepository.getBudgetHeadByFunction(function.getId());
     }
 
     public BudgetHead findById(final  Long budgetHeadId) {
