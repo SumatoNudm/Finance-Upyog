@@ -231,9 +231,9 @@ public class BudgetItemController {
 
 		if (resultBinder.hasErrors()) {
 			budgetItemService.populateValidationErrors(model, function, budgetRegisterId, budgetForm, budgetRegister);
-//			return BUDGET_FORM;
-			LOGGER.info("returning the view!");
-			return "functionwisebudget-form";
+			return BUDGET_FORM;
+//			LOGGER.info("returning the view!");
+//			return "functionwisebudget-form";
 		}
 
 
@@ -633,9 +633,9 @@ public class BudgetItemController {
 
 		try {
 
-//			budgetItemService.updateBudgetInputForm(budgetForm, budgetRegister); // inside service: save opening, items,
+			budgetItemService.updateBudgetInputForm(budgetForm, budgetRegister); // inside service: save opening, items,
 
-			budgetItemService.saveAndUpdateBudgetInputForm(budgetForm, budgetRegister, function);								// closing
+//			budgetItemService.saveAndUpdateBudgetInputForm(budgetForm, budgetRegister, function);								// closing
 			redirectAttrs.addFlashAttribute("message", "Budget items updated successfully!");
 
 		} catch (Exception e) {

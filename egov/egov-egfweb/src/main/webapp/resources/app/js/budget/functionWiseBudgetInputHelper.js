@@ -13,7 +13,30 @@ $(document).ready(function () {
 
     budgethead_initialize();
     //scheme_initialize();
+    initTypeaheadOnScheme();
+    addSchemeValidations();
+    initCheckbox();
 });
+
+
+function initCheckbox() {
+    document.addEventListener("change", function (e) {
+        if (e.target.classList.contains("na-checkbox")) {
+            const row = e.target.closest("tr");
+            const inputs = row.querySelectorAll("input[type='number'], input[type='text']");
+            inputs.forEach(i => i.disabled = e.target.checked);
+        }
+     });
+
+
+
+    document.querySelectorAll(".na-checkbox").forEach(cb => {
+        const row = cb.closest("tr");
+        const inputs = row.querySelectorAll("input[type='number'], input[type='text']");
+        inputs.forEach(i => i.disabled = cb.checked);
+    });
+}
+
 
 function getCookie(name) {
     let cookies = document.cookie;
@@ -131,10 +154,10 @@ function budgethead_initialize() {
                 row.find('.scheme-input')
                     .attr('required', 'required')
                     .attr('data-optional', '0')
-                    .attr('data-errormsg', 'Scheme is mandatory!')
+                    .attr('data-errormsg', 'Scheme Code is mandatory!')
                     .attr('data-idx', '0');
 
-                //  scheme_initialize(row);
+                  //  scheme_initialize(row);
 
                 row.find('.scheme-input').typeahead('destroy').unbind();
 
@@ -301,9 +324,10 @@ function scheme_initialize(row) {
         row.find('.stateBudgetCode').val(statecode + "-" + (data.stateCode || "").trim());
     });
 
-    // addSchemeValidations();
+   // addSchemeValidations();
 }
 
+//    addSchemeValidations();
 
 // function addSchemeValidations() {
 //     // Clear hidden fields *whenever user types*
@@ -337,26 +361,94 @@ function scheme_initialize(row) {
 //     });
 // }
 
-$(document).on('change blur', '.scheme-input', function () {
+$(document).on('change', '.scheme-input', function () {
 
-    var row = $(this).parents("tr:first");
+    var row = $(this).closest('tr');
 
     var schemeId = $(this).val();
-    var schemeStateCode = $(this).find(':selected').data('statecode') || '';
-    var stateCode = row.find('.stateCode').val();
+    var schemeStateCode = $(this).find(':selected').data('statecode');
+    var stateCode = row.find('.stateCode').val(); // from budget head
 
-    if (schemeId) {
+    if (schemeId && schemeStateCode) {
         row.find('.stateBudgetCode')
-            .val(stateCode + '-' + schemeStateCode);
+           .val(stateCode + '-' + (schemeStateCode || "").trim());
     } else {
         row.find('.stateBudgetCode').val(stateCode);
-
-        row.find('.scheme-input')
-            .attr('required', 'required')
-            .attr('data-optional', '0')
-            .attr('data-errormsg', 'Scheme is mandatory!')
-            .attr('data-idx', '0');
     }
 });
+        // Simple invalid code check
+        $('.scheme-input').on('blur', function () {
+            var row = $(this).parents("tr:first");
+             var stateCode = row.find('.stateCode').val();
+             var schemeId = row.find('.schemeId').val();
+
+            if (!schemeId) {
+                $(this).addClass("is-invalid");
+                row.find(".schemeId").val("");
+                row.find(".scheme-input").val("");
+                row.find(".stateBudgetCode").val(stateCode);
+                bootbox.alert("Invalid Scheme !");
+            } else {
+                $(this).removeClass("is-invalid");
+            }
+        });
+}
 
 
+function initTypeaheadOnScheme() {
+
+    var scheme = new Bloodhound({
+            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('code', 'name'),
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            remote: {
+                url: '/services/EGF/scheme/ajaxSchemes?query=%QUERY',
+                wildcard: '%QUERY',
+                dataType: "json",
+                transform: function (response) {
+                    return $.map(response, function (ct) {
+                        return {
+                            id: ct.id,
+                            name: ct.name,
+                            code: ct.code,
+                            isactive: ct.isactive,
+                            stateCode: ct.stateCode
+                        };
+                    });
+                }
+            }
+        });
+
+        scheme.initialize();
+
+        // apply typeahead ONLY to scheme input in this row
+        var sc = $('.scheme-input').typeahead(
+            {
+                hint: true,
+                highlight: true,
+                minLength: 2
+            },
+            {
+                name: 'schemes',
+                display: function (item) {
+                    return item.code + ' - ' + item.name;
+                },
+                source: scheme.ttAdapter(),
+                limit: 20,
+                templates: {
+                    suggestion: function (data) {
+                        return `<div>${data.code} - ${data.name}</div>`;
+                    }
+                }
+            }
+        ).on('typeahead:selected typeahead:autocompleted', function (event, data) {
+
+
+            $(this).parents("tr:first").find('.schemeId').val(data.id);
+
+            var statecode = $(this).parents("tr:first").find('.stateCode').val();
+
+            $(this).parents("tr:first").find('.stateBudgetCode').val(statecode + "-" + (data.stateCode || "").trim());
+
+        });
+
+}
