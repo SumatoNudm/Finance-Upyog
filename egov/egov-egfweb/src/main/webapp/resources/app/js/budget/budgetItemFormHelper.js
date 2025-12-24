@@ -131,10 +131,10 @@ function budgethead_initialize() {
                 row.find('.scheme-input')
                     .attr('required', 'required')
                     .attr('data-optional', '0')
-                    .attr('data-errormsg', 'Scheme Code is mandatory!')
+                    .attr('data-errormsg', 'Scheme is mandatory!')
                     .attr('data-idx', '0');
 
-                  //  scheme_initialize(row);
+                //  scheme_initialize(row);
 
                 row.find('.scheme-input').typeahead('destroy').unbind();
 
@@ -301,7 +301,7 @@ function scheme_initialize(row) {
         row.find('.stateBudgetCode').val(statecode + "-" + (data.stateCode || "").trim());
     });
 
-   // addSchemeValidations();
+    // addSchemeValidations();
 }
 
 
@@ -337,18 +337,26 @@ function scheme_initialize(row) {
 //     });
 // }
 
-$(document).on('change', '.scheme-input', function () {
+$(document).on('change blur', '.scheme-input', function () {
 
-    var row = $(this).closest('tr');
+    var row = $(this).parents("tr:first");
 
     var schemeId = $(this).val();
-    var schemeStateCode = $(this).find(':selected').data('statecode');
-    var stateCode = row.find('.stateCode').val(); // from budget head
+    var schemeStateCode = $(this).find(':selected').data('statecode') || '';
+    var stateCode = row.find('.stateCode').val();
 
-    if (schemeId && schemeStateCode) {
+    if (schemeId) {
         row.find('.stateBudgetCode')
-           .val(stateCode + '-' + (schemeStateCode || "").trim());
+            .val(stateCode + '-' + schemeStateCode);
     } else {
         row.find('.stateBudgetCode').val(stateCode);
+
+        row.find('.scheme-input')
+            .attr('required', 'required')
+            .attr('data-optional', '0')
+            .attr('data-errormsg', 'Scheme is mandatory!')
+            .attr('data-idx', '0');
     }
 });
+
+
