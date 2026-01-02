@@ -69,7 +69,7 @@
           </div> -->
 
           <div class="form-group text-center">
-            <c:if test="${empty error}">
+            <c:if test="${empty errors}">
               <button type='submit' class='btn btn-primary' id="buttonNext">
                 <spring:message code='lbl.next' text="Next" />
               </button>
