@@ -100,6 +100,9 @@
 		<property name="lastModifiedBy" type="long">
 			<column name="LASTMODIFIEDBY"></column>
 		</property>
+        <property name="stateCode" type="string">
+            <column name="STATECODE"></column>
+        </property>
         <set name="subSchemes" inverse="true">
             <key>
                 <column name="SCHEMEID" precision="22" scale="0" not-null="true" />

@@ -90,6 +90,8 @@ public class Scheme implements java.io.Serializable {
 
 	private Date lastModifiedDate;
 
+	private String stateCode;
+
 	public Scheme() {
 	}
 
@@ -102,7 +104,7 @@ public class Scheme implements java.io.Serializable {
 	}
 
 	@SuppressWarnings("unused")
-	private void setId(final Integer id) {
+	public void setId(final Integer id) {
 		this.id = id;
 	}
 
@@ -172,7 +174,7 @@ public class Scheme implements java.io.Serializable {
 
 	public Scheme(final Integer id, final Fund fund, final String code, final String name, final Date validfrom,
 			final Date validto, final boolean isactive, final String description, final BigDecimal sectorid,
-			final BigDecimal aaes, final BigDecimal fieldid, final Set<SubScheme> subSchemes) {
+			final BigDecimal aaes, final BigDecimal fieldid, final Set<SubScheme> subSchemes, final String stateCode) {
 		this.id = id;
 		this.fund = fund;
 		this.code = code;
@@ -185,6 +187,7 @@ public class Scheme implements java.io.Serializable {
 		this.aaes = aaes;
 		this.fieldid = fieldid;
 		this.subSchemes = subSchemes;
+		this.stateCode = stateCode;
 	}
 
 	public void reset() {
@@ -196,6 +199,7 @@ public class Scheme implements java.io.Serializable {
 		fund = null;
 		validfrom = null;
 		validto = null;
+		stateCode = null;
 
 	}
 
@@ -255,10 +259,31 @@ public class Scheme implements java.io.Serializable {
 		this.lastModifiedDate = lastModifiedDate;
 	}
 
+
+	public String getStateCode() {
+		return stateCode;
+	}
+
+	public void setStateCode(String stateCode) {
+		this.stateCode = stateCode;
+	}
+
 	@Override
 	public String toString() {
 
 		return "id:" + id + ",Code:" + code + "," + "isActive:" + isactive;
+	}
+
+	public String getCodeAndNameForShow() {
+		StringBuilder stringBuilder = new StringBuilder();
+		if (code != null && !code.isEmpty()) {
+			stringBuilder.append(code);
+			stringBuilder.append(" - ");
+		}
+		if (name != null && !name.isEmpty()) {
+			stringBuilder.append(name);
+		}
+		return stringBuilder.toString();
 	}
 
 }

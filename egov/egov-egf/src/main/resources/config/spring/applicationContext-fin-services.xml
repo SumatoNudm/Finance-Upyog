@@ -167,6 +167,11 @@
 			ref="billRegisterPersistenceService" />
 	</bean>
 
+	<bean id="BudgetRegisterInboxRenderService"
+		  class="org.egov.services.budget.inbox.BudgetRegisterInboxRenderService">
+
+	</bean>
+
 	<bean id="budgetDetailService" class="org.egov.services.budget.BudgetDetailService">
 		<constructor-arg name="type" value="org.egov.model.budget.BudgetDetail"/>
 	</bean>
