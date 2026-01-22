@@ -246,6 +246,10 @@ public class MicroserviceUtils {
     @Value("${collection.payment.searchurl.enabled}")
     private Boolean paymentSearchEndPointEnabled;
 
+    @Value("${state.finance.service.url}")
+    private String stateFinanceServiceUrl;
+
+
     private ObjectMapper mapper;
     SimpleDateFormat ddMMMyyyyFormat = new SimpleDateFormat("dd-MMM-yyyy");
 
@@ -1997,6 +2001,19 @@ public class MicroserviceUtils {
         }
         return null;
     }
+
+
+    public void pushBudgetToStateFinance(Object data) {
+        try {
+            StringBuilder uri = new StringBuilder(appConfigManager.getStateFinanceSerHost())
+                    .append(stateFinanceServiceUrl);
+            Object postForObject =
+                    restTemplate.postForObject(uri.toString(), data, Object.class);
+        } catch (RestClientException e) {
+            Log.error("ERROR occurred while trying to push budget to state finance module : ", e);
+        }
+    }
+
 
 
 

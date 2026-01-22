@@ -1,7 +1,6 @@
 package org.egov.model.budget;
 
 
-import jdk.nashorn.internal.runtime.logging.Loggable;
 import lombok.Getter;
 import lombok.Setter;
 

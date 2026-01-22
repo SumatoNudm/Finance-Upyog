@@ -4,12 +4,16 @@ import org.apache.log4j.Logger;
 import org.egov.commons.CFinancialYear;
 import org.egov.commons.dao.EgwStatusHibernateDAO;
 import org.egov.commons.service.CFinancialYearService;
+import org.egov.egf.statefinance.event.StateFinanceEventType;
+import org.egov.egf.statefinance.event.listener.StateFinanceService;
+import org.egov.egf.statefinance.model.BudgetRegisterWrapper;
 import org.egov.egf.utils.FinancialUtils;
 import org.egov.eis.entity.Employee;
 import org.egov.eis.service.OldEmployeeService;
 import org.egov.eis.web.contract.WorkflowContainer;
 import org.egov.eis.web.controller.workflow.GenericWorkFlowController;
 import org.egov.infra.admin.master.entity.User;
+import org.egov.infra.config.core.ApplicationThreadLocals;
 import org.egov.infra.microservice.models.Assignment;
 import org.egov.infra.microservice.models.Designation;
 import org.egov.infra.microservice.models.EmployeeInfo;
@@ -74,6 +78,11 @@ public class BudgetRegisterController extends GenericWorkFlowController {
 
     @Autowired
     private MicroserviceUtils microServiceUtil;
+
+    @Autowired
+    private StateFinanceService stateFinanceService;
+
+
 
     @RequestMapping(value = "/new", method = { RequestMethod.GET, RequestMethod.POST })
     public String newForm(final Model model, @ModelAttribute("budgetRegister") final BudgetRegister budgetRegister,
@@ -307,6 +316,11 @@ public class BudgetRegisterController extends GenericWorkFlowController {
 
         // budgetRegisterWorkflowService.create(budgetRegister, approvalPosition,
         // approvalComment, null, "FORWARD", approvalDesignation);
+
+        if (workFlowAction.toLowerCase().contentEquals("forward to dma")) {
+            stateFinanceService.forwardBudgetForApproval(StateFinanceEventType.BUDGET_APPROVAL, BudgetRegisterWrapper.fromBudgetRegister(currentBudgetRegister, microServiceUtil.getTenentId()));
+            return "redirect:/budget/register/workflow/view/" + currentBudgetRegister.getBudgetRegisterNumber();
+        }
 
         budgetRegisterWorkflowService.createBudgetRegisterWorkFlowTransitionNew(currentBudgetRegister, approvalPosition,
                 approvalComment, null, workFlowAction, approvalDesignation);

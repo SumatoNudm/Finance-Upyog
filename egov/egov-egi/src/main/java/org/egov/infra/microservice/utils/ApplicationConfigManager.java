@@ -110,6 +110,9 @@ public class ApplicationConfigManager {
     @Value("${egov.services.collection.service.payment.modulename.workflow:}")
     private String collSerPaymentModuleNameWorkflow;
 
+    @Value("${state.finance.service:}")
+    private String stateFinanceSerHost;
+
     
     public String getEgovHrmsSerHost(){
         return StringUtils.isNotBlank(egovHrmsSerHost) ? egovHrmsSerHost : egovSerHost; 
@@ -154,7 +157,11 @@ public class ApplicationConfigManager {
     public String getEgovFileStoreDownloadFile(){
         return StringUtils.isNotBlank(egovFileStoreDownloadFile) ? egovFileStoreDownloadFile : egovSerHost; 
     }
-    
+
+
+    public String getStateFinanceSerHost() {
+        return StringUtils.isNotBlank(stateFinanceSerHost) ? stateFinanceSerHost : egovSerHost;
+    }
     
     
 }
