@@ -8,9 +8,10 @@ import org.egov.model.budget.BudgetRegister;
 @Setter
 public class BudgetRegisterWrapper {
 
-    public static BudgetRegisterWrapper fromBudgetRegister(BudgetRegister budgetRegister, String tenantId) {
+    public static BudgetRegisterWrapper fromBudgetRegister(BudgetRegister budgetRegister, String tenantId, String cityName) {
         BudgetRegisterWrapper budgetRegisterWrapper = new BudgetRegisterWrapper();
         budgetRegisterWrapper.setTenantId(tenantId);
+        budgetRegisterWrapper.setCityName(cityName);
         budgetRegisterWrapper.setBudgetRegisterId(budgetRegister.getId());
         budgetRegisterWrapper.setBudgetRegisterNumber(budgetRegister.getBudgetRegisterNumber());
         budgetRegisterWrapper.setBudgetRegisterName(budgetRegister.getBudgetRegisterName());
@@ -23,6 +24,8 @@ public class BudgetRegisterWrapper {
 
 
     private String tenantId;
+
+    private String cityName;
 
     private Long budgetRegisterId;
 

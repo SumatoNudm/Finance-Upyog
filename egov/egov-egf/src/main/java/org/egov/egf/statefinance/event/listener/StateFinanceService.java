@@ -4,6 +4,7 @@ package org.egov.egf.statefinance.event.listener;
 import org.egov.egf.statefinance.event.StateFinanceEvent;
 import org.egov.egf.statefinance.event.StateFinanceEventType;
 import org.egov.egf.statefinance.model.BudgetRegisterRequestWrapper;
+import org.egov.egf.statefinance.model.BudgetRegisterResponse;
 import org.egov.egf.statefinance.model.BudgetRegisterWrapper;
 import org.egov.infra.config.core.ApplicationThreadLocals;
 import org.egov.infra.exception.ApplicationRuntimeException;
@@ -34,17 +35,19 @@ public class StateFinanceService {
 
 
 
-    public void forwardBudgetForApproval(StateFinanceEventType stateFinanceEventType, Object data) {
+    public Object forwardBudgetForApproval(StateFinanceEventType stateFinanceEventType, Object data) {
         String tenantId = microserviceUtils.getTenentId();
         String token = microserviceUtils.generateAdminToken(tenantId);
         String domainName = ApplicationThreadLocals.getDomainName();
-        StateFinanceEvent event = new StateFinanceEvent(this, data, stateFinanceEventType, tenantId, token, domainName);
-        applicationEventPublisher.publishEvent(event);
+        String cityName =  microserviceUtils.getHeaderNameForTenant();
+        StateFinanceEvent event = new StateFinanceEvent(this, data, stateFinanceEventType, tenantId, token, domainName, cityName);
+//        applicationEventPublisher.publishEvent(event);
+        return pushToStateFinance(event);
     }
 
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-    public void pushToStateFinance(StateFinanceEvent event) {
+    public Object pushToStateFinance(StateFinanceEvent event) {
         try {
 
             Object data = event.getData();
@@ -62,11 +65,15 @@ public class StateFinanceService {
             budgetRegisterRequestWrapper.setRequestInfo(requestInfo);
 
             LOGGER.info("push budget to state finance");
-            microserviceUtils.pushBudgetToStateFinance(budgetRegisterRequestWrapper);
+            return microserviceUtils.pushBudgetToStateFinance(budgetRegisterRequestWrapper);
+
+
 
         } catch (ApplicationRuntimeException e) {
             LOGGER.error("ERROR while generation event to publish data to state finance");
         }
+
+        return null;
 
     }
 

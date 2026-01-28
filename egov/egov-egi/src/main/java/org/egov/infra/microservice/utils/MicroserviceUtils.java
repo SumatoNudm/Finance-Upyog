@@ -2003,15 +2003,19 @@ public class MicroserviceUtils {
     }
 
 
-    public void pushBudgetToStateFinance(Object data) {
+    public Object pushBudgetToStateFinance(Object data) {
         try {
             StringBuilder uri = new StringBuilder(appConfigManager.getStateFinanceSerHost())
                     .append(stateFinanceServiceUrl);
             Object postForObject =
                     restTemplate.postForObject(uri.toString(), data, Object.class);
+
+            return postForObject;
+
         } catch (RestClientException e) {
             Log.error("ERROR occurred while trying to push budget to state finance module : ", e);
         }
+        return null;
     }
 
 

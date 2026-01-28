@@ -6,6 +6,7 @@ import org.egov.commons.dao.EgwStatusHibernateDAO;
 import org.egov.commons.service.CFinancialYearService;
 import org.egov.egf.statefinance.event.StateFinanceEventType;
 import org.egov.egf.statefinance.event.listener.StateFinanceService;
+import org.egov.egf.statefinance.model.BudgetRegisterResponse;
 import org.egov.egf.statefinance.model.BudgetRegisterWrapper;
 import org.egov.egf.utils.FinancialUtils;
 import org.egov.eis.entity.Employee;
@@ -318,8 +319,14 @@ public class BudgetRegisterController extends GenericWorkFlowController {
         // approvalComment, null, "FORWARD", approvalDesignation);
 
         if (workFlowAction.toLowerCase().contentEquals("forward to dma")) {
-            stateFinanceService.forwardBudgetForApproval(StateFinanceEventType.BUDGET_APPROVAL, BudgetRegisterWrapper.fromBudgetRegister(currentBudgetRegister, microServiceUtil.getTenentId()));
-            return "redirect:/budget/register/workflow/view/" + currentBudgetRegister.getBudgetRegisterNumber();
+            String cityName = microServiceUtil.getHeaderNameForTenant();
+            Object response  =  stateFinanceService.forwardBudgetForApproval(StateFinanceEventType.BUDGET_APPROVAL, BudgetRegisterWrapper.fromBudgetRegister(currentBudgetRegister, microServiceUtil.getTenentId(), cityName));
+            BudgetRegisterResponse budgetRegisterResponse = (BudgetRegisterResponse) response;
+
+            if (null != budgetRegisterResponse) {
+                return "redirect:/budget/register/workflow/view/" + currentBudgetRegister.getBudgetRegisterNumber();
+            }
+            return "error/422";
         }
 
         budgetRegisterWorkflowService.createBudgetRegisterWorkFlowTransitionNew(currentBudgetRegister, approvalPosition,

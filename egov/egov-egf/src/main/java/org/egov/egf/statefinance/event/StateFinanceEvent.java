@@ -16,6 +16,7 @@ public class StateFinanceEvent extends ApplicationEvent {
     String tenantId;
     String token;
     String domainName;
+    String cityName;
 
 
     /**
@@ -23,13 +24,14 @@ public class StateFinanceEvent extends ApplicationEvent {
      *
      * @param source the object on which the event initially occurred (never {@code null})
      */
-    public StateFinanceEvent(Object source, Object data, StateFinanceEventType stateFinanceEventType, String tenantId, String token, String domainName) {
+    public StateFinanceEvent(Object source, Object data, StateFinanceEventType stateFinanceEventType, String tenantId, String token, String domainName, String cityName) {
         super(source);
         this.data = data;
         this.stateFinanceEventType = stateFinanceEventType;
         this.tenantId = tenantId;
         this.token = token;
         this.domainName = domainName;
+        this.cityName = cityName;
     }
 
 
