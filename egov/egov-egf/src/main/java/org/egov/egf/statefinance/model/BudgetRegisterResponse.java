@@ -13,6 +13,10 @@ public class BudgetRegisterResponse {
     private ResponseInfo responseInfo;
 
     @JsonProperty("Data")
-    private Map<String, String> data;
+    private BudgetRegisterDTO data;
+
+
 
 }
+
+

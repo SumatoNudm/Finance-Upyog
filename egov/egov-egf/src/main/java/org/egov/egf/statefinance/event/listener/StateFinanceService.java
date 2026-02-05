@@ -9,6 +9,7 @@ import org.egov.egf.statefinance.model.BudgetRegisterWrapper;
 import org.egov.infra.config.core.ApplicationThreadLocals;
 import org.egov.infra.exception.ApplicationRuntimeException;
 import org.egov.infra.microservice.models.RequestInfo;
+import org.egov.infra.microservice.utils.ApplicationConfigManager;
 import org.egov.infra.microservice.utils.MicroserviceUtils;
 import org.egov.model.budget.BudgetRegister;
 import org.slf4j.Logger;
@@ -18,6 +19,8 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.regex.Pattern;
 
@@ -34,8 +37,11 @@ public class StateFinanceService {
     private MicroserviceUtils microserviceUtils;
 
 
+    @Autowired
+    private RestTemplate restTemplate;
 
-    public Object forwardBudgetForApproval(StateFinanceEventType stateFinanceEventType, Object data) {
+
+    public BudgetRegisterResponse forwardBudgetForApproval(StateFinanceEventType stateFinanceEventType, Object data) {
         String tenantId = microserviceUtils.getTenentId();
         String token = microserviceUtils.generateAdminToken(tenantId);
         String domainName = ApplicationThreadLocals.getDomainName();
@@ -47,8 +53,7 @@ public class StateFinanceService {
 
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-    public Object pushToStateFinance(StateFinanceEvent event) {
-        try {
+    public BudgetRegisterResponse pushToStateFinance(StateFinanceEvent event) throws RestClientException {
 
             Object data = event.getData();
             String tenantId = event.getTenantId();
@@ -57,7 +62,6 @@ public class StateFinanceService {
 
             this.prepareThreadLocal(tenantId, domainName);
 
-
             BudgetRegisterRequestWrapper budgetRegisterRequestWrapper = new BudgetRegisterRequestWrapper();
             budgetRegisterRequestWrapper.setBudgetRegister((BudgetRegisterWrapper) data);
             RequestInfo requestInfo = new RequestInfo();
@@ -65,15 +69,13 @@ public class StateFinanceService {
             budgetRegisterRequestWrapper.setRequestInfo(requestInfo);
 
             LOGGER.info("push budget to state finance");
-            return microserviceUtils.pushBudgetToStateFinance(budgetRegisterRequestWrapper);
 
+        String uri = microserviceUtils.getBudgetSubmitUrl();
+        BudgetRegisterResponse postForObject =
+                restTemplate.postForObject(uri, budgetRegisterRequestWrapper, BudgetRegisterResponse.class);
 
+        return postForObject;
 
-        } catch (ApplicationRuntimeException e) {
-            LOGGER.error("ERROR while generation event to publish data to state finance");
-        }
-
-        return null;
 
     }
 

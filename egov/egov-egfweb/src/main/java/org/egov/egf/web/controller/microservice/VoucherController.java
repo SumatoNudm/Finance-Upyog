@@ -2,10 +2,7 @@ package org.egov.egf.web.controller.microservice;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.apache.http.HttpStatus;
@@ -26,11 +23,13 @@ import org.egov.infra.exception.ApplicationRuntimeException;
 import org.egov.infra.microservice.models.VoucherSearchCriteria;
 import org.egov.infra.microservice.utils.MicroserviceUtils;
 import org.egov.infra.validation.exception.ValidationException;
+import org.egov.model.budget.register.BudgetRegisterActionsDTO;
 import org.egov.services.voucher.VoucherService;
 import org.owasp.esapi.ESAPI;
 import org.owasp.esapi.errors.EncodingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,6 +38,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
+
+import javax.validation.Valid;
 
 @RestController
 public class VoucherController {
@@ -218,6 +219,35 @@ public class VoucherController {
 					MicroserviceUtils.getResponseInfo(voucherSearchRequest.getRequestInfo(), HttpStatus.SC_OK, null));
 
 			return new ResponseEntity<>(response, org.springframework.http.HttpStatus.OK);
+		} catch (HttpClientErrorException e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ApplicationRuntimeException(e.getMessage());
+		}
+
+	}
+
+
+	@PostMapping(value = "/rest/voucher/stateaction", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	private @ResponseBody Map<String, Object> handleStateAction(
+			@RequestBody @Valid BudgetRegisterActionsDTO budgetRegisterActionsDTO
+	) {
+
+		try {
+
+			Map<String, Object> response = new HashMap<>();
+
+			response.put("action", budgetRegisterActionsDTO.action);
+
+			if (budgetRegisterActionsDTO.action == BudgetRegisterActionsDTO.BudgetRegisterAction.APPROVE) {
+				//
+				response.put("what to do", "approve budget");
+			} else {
+				response.put("what to do", "reject budget");
+			}
+
+
+			return response;
+
 		} catch (HttpClientErrorException e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new ApplicationRuntimeException(e.getMessage());

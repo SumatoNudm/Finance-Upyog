@@ -15,6 +15,7 @@ import org.egov.eis.web.contract.WorkflowContainer;
 import org.egov.eis.web.controller.workflow.GenericWorkFlowController;
 import org.egov.infra.admin.master.entity.User;
 import org.egov.infra.config.core.ApplicationThreadLocals;
+import org.egov.infra.microservice.contract.ResponseInfo;
 import org.egov.infra.microservice.models.Assignment;
 import org.egov.infra.microservice.models.Designation;
 import org.egov.infra.microservice.models.EmployeeInfo;
@@ -22,18 +23,22 @@ import org.egov.infra.microservice.utils.MicroserviceUtils;
 import org.egov.infra.security.utils.SecurityUtils;
 import org.egov.infra.workflow.entity.StateHistory;
 import org.egov.model.budget.BudgetRegister;
+import org.egov.model.budget.register.BudgetRegisterActionsDTO;
 import org.egov.model.service.BudgetRegisterWorkflowService;
 import org.egov.pims.commons.Position;
 import org.egov.utils.FinancialConstants;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.*;
 
 @Controller
@@ -319,14 +324,18 @@ public class BudgetRegisterController extends GenericWorkFlowController {
         // approvalComment, null, "FORWARD", approvalDesignation);
 
         if (workFlowAction.toLowerCase().contentEquals("forward to dma")) {
-            String cityName = microServiceUtil.getHeaderNameForTenant();
-            Object response  =  stateFinanceService.forwardBudgetForApproval(StateFinanceEventType.BUDGET_APPROVAL, BudgetRegisterWrapper.fromBudgetRegister(currentBudgetRegister, microServiceUtil.getTenentId(), cityName));
-            BudgetRegisterResponse budgetRegisterResponse = (BudgetRegisterResponse) response;
 
-            if (null != budgetRegisterResponse) {
-                return "redirect:/budget/register/workflow/view/" + currentBudgetRegister.getBudgetRegisterNumber();
+            String cityName = microServiceUtil.getHeaderNameForTenant();
+
+            try {
+                BudgetRegisterResponse response  = stateFinanceService.forwardBudgetForApproval(StateFinanceEventType.BUDGET_APPROVAL, BudgetRegisterWrapper.fromBudgetRegister(currentBudgetRegister, microServiceUtil.getTenentId(), cityName));
+            } catch (RestClientException exception) {
+                exception.printStackTrace();
+                return "error/422";
+
             }
-            return "error/422";
+
+            return "redirect:/budget/register/workflow/view/" + currentBudgetRegister.getBudgetRegisterNumber();
         }
 
         budgetRegisterWorkflowService.createBudgetRegisterWorkFlowTransitionNew(currentBudgetRegister, approvalPosition,
@@ -367,5 +376,37 @@ public class BudgetRegisterController extends GenericWorkFlowController {
 
         return financialYearMap;
     }
+
+
+    @PostMapping(value = "/test", produces = MediaType.APPLICATION_JSON_VALUE)
+    private @ResponseBody Map<String, Object> testApi() {
+        Map<String, Object> response = new HashMap<>();
+        response.put("testing", "OK");
+
+        return response;
+    }
+
+
+    @PostMapping(value = "/stateaction", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    private @ResponseBody Map<String, Object> handleStateAction(
+            @RequestBody @Valid BudgetRegisterActionsDTO budgetRegisterActionsDTO
+            ) {
+
+        Map<String, Object> response = new HashMap<>();
+
+        response.put("action", budgetRegisterActionsDTO.action);
+
+        if (budgetRegisterActionsDTO.action == BudgetRegisterActionsDTO.BudgetRegisterAction.APPROVE) {
+            //
+            response.put("what to do", "approve budget");
+        } else  {
+            response.put("what to do", "reject budget");
+        }
+
+
+        return response;
+
+    }
+
 
 }
