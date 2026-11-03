@@ -48,8 +48,9 @@
 
 package org.egov.commons.service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.*;
+import java.math.BigDecimal;
+import java.util.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -59,10 +60,15 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.Metamodel;
+import javax.validation.ValidationException;
 
+import org.apache.poi.ss.usermodel.*;
 import org.egov.commons.Accountdetailtype;
 import org.egov.commons.contracts.AccountDetailTypeSearchRequest;
+import org.egov.commons.dao.AccountdetailtypeUploadResult;
+import org.egov.commons.dao.AccountdetailtypeUploadRow;
 import org.egov.commons.repository.AccountdetailtypeRepository;
+import org.egov.infra.security.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -75,6 +81,9 @@ public class AccountdetailtypeService {
     private final AccountdetailtypeRepository accountdetailtypeRepository;
     @PersistenceContext
     private EntityManager entityManager;
+
+   /* @Autowired
+    private SecurityUtils securityUtils;*/
 
     @Autowired
     public AccountdetailtypeService(final AccountdetailtypeRepository accountdetailtypeRepository) {
@@ -143,4 +152,63 @@ public class AccountdetailtypeService {
     public List<Accountdetailtype> findByGlcodeId(final Long glcodeId) {
         return accountdetailtypeRepository.findByGlcodeId(glcodeId);
     }
+
+
+/*
+    @Transactional
+    public AccountdetailtypeUploadResult createFromUpload(List<AccountdetailtypeUploadRow> rows) {
+        if (rows == null || rows.isEmpty())
+            throw new ValidationException("File has no data rows");
+
+        Set<String> seenNames = new HashSet<>();
+        List<String> errors = new ArrayList<>();
+        AccountdetailtypeUploadResult result = new AccountdetailtypeUploadResult();
+        List<AccountdetailtypeUploadRow> toCreate = new ArrayList<>();
+
+        for (int i = 0; i < rows.size(); i++) {
+            AccountdetailtypeUploadRow r = rows.get(i);
+            int line = i + 2; // Excel row number (header is row 1)
+            String name = r.getName() == null ? "" : r.getName().trim();
+            String description = r.getDescription() == null ? "" : r.getDescription().trim();
+
+            if (name.isEmpty() || description.isEmpty()) {
+                errors.add("Row " + line + ": Name and Description are mandatory");
+                continue;
+            }
+            if (name.length() > 50) {
+                errors.add("Row " + line + ": Name is too long (max 50 characters)");
+                continue;
+            }
+            if (!seenNames.add(name.toLowerCase())) {
+                result.getSkipped().add("Row " + line + ": Duplicate name in file, skipped - " + name);
+                continue;
+            }
+            if (accountdetailtypeRepository.findByName(name) != null) {
+                result.getSkipped().add("Row " + (line-1) + ": Already exists, skipped - " + name);
+                continue;
+            }
+            toCreate.add(r);
+        }
+        if (!errors.isEmpty())
+            throw new ValidationException(String.join("; ", errors));
+
+        for (AccountdetailtypeUploadRow r : toCreate) {
+            String name = r.getName().trim();
+            Accountdetailtype adt = new Accountdetailtype();
+            adt.setName(name);
+            adt.setDescription(r.getDescription().trim());
+            adt.setIsactive(r.isActive());
+            adt.setTablename("accountEntityMaster");
+            adt.setColumnname("id");
+            adt.setAttributename(name+"_id");
+            adt.setNbroflevels(BigDecimal.ONE);
+            adt.setFullQualifiedName("org.egov.masters.model.AccountEntity");
+            adt.setCreatedDate(new Date());
+            adt.setLastModifiedDate(new Date());
+            adt.setLastModifiedBy(securityUtils.getCurrentUser().getId());
+            accountdetailtypeRepository.save(adt);
+        }
+        result.setSaved(toCreate.size());
+        return result;
+    }*/
 }

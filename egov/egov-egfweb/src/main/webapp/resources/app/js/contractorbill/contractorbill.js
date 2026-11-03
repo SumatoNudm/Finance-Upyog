@@ -685,3 +685,285 @@ function populateAccountCodeTemplateDetails(selectedTemp){
   }
 	
 }
+
+
+
+
+
+
+(function ($, window) {
+	'use strict';
+
+	var DRAFT_VERSION = 1;
+	var DRAFT_TTL_MS = 24 * 60 * 60 * 1000;   // draft is removed 24 hours after it was first saved
+	var DEBOUNCE_MS = 500;
+	var SAFETY_SAVE_MS = 30000;               // periodic save; it also removes the draft once 24h have passed
+	var RESTORE_POLL_MS = 500;
+	var RESTORE_MAX_POLLS = 20;
+
+	// Names never stored: secrets, and workflow dropdowns loaded by another script.
+	var workflowFieldRegex = /password|csrf|token|approvalDesignation|approvalPosition|approverName/i;
+	// Input types that carry no user data.
+	var skipTypeRegex = /^(button|submit|reset|file|image|password|hidden)$/i;
+	// Detail rows and the template dropdown are rebuilt by other code, so not saved.
+	var skipDetailsRegex = /^(debitDetails|creditDetails)\[|netPayable|accountCodeTemplate/i;
+	// Hidden fields that ARE user data and must be kept (everything else hidden is skipped).
+	var keepHiddenRegex = /^(billamount|passedamount)$/i;
+
+	/* ---------- storage helpers (never throw) ---------- */
+
+	var storage = (function () {
+		try {
+			var t = '__draft_test__';
+			window.sessionStorage.setItem(t, t);
+			window.sessionStorage.removeItem(t);
+			return window.sessionStorage;
+		} catch (e) {
+			return null; // blocked or unavailable
+		}
+	})();
+
+	function removeDraft(key) {
+		if (!storage) return;
+		try { storage.removeItem(key); } catch (e) {}
+	}
+
+	/** Remove this draft if 24 hours have passed since it was first saved. Returns true if removed. */
+	function expireIfStale(key) {
+		if (!storage) return false;
+		try {
+			var raw = storage.getItem(key);
+			if (!raw) return false;
+			var env = JSON.parse(raw);
+			if (env && env.createdAt && (Date.now() - env.createdAt) <= DRAFT_TTL_MS) return false;
+		} catch (e) {}
+		removeDraft(key);   // expired, corrupt or old format
+		return true;
+	}
+
+	function readDraft(key) {
+		if (!storage || expireIfStale(key)) return null;
+		try {
+			var raw = storage.getItem(key);
+			var env = raw && JSON.parse(raw);
+			return env && env.v === DRAFT_VERSION && env.data ? env.data : null;
+		} catch (e) {
+			removeDraft(key);
+			return null;
+		}
+	}
+
+	function writeDraft(key, data) {
+		if (!storage) return;
+		try {
+			var existing = storage.getItem(key);
+			var old = existing && JSON.parse(existing);
+			storage.setItem(key, JSON.stringify({
+				v: DRAFT_VERSION,
+				createdAt: (old && old.createdAt) || Date.now(),   // first-save time: the 24h window never slides
+				data: data
+			}));
+		} catch (e) {
+			if (window.console) console.warn('Draft not saved (storage full or blocked):', e && e.name);
+		}
+	}
+
+	/* ---------- main ---------- */
+
+	$(function () {
+		var formObj = $('#contractor').closest('form');
+		if (formObj.length === 0 || !storage) return;
+
+		var userId = String(formObj.attr('data-draft-user') || 'anonymous');
+		var prefix = 'contractor_bill_draft_';
+		var storageKey = prefix + userId + '_' + window.location.pathname;
+
+		var state = {
+			closed: false,      // true after submit/discard: no more saving
+			enabled: false,     // true after restore has finished
+			baseline: null,     // snapshot of the untouched form
+			debounce: null,
+			interval: null
+		};
+
+		// Snapshot of the untouched form, taken BEFORE any restore, so a restored draft
+		// is never mistaken as "nothing changed" and deleted.
+		state.baseline = JSON.stringify(collect());
+
+		function byName(name) {
+			return $('[name="' + name.replace(/"/g, '\\"') + '"]', formObj);
+		}
+
+		function isSkipped(el, name, type) {
+			if (!name || workflowFieldRegex.test(name)) return true;
+			if (skipDetailsRegex.test(name) || skipDetailsRegex.test(el.attr('id') || '')) return true;
+			if (type === 'hidden') return !keepHiddenRegex.test(name);
+			return skipTypeRegex.test(type);
+		}
+
+		function collect() {
+			var data = {};
+			formObj.find(':input').each(function () {
+				var el = $(this);
+				var name = el.attr('name');
+				var type = (el.attr('type') || '').toLowerCase();
+				if (isSkipped(el, name, type)) return;
+				if ((type === 'radio' || type === 'checkbox') && !el.is(':checked')) return;
+				data[name] = el.val();
+			});
+			data.__contractor = $('#contractor').val() || '';
+			data.__workOrder = $('#workOrder').val() || '';
+			data.__designation = $('#approvalDesignation').val() || '';
+			data.__position = $('#approvalPosition').val() || '';
+			return data;
+		}
+
+		function save() {
+			if (state.closed || !state.enabled) return;
+			// Draft already past its 24h: remove it and stop saving, so an unload/reload
+			// save cannot recreate it with a fresh timestamp.
+			if (expireIfStale(storageKey)) { stopSaving(); return; }
+			var data = collect();
+			var json = JSON.stringify(data);
+			if (json === state.baseline) { removeDraft(storageKey); return; } // nothing changed
+			writeDraft(storageKey, data);
+		}
+
+		function scheduleSave() {
+			clearTimeout(state.debounce);
+			state.debounce = setTimeout(save, DEBOUNCE_MS);
+		}
+
+		function stopSaving() {
+			state.closed = true;
+			clearInterval(state.interval);
+			clearTimeout(state.debounce);
+		}
+
+		function closeDraft() {
+			stopSaving();
+			removeDraft(storageKey);
+		}
+
+		function enableSaving() {
+			state.enabled = true;
+			if (readDraft(storageKey)) save();
+		}
+
+		/* ---- restore ---- */
+
+		function restore(parsed) {
+			// 1. plain fields
+			$.each(parsed, function (name, value) {
+				if (name.indexOf('__') === 0 || skipDetailsRegex.test(name)) return;
+				var el = byName(name);
+				if (el.length === 0 || el.is('#contractor, #workOrder')) return;
+				if (el.is(':radio') || el.is(':checkbox')) {
+					el.filter(function () { return $(this).val() === value; }).prop('checked', true);
+				} else {
+					el.val(value);
+				}
+			});
+
+			// 2. contractor -> work order (loaded by AJAX)
+			var savedWO = parsed.__workOrder;
+			if (!$contractorId && parsed.__contractor) {
+				$('#contractor').val(parsed.__contractor);
+				$workOrderId = savedWO || '';
+				loadWorkOrder(parsed.__contractor);
+				if ($workOrderId) loadMisAttributes($workOrderId);
+			}
+
+			// 3. workflow approver
+			if (parsed.__designation) $('#approvalDesignationValue').val(parsed.__designation);
+			if (parsed.__position) $('#approvalPositionValue').val(parsed.__position);
+			if (parsed.approvalDepartment) {
+				$('#approvalDepartment').val(parsed.approvalDepartment).trigger('change');
+			}
+
+			// 4. selects whose options arrive by AJAX
+			var pending = {};
+			$.each(parsed, function (name, value) {
+				if (name.indexOf('__') === 0 || !value || workflowFieldRegex.test(name)) return;
+				if (skipDetailsRegex.test(name)) return;
+				var el = byName(name);
+				if (el.length && el.is('select') && !el.is('#contractor, #workOrder')) pending[name] = value;
+			});
+
+			var polls = 0;
+			var timer = setInterval(function () {
+				polls++;
+				var remaining = 0;
+
+				$.each(pending, function (name, value) {
+					var el = byName(name);
+					if (el.length === 0 || el.val() === value) { delete pending[name]; return; }
+					var has = el.find('option').filter(function () { return $(this).val() === value; }).length > 0;
+					if (has) { el.val(value).trigger('change'); delete pending[name]; }
+					else remaining++;
+				});
+
+				if (!$contractorId && savedWO) {
+					var wo = $('#workOrder option').filter(function () { return $(this).val() === savedWO; });
+					if (wo.length === 0) remaining++;
+					else if ($('#workOrder').val() !== savedWO) $('#workOrder').val(savedWO);
+				}
+
+				if (remaining === 0 || polls >= RESTORE_MAX_POLLS) {
+					clearInterval(timer);
+					enableSaving();
+				}
+			}, RESTORE_POLL_MS);
+		}
+
+		// Silent restore: a saved draft is filled in automatically, with no prompt.
+		// restore() turns saving on by itself once the AJAX-filled fields have loaded.
+		var draft = readDraft(storageKey);
+		if (!draft) {
+			enableSaving();
+		} else {
+			try { restore(draft); }
+			catch (e) { removeDraft(storageKey); enableSaving(); }
+		}
+
+		/* ---- triggers ---- */
+
+		state.interval = setInterval(save, SAFETY_SAVE_MS);
+
+		formObj.on('input change', ':input', function () {
+			if (!state.closed) scheduleSave();
+		});
+		$(document).on('visibilitychange', function () {
+			if (document.visibilityState === 'hidden') save();
+		});
+		$(window).on('pagehide beforeunload', save);
+
+		// Clear only when the submit really goes through (validation may cancel it).
+		formObj.on('submit', function (e) {
+			setTimeout(function () {
+				if (!e.isDefaultPrevented()) closeDraft();
+			}, 0);
+		});
+
+		// Programmatic form.submit() does not fire the submit event.
+		var form = formObj[0];
+		var nativeSubmit = (typeof form.submit === 'function') ? form.submit : HTMLFormElement.prototype.submit;
+		form.submit = function () {
+			closeDraft();
+			return nativeSubmit.apply(form, arguments);
+		};
+
+		$('[id*=discard], [class*=discard]').on('click', closeDraft);
+
+		// Call from your logout link/handler so the next user never sees this draft.
+		window.clearContractorBillDrafts = function () {
+			if (!storage) return;
+			try {
+				for (var i = storage.length - 1; i >= 0; i--) {
+					var k = storage.key(i);
+					if (k && k.indexOf(prefix) === 0) storage.removeItem(k);
+				}
+			} catch (e) {}
+		};
+	});
+})(jQuery, window);

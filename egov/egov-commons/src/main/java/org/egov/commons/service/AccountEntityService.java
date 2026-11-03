@@ -48,9 +48,7 @@
 
 package org.egov.commons.service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -64,6 +62,8 @@ import javax.persistence.metamodel.Metamodel;
 import org.egov.commons.Accountdetailkey;
 import org.egov.commons.Accountdetailtype;
 import org.egov.commons.contracts.AccountEntitySearchRequest;
+import org.egov.commons.dao.AccountEntityUploadResult;
+import org.egov.commons.dao.AccountEntityUploadRow;
 import org.egov.commons.repository.AccountEntityRepository;
 import org.egov.commons.utils.EntityType;
 import org.egov.infra.validation.exception.ValidationException;
@@ -193,4 +193,58 @@ public class AccountEntityService implements EntityTypeService {
 	public List<? extends EntityType> getEntitiesById(List<Long> idsList) throws ValidationException {
 		return Collections.emptyList();
 	}
+
+
+
+
+	@Transactional
+	public AccountEntityUploadResult createFromUpload(Integer accountdetailtypeId, List<AccountEntityUploadRow> rows) {
+		if (rows == null || rows.isEmpty())
+			throw new ValidationException("File has no data rows", "File has no data rows");
+		Accountdetailtype type = accountdetailtypeService.findOne(accountdetailtypeId);
+		if (type == null)
+			throw new ValidationException("Invalid account detail type", "Invalid account detail type");
+
+		Set<String> seenCodes = new HashSet<>();
+		List<String> errors = new ArrayList<>();
+		AccountEntityUploadResult result = new AccountEntityUploadResult();
+		List<AccountEntityUploadRow> toCreate = new ArrayList<>();
+		for (int i = 0; i < rows.size(); i++) {
+			AccountEntityUploadRow r = rows.get(i);
+			int line = i + 2; // Excel row number (header is row 1)
+			String name = r.getName() == null ? "" : r.getName().trim();
+			String code = r.getCode() == null ? "" : r.getCode().trim();
+
+			if (name.isEmpty() || code.isEmpty()) {
+				errors.add("Row " + (line-1) + ": Name and Code are mandatory");
+				continue;
+			}
+			if (!seenCodes.add(code.toLowerCase())) {
+				result.getSkipped().add("Row " + (line-1) + ": Duplicate code in file, skipped - " + code);
+				continue;
+			}
+			if (accountEntityRepository.findByCode(code) != null) {
+				result.getSkipped().add("Row " + (line-1) + ": Code already exists, skipped - " + code);
+				continue;
+			}
+			toCreate.add(r);
+		}
+		if (!errors.isEmpty())
+			throw new ValidationException(String.join("; ", errors), String.join("; ", errors));
+		for (AccountEntityUploadRow r : toCreate) {
+			String a = r.getActive() == null ? "" : r.getActive().trim().toLowerCase();
+			boolean active = a.isEmpty() || a.equals("yes") || a.equals("y") || a.equals("true") || a.equals("1");
+
+			AccountEntity entity = new AccountEntity();
+			entity.setName(r.getName().trim());
+			entity.setCode(r.getCode().trim());
+			entity.setNarration(r.getNarration());
+			entity.setIsactive(active);
+			entity.setAccountdetailtype(type);
+			create(entity);
+		}
+		result.setSaved(toCreate.size());
+		return result;
+	}
+
 }

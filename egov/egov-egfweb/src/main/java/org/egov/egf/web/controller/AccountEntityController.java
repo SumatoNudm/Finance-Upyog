@@ -48,14 +48,18 @@
 
 package org.egov.egf.web.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import org.egov.commons.dao.AccountEntityUploadResult;
+import org.egov.infra.validation.exception.ValidationException;
+
+import com.google.gson.reflect.TypeToken;
+import org.apache.poi.ss.usermodel.*;
 import org.egov.commons.contracts.AccountEntitySearchRequest;
+import org.egov.commons.dao.AccountEntityUploadRow;
 import org.egov.commons.service.AccountEntityService;
 import org.egov.commons.service.AccountdetailtypeService;
 import org.egov.egf.web.adaptor.AccountEntityJsonAdaptor;
@@ -66,14 +70,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.Gson;
@@ -198,12 +199,62 @@ public class AccountEntityController {
 		return "accountentity-uploadAccountEntity";
 	}
 
-	@PostMapping(value = "/createFromUpload")
+	/*@PostMapping(value = "/createFromUpload")
 	public String createFromUpload(final Model model) {
 
 //		LOGGER.info("entities" + accountEntitiesJson);
 //		LOGGER.info("detail type" + accountEntityType);
 
+		model.addAttribute("accountdetailtypes",
+				accountdetailtypeService.findAll());
+		model.addAttribute(ACCOUNT_ENTITY, new AccountEntity());
+		return "accountentity-uploadAccountEntity";
+	}
+*/
+
+
+
+	@PostMapping(value = "/createFromUpload/new")
+	public String createFromUploadForm(final Model model) {
+		model.addAttribute("accountdetailtypes",
+				accountdetailtypeService.findAll());
+		model.addAttribute(ACCOUNT_ENTITY, new AccountEntity());
+		return "accountentity-uploadAccountEntity";
+	}
+
+
+	@PostMapping(value = "/createFromUpload")
+	public String createFromUpload(
+			@RequestParam(value = "accountdetailtype", required = false) final Integer accountdetailtypeId,
+			@RequestParam(value = "accountEntities", required = false) final String accountEntitiesJson,
+			final Model model) {
+		if (accountdetailtypeId == null || accountEntitiesJson == null || accountEntitiesJson.trim().isEmpty()) {
+			model.addAttribute("errorMessage", "Select an account detail type and upload a valid file");
+		} else {
+			try {
+				List<AccountEntityUploadRow> rows = new Gson().fromJson(accountEntitiesJson,
+						new TypeToken<List<AccountEntityUploadRow>>() {}.getType());
+
+				AccountEntityUploadResult result = accountEntityService.createFromUpload(accountdetailtypeId, rows);
+				model.addAttribute("message", result.getSaved() + " account entities created successfully");
+				if (!result.getSkipped().isEmpty())
+					model.addAttribute("skippedMessages", result.getSkipped());
+			}
+			catch (ValidationException e) {
+				String msg = e.getMessage();
+				if (msg == null || msg.trim().isEmpty()) {
+					msg = e.getErrors().stream()
+							.map(err -> err.getMessage() != null ? err.getMessage() : err.getKey())
+							.filter(Objects::nonNull)
+							.collect(Collectors.joining("; "));
+				}
+				model.addAttribute("errorMessage", msg);
+			}
+			catch (Exception e) {
+				LOGGER.error("Account entity upload failed", e);
+				model.addAttribute("errorMessage", "Upload failed: " + e.getMessage());
+			}
+		}
 		model.addAttribute("accountdetailtypes",
 				accountdetailtypeService.findAll());
 		model.addAttribute(ACCOUNT_ENTITY, new AccountEntity());

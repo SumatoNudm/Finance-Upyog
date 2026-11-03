@@ -49,7 +49,7 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ include file="/includes/taglibs.jsp"%>
-<form:form role="form" action="create" modelAttribute="supplier" id="supplierform" cssClass="form-horizontal form-groups-bordered" enctype="multipart/form-data">
+<form:form role="form" action="create" modelAttribute="supplier" id="supplierform" cssClass="form-horizontal form-groups-bordered" enctype="multipart/form-data"   data-draft-user="${sessionScope.userid}">
 <div class="main-content">
 <%@ include file="/includes/tutorial.jsp" %>
 	<div class="row">
@@ -78,6 +78,11 @@
 			e.preventDefault();
 		}
 	});
+	  Object.keys(sessionStorage).forEach(function (k) {
+        if (k.indexOf('supplier_bill_draft_') === 0) sessionStorage.removeItem(k);
+      });
 </script>
 <script src="<cdn:url value='/resources/global/js/egov/patternvalidation.js?rnd=${app_release_no}' context='/services/egi'/>"></script>
 <script type="text/javascript" src="<cdn:url value='/resources/app/js/supplierHelper.js?rnd=${app_release_no}' context='/services/EGF'/>"></script>
+
+<script src="<cdn:url value='/resources/app/js/supplier-autosave.js?rnd=${app_release_no}' context='/services/EGF'/>"></script>

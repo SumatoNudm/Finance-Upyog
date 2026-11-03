@@ -48,32 +48,43 @@
 
 package org.egov.egf.web.controller;
 
+import java.lang.reflect.Type;
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
+import javax.validation.ValidationException;
 
+import com.google.gson.reflect.TypeToken;
+import org.apache.poi.ss.usermodel.*;
 import org.egov.commons.Accountdetailtype;
+import org.egov.commons.CChartOfAccountDetail;
+import org.egov.commons.CChartOfAccounts;
 import org.egov.commons.contracts.AccountDetailTypeSearchRequest;
+import org.egov.commons.dao.AccountdetailtypeUploadResult;
+import org.egov.commons.dao.AccountdetailtypeUploadRow;
+import org.egov.commons.dao.ChartOfAccountsHibernateDAO;
 import org.egov.commons.service.AccountdetailtypeService;
+import org.egov.commons.service.ChartOfAccountDetailService;
 import org.egov.egf.web.adaptor.AccountdetailtypeJsonAdaptor;
 import org.egov.infra.microservice.utils.MicroserviceUtils;
 import org.egov.infra.security.utils.SecurityUtils;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.Gson;
@@ -89,12 +100,22 @@ public class AccountdetailtypeController {
 	private static final String ACCOUNTDETAILTYPE_EDIT = "accountdetailtype-edit";
 	private static final String ACCOUNTDETAILTYPE_VIEW = "accountdetailtype-view";
 	private static final String ACCOUNTDETAILTYPE_SEARCH = "accountdetailtype-search";
+	private static final String ACCOUNTDETAILTYPE_BULKUPLOAD = "accountdetailtype-bulkupload";
 	@Autowired
 	private AccountdetailtypeService accountdetailtypeService;
 	@Autowired
 	private SecurityUtils securityUtils;
 	@Autowired
 	private MessageSource messageSource;
+
+
+	@Autowired
+    private ChartOfAccountsHibernateDAO chartOfAccountsHibernateDAO;
+
+	@Autowired
+	private ChartOfAccountDetailService chartOfAccountDetailService;
+
+
 
 	@Autowired
 	private MicroserviceUtils microserviceUtils;
@@ -106,15 +127,18 @@ public class AccountdetailtypeController {
 	@PostMapping(value = "/new")
 	public String newForm(final Model model) {
 		prepareNewForm(model);
+		model.addAttribute("coa",chartOfAccountsHibernateDAO.getDetailedCodesList());
 		model.addAttribute(ACCOUNTDETAILTYPE, new Accountdetailtype());
 		return ACCOUNTDETAILTYPE_NEW;
 	}
 
 	@PostMapping(value = "/create")
 	public String create(@Valid @ModelAttribute final Accountdetailtype accountdetailtype, final BindingResult errors,
-			final Model model, final RedirectAttributes redirectAttrs) {
+			final Model model, final RedirectAttributes redirectAttrs,@RequestParam(value = "coaId") final Long coaId) {
 		if (errors.hasErrors()) {
 			prepareNewForm(model);
+			model.addAttribute("coa",chartOfAccountsHibernateDAO.getDetailedCodesList());
+			model.addAttribute("selectedCoaId", coaId);
 			return ACCOUNTDETAILTYPE_NEW;
 		}
 		accountdetailtype.setTablename("accountEntityMaster");
@@ -125,7 +149,14 @@ public class AccountdetailtypeController {
 		accountdetailtype.setCreatedDate(new Date());
 		accountdetailtype.setLastModifiedDate(new Date());
 		accountdetailtype.setLastModifiedBy(securityUtils.getCurrentUser().getId());
-		accountdetailtypeService.create(accountdetailtype);
+	final Accountdetailtype saveAccountdetailtype =accountdetailtypeService.create(accountdetailtype);
+
+		final CChartOfAccountDetail cChartOfAccountDetail=new CChartOfAccountDetail();
+		final CChartOfAccounts cChartOfAccounts=chartOfAccountsHibernateDAO.findById(coaId,false);
+		cChartOfAccountDetail.setDetailTypeId(saveAccountdetailtype);
+		cChartOfAccountDetail.setGlCodeId(cChartOfAccounts);
+		chartOfAccountDetailService.create(cChartOfAccountDetail);
+
 		redirectAttrs.addFlashAttribute("message",
 				messageSource.getMessage("msg.accountdetailtype.success", null, null));
 		return "redirect:/accountdetailtype/result/" + accountdetailtype.getId() + "/create";
@@ -134,16 +165,23 @@ public class AccountdetailtypeController {
 	@GetMapping(value = "/edit/{id}")
 	public String edit(@PathVariable("id") final Integer id, Model model) {
 		Accountdetailtype accountdetailtype = accountdetailtypeService.findOne(id);
+		model.addAttribute("coa",chartOfAccountsHibernateDAO.getDetailedCodesList());
 		prepareNewForm(model);
+		final List<CChartOfAccountDetail> mappings = chartOfAccountDetailService.getByDetailTypeId(id);
+		if (!mappings.isEmpty() && mappings.get(0).getGlCodeId() != null) {
+			model.addAttribute("selectedCoaId", mappings.get(0).getGlCodeId().getId());
+		}
 		model.addAttribute(ACCOUNTDETAILTYPE, accountdetailtype);
 		return ACCOUNTDETAILTYPE_EDIT;
 	}
 
 	@PostMapping(value = "/update")
 	public String update(@ModelAttribute final Accountdetailtype accountdetailtype, final BindingResult errors,
-			final Model model, final RedirectAttributes redirectAttrs) {
+			final Model model, final RedirectAttributes redirectAttrs,@RequestParam(value = "coaId") final Long coaId) {
 		if (errors.hasErrors()) {
 			prepareNewForm(model);
+			model.addAttribute("coa", chartOfAccountsHibernateDAO.getDetailedCodesList());
+			model.addAttribute("selectedCoaId", coaId);
 			return ACCOUNTDETAILTYPE_EDIT;
 		}
 		accountdetailtype.setTablename("accountEntityMaster");
@@ -153,7 +191,25 @@ public class AccountdetailtypeController {
 		accountdetailtype.setFullQualifiedName("org.egov.masters.model.AccountEntity");
 		accountdetailtype.setLastModifiedDate(new Date());
 		accountdetailtype.setLastModifiedBy(securityUtils.getCurrentUser().getId());
-		accountdetailtypeService.update(accountdetailtype);
+		//accountdetailtypeService.update(accountdetailtype);
+
+		final Accountdetailtype updated = accountdetailtypeService.update(accountdetailtype);
+
+		final CChartOfAccounts coa = chartOfAccountsHibernateDAO.findById(coaId, false);
+		final List<CChartOfAccountDetail> mappings =
+				chartOfAccountDetailService.getByDetailTypeId(updated.getId());
+
+		if (mappings.isEmpty()) {
+			final CChartOfAccountDetail detail = new CChartOfAccountDetail();
+			detail.setDetailTypeId(updated);
+			detail.setGlCodeId(coa);
+			chartOfAccountDetailService.create(detail);
+		} else {
+			final CChartOfAccountDetail detail = mappings.get(0);
+			detail.setGlCodeId(coa);
+			chartOfAccountDetailService.update(detail);
+		}
+
 		redirectAttrs.addFlashAttribute("message",
 				messageSource.getMessage("msg.accountdetailtype.success", null, Locale.ENGLISH));
 		return "redirect:/accountdetailtype/result/" + accountdetailtype.getId() + "/update";
@@ -199,4 +255,47 @@ public class AccountdetailtypeController {
 				.create();
 		return gson.toJson(object);
 	}
+
+/*
+
+
+	@PostMapping(value = "/bulkupload/new")
+	public String bulkUploadForm(final Model model) {
+		prepareNewForm(model);
+		return ACCOUNTDETAILTYPE_BULKUPLOAD;
+	}
+
+
+	@PostMapping(value = "/bulkupload")
+	public String bulkUpload(
+			@RequestParam(value = "accountdetailtypes", required = false) final String accountdetailtypesJson,
+			final Model model) {
+
+		if (accountdetailtypesJson == null || accountdetailtypesJson.trim().isEmpty()) {
+			model.addAttribute("errorMessage", "Upload a valid file");
+		} else {
+			try {
+				List<AccountdetailtypeUploadRow> rows = new Gson().fromJson(accountdetailtypesJson,
+						new TypeToken<List<AccountdetailtypeUploadRow>>() {}.getType());
+				AccountdetailtypeUploadResult result = accountdetailtypeService.createFromUpload(rows);
+				model.addAttribute("message", result.getSaved() + " sub ledger categories created successfully");
+				if (!result.getSkipped().isEmpty())
+					model.addAttribute("skippedMessages", result.getSkipped());
+			} catch (ValidationException e) {
+				model.addAttribute("errorMessage", e.getMessage());
+			} catch (Exception e) {
+
+				model.addAttribute("errorMessage", "Upload failed: " + e.getMessage());
+			}
+		}
+		prepareNewForm(model);
+		return ACCOUNTDETAILTYPE_BULKUPLOAD;
+	}
+*/
+
+
+
+
+
+
 }

@@ -46,44 +46,126 @@
   ~   In case of any queries, you can reach eGovernments Foundation at contact@egovernments.org.
   ~
   --%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <div class="main-content">
 <%@ include file="/includes/tutorial.jsp" %>
-	<div class="row">
-		<div class="col-md-12">
-			<div class="panel panel-primary" data-collapsed="0">
-				<div class="panel-heading">
-					<div class="panel-title"><spring:message code="lbl.account.entity" text="Account Entity"/> </div>
-				</div>
-				<div class="panel-body">
-					<div class="form-group">
-						<label class="col-sm-3 control-label text-right"><spring:message
-								code="lbl.name" text="Name"/><span class="mandatory"></label>
-						<div class="col-sm-3 add-margin">
-							<form:input path="name"
-								class="form-control text-left patternvalidation"
-								data-pattern="alphanumeric" maxlength="50" required="required" />
-							<form:errors path="name" cssClass="error-msg" />
-						</div>
-						<label class="col-sm-3 control-label text-right"><spring:message
-								code="lbl.description" text="Description"/> <span class="mandatory"></span> </label>
-						<div class="col-sm-3 add-margin">
-							<form:input path="description"
-								class="form-control text-left patternvalidation"
-								data-pattern="alphanumeric" maxlength="50" required="required" />
-							<form:errors path="description" cssClass="error-msg" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-sm-3 control-label text-right"><spring:message
-								code="lbl.isactive" text="Active"/> </label>
-						<div class="col-sm-3 add-margin">
-							<form:checkbox path="isactive" />
-							<form:errors path="isactive" cssClass="error-msg" />
-						</div>
-						<label />
-						<div class="col-sm-3 add-margin"></div>
-					</div>
-					<input type="hidden" name="accountdetailtype"
-						value="${accountdetailtype.id}" />
+    <div class="row">
+       <div class="col-md-12">
+          <div class="panel panel-primary" data-collapsed="0">
+             <div class="panel-heading">
+                <div class="panel-title"><spring:message code="lbl.account.entity" text="Account Entity"/> </div>
+             </div>
+             <div class="panel-body">
+
+                <div class="form-group">
+                   <label class="col-sm-3 control-label text-right">
+                      <spring:message code="lbl.name" text="Name"/><span class="mandatory"></span>
+                   </label>
+                   <div class="col-sm-3 add-margin">
+                      <form:input path="name"
+                         class="form-control text-left patternvalidation"
+                         data-pattern="alphanumeric" maxlength="50" required="required" />
+                      <form:errors path="name" cssClass="error-msg" />
+                   </div>
+                   <label class="col-sm-3 control-label text-right">
+                      <spring:message code="lbl.description" text="Description"/><span class="mandatory"></span>
+                   </label>
+                   <div class="col-sm-3 add-margin">
+                      <form:input path="description"
+                         class="form-control text-left patternvalidation"
+                         data-pattern="alphanumeric" maxlength="50" required="required" />
+                      <form:errors path="description" cssClass="error-msg" />
+                   </div>
+                </div>
+
+                <div class="form-group">
+                   <label class="col-sm-3 control-label text-right">
+                      <spring:message code="lbl.isactive" text="Active"/>
+                   </label>
+                   <div class="col-sm-3 add-margin">
+                      <form:checkbox path="isactive" />
+                      <form:errors path="isactive" cssClass="error-msg" />
+                   </div>
+
+                   <label class="col-sm-3 control-label text-right">
+                      <spring:message code="lbl.account.code" text="Account Code"/><span class="mandatory"></span>
+                   </label>
+                   <div class="col-sm-3 add-margin" style="position:relative;">
+                      <input type="text" id="coaCode" class="form-control" autocomplete="off"
+                             placeholder="Type first letter of Account code" required="required" />
+                      <!-- pre-filled with the saved chart of accounts id -->
+                      <input type="hidden" name="coaId" id="coaId"
+                             value="<c:out value='${selectedCoaId}'/>" />
+                      <ul id="coaSuggest" class="list-group"
+                          style="display:none; position:absolute; z-index:1000; left:15px; right:15px; max-height:220px; overflow-y:auto; margin:0;"></ul>
+
+                      <ul id="coaData" style="display:none;">
+                         <c:forEach var="acc" items="${coa}">
+                            <li data-id="<c:out value='${acc.id}'/>"
+                                data-code="<c:out value='${acc.glcode}'/>"
+                                data-name="<c:out value='${acc.name}'/>"></li>
+                         </c:forEach>
+                      </ul>
+                   </div>
+                </div>
+
+                <input type="hidden" name="id" value="${accountdetailtype.id}" />
+                <input type="hidden" name="accountdetailtype" value="${accountdetailtype.id}" />
+
+
+
+<script>
+$(document).ready(function () {
+   var MIN = 1;
+   var items = $('#coaData li').map(function () {
+      return { id: String($(this).data('id')), code: String($(this).data('code')), name: String($(this).data('name')) };
+   }).get();
+
+   // EDIT: show the saved account in the text box
+   var selectedId = $.trim($('#coaId').val());
+   if (selectedId) {
+      var saved = items.filter(function (i) { return i.id === selectedId; })[0];
+      if (saved) { $('#coaCode').val(saved.code + ' - ' + saved.name); }
+   }
+
+   $('#coaCode').on('input', function () {
+      var q = $.trim($(this).val()).toLowerCase();
+      var $list = $('#coaSuggest').empty();
+      $('#coaId').val('');                    // typing again invalidates the earlier pick
+      if (q.length < MIN) { $list.hide(); return; }
+
+      var matches = items.filter(function (i) {
+         return i.code.toLowerCase().indexOf(q) === 0 || i.name.toLowerCase().indexOf(q) !== -1;
+      }).slice(0, 50);
+
+      if (!matches.length) { $list.hide(); return; }
+      $.each(matches, function (_, i) {
+         $('<li class="list-group-item" style="cursor:pointer;"></li>')
+            .text(i.code + ' - ' + i.name)
+            .data('item', i)
+            .appendTo($list);
+      });
+      $list.show();
+   });
+
+   $('#coaSuggest').on('click', 'li', function () {
+      var i = $(this).data('item');
+      $('#coaCode').val(i.code + ' - ' + i.name);
+      $('#coaId').val(i.id);
+      $('#coaSuggest').hide();
+   });
+
+   $(document).on('click', function (e) {
+      if (!$(e.target).closest('#coaCode, #coaSuggest').length) { $('#coaSuggest').hide(); }
+   });
+
+   // block submit if the typed text was never picked from the list
+   $('#coaCode').closest('form').on('submit', function (e) {
+      if (!$('#coaId').val()) {
+         e.preventDefault();
+         bootbox.alert('Please select an Account Code from the list');
+      }
+   });
+});
+</script>
