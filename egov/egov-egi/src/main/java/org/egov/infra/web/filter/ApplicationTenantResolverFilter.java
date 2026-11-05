@@ -61,13 +61,15 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+import static org.egov.infra.utils.ApplicationConstant.MS_TENANTID_KEY;
 import static org.egov.infra.web.utils.WebUtils.extractRequestDomainURL;
 import static org.egov.infra.web.utils.WebUtils.extractRequestedDomainName;
 
 public class ApplicationTenantResolverFilter implements Filter {
-	private static final Logger LOGGER = Logger.getLogger(ApplicationTenantResolverFilter.class);
+    private static final Logger LOGGER = Logger.getLogger(ApplicationTenantResolverFilter.class);
 
     @Autowired
     private EnvironmentSettings environmentSettings;
@@ -75,17 +77,99 @@ public class ApplicationTenantResolverFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
-    	
-        String domainURL = extractRequestDomainURL((HttpServletRequest) request, false);
+
+//        String domainURL = extractRequestDomainURL((HttpServletRequest) request, false);
+//        String domainName = extractRequestedDomainName(domainURL);
+//        ApplicationThreadLocals.setTenantID(environmentSettings.schemaName(domainName));
+//        LOGGER.info(" *** Schema name  :"+environmentSettings.schemaName(domainName) );
+//        LOGGER.info(" *** domainName  :"+domainName);
+//        LOGGER.info(" *** domainURL  :"+domainURL);
+//        ApplicationThreadLocals.setCollectionVersion(environmentSettings.collectionVersion());
+//        ApplicationThreadLocals.setDomainName(domainName);
+//        ApplicationThreadLocals.setDomainURL(domainURL);
+//        chain.doFilter(request, response);
+
+
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        HttpSession session = httpRequest.getSession(false);
+
+        String domainURL = extractRequestDomainURL(httpRequest, false);
         String domainName = extractRequestedDomainName(domainURL);
-        ApplicationThreadLocals.setTenantID(environmentSettings.schemaName(domainName));
-        LOGGER.info(" *** Schema name  :"+environmentSettings.schemaName(domainName) );
-        LOGGER.info(" *** domainName  :"+domainName);
-        LOGGER.info(" *** domainURL  :"+domainURL);
+
+        String userTenantId = null;
+        String schemaName = null;
+
+
+        // Step 1: Check request parameters first (Handles UI entry, redirects, and Multi-Jurisdiction city switching)
+        String reqTenantId = httpRequest.getParameter("tenantId");
+        if (reqTenantId == null || reqTenantId.isEmpty()) {
+            reqTenantId = httpRequest.getParameter("tenant_id");
+        }
+
+        // Fallback to the HTTP Header if both query params are empty
+        if (reqTenantId == null || reqTenantId.isEmpty()) {
+            reqTenantId = httpRequest.getHeader("X-Tenant-ID");
+        }
+
+
+        if (reqTenantId != null && !reqTenantId.isEmpty()) {
+            userTenantId = reqTenantId;
+            LOGGER.info(" *** User Tenant ID from request parameter: " + userTenantId);
+
+            // Live Session Sync: Update the active HTTP/Redis session so subsequent internal AJAX calls inherit this tenant
+            if (session != null) {
+                session.setAttribute(MS_TENANTID_KEY, userTenantId);
+            }
+        } else if (session != null) {
+            // Step 2: Fallback to session for internal AJAX, bill registers, dropdown fetches, and static resources
+            userTenantId = (String) session.getAttribute(MS_TENANTID_KEY);
+            LOGGER.info(" *** User Tenant ID from session: " + userTenantId);
+        }
+
+
+        // Step 3: Determine schema based on resolved tenant ID (e.g., "pg.citya" -> schema "citya")
+        if (userTenantId != null && !userTenantId.isEmpty()) {
+            String cityCode = extractCityCodeFromTenantId(userTenantId);
+            schemaName = cityCode; // Use city code directly as schema name
+            LOGGER.info(" *** Schema resolved from user tenant: " + schemaName);
+        } else {
+            // Fallback to default schema for unauthenticated requests
+            schemaName = environmentSettings.defaultSchemaName();
+            LOGGER.info(" *** Using default schema (no user session): " + schemaName);
+        }
+
+
+        // Step 4: Bind resolved tenant context to ApplicationThreadLocals for Hibernate / DB DataSource routing
+        ApplicationThreadLocals.setTenantID(schemaName);
         ApplicationThreadLocals.setCollectionVersion(environmentSettings.collectionVersion());
         ApplicationThreadLocals.setDomainName(domainName);
         ApplicationThreadLocals.setDomainURL(domainURL);
+
+        LOGGER.info(" *** Schema name: " + schemaName);
+        LOGGER.info(" *** User Tenant ID: " + userTenantId);
+        LOGGER.info(" *** domainName: " + domainName);
+        LOGGER.info(" *** domainURL: " + domainURL);
+
         chain.doFilter(request, response);
+
+
+    }
+
+
+    /**
+     * Extract city code from tenant ID
+     * Example: "pg.citya" -> "citya"
+     * Example: "citya" -> "citya"
+     */
+    private String extractCityCodeFromTenantId(String tenantId) {
+        if (tenantId == null || tenantId.isEmpty()) {
+            return null;
+        }
+        String[] parts = tenantId.split("\\.");
+        if (parts.length > 1) {
+            return parts[parts.length - 1]; // Return "citya" from "pg.citya"
+        }
+        return tenantId;
     }
 
     @Override
