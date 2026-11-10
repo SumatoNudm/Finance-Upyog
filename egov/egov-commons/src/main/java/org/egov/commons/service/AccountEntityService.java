@@ -233,7 +233,7 @@ public class AccountEntityService implements EntityTypeService {
 			throw new ValidationException(String.join("; ", errors), String.join("; ", errors));
 		for (AccountEntityUploadRow r : toCreate) {
 			String a = r.getActive() == null ? "" : r.getActive().trim().toLowerCase();
-			boolean active = a.isEmpty() || a.equals("yes") || a.equals("y") || a.equals("true") || a.equals("1");
+			boolean active =  a.equals("yes") || a.equals("y") || a.equals("true") || a.equals("1");
 
 			AccountEntity entity = new AccountEntity();
 			entity.setName(r.getName().trim());

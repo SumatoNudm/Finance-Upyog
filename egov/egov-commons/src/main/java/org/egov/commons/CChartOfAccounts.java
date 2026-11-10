@@ -123,6 +123,10 @@ public class CChartOfAccounts extends AbstractAuditable {
 
     private Boolean functionReqd;
 
+
+    @Column(name = "budgetcodeid")
+    private Long budgetCode;
+
     private Boolean budgetCheckReq;
 
     @SafeHtml
@@ -291,4 +295,12 @@ public class CChartOfAccounts extends AbstractAuditable {
         this.id = id;
     }
 
+
+    public Long getBudgetCode() {
+        return budgetCode;
+    }
+
+    public void setBudgetCode(Long budgetCode) {
+        this.budgetCode = budgetCode;
+    }
 }

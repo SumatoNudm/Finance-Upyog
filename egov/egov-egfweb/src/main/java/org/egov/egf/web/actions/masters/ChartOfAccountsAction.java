@@ -121,7 +121,9 @@ public class ChartOfAccountsAction extends BaseFormAction {
     List<Accountdetailtype> mappedAccountDetailTypeList = new ArrayList<>();
     List<Accountdetailtype> accountDetailType = new ArrayList<Accountdetailtype>();
     private static final Logger LOGGER = Logger.getLogger(ChartOfAccountsAction.class);
- 
+
+    String budget_code;
+    String function_code;
     boolean activeForPosting = false;
     boolean functionRequired = false;
     boolean budgetCheckRequired = false;
@@ -222,6 +224,10 @@ public class ChartOfAccountsAction extends BaseFormAction {
 
     @Action(value = "/masters/chartOfAccounts-view")
     public String view() {
+        if (model.getBudgetCode() != null ) {
+            budget_code = budgetCode(model.getBudgetCode());
+            function_code = functionCode(model.getBudgetCode());
+        }
         populateAccountCodePurpose();
         populateAccountDetailTypeList();
         populateCoaRequiredFields();
@@ -251,6 +257,10 @@ public class ChartOfAccountsAction extends BaseFormAction {
 
     @Action(value = "/masters/chartOfAccounts-modify")
     public String modify() {
+        if (model.getBudgetCode() != null ) {
+            budget_code = budgetCode(model.getBudgetCode());
+            function_code = functionCode(model.getBudgetCode());
+        }
         populateAccountDetailTypeList();
         populateCoaRequiredFields();
         populateAccountCodePurpose();
@@ -262,6 +272,44 @@ public class ChartOfAccountsAction extends BaseFormAction {
         functionRequired = getFunctionReqd();
         budgetCheckRequired = budgetCheckReq();
     }
+
+
+
+
+    private String budgetCode(Long id) {
+        if (id == null)
+            return "";
+
+        final String sql = "SELECT CONCAT(f.code, '-', bh.code) "
+                + "FROM function_budget_head fbh "
+                + "JOIN function f ON f.id = fbh.function_id "
+                + "JOIN egf_budgethead bh ON bh.id = fbh.budget_head_id "
+                + "WHERE fbh.id = :budgetcodeid";
+
+        Object result = persistenceService.getSession()
+                .createSQLQuery(sql)
+                .setParameter("budgetcodeid", id)
+                .uniqueResult();
+        return result != null ? result.toString() : "";
+    }
+
+
+    private String functionCode(Long id) {
+        if (id == null)
+            return "";
+
+        final String sql = "SELECT f.code "
+                + "FROM function_budget_head fbh "
+                + "JOIN function f ON f.id = fbh.function_id "
+                + "WHERE fbh.id = :budgetcodeid";
+
+        Object result = persistenceService.getSession()
+                .createSQLQuery(sql)
+                .setParameter("budgetcodeid", id)
+                .uniqueResult();
+        return result != null ? result.toString() : "";
+    }
+
 
     private void populateAccountCodePurpose() {
         if (model != null && model.getPurposeId() != null)
@@ -283,6 +331,10 @@ public class ChartOfAccountsAction extends BaseFormAction {
         model.setIsActiveForPosting(activeForPosting);
         model.setFunctionReqd(functionRequired);
         model.setBudgetCheckReq(budgetCheckRequired);
+        if (model.getBudgetCode() != null ) {
+            budget_code = budgetCode(model.getBudgetCode());
+            function_code = functionCode(model.getBudgetCode());
+        }
         dropdownData.put("mappedAccountDetailTypeList", accountDetailType);
         chartOfAccountsService.persist(model);
         saveCoaDetails(model);
@@ -635,6 +687,10 @@ public class ChartOfAccountsAction extends BaseFormAction {
             populateAccountDetailTypeList();
             populateCoaRequiredFields();
             populateAccountCodePurpose();
+            if (model.getBudgetCode() != null ) {
+                budget_code = budgetCode(model.getBudgetCode());
+                function_code = functionCode(model.getBudgetCode());
+            }
             return Constants.EDIT;
         } else {
             addActionMessage(getText("charOfAccount.no.record"));
@@ -656,6 +712,10 @@ public class ChartOfAccountsAction extends BaseFormAction {
             populateAccountDetailTypeList();
             populateCoaRequiredFields();
             populateAccountCodePurpose();
+            if (model.getBudgetCode() != null ) {
+                budget_code = budgetCode(model.getBudgetCode());
+                function_code = functionCode(model.getBudgetCode());
+            }
             return Constants.VIEW_COA;
         } else {
             addActionMessage(getText("charOfAccount.no.record"));
@@ -858,6 +918,22 @@ public class ChartOfAccountsAction extends BaseFormAction {
 
     public void setMappedAccountDetailTypeList(List<Accountdetailtype> mappedAccountDetailTypeList) {
         this.mappedAccountDetailTypeList = mappedAccountDetailTypeList;
+    }
+
+    public String getBudget_code() {
+        return budget_code;
+    }
+
+    public void setBudget_code(String budget_code) {
+        this.budget_code = budget_code;
+    }
+
+    public String getFunction_code() {
+        return function_code;
+    }
+
+    public void setFunction_code(String function_code) {
+        this.function_code = function_code;
     }
 
 }

@@ -166,6 +166,31 @@
 							<s:text name="no" />
 						</s:else></td>
 				</tr>
+			<s:if test="%{function_code != null || budget_code != null}">
+            <tr>
+                <td width="20%" class="greybox">&nbsp;</td>
+
+                <s:if test="%{function_code != null}">
+                    <td width="10%" class="greybox"><strong><s:text
+                            name="chartOfAccount.functionCode" />:</strong></td>
+                    <td width="22%" class="greybox"><s:property
+                            value="function_code" /></td>
+                </s:if>
+                <s:else>
+                    <td class="greybox" colspan="2">&nbsp;</td>
+                </s:else>
+
+                <s:if test="%{budget_code != null}">
+                    <td width="10%" class="greybox"><strong><s:text
+                            name="chartOfAccount.budgetCode" />:</strong></td>
+                    <td class="greybox"><s:property
+                            value="budget_code" /></td>
+                </s:if>
+                <s:else>
+                    <td class="greybox" colspan="2">&nbsp;</td>
+                </s:else>
+            </tr>
+            </s:if>
 			</table>
 			<br /> <br />
 		</div>
