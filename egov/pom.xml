@@ -93,7 +93,7 @@
         <url>http://ci.egovernments.org/job/eGov-Github-Master/</url>
     </ciManagement>
 
-    <!--<distributionManagement>
+    <distributionManagement>
         <repository>
             <id>repo.egovernments.org</id>
             <name>eGov ERP Releases Repository</name>
@@ -104,22 +104,9 @@
             <name>eGov ERP Snapshots Repository</name>
             <url>http://repo.egovernments.org/nexus/content/repositories/snapshots/</url>
         </snapshotRepository>
-    </distributionManagement>-->
-
-    <distributionManagement>
-        <repository>
-            <id>egov-erp-releases</id>
-            <name>eGov ERP Releases Repository</name>
-            <url>https://upyog-nexus.niua.org/nexus/content/repositories/releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>nexus-repo.digit.org</id>
-            <name>eGov ERP Snapshots Repository</name>
-            <url>https://upyog-nexus.niua.org/nexus/content/repositories/snapshots/</url>
-        </snapshotRepository>
     </distributionManagement>
 
-    <!--<repositories>
+    <repositories>
         <repository>
             <id>repo.egovernments.org</id>
             <name>eGov Public Repository Group</name>
@@ -140,70 +127,13 @@
             <id>JSPRESSO</id>
             <url>http://repository.jspresso.org/maven2/</url>
         </repository>
-    </repositories>-->
-
-
-    <repositories>
-        <repository>
-            <id>nexus-repo.digit.org</id>
-            <name>eGov Public Repository Group</name>
-            <url>https://upyog-nexus.niua.org/nexus/content/groups/public/</url>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-        </repository>
-        <repository>
-            <id>JBoss Repository</id>
-            <url>https://repository.jboss.org/nexus/content/groups/public/</url>
-        </repository>
-        <repository>
-            <id>jakartat.com</id>
-            <name>UPYOG Nexus Public</name>
-            <url>https://upyog-nexus.niua.org/nexus/content/groups/public</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <!-- 👇 NAYA ADD KARO -->
-        <repository>
-            <id>osgeo</id>
-            <name>OSGeo Release Repository</name>
-            <url>https://repo.osgeo.org/repository/release/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
     </repositories>
 
-    <!--<pluginRepositories>
+    <pluginRepositories>
         <pluginRepository>
             <id>repo.egovernments.org</id>
             <name>eGov Public Repository Group</name>
             <url>http://repo.egovernments.org/nexus/content/groups/public/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>-->
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>nexus-repo.digit.org</id>
-            <name>eGov Public Repository Group</name>
-            <url>https://upyog-nexus.niua.org/nexus/content/groups/public/</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -288,7 +218,6 @@
         <jsoup-version>1.10.3</jsoup-version>
         <jython-version>2.7.1b3</jython-version>
         <flyway-core-version>5.0.3</flyway-core-version>
-        <!--<flyway-core-version>9.22.3</flyway-core-version>-->
         <junit-version>4.12</junit-version>
         <mockito-all-version>1.10.19</mockito-all-version>
         <springockito-version>1.0.9</springockito-version>

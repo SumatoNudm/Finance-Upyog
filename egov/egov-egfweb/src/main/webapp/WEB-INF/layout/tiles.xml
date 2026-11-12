@@ -112,6 +112,14 @@
                        value="/WEB-INF/views/accountdetailtype/accountdetailtype-new.jsp"/>
     </definition>
 
+
+    <definition name="accountdetailtype-bulkupload" extends="base_layout">
+        <put-attribute name="page-title" value="title.accountdetailtype.new"
+                       cascade="true"/>
+        <put-attribute name="body"
+                       value="/WEB-INF/views/accountdetailtype/accountdetailtype-bulkupload.jsp"/>
+    </definition>
+
     <definition name="accountdetailtype-view" extends="base_layout">
         <put-attribute name="page-title" value="title.accountdetailtype.view"
                        cascade="true"/>
