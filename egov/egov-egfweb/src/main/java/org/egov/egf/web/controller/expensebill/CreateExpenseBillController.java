@@ -342,12 +342,22 @@ public class CreateExpenseBillController extends BaseBillController {
 					.getById(Long.parseLong(request.getParameter("egBillRegisterId")));
 			getBillDocuments(egBillregister);
 
-			for (final DocumentUpload doc : egBillregister.getDocumentDetail())
-				if (doc.getFileStore().getFileStoreId().equalsIgnoreCase(fileStoreId))
-					fileName = doc.getFileStore().getFileName();
+			if (egBillregister.getDocumentDetail() != null)
+				for (final DocumentUpload doc : egBillregister.getDocumentDetail())
+					if (doc.getFileStore() != null && doc.getFileStore().getFileStoreId().equalsIgnoreCase(fileStoreId)) {
+						fileName = doc.getFileStore().getFileName();
+						break;
+					}
+
+			// fallback so the file name is never blank
+			if (fileName == null || fileName.trim().isEmpty())
+				fileName = downloadFile.getName();
 
 			// get MIME type of the file
-			String mimeType = context.getMimeType(downloadFile.getAbsolutePath());
+			//String mimeType = context.getMimeType(downloadFile.getAbsolutePath());
+			String mimeType = context.getMimeType(fileName);
+			if (mimeType == null)
+				mimeType = java.nio.file.Files.probeContentType(downloadFile.toPath());
 			if (mimeType == null)
 				// set to binary type if MIME mapping not found
 				mimeType = "application/octet-stream";
@@ -361,7 +371,8 @@ public class CreateExpenseBillController extends BaseBillController {
 			// set headers for the response
 			final String headerKey = "Content-Disposition";
 			final String headerValue = String.format("attachment; filename=\"%s\"", fileName);
-			httpUtilities.setHeader(headerKey, headerValue);
+			response.setHeader(headerKey, headerValue);
+			response.setHeader("X-Content-Type-Options", "nosniff");
 
 			final byte[] buffer = new byte[BUFFER_SIZE];
 			int bytesRead = -1;
@@ -369,6 +380,7 @@ public class CreateExpenseBillController extends BaseBillController {
 			// write bytes read from the input stream into the output stream
 			while ((bytesRead = inputStream.read(buffer)) != -1)
 				outStream.write(buffer, 0, bytesRead);
+			outStream.flush();
 		}
 	}
 

@@ -53,6 +53,7 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import com.google.gson.*;
 import org.egov.commons.dao.AccountEntityUploadResult;
 import org.egov.infra.validation.exception.ValidationException;
 
@@ -77,9 +78,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 @Controller
 @RequestMapping("/accountentity")
 public class AccountEntityController {
@@ -90,6 +88,10 @@ public class AccountEntityController {
 	private static final String ACCOUNTENTITY_EDIT = "accountentity-edit";
 	private static final String ACCOUNTENTITY_VIEW = "accountentity-view";
 	private static final String ACCOUNTENTITY_SEARCH = "accountentity-search";
+
+	private static final List<String> REQUIRED_HEADERS = Arrays.asList("Name*", "Code*");
+	private static final List<String> ALLOWED_HEADERS =
+			Arrays.asList("Sr No", "Name*", "Code*", "Narration", "Active");
 
 	private final Logger LOGGER = LoggerFactory.getLogger(AccountEntityController.class);
 
@@ -214,13 +216,13 @@ public class AccountEntityController {
 
 
 
-	@PostMapping(value = "/createFromUpload/new")
+	/*@PostMapping(value = "/createFromUpload/new")
 	public String createFromUploadForm(final Model model) {
 		model.addAttribute("accountdetailtypes",
 				accountdetailtypeService.findAll());
 		model.addAttribute(ACCOUNT_ENTITY, new AccountEntity());
 		return "accountentity-uploadAccountEntity";
-	}
+	}*/
 
 
 	@PostMapping(value = "/createFromUpload")
@@ -232,6 +234,7 @@ public class AccountEntityController {
 			model.addAttribute("errorMessage", "Select an account detail type and upload a valid file");
 		} else {
 			try {
+				validateHeaders(accountEntitiesJson);
 				List<AccountEntityUploadRow> rows = new Gson().fromJson(accountEntitiesJson,
 						new TypeToken<List<AccountEntityUploadRow>>() {}.getType());
 
@@ -263,5 +266,39 @@ public class AccountEntityController {
 
 
 
+	private void validateHeaders(String json) {
+		JsonArray array;
+		try {
+			array = new JsonParser().parse(json).getAsJsonArray();
+		} catch (Exception e) {
+			throw new ValidationException("Invalid file format", "Invalid file format");
+		}
+		if (array.size() == 0)
+			throw new ValidationException("File has no data rows", "File has no data rows");
+
+		// Union of keys across all rows (empty cells/columns may be omitted from some rows)
+		Set<String> headers = new LinkedHashSet<>();
+		for (JsonElement el : array) {
+			if (el.isJsonObject())
+				headers.addAll(el.getAsJsonObject().keySet());
+		}
+
+		List<String> missing = REQUIRED_HEADERS.stream()
+				.filter(h -> !headers.contains(h))
+				.collect(Collectors.toList());
+		List<String> unknown = headers.stream()
+				.filter(h -> !ALLOWED_HEADERS.contains(h))
+				.collect(Collectors.toList());
+
+		if (!missing.isEmpty() || !unknown.isEmpty()) {
+			StringBuilder msg = new StringBuilder("Invalid file headers.");
+			if (!missing.isEmpty()) msg.append(" Missing: ").append(String.join(", ", missing)).append(".");
+			if (!unknown.isEmpty()) msg.append(" Unexpected: ").append(String.join(", ", unknown)).append(".");
+			msg.append(" Expected headers: ").append(String.join(", ", ALLOWED_HEADERS))
+					.append(". Please use the provided template.");
+			String m = msg.toString();
+			throw new ValidationException(m, m);
+		}
+	}
 
 }

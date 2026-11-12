@@ -55,12 +55,25 @@
         <mirror>
             <id>nexus</id>
             <mirrorOf>central</mirrorOf>
-            <url>http://repo.egovernments.org/nexus/content/groups/public/</url>
+            <!--<url>http://repo.egovernments.org/nexus/content/groups/public/</url>-->
+            <url>https://nexus-repo.digit.org/nexus/content/groups/public/</url>
         </mirror>
     </mirrors>
-	<servers>
+	<!--<servers>
         <server>
             <id>repo.egovernments.org</id>
+            <username>${nexus.user}</username>
+            <password>${nexus.password}</password>
+        </server>
+    </servers>-->
+    <servers>
+        <server>
+            <id>nexus-repo.digit.org</id>
+            <username>${nexus.user}</username>
+            <password>${nexus.password}</password>
+        </server>
+        <server>
+            <id>upyog-nexus.niua.org</id>
             <username>${nexus.user}</username>
             <password>${nexus.password}</password>
         </server>
