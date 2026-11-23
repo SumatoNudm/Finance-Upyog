@@ -80,4 +80,6 @@ public abstract class AbstractPersistable<PK extends Serializable> implements Se
     public String toString() {
         return String.format("Entity of type %s with id: %s", this.getClass().getName(), getId());
     }
+
+
 }

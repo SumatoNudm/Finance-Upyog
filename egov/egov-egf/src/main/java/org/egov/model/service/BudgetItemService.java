@@ -313,6 +313,12 @@ public class BudgetItemService {
     }
 
 
+    public List<BudgetItem> getAllBudgetItemsByBudgetRegister(BudgetRegister budgetRegister) {
+        List<BudgetItem> items = budgetItemRepository.findByBudgetRegister(budgetRegister);
+        return items;
+    }
+
+
     public Map<String, List<BudgetItem>> getBudgetItemsByTypesFunctionAndBudgetRegisterAndApplicable(List<String> types, CFunction function, BudgetRegister budgetRegister) {
 //        return budgetItemRepository.findByBudgetGroupInAndFunctionAndBudgetRegister(types, function, budgetRegister).stream().collect(Collectors.groupingBy(BudgetItem::getBudgetGroup));
         return budgetItemRepository.findByBudgetGroupInAndFunctionAndBudgetRegisterAndNotApplicableFalse(types, function, budgetRegister).stream().collect(Collectors.groupingBy(BudgetItem::getBudgetGroup));
@@ -791,6 +797,9 @@ public class BudgetItemService {
         // save all budget items
         budgetItemRepository.save(budgetItemsDb);
     }
+
+
+
 
 }
 
