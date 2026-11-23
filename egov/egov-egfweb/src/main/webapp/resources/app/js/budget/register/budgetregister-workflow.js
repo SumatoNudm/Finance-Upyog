@@ -77,6 +77,12 @@ function validateWorkFlowApprover(name) {
         $('#approvalPosition').removeAttr('required');
 	    $('#approvalComent').attr('required', 'required');
 	}
+	if (button != null && button == 'Forward to DMA') {
+		$('#approvalDepartment').removeAttr('required');
+		$('#approvalDesignation').removeAttr('required');
+		$('#approvalPosition').removeAttr('required');
+		$('#approvalComent').attr('required', 'required');
+	}
 	if (button != null && button == 'Create And Approve') {
 		return validateCutOff();
 	}else

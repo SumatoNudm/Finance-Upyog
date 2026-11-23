@@ -49,6 +49,8 @@
 package org.egov.infra.microservice.utils;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
@@ -110,6 +112,9 @@ public class ApplicationConfigManager {
     @Value("${egov.services.collection.service.payment.modulename.workflow:}")
     private String collSerPaymentModuleNameWorkflow;
 
+
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationConfigManager.class);
     
     public String getEgovHrmsSerHost(){
         return StringUtils.isNotBlank(egovHrmsSerHost) ? egovHrmsSerHost : egovSerHost; 
@@ -154,6 +159,10 @@ public class ApplicationConfigManager {
     public String getEgovFileStoreDownloadFile(){
         return StringUtils.isNotBlank(egovFileStoreDownloadFile) ? egovFileStoreDownloadFile : egovSerHost; 
     }
+
+//    public String getStateFinanceSerHost() {
+//        return StringUtils.isNotBlank(stateFinanceSerHost) ? stateFinanceSerHost : egovSerHost;
+//    }
     
     
     

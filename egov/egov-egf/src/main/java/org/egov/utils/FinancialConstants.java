@@ -133,6 +133,7 @@ public interface FinancialConstants {
 	public static final String BUDGET_FORWARDED_FROM_FMO = "FMO_FORWARDED";
 	public static final String BUDGET_FORWARDED_FROM_EO = "EO_FORWARDED";
 	public static final String BUDGET_REVERTED = "REVERTED";
+	public static final String BUTTON_FORWARD_TO_DMA = "Forward to DMA";
 
 	// Status for Pension Bills
 	public static final String PENSIONBILL_CANCELLED_STATUS = "Cancelled";

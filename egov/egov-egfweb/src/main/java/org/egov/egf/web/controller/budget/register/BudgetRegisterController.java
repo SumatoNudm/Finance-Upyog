@@ -4,6 +4,10 @@ import org.apache.log4j.Logger;
 import org.egov.commons.CFinancialYear;
 import org.egov.commons.dao.EgwStatusHibernateDAO;
 import org.egov.commons.service.CFinancialYearService;
+import org.egov.egf.statefinance.event.StateFinanceEventType;
+import org.egov.egf.statefinance.event.listener.StateFinanceService;
+import org.egov.egf.statefinance.model.BudgetRegisterResponse;
+import org.egov.egf.statefinance.model.BudgetRegisterWrapper;
 import org.egov.egf.utils.FinancialUtils;
 import org.egov.eis.entity.Employee;
 import org.egov.eis.service.OldEmployeeService;
@@ -16,19 +20,25 @@ import org.egov.infra.microservice.models.EmployeeInfo;
 import org.egov.infra.microservice.utils.MicroserviceUtils;
 import org.egov.infra.security.utils.SecurityUtils;
 import org.egov.infra.workflow.entity.StateHistory;
+import org.egov.model.budget.BudgetItem;
 import org.egov.model.budget.BudgetRegister;
+import org.egov.model.budget.register.BudgetRegisterFullRequestDTO;
+import org.egov.model.service.BudgetItemService;
 import org.egov.model.service.BudgetRegisterWorkflowService;
 import org.egov.pims.commons.Position;
 import org.egov.utils.FinancialConstants;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.*;
 
 @Controller
@@ -49,7 +59,7 @@ public class BudgetRegisterController extends GenericWorkFlowController {
 
     private static final String APPROVAL_DESIGNATION = "approvalDesignation";
 
-    private static  final String[] allowedToCreateDesignations = new String[] { "Financial Management Officer", "FMO", "Accounts Officer", "AO" };
+    private static final String[] allowedToCreateDesignations = new String[]{"Financial Management Officer", "FMO", "Accounts Officer", "AO"};
 
     @Autowired
     private CFinancialYearService financialYearService;
@@ -75,9 +85,16 @@ public class BudgetRegisterController extends GenericWorkFlowController {
     @Autowired
     private MicroserviceUtils microServiceUtil;
 
-    @RequestMapping(value = "/new", method = { RequestMethod.GET, RequestMethod.POST })
+    @Autowired
+    private StateFinanceService stateFinanceService;
+
+    @Autowired
+    private BudgetItemService budgetItemService;
+
+
+    @RequestMapping(value = "/new", method = {RequestMethod.GET, RequestMethod.POST})
     public String newForm(final Model model, @ModelAttribute("budgetRegister") final BudgetRegister budgetRegister,
-            RedirectAttributes redirectAttributes) {
+                          RedirectAttributes redirectAttributes) {
 
         Map<String, CFinancialYear> financialYearMap = addFinancialYears(model);
 
@@ -95,7 +112,7 @@ public class BudgetRegisterController extends GenericWorkFlowController {
                 && availableBudgetRegister.getStatus() != null
                 && availableBudgetRegister.getStatus().getCode() != null
                 && !(availableBudgetRegister.getStatus().getCode().equalsIgnoreCase("rejected")
-        || availableBudgetRegister.getStatus().getCode().equalsIgnoreCase("cancelled"))) {
+                || availableBudgetRegister.getStatus().getCode().equalsIgnoreCase("cancelled"))) {
 
             model.addAttribute("error", "Budget is already created for the financial year !");
         }
@@ -113,7 +130,7 @@ public class BudgetRegisterController extends GenericWorkFlowController {
 
     @PostMapping(value = "/create")
     public String create(final BudgetRegister budgetRegister, final Model model, RedirectAttributes redirectAttributes,
-            final HttpServletRequest request) {
+                         final HttpServletRequest request) {
 
         Map<String, CFinancialYear> financialYearMap = addFinancialYears(model);
 
@@ -163,7 +180,7 @@ public class BudgetRegisterController extends GenericWorkFlowController {
         return "redirect:/budget/register/view";
     }
 
-    @RequestMapping(value = "/view", method = { RequestMethod.GET, RequestMethod.POST })
+    @RequestMapping(value = "/view", method = {RequestMethod.GET, RequestMethod.POST})
     public String view(final Model model) {
         LOGGER.info("budget register view:");
         List<BudgetRegister> budgetRegisters = budgetRegisterWorkflowService.findBudgetRegisters();
@@ -176,10 +193,10 @@ public class BudgetRegisterController extends GenericWorkFlowController {
         return BUDGET_REGISTER_VIEW;
     }
 
-    @RequestMapping(value = "/workflow/view/{budgetRegisterNumber}", method = { RequestMethod.GET, RequestMethod.POST })
+    @RequestMapping(value = "/workflow/view/{budgetRegisterNumber}", method = {RequestMethod.GET, RequestMethod.POST})
     public String workflow(final Model model,
-            @PathVariable("budgetRegisterNumber") @SafeHtml String budgetRegisterNumber,
-            RedirectAttributes redirectAttributes) {
+                           @PathVariable("budgetRegisterNumber") @SafeHtml String budgetRegisterNumber,
+                           RedirectAttributes redirectAttributes) {
 
         BudgetRegister budgetRegister = budgetRegisterWorkflowService
                 .findBudgetRegisterByRegisterNumber(budgetRegisterNumber);
@@ -214,7 +231,7 @@ public class BudgetRegisterController extends GenericWorkFlowController {
             model.addAttribute("currentState", budgetRegister.getState().getValue());
             model.addAttribute("workflowHistory",
                     financialUtils.getHistory(budgetRegister.getState(), budgetRegister.getStateHistory()));
-            if (budgetRegister.getCurrentState().getValue().equalsIgnoreCase("reverted") && allowCreate ) {
+            if (budgetRegister.getCurrentState().getValue().equalsIgnoreCase("reverted") && allowCreate) {
                 model.addAttribute("allowCreate", true);
             }
         } else {
@@ -230,9 +247,9 @@ public class BudgetRegisterController extends GenericWorkFlowController {
     }
 
     // to show from workflow
-    @RequestMapping(value = "/workflow/form/{id}", method = { RequestMethod.GET, RequestMethod.POST })
+    @RequestMapping(value = "/workflow/form/{id}", method = {RequestMethod.GET, RequestMethod.POST})
     public String workflowUpdateForm(final Model model, @PathVariable("id") @SafeHtml Long id,
-            RedirectAttributes redirectAttributes) {
+                                     RedirectAttributes redirectAttributes) {
 
         // BudgetRegister budgetRegister =
         // budgetRegisterWorkflowService.findBudgetRegisterByRegisterNumber(budgetRegisterNumber);
@@ -262,10 +279,10 @@ public class BudgetRegisterController extends GenericWorkFlowController {
 
         if (emplist != null && !emplist.isEmpty()) {
             EmployeeInfo currentEmployee = emplist.get(0);
-           Assignment currentAssignment =  currentEmployee.getAssignments().get(currentEmployee.getAssignments().size() - 1);
-           if (budgetRegister.currentAssignee().equals(currentAssignment.getPosition())) {
-               model.addAttribute("showWorkflow", "true");
-           }
+            Assignment currentAssignment = currentEmployee.getAssignments().get(currentEmployee.getAssignments().size() - 1);
+            if (budgetRegister.currentAssignee().equals(currentAssignment.getPosition())) {
+                model.addAttribute("showWorkflow", "true");
+            }
         }
 
         return BUDGET_REGISTER_WORKFLOW_FORM;
@@ -273,8 +290,8 @@ public class BudgetRegisterController extends GenericWorkFlowController {
 
     @PostMapping(value = "/workflow/update")
     public String workflowUpdate(@ModelAttribute BudgetRegister budgetRegister, final Model model,
-            final BindingResult resultBinder, final HttpServletRequest request,
-            @RequestParam @SafeHtml final String workFlowAction) {
+                                 final BindingResult resultBinder, final HttpServletRequest request,
+                                 @RequestParam @SafeHtml final String workFlowAction) {
 
         // @PathVariable("budgetRegisterNumber") @SafeHtml String budgetRegisterNumber,
 
@@ -308,8 +325,14 @@ public class BudgetRegisterController extends GenericWorkFlowController {
         // budgetRegisterWorkflowService.create(budgetRegister, approvalPosition,
         // approvalComment, null, "FORWARD", approvalDesignation);
 
-        budgetRegisterWorkflowService.createBudgetRegisterWorkFlowTransitionNew(currentBudgetRegister, approvalPosition,
-                approvalComment, null, workFlowAction, approvalDesignation);
+        try {
+            budgetRegisterWorkflowService.createBudgetRegisterWorkFlowTransitionNew(currentBudgetRegister, approvalPosition,
+                    approvalComment, null, workFlowAction, approvalDesignation);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "error/422";
+        }
+
 
 //        budgetRegisterWorkflowService.save(currentBudgetRegister);
 
@@ -346,5 +369,17 @@ public class BudgetRegisterController extends GenericWorkFlowController {
 
         return financialYearMap;
     }
+
+
+    @PostMapping(value = "/test", produces = MediaType.APPLICATION_JSON_VALUE)
+    private @ResponseBody Map<String, Object> testApi() {
+        Map<String, Object> response = new HashMap<>();
+        response.put("testing", "OK");
+
+        return response;
+    }
+
+
+
 
 }

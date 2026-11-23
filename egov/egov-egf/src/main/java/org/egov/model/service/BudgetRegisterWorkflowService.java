@@ -3,6 +3,10 @@ package org.egov.model.service;
 import org.egov.commons.CFinancialYear;
 import org.egov.commons.EgwStatus;
 import org.egov.commons.dao.EgwStatusHibernateDAO;
+import org.egov.egf.statefinance.event.StateFinanceEventType;
+import org.egov.egf.statefinance.event.listener.StateFinanceService;
+import org.egov.egf.statefinance.model.BudgetRegisterResponse;
+import org.egov.egf.statefinance.model.BudgetRegisterWrapper;
 import org.egov.eis.entity.Assignment;
 import org.egov.infra.admin.master.entity.User;
 import org.egov.infra.microservice.models.Department;
@@ -26,6 +30,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestClientException;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -53,14 +58,15 @@ public class BudgetRegisterWorkflowService {
     @Autowired
     private EgwStatusHibernateDAO egwStatusDAO;
 
-
+    @Autowired
+    private StateFinanceService stateFinanceService;
 
 
     private Assignment getCurrentUserAssignment(final Long userId) {
 //        Long userId = ApplicationThreadLocals.getUserId();
-        List<EmployeeInfo> emplist = microServiceUtil.getEmployee(userId,null, null, null);
-        Assignment assignment =new Assignment();
-        if(null!=emplist && emplist.size()>0 && emplist.get(0).getAssignments().size()>0){
+        List<EmployeeInfo> emplist = microServiceUtil.getEmployee(userId, null, null, null);
+        Assignment assignment = new Assignment();
+        if (null != emplist && emplist.size() > 0 && emplist.get(0).getAssignments().size() > 0) {
             Position position = new Position();
             position.setId(emplist.get(0).getAssignments().get(0).getPosition());
             assignment.setPosition(position);
@@ -82,7 +88,7 @@ public class BudgetRegisterWorkflowService {
     }
 
 
-    private Department getDepartmentDetails(String deptCode){
+    private Department getDepartmentDetails(String deptCode) {
 
         Department dept = microServiceUtil.getDepartmentByCode(deptCode);
         return dept;
@@ -90,7 +96,7 @@ public class BudgetRegisterWorkflowService {
     }
 
 
-    private Designation getDesignationDetails(String desgnCode){
+    private Designation getDesignationDetails(String desgnCode) {
         List<Designation> desgnList = microServiceUtil.getDesignation(desgnCode);
         return !desgnList.isEmpty() ? desgnList.get(0) : null;
     }
@@ -99,11 +105,11 @@ public class BudgetRegisterWorkflowService {
     /**
      * Create or progress a workflow transition for BudgetRegister.
      *
-     * @param budgetRegister     budget entity (StateAware)
-     * @param approvalPosition   position id of the approver (nullable)
-     * @param approvalComment    comments to attach
-     * @param additionalRule     additional rule used for wf lookup (nullable)
-     * @param workFlowAction     action like "START"/"FORWARD"/"APPROVE"/"REJECT"/"CANCEL"
+     * @param budgetRegister      budget entity (StateAware)
+     * @param approvalPosition    position id of the approver (nullable)
+     * @param approvalComment     comments to attach
+     * @param additionalRule      additional rule used for wf lookup (nullable)
+     * @param workFlowAction      action like "START"/"FORWARD"/"APPROVE"/"REJECT"/"CANCEL"
      * @param approvalDesignation approver designation name (nullable)
      */
     public void createBudgetRegisterWorkflowTransition(final BudgetRegister budgetRegister,
@@ -264,8 +270,6 @@ public class BudgetRegisterWorkflowService {
     }
 
 
-
-
     /**
      * Creates or progresses a BudgetRegister along with workflow transition.
      */
@@ -381,7 +385,7 @@ public class BudgetRegisterWorkflowService {
     }
 
     public List<BudgetRegister> findBudgetRegisters() {
-        List<BudgetRegister> budgetRegisters =  budgetRegisterWorkflowRepository.findAll(new Sort(Sort.Direction.DESC, "budgetRegisterNumber"));
+        List<BudgetRegister> budgetRegisters = budgetRegisterWorkflowRepository.findAll(new Sort(Sort.Direction.DESC, "budgetRegisterNumber"));
 
         budgetRegisters.stream().map(budgetRegister -> {
 
@@ -406,9 +410,9 @@ public class BudgetRegisterWorkflowService {
     }
 
 
-
     @Transactional
-    public void createBudgetRegisterWorkFlowTransitionNew(final BudgetRegister budgetRegister, final Long approvalPosition, final String approvalComment, final String additionalRule, final String workFlowAction, final String approvalDesignation) {
+    public void createBudgetRegisterWorkFlowTransitionNew(final BudgetRegister budgetRegister, final Long approvalPosition, final String approvalComment, final String additionalRule, final String workFlowAction, final String approvalDesignation) throws Exception {
+
 
         LOG.info("Budget Register Workflow started!");
 
@@ -458,7 +462,7 @@ public class BudgetRegisterWorkflowService {
                     .withNatureOfTask(FinancialConstants.WORKFLOWTYPE_BUDGET_REGISTER_DISPLAYNAME);
 
             budgetRegister.setStatus(egwStatusDAO.getStatusByModuleAndCode(FinancialConstants.BUDGET_MODULE, FinancialConstants.BUDGET_REVERTED));
-        } else  {
+        } else {
             WorkFlowMatrix workFlowMatrix;
             Designation designation = this.getDesignationDetails(approvalDesignation);
             Position ownerPosition = new Position();
@@ -591,6 +595,16 @@ public class BudgetRegisterWorkflowService {
 
                 budgetRegister.setStatus(egwStatus);
 
+
+                String cityName = microServiceUtil.getHeaderNameForTenant();
+
+                BudgetRegisterResponse response = stateFinanceService.forwardBudgetForApproval(StateFinanceEventType.BUDGET_APPROVAL, BudgetRegisterWrapper.fromBudgetRegister(budgetRegister, microServiceUtil.getTenentId(), cityName), egwStatus.getCode());
+
+                if (!response.getStatus().equalsIgnoreCase("success")) {
+                    throw new Exception("budget submission failed !");
+                }
+
+
             } else {
                 LOG.info("BudgetWF: SOMETHING");
                 LOG.info("BudgetWF: " + workFlowAction);
@@ -626,7 +640,7 @@ public class BudgetRegisterWorkflowService {
 
     }
 
-    private void setStatusValues(BudgetRegister budgetRegister,String workFlowAction) {
+    private void setStatusValues(BudgetRegister budgetRegister, String workFlowAction) {
         //
     }
 
